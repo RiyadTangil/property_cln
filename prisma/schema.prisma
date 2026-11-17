@@ -73,6 +73,17 @@ model Company {
   productCategories  ProductCategory[]
   warehouses         Warehouse[]
   products           Product[]
+  projectTypes       ProjectType[]
+  projectCategories  ProjectCategory[]
+  buildings          Building[]
+  wbsTemplates       WbsTemplate[]
+  cbsTemplates       CbsTemplate[]
+  estimateTemplates  EstimateTemplate[]
+  taskTemplates      TaskTemplate[]
+  projectParameters  ProjectParameter[]
+  itpTemplates       ItpTemplate[]
+  costBreakdownItems CostBreakdownItem[]
+  inspectionChecklists InspectionChecklist[]
 }
 
 model Branch {
@@ -279,21 +290,49 @@ model AppSetting {
 }
 
 model Project {
-  id            Int          @id @default(autoincrement())
-  companyId     Int          @default(1)
-  company       Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  code          String       @unique
-  name          String
-  location      String
-  phase         String
-  completionPct Int          @default(0)
-  soldUnits     Int          @default(0)
-  totalUnits    Int          @default(0)
-  handoverDate  String
-  status        String       @default("Planning")
-  bookedValueCr Float        @default(0)
-  parcels       LandParcel[]
-  warehouses    Warehouse[]
+  id                     Int                  @id @default(autoincrement())
+  companyId              Int                  @default(1)
+  company                Company              @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code                   String               @unique
+  name                   String
+  projectTypeId          Int?
+  projectType            ProjectType?         @relation(fields: [projectTypeId], references: [id], onDelete: SetNull)
+  projectCategoryId      Int?
+  projectCategory        ProjectCategory?     @relation(fields: [projectCategoryId], references: [id], onDelete: SetNull)
+  managerId              Int?
+  managerName            String?
+  clientName             String?
+  priority               String               @default("medium")
+  location               String
+  city                   String?
+  country                String               @default("BD")
+  latitude               Float?
+  longitude              Float?
+  phase                  String
+  completionPct          Int                  @default(0)
+  progress               Int                  @default(0)
+  soldUnits              Int                  @default(0)
+  totalUnits             Int                  @default(0)
+  startDate              String?
+  expectedCompletionDate String?
+  actualCompletionDate   String?
+  handoverDate           String
+  status                 String               @default("planning")
+  currency               String               @default("BDT")
+  description            String?
+  budget                 Float                @default(0)
+  estimatedCost          Float                @default(0)
+  actualCost             Float                @default(0)
+  bookedValueCr          Float                @default(0)
+  createdBy              String?
+  createdAt              DateTime             @default(now())
+  parcels                LandParcel[]
+  warehouses             Warehouse[]
+  buildings              Building[]
+  tasks                  ProjectTask[]
+  teams                  ProjectTeam[]
+  costs                  ProjectCost[]
+  consumptions           ProjectConsumption[]
 }
 
 model LandParcel {
@@ -338,6 +377,7 @@ model LandParcel {
   proposals     LandProposal[]
   agreements    LandAgreement[]
   payments      LandPayment[]
+  buildings     Building[]
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
 }
@@ -605,4 +645,308 @@ model Product {
   isActive      Boolean          @default(true)
   createdBy     String?
   createdAt     DateTime         @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// Tier 2B — Projects & Buildings
+// ---------------------------------------------------------------------------
+
+model ProjectType {
+  id                Int                @id @default(autoincrement())
+  companyId         Int                @default(1)
+  company           Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name              String
+  description       String?
+  icon              String             @default("fa-solid fa-city")
+  pill              String             @default("is-neutral")
+  sortOrder         Int                @default(10)
+  isActive          Boolean            @default(true)
+  isBuiltin         Boolean            @default(false)
+  createdBy         String?
+  createdAt         DateTime           @default(now())
+  categories        ProjectCategory[]
+  projects          Project[]
+  wbsTemplates      WbsTemplate[]
+  cbsTemplates      CbsTemplate[]
+  estimateTemplates EstimateTemplate[]
+  itpTemplates      ItpTemplate[]
+  parameters        ProjectParameter[]
+}
+
+model ProjectCategory {
+  id                Int                @id @default(autoincrement())
+  companyId         Int                @default(1)
+  company           Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  projectTypeId     Int?
+  projectType       ProjectType?       @relation(fields: [projectTypeId], references: [id], onDelete: SetNull)
+  name              String
+  description       String?
+  sortOrder         Int                @default(10)
+  isActive          Boolean            @default(true)
+  isBuiltin         Boolean            @default(false)
+  createdBy         String?
+  createdAt         DateTime           @default(now())
+  projects          Project[]
+  wbsTemplates      WbsTemplate[]
+  cbsTemplates      CbsTemplate[]
+  estimateTemplates EstimateTemplate[]
+  itpTemplates      ItpTemplate[]
+  parameters        ProjectParameter[]
+}
+
+model Building {
+  id                    Int                  @id @default(autoincrement())
+  companyId             Int                  @default(1)
+  company               Company              @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code                  String               @unique
+  name                  String
+  buildingType          String               @default("residential")
+  status                String               @default("under_construction")
+  projectId             Int?
+  project               Project?             @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  landParcelId          Int?
+  landParcel            LandParcel?          @relation(fields: [landParcelId], references: [id], onDelete: SetNull)
+  ownerName             String?
+  developerName         String?
+  description           String?
+  isActive              Boolean              @default(true)
+  location              String?
+  city                  String?
+  district              String?
+  state                 String?
+  postalCode            String?
+  country               String?              @default("BD")
+  latitude              Float?
+  longitude             Float?
+  floorsAbove           Int                  @default(0)
+  floorsBelow           Int                  @default(0)
+  totalUnits            Int                  @default(0)
+  landArea              Float?
+  builtArea             Float?
+  lifts                 Int                  @default(0)
+  parkingSpaces         Int                  @default(0)
+  hasGenerator          Boolean              @default(false)
+  hasSecurity           Boolean              @default(false)
+  hasFireSafety         Boolean              @default(false)
+  amenities             String?
+  constructionStartDate String?
+  completionDate        String?
+  handoverDate          String?
+  occupancyDate         String?
+  constructionCost      Float?
+  currentValue          Float?
+  source                String               @default("Manual")
+  createdBy             String?
+  createdAt             DateTime             @default(now())
+  consumptions          ProjectConsumption[]
+}
+
+model ProjectTask {
+  id            Int                  @id @default(autoincrement())
+  projectId     Int
+  project       Project              @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  parentId      Int?
+  parent        ProjectTask?         @relation("TaskTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children      ProjectTask[]        @relation("TaskTree")
+  title         String
+  category      String?
+  status        String               @default("new")
+  assigneeNames String?
+  startDate     String?
+  dueDate       String?
+  color         String?
+  description   String?
+  estimatedCost Float                @default(0)
+  createdAt     DateTime             @default(now())
+  consumptions  ProjectConsumption[]
+}
+
+model ProjectTeam {
+  id             Int      @id @default(autoincrement())
+  projectId      Int
+  project        Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name           String
+  departmentName String?
+  leadName       String?
+  type           String   @default("site")
+  memberNames    String?
+  createdAt      DateTime @default(now())
+}
+
+model ProjectCost {
+  id        Int      @id @default(autoincrement())
+  projectId Int
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  category  String   @default("other")
+  costDate  String
+  amount    Float    @default(0)
+  notes     String?
+  createdAt DateTime @default(now())
+}
+
+model ProjectConsumption {
+  id              Int          @id @default(autoincrement())
+  projectId       Int
+  project         Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  buildingId      Int?
+  building        Building?    @relation(fields: [buildingId], references: [id], onDelete: SetNull)
+  projectTaskId   Int?
+  projectTask     ProjectTask? @relation(fields: [projectTaskId], references: [id], onDelete: SetNull)
+  materialName    String
+  costCode        String?
+  qtyUsed         Float        @default(0)
+  wastage         Float        @default(0)
+  uom             String       @default("Unit")
+  unitCost        Float        @default(0)
+  consumptionDate String?
+  notes           String?
+  createdAt       DateTime     @default(now())
+}
+
+model WbsTemplate {
+  id                Int                @id @default(autoincrement())
+  companyId         Int                @default(1)
+  company           Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name              String
+  description       String?
+  projectTypeId     Int?
+  projectType       ProjectType?       @relation(fields: [projectTypeId], references: [id], onDelete: SetNull)
+  projectCategoryId Int?
+  projectCategory   ProjectCategory?   @relation(fields: [projectCategoryId], references: [id], onDelete: SetNull)
+  isDefault         Boolean            @default(false)
+  status            String             @default("published")
+  version           Int                @default(1)
+  itemCount         Int                @default(0)
+  createdAt         DateTime           @default(now())
+  estimateTemplates EstimateTemplate[]
+}
+
+model CbsTemplate {
+  id                Int                @id @default(autoincrement())
+  companyId         Int                @default(1)
+  company           Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name              String
+  description       String?
+  projectTypeId     Int?
+  projectType       ProjectType?       @relation(fields: [projectTypeId], references: [id], onDelete: SetNull)
+  projectCategoryId Int?
+  projectCategory   ProjectCategory?   @relation(fields: [projectCategoryId], references: [id], onDelete: SetNull)
+  isDefault         Boolean            @default(false)
+  status            String             @default("published")
+  version           Int                @default(1)
+  itemCount         Int                @default(0)
+  createdAt         DateTime           @default(now())
+  estimateTemplates EstimateTemplate[]
+}
+
+model EstimateTemplate {
+  id                Int              @id @default(autoincrement())
+  companyId         Int              @default(1)
+  company           Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name              String
+  estimateStage     String           @default("control_budget")
+  cbsTemplateId     Int?
+  cbsTemplate       CbsTemplate?     @relation(fields: [cbsTemplateId], references: [id], onDelete: SetNull)
+  wbsTemplateId     Int?
+  wbsTemplate       WbsTemplate?     @relation(fields: [wbsTemplateId], references: [id], onDelete: SetNull)
+  currency          String           @default("BDT")
+  rateDate          String?
+  projectTypeId     Int?
+  projectType       ProjectType?     @relation(fields: [projectTypeId], references: [id], onDelete: SetNull)
+  projectCategoryId Int?
+  projectCategory   ProjectCategory? @relation(fields: [projectCategoryId], references: [id], onDelete: SetNull)
+  isDefault         Boolean          @default(false)
+  status            String           @default("published")
+  version           Int              @default(1)
+  itemCount         Int              @default(0)
+  createdAt         DateTime         @default(now())
+}
+
+model TaskTemplate {
+  id            Int            @id @default(autoincrement())
+  companyId     Int            @default(1)
+  company       Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  parentId      Int?
+  parent        TaskTemplate?  @relation("TaskTemplateTree", fields: [parentId], references: [id], onDelete: Cascade)
+  children      TaskTemplate[] @relation("TaskTemplateTree")
+  name          String
+  category      String?
+  estimatedCost Float          @default(0)
+  description   String?
+  isDefault     Boolean        @default(false)
+  isActive      Boolean        @default(true)
+  sortOrder     Int            @default(10)
+  createdAt     DateTime       @default(now())
+}
+
+model ProjectParameter {
+  id                Int              @id @default(autoincrement())
+  companyId         Int              @default(1)
+  company           Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  key               String
+  label             String
+  helpText          String?
+  group             String           @default("GENERAL")
+  unit              String?
+  dataType          String           @default("decimal")
+  minValue          Float?
+  maxValue          Float?
+  defaultValue      Float?
+  projectTypeId     Int?
+  projectType       ProjectType?     @relation(fields: [projectTypeId], references: [id], onDelete: SetNull)
+  projectCategoryId Int?
+  projectCategory   ProjectCategory? @relation(fields: [projectCategoryId], references: [id], onDelete: SetNull)
+  appliesTo         String?
+  isRequired        Boolean          @default(false)
+  isActive          Boolean          @default(true)
+  sortOrder         Int              @default(10)
+  usedByCount       Int              @default(0)
+  createdAt         DateTime         @default(now())
+}
+
+model ItpTemplate {
+  id                Int              @id @default(autoincrement())
+  companyId         Int              @default(1)
+  company           Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name              String
+  description       String?
+  projectTypeId     Int?
+  projectType       ProjectType?     @relation(fields: [projectTypeId], references: [id], onDelete: SetNull)
+  projectCategoryId Int?
+  projectCategory   ProjectCategory? @relation(fields: [projectCategoryId], references: [id], onDelete: SetNull)
+  isDefault         Boolean          @default(false)
+  status            String           @default("published")
+  version           Int              @default(1)
+  itemCount         Int              @default(0)
+  createdAt         DateTime         @default(now())
+}
+
+model CostBreakdownItem {
+  id           Int                 @id @default(autoincrement())
+  companyId    Int                 @default(1)
+  company      Company             @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  parentId     Int?
+  parent       CostBreakdownItem?  @relation("CbsTree", fields: [parentId], references: [id], onDelete: Cascade)
+  children     CostBreakdownItem[] @relation("CbsTree")
+  code         String
+  name         String
+  costType     String              @default("direct")
+  accountLabel String?
+  description  String?
+  isGroup      Boolean             @default(false)
+  isActive     Boolean             @default(true)
+  sortOrder    Int                 @default(10)
+  createdAt    DateTime            @default(now())
+}
+
+model InspectionChecklist {
+  id             Int      @id @default(autoincrement())
+  companyId      Int      @default(1)
+  company        Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name           String
+  inspectionType String?
+  description    String?
+  itemsJson      String   @default("[]")
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
 }

@@ -1,101 +1,121 @@
 {
   "pages": {
-    "/(erp)/pos/products/page": [
+    "/login/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/pos/products/page.js"
+      "static/chunks/app/login/page.js"
     ],
-    "/(erp)/pos/layout": [
+    "/login/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/(erp)/pos/layout.css",
-      "static/chunks/app/(erp)/pos/layout.js"
-    ],
-    "/(erp)/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/layout.js"
+      "static/chunks/app/login/layout.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/layout.js"
     ],
-    "/(erp)/[...slug]/page": [
+    "/(erp)/projects/types/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/[...slug]/page.js"
+      "static/chunks/app/(erp)/projects/types/page.js"
     ],
-    "/(erp)/accounting/accounts/page": [
+    "/(erp)/projects/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/accounting/accounts/page.js"
+      "static/css/app/(erp)/projects/layout.css",
+      "static/chunks/app/(erp)/projects/layout.js"
     ],
-    "/(erp)/accounting/layout": [
+    "/(erp)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/(erp)/accounting/layout.css",
-      "static/chunks/app/(erp)/accounting/layout.js"
+      "static/chunks/app/(erp)/layout.js"
     ],
-    "/(erp)/accounting/heads/page": [
+    "/(erp)/projects/types/create/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/accounting/heads/page.js"
+      "static/chunks/app/(erp)/projects/types/create/page.js"
     ],
-    "/(erp)/accounting/banks/page": [
+    "/(erp)/projects/categories/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/accounting/banks/page.js"
+      "static/chunks/app/(erp)/projects/categories/page.js"
     ],
-    "/(erp)/accounting/lenders/page": [
+    "/(erp)/projects/categories/create/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/accounting/lenders/page.js"
+      "static/chunks/app/(erp)/projects/categories/create/page.js"
     ],
-    "/(erp)/settings/application/page": [
+    "/(erp)/projects/projects/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/settings/application/page.js"
+      "static/chunks/app/(erp)/projects/projects/page.js"
     ],
-    "/(erp)/settings/layout": [
+    "/(erp)/projects/projects/create/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/settings/layout.js"
+      "static/chunks/app/(erp)/projects/projects/create/page.js"
     ],
-    "/(erp)/land/parcels/page": [
+    "/(erp)/projects/projects/[id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/land/parcels/page.js"
+      "static/chunks/app/(erp)/projects/projects/[id]/page.js"
     ],
-    "/(erp)/land/layout": [
+    "/(erp)/buildings/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/land/layout.js"
+      "static/chunks/app/(erp)/buildings/page.js"
     ],
-    "/(erp)/pos/products/[id]/batches/page": [
+    "/(erp)/buildings/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/pos/products/[id]/batches/page.js"
+      "static/css/app/(erp)/buildings/layout.css",
+      "static/chunks/app/(erp)/buildings/layout.js"
     ],
-    "/(erp)/pos/products/bulk/page": [
+    "/(erp)/buildings/create/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/pos/products/bulk/page.js"
+      "static/chunks/app/(erp)/buildings/create/page.js"
     ],
-    "/(erp)/pos/categories/page": [
+    "/(erp)/projects/projects/wbs-templates/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/pos/categories/page.js"
+      "static/chunks/app/(erp)/projects/projects/wbs-templates/page.js"
     ],
-    "/(erp)/pos/units/page": [
+    "/(erp)/projects/projects/cbs-templates/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/pos/units/page.js"
+      "static/chunks/app/(erp)/projects/projects/cbs-templates/page.js"
     ],
-    "/(erp)/pos/warehouses/page": [
+    "/(erp)/projects/projects/estimate-templates/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/pos/warehouses/page.js"
+      "static/chunks/app/(erp)/projects/projects/estimate-templates/page.js"
+    ],
+    "/(erp)/projects/projects/task-templates/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/projects/projects/task-templates/page.js"
+    ],
+    "/(erp)/projects/projects/parameters/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/projects/projects/parameters/page.js"
+    ],
+    "/(erp)/projects/projects/itp-templates/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/projects/projects/itp-templates/page.js"
+    ],
+    "/(erp)/projects/projects/cost-breakdown/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/projects/projects/cost-breakdown/page.js"
+    ],
+    "/(erp)/projects/inspection-checklists/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/projects/inspection-checklists/page.js"
     ]
   }
 }

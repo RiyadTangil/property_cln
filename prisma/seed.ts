@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import permissionsCatalog from "../src/lib/permissions-catalog.json";
 import tier1Seed from "./data/tier1-seed.json";
+import tier2bSeed from "./data/tier2b-seed.json";
 
 const prisma = new PrismaClient();
 
@@ -549,7 +550,238 @@ async function main() {
     }
   }
 
-  console.log("Tier 0 + Tier 1 + Core Seed completed.");
+  // -------------------------------------------------------------------------
+  // Tier 2B: Projects & Buildings
+  // -------------------------------------------------------------------------
+  const typeIdMap = new Map<number, number>();
+  const existingTypes = await prisma.projectType.count();
+  if (existingTypes === 0) {
+    for (const t of tier2bSeed.projectTypes) {
+      const created = await prisma.projectType.create({
+        data: {
+          companyId: 1,
+          name: t.name,
+          description: t.description || null,
+          icon: t.icon,
+          pill: t.pill,
+          sortOrder: t.sortOrder,
+          isActive: t.isActive,
+          isBuiltin: t.isBuiltin,
+          createdBy: "System Administrator",
+        },
+      });
+      typeIdMap.set(t.id, created.id);
+    }
+  } else {
+    const allTypes = await prisma.projectType.findMany({ orderBy: { id: "asc" } });
+    tier2bSeed.projectTypes.forEach((t, i) => {
+      if (allTypes[i]) typeIdMap.set(t.id, allTypes[i].id);
+    });
+  }
+
+  const pCatIdMap = new Map<number, number>();
+  const existingPCats = await prisma.projectCategory.count();
+  if (existingPCats === 0) {
+    for (const c of tier2bSeed.projectCategories) {
+      const created = await prisma.projectCategory.create({
+        data: {
+          companyId: 1,
+          projectTypeId: c.projectTypeId ? typeIdMap.get(c.projectTypeId) ?? null : null,
+          name: c.name,
+          description: c.description || null,
+          sortOrder: c.sortOrder,
+          isActive: c.isActive,
+          isBuiltin: c.isBuiltin,
+          createdBy: "System Administrator",
+        },
+      });
+      pCatIdMap.set(c.id, created.id);
+    }
+  } else {
+    const allCats = await prisma.projectCategory.findMany({ orderBy: { id: "asc" } });
+    tier2bSeed.projectCategories.forEach((c, i) => {
+      if (allCats[i]) pCatIdMap.set(c.id, allCats[i].id);
+    });
+  }
+
+  // Update existing projects with Type/Category/status normalization
+  const resTypeId = Array.from(typeIdMap.values())[0] ?? null;
+  const aptCatId = Array.from(pCatIdMap.values())[0] ?? null;
+  await prisma.project.updateMany({
+    where: { projectTypeId: null },
+    data: {
+      projectTypeId: resTypeId,
+      projectCategoryId: aptCatId,
+      priority: "medium",
+      createdBy: "System Administrator",
+    },
+  });
+
+  // Seed Building (BLD-0001 — J & J Tower)
+  const existingBuildings = await prisma.building.count();
+  if (existingBuildings === 0) {
+    const firstProj = await prisma.project.findFirst({ orderBy: { id: "asc" } });
+    await prisma.building.create({
+      data: {
+        companyId: 1,
+        code: "BLD-0001",
+        name: "J & J Tower",
+        buildingType: "residential",
+        status: "completed",
+        projectId: firstProj?.id ?? null,
+        floorsAbove: 0,
+        floorsBelow: 0,
+        totalUnits: 0,
+        source: "Manual",
+        createdBy: "System Administrator",
+      },
+    });
+  }
+
+  // Seed WBS Templates
+  const wbsIdMap = new Map<number, number>();
+  if ((await prisma.wbsTemplate.count()) === 0) {
+    for (const w of tier2bSeed.wbsTemplates) {
+      const created = await prisma.wbsTemplate.create({
+        data: {
+          companyId: 1,
+          name: w.name,
+          description: w.description,
+          isDefault: w.isDefault,
+          status: w.status,
+          version: w.version,
+          itemCount: w.itemCount,
+        },
+      });
+      wbsIdMap.set(w.id, created.id);
+    }
+  }
+
+  // Seed CBS Templates
+  const cbsTplIdMap = new Map<number, number>();
+  if ((await prisma.cbsTemplate.count()) === 0) {
+    for (const c of tier2bSeed.cbsTemplates) {
+      const created = await prisma.cbsTemplate.create({
+        data: {
+          companyId: 1,
+          name: c.name,
+          description: c.description,
+          isDefault: c.isDefault,
+          status: c.status,
+          version: c.version,
+          itemCount: c.itemCount,
+        },
+      });
+      cbsTplIdMap.set(c.id, created.id);
+    }
+  }
+
+  // Seed Estimate Templates
+  if ((await prisma.estimateTemplate.count()) === 0) {
+    for (const e of tier2bSeed.estimateTemplates) {
+      await prisma.estimateTemplate.create({
+        data: {
+          companyId: 1,
+          name: e.name,
+          estimateStage: "control_budget",
+          currency: "BDT",
+          isDefault: e.isDefault,
+          status: e.status,
+          version: e.version,
+          itemCount: e.itemCount,
+        },
+      });
+    }
+  }
+
+  // Seed ITP Templates
+  if ((await prisma.itpTemplate.count()) === 0) {
+    for (const itp of tier2bSeed.itpTemplates) {
+      await prisma.itpTemplate.create({
+        data: {
+          companyId: 1,
+          name: itp.name,
+          description: itp.description,
+          isDefault: itp.isDefault,
+          status: itp.status,
+          version: itp.version,
+          itemCount: itp.itemCount,
+        },
+      });
+    }
+  }
+
+  // Seed Task Templates (166 rows, 2-level stage -> activity)
+  if ((await prisma.taskTemplate.count()) === 0) {
+    const taskTplIdMap = new Map<number, number>();
+    for (const tt of tier2bSeed.taskTemplates) {
+      const created = await prisma.taskTemplate.create({
+        data: {
+          companyId: 1,
+          parentId: tt.parentId ? taskTplIdMap.get(tt.parentId) ?? null : null,
+          name: tt.name,
+          category: tt.category,
+          estimatedCost: tt.estimatedCost,
+          description: tt.description,
+          isDefault: tt.isDefault,
+          isActive: tt.isActive,
+          sortOrder: tt.sortOrder,
+        },
+      });
+      taskTplIdMap.set(tt.id, created.id);
+    }
+  }
+
+  // Seed Project Parameters (92 rows)
+  if ((await prisma.projectParameter.count()) === 0) {
+    for (const prm of tier2bSeed.parameters) {
+      await prisma.projectParameter.create({
+        data: {
+          companyId: 1,
+          key: prm.key,
+          label: prm.label,
+          helpText: prm.helpText,
+          group: prm.group,
+          unit: prm.unit || null,
+          dataType: prm.dataType,
+          minValue: prm.minValue,
+          maxValue: prm.maxValue,
+          defaultValue: prm.defaultValue,
+          projectTypeId: prm.projectTypeId ? typeIdMap.get(prm.projectTypeId) ?? null : null,
+          projectCategoryId: prm.projectCategoryId ? pCatIdMap.get(prm.projectCategoryId) ?? null : null,
+          appliesTo: prm.appliesTo,
+          isRequired: prm.isRequired,
+          isActive: prm.isActive,
+          sortOrder: prm.sortOrder,
+          usedByCount: 2,
+        },
+      });
+    }
+  }
+
+  // Seed Cost Breakdown Items (431 rows)
+  if ((await prisma.costBreakdownItem.count()) === 0) {
+    const cbsItemIdMap = new Map<number, number>();
+    for (const item of tier2bSeed.costBreakdownItems) {
+      const created = await prisma.costBreakdownItem.create({
+        data: {
+          companyId: 1,
+          parentId: item.parentId ? cbsItemIdMap.get(item.parentId) ?? null : null,
+          code: item.code,
+          name: item.name,
+          costType: item.costType,
+          accountLabel: item.accountLabel,
+          description: item.description,
+          isGroup: item.isGroup,
+          isActive: item.isActive,
+          sortOrder: item.sortOrder,
+        },
+      });
+      cbsItemIdMap.set(item.id, created.id);
+    }
+  }
+
+  console.log("Tier 0 + Tier 1 + Tier 2B + Core Seed completed.");
 }
 
 main()
