@@ -1,0 +1,86 @@
+{
+  "pages": {
+    "/login/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/login/page.js"
+    ],
+    "/login/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/login/layout.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/layout.js"
+    ],
+    "/(erp)/accounting/accounts/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/accounting/accounts/page.js"
+    ],
+    "/(erp)/accounting/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/accounting/layout.css",
+      "static/chunks/app/(erp)/accounting/layout.js"
+    ],
+    "/(erp)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/layout.js"
+    ],
+    "/(erp)/accounting/heads/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/accounting/heads/page.js"
+    ],
+    "/(erp)/accounting/banks/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/accounting/banks/page.js"
+    ],
+    "/(erp)/accounting/lenders/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/accounting/lenders/page.js"
+    ],
+    "/(erp)/pos/units/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/pos/units/page.js"
+    ],
+    "/(erp)/pos/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/pos/layout.css",
+      "static/chunks/app/(erp)/pos/layout.js"
+    ],
+    "/(erp)/pos/categories/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/pos/categories/page.js"
+    ],
+    "/(erp)/pos/warehouses/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/pos/warehouses/page.js"
+    ],
+    "/(erp)/pos/products/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/pos/products/page.js"
+    ],
+    "/(erp)/pos/products/bulk/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/pos/products/bulk/page.js"
+    ],
+    "/(erp)/pos/products/[id]/batches/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/pos/products/[id]/batches/page.js"
+    ]
+  }
+}

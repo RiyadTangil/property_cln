@@ -65,6 +65,14 @@ model Company {
   mfsServices        MfsService[]
   projects           Project[]
   landParcels        LandParcel[]
+  chartAccounts      ChartAccount[]
+  accountHeads       AccountHead[]
+  bankAccounts       BankAccount[]
+  lenders            Lender[]
+  unitsOfMeasure     UnitOfMeasure[]
+  productCategories  ProductCategory[]
+  warehouses         Warehouse[]
+  products           Product[]
 }
 
 model Branch {
@@ -87,6 +95,7 @@ model Branch {
   isActive     Boolean      @default(true)
   createdAt    DateTime     @default(now())
   departments  Department[]
+  warehouses   Warehouse[]
 }
 
 model Department {
@@ -284,6 +293,7 @@ model Project {
   status        String       @default("Planning")
   bookedValueCr Float        @default(0)
   parcels       LandParcel[]
+  warehouses    Warehouse[]
 }
 
 model LandParcel {
@@ -433,4 +443,166 @@ model LandPayment {
   narration            String?
   status               String         @default("posted")
   createdAt            DateTime       @default(now())
+}
+
+// ============================================================================
+// Tier 1 — Finance Masters (/accounting/*)
+// ============================================================================
+
+model ChartAccount {
+  id             Int            @id @default(autoincrement())
+  companyId      Int            @default(1)
+  company        Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  parentId       Int?
+  parent         ChartAccount?  @relation("AccountTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children       ChartAccount[] @relation("AccountTree")
+  code           String         @unique
+  name           String
+  accountType    String
+  normalBalance  String         @default("debit")
+  openingBalance Float          @default(0)
+  currency       String?
+  isGroup        Boolean        @default(false)
+  isSystem       Boolean        @default(false)
+  isActive       Boolean        @default(true)
+  description    String?
+  createdBy      String?
+  createdAt      DateTime       @default(now())
+  heads          AccountHead[]
+}
+
+model AccountHead {
+  id              Int          @id @default(autoincrement())
+  companyId       Int          @default(1)
+  company         Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  type            String
+  name            String
+  accountId       Int
+  account         ChartAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  defaultCostCode String?
+  description     String?
+  entriesCount    Int          @default(0)
+  isActive        Boolean      @default(true)
+  createdBy       String?
+  createdAt       DateTime     @default(now())
+}
+
+model BankAccount {
+  id            Int      @id @default(autoincrement())
+  companyId     Int      @default(1)
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name          String
+  shortName     String?
+  accountName   String?
+  accountNumber String?
+  branch        String?
+  routingNumber String?
+  swift         String?
+  isActive      Boolean  @default(true)
+  createdBy     String?
+  createdAt     DateTime @default(now())
+  lenders       Lender[]
+}
+
+model Lender {
+  id            Int          @id @default(autoincrement())
+  companyId     Int          @default(1)
+  company       Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code          String       @unique
+  name          String
+  lenderType    String       @default("bank")
+  contactPerson String?
+  phone         String?
+  email         String?
+  address       String?
+  bankId        Int?
+  bank          BankAccount? @relation(fields: [bankId], references: [id], onDelete: SetNull)
+  loansCount    Int          @default(0)
+  notes         String?
+  isActive      Boolean      @default(true)
+  createdBy     String?
+  createdAt     DateTime     @default(now())
+}
+
+// ============================================================================
+// Tier 1 — Material / Catalog Masters (/pos/*)
+// ============================================================================
+
+model UnitOfMeasure {
+  id           Int             @id @default(autoincrement())
+  companyId    Int             @default(1)
+  company      Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code         String          @unique
+  name         String
+  isBase       Boolean         @default(true)
+  baseUnitId   Int?
+  baseUnit     UnitOfMeasure?  @relation("UnitConversion", fields: [baseUnitId], references: [id], onDelete: SetNull)
+  derivedUnits UnitOfMeasure[] @relation("UnitConversion")
+  factor       Float           @default(1)
+  isActive     Boolean         @default(true)
+  createdBy    String?
+  createdAt    DateTime        @default(now())
+  products     Product[]
+}
+
+model ProductCategory {
+  id          Int               @id @default(autoincrement())
+  companyId   Int               @default(1)
+  company     Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code        String            @unique
+  name        String
+  parentId    Int?
+  parent      ProductCategory?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children    ProductCategory[] @relation("CategoryTree")
+  description String?
+  isActive    Boolean           @default(true)
+  createdBy   String?
+  createdAt   DateTime          @default(now())
+  products    Product[]
+}
+
+model Warehouse {
+  id          Int      @id @default(autoincrement())
+  companyId   Int      @default(1)
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code        String   @unique
+  name        String
+  type        String   @default("central")
+  branchId    Int?
+  branch      Branch?  @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  projectId   Int?
+  project     Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  managerName String?
+  address     String?
+  isDefault   Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdBy   String?
+  createdAt   DateTime @default(now())
+}
+
+model Product {
+  id            Int              @id @default(autoincrement())
+  companyId     Int              @default(1)
+  company       Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code          String           @unique
+  name          String
+  type          String           @default("stockable")
+  categoryId    Int?
+  category      ProductCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  baseUomId     Int?
+  baseUom       UnitOfMeasure?   @relation(fields: [baseUomId], references: [id], onDelete: SetNull)
+  sku           String?
+  barcode       String?
+  costPrice     Float            @default(0)
+  salePrice     Float            @default(0)
+  reorderLevel  Float            @default(0)
+  onHand        Float            @default(0)
+  priceInclusive Boolean         @default(false)
+  description   String?
+  isSellable    Boolean          @default(true)
+  isPurchasable Boolean          @default(true)
+  isPinnedPos   Boolean          @default(false)
+  isActive      Boolean          @default(true)
+  createdBy     String?
+  createdAt     DateTime         @default(now())
 }

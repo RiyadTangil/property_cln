@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import permissionsCatalog from "../src/lib/permissions-catalog.json";
+import tier1Seed from "./data/tier1-seed.json";
 
 const prisma = new PrismaClient();
 
@@ -403,7 +404,152 @@ async function main() {
     });
   }
 
-  console.log("Tier 0 + Core Seed completed.");
+  // Tier 1: Finance & Catalog Masters
+  const existingAccounts = await prisma.chartAccount.count();
+  if (existingAccounts === 0) {
+    const accIdMap = new Map<number, number>();
+    for (const a of tier1Seed.accounts) {
+      const created = await prisma.chartAccount.create({
+        data: {
+          companyId: 1,
+          parentId: null,
+          code: a.code,
+          name: a.name,
+          accountType: a.type,
+          normalBalance: a.normalBalance || "debit",
+          openingBalance: a.openingBalance || 0,
+          currency: a.currency,
+          isGroup: a.isGroup,
+          isSystem: a.isSystem,
+          isActive: a.isActive,
+          description: a.description,
+          createdBy: a.isSystem ? null : "System Administrator",
+        },
+      });
+      accIdMap.set(a.extId, created.id);
+    }
+    for (const a of tier1Seed.accounts) {
+      if (a.parentExtId) {
+        const id = accIdMap.get(a.extId);
+        const parentId = accIdMap.get(a.parentExtId);
+        if (id && parentId) {
+          await prisma.chartAccount.update({ where: { id }, data: { parentId } });
+        }
+      }
+    }
+    for (const h of tier1Seed.heads) {
+      const accountId = accIdMap.get(h.accountExtId);
+      if (accountId) {
+        await prisma.accountHead.create({
+          data: {
+            companyId: 1,
+            type: h.type,
+            name: h.name,
+            accountId,
+            description: h.description,
+            isActive: h.isActive,
+            createdBy: "System Administrator",
+          },
+        });
+      }
+    }
+  }
+
+  await prisma.lender.upsert({
+    where: { code: "LND-0001" },
+    update: {},
+    create: {
+      companyId: 1,
+      code: "LND-0001",
+      name: "Brac Bank",
+      lenderType: "bank",
+      loansCount: 1,
+      isActive: true,
+      createdBy: "System Administrator",
+    },
+  });
+
+  const existingUnits = await prisma.unitOfMeasure.count();
+  const uomIdMap = new Map<number, number>();
+  if (existingUnits === 0) {
+    for (const u of tier1Seed.units) {
+      const created = await prisma.unitOfMeasure.create({
+        data: {
+          companyId: 1,
+          code: u.code,
+          name: u.name,
+          isBase: u.isBase,
+          baseUnitId: null,
+          factor: u.factor || 1,
+          isActive: u.isActive,
+        },
+      });
+      uomIdMap.set(u.extId, created.id);
+    }
+    for (const u of tier1Seed.units) {
+      if (u.baseUnitExtId) {
+        const id = uomIdMap.get(u.extId);
+        const baseUnitId = uomIdMap.get(u.baseUnitExtId);
+        if (id && baseUnitId) {
+          await prisma.unitOfMeasure.update({ where: { id }, data: { baseUnitId } });
+        }
+      }
+    }
+  }
+
+  const existingCats = await prisma.productCategory.count();
+  const catIdMap = new Map<number, number>();
+  if (existingCats === 0) {
+    for (const c of tier1Seed.categories) {
+      const created = await prisma.productCategory.create({
+        data: {
+          companyId: 1,
+          code: c.code,
+          name: c.name,
+          parentId: null,
+          description: c.description,
+          isActive: c.isActive,
+        },
+      });
+      catIdMap.set(c.extId, created.id);
+    }
+    for (const c of tier1Seed.categories) {
+      if (c.parentExtId) {
+        const id = catIdMap.get(c.extId);
+        const parentId = catIdMap.get(c.parentExtId);
+        if (id && parentId) {
+          await prisma.productCategory.update({ where: { id }, data: { parentId } });
+        }
+      }
+    }
+  }
+
+  const existingProducts = await prisma.product.count();
+  if (existingProducts === 0) {
+    for (const p of tier1Seed.products) {
+      await prisma.product.create({
+        data: {
+          companyId: 1,
+          code: p.code,
+          name: p.name,
+          type: p.type,
+          categoryId: p.categoryExtId ? catIdMap.get(p.categoryExtId) ?? null : null,
+          baseUomId: p.baseUnitExtId ? uomIdMap.get(p.baseUnitExtId) ?? null : null,
+          sku: p.sku,
+          barcode: p.barcode,
+          costPrice: p.costPrice,
+          salePrice: p.salePrice,
+          reorderLevel: p.reorderLevel,
+          description: p.description,
+          isSellable: p.isSellable,
+          isPurchasable: p.isPurchasable,
+          isActive: p.isActive,
+        },
+      });
+    }
+  }
+
+  console.log("Tier 0 + Tier 1 + Core Seed completed.");
 }
 
 main()

@@ -1,12 +1,11 @@
 {
+  "/api/profile/route": "app/api/profile/route.js",
   "/(erp)/[...slug]/page": "app/(erp)/[...slug]/page.js",
-  "/(erp)/organization/departments/create/page": "app/(erp)/organization/departments/create/page.js",
-  "/(erp)/organization/designations/page": "app/(erp)/organization/designations/page.js",
-  "/(erp)/organization/designations/create/page": "app/(erp)/organization/designations/create/page.js",
-  "/(erp)/organization/company-tree/page": "app/(erp)/organization/company-tree/page.js",
-  "/(erp)/organization/fiscal-years/page": "app/(erp)/organization/fiscal-years/page.js",
-  "/(erp)/organization/shifts/page": "app/(erp)/organization/shifts/page.js",
-  "/(erp)/organization/holidays/page": "app/(erp)/organization/holidays/page.js",
-  "/(erp)/organization/holidays/create/page": "app/(erp)/organization/holidays/create/page.js",
-  "/(erp)/organization/shifts/create/page": "app/(erp)/organization/shifts/create/page.js"
+  "/(erp)/pos/products/page": "app/(erp)/pos/products/page.js",
+  "/(erp)/settings/application/page": "app/(erp)/settings/application/page.js",
+  "/(erp)/land/parcels/page": "app/(erp)/land/parcels/page.js",
+  "/(erp)/pos/products/[id]/batches/page": "app/(erp)/pos/products/[id]/batches/page.js",
+  "/(erp)/pos/categories/page": "app/(erp)/pos/categories/page.js",
+  "/(erp)/pos/warehouses/page": "app/(erp)/pos/warehouses/page.js",
+  "/(erp)/pos/units/page": "app/(erp)/pos/units/page.js"
 }

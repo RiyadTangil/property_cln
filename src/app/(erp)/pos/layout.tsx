@@ -1,0 +1,9 @@
+import "@/styles/modules/pos.css";
+
+export default function PosLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <>{children}</>;
+}
