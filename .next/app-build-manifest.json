@@ -66,6 +66,68 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(erp)/projects/projects/wbs-templates/page.js"
+    ],
+    "/(erp)/pos/products/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/pos/products/page.js"
+    ],
+    "/(erp)/pos/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/pos/layout.css",
+      "static/chunks/app/(erp)/pos/layout.js"
+    ],
+    "/(erp)/pos/categories/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/pos/categories/page.js"
+    ],
+    "/(erp)/pos/units/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/pos/units/page.js"
+    ],
+    "/(erp)/inventory/units/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/inventory/units/page.js"
+    ],
+    "/(erp)/inventory/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/inventory/layout.css",
+      "static/chunks/app/(erp)/inventory/layout.js"
+    ],
+    "/(erp)/inventory/availability/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/inventory/availability/page.js"
+    ],
+    "/(erp)/inventory/land-plots/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/inventory/land-plots/page.js"
+    ],
+    "/(erp)/land/parcels/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/land/parcels/page.js"
+    ],
+    "/(erp)/land/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/land/layout.js"
+    ],
+    "/(erp)/inventory/unit-blocking/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/inventory/unit-blocking/page.js"
+    ],
+    "/(erp)/inventory/price-lists/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/inventory/price-lists/page.js"
     ]
   }
 }

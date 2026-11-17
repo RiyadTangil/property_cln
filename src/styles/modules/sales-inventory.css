@@ -458,3 +458,69 @@
     .erp-unit-tile:hover { transform: none; }
 }
 
+/* ==========================================================================
+   Availability Board (.av-hero, .av-bar, .av-legend)
+   ========================================================================== */
+.av-hero {
+    margin-bottom: 16px;
+    align-items: center;
+    gap: 24px;
+    border-radius: 16px;
+    background-color: var(--erp-surface, #fff);
+    padding: 20px;
+    flex-wrap: wrap;
+    display: flex;
+    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.07), 0 12px 32px -22px rgba(15, 23, 42, 0.35);
+}
+.av-hero-figure span {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--erp-muted);
+    text-transform: uppercase;
+    display: block;
+}
+.av-hero-figure strong {
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    color: #0b7650;
+    display: block;
+}
+.av-hero-figure.is-right strong { color: #bf3a3a; }
+.av-hero-figure strong small { font-size: 14px; font-weight: 600; }
+.av-hero-figure > small { color: var(--erp-muted); font-size: 12px; }
+.av-hero-figure.is-right { text-align: right; }
+.av-hero-bar { flex: 1; min-width: 260px; }
+.av-bar {
+    height: 10px;
+    gap: 2px;
+    background: rgba(15, 23, 42, 0.06);
+    border-radius: 9999px;
+    display: flex;
+    overflow: hidden;
+}
+.av-bar.is-lg { height: 16px; }
+.av-bar > span { min-width: 3px; height: 100%; transition: width 0.5s; display: block; }
+.av-bar > span:first-child { border-top-left-radius: 9999px; border-bottom-left-radius: 9999px; }
+.av-bar > span:last-child { border-top-right-radius: 9999px; border-bottom-right-radius: 9999px; }
+.av-legend {
+    margin-top: 10px;
+    column-gap: 16px;
+    row-gap: 4px;
+    color: var(--erp-muted);
+    flex-wrap: wrap;
+    font-size: 12px;
+    display: flex;
+}
+.av-legend span { align-items: center; gap: 6px; display: inline-flex; }
+.av-legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.av-legend b { font-weight: 600; color: var(--erp-ink); font-variant-numeric: tabular-nums; }
+.erp-unit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 10px;
+}
+

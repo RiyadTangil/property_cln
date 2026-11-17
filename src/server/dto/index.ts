@@ -5,3 +5,4 @@ export * from "./land.dto";
 export * from "./accounting.dto";
 export * from "./pos.dto";
 export * from "./projects.dto";
+export * from "./inventory.dto";
