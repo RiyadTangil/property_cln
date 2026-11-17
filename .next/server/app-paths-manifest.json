@@ -1,11 +1,13 @@
 {
-  "/api/profile/route": "app/api/profile/route.js",
+  "/api/pos/products/[id]/route": "app/api/pos/products/[id]/route.js",
   "/(erp)/[...slug]/page": "app/(erp)/[...slug]/page.js",
   "/(erp)/pos/products/page": "app/(erp)/pos/products/page.js",
-  "/(erp)/settings/application/page": "app/(erp)/settings/application/page.js",
-  "/(erp)/land/parcels/page": "app/(erp)/land/parcels/page.js",
   "/(erp)/pos/products/[id]/batches/page": "app/(erp)/pos/products/[id]/batches/page.js",
   "/(erp)/pos/categories/page": "app/(erp)/pos/categories/page.js",
+  "/(erp)/pos/units/page": "app/(erp)/pos/units/page.js",
+  "/(erp)/accounting/accounts/page": "app/(erp)/accounting/accounts/page.js",
   "/(erp)/pos/warehouses/page": "app/(erp)/pos/warehouses/page.js",
-  "/(erp)/pos/units/page": "app/(erp)/pos/units/page.js"
+  "/(erp)/accounting/heads/page": "app/(erp)/accounting/heads/page.js",
+  "/(erp)/accounting/banks/page": "app/(erp)/accounting/banks/page.js",
+  "/(erp)/accounting/lenders/page": "app/(erp)/accounting/lenders/page.js"
 }
