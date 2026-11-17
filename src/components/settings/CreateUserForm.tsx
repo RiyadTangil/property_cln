@@ -1,0 +1,346 @@
+"use client";
+
+import React, { FormEvent, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+export default function CreateUserForm({
+  companyName,
+  roles,
+}: {
+  companyName: string;
+  roles: { id: number; name: string; scope: string }[];
+}) {
+  const router = useRouter();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [jobTitle, setJobTitle] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [selectedRole, setSelectedRole] = useState(
+    roles.find((r) => !r.name.toLowerCase().includes("super"))?.name ?? "Staff"
+  );
+  const [isActive, setIsActive] = useState(true);
+  const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    setError("");
+    if (!name.trim() || !email.trim() || !password) {
+      setError("Full Name, Email, and Password are required.");
+      return;
+    }
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters.");
+      return;
+    }
+    if (password !== passwordConfirmation) {
+      setError("Passwords do not match.");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/settings/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim().toLowerCase(),
+          job_title: jobTitle.trim(),
+          phone: phone.trim(),
+          password,
+          password_confirmation: passwordConfirmation,
+          is_super_admin: isSuperAdmin,
+          role: isSuperAdmin ? "Super Admin" : selectedRole,
+          is_active: isActive,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Failed to create user.");
+        setSubmitting(false);
+        return;
+      }
+      router.push("/settings/users");
+      router.refresh();
+    } catch {
+      setError("Network error while creating user.");
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <div className="container erp-container-form">
+      <div className="erp-pagehead">
+        <div className="erp-pagehead-main">
+          <div className="erp-pagehead-icon">
+            <i className="fa-solid fa-user-plus"></i>
+          </div>
+          <div>
+            <h1>New User</h1>
+            <nav aria-label="breadcrumb">
+              <ol className="breadcrumb mb-0">
+                <li className="breadcrumb-item">
+                  <Link href="/dashboard">Home</Link>
+                </li>
+                <li className="breadcrumb-item">Settings</li>
+                <li className="breadcrumb-item">
+                  <Link href="/settings/users">Users</Link>
+                </li>
+                <li className="breadcrumb-item active" aria-current="page">
+                  New
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+        <div className="erp-pagehead-actions">
+          <Link href="/settings/users" className="btn btn-erp-ghost">
+            <i className="fa-solid fa-arrow-left me-2"></i>Back to list
+          </Link>
+        </div>
+      </div>
+
+      {error && (
+        <div className="alert alert-danger mb-3" role="alert">
+          {error}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="erp-form" noValidate>
+        <section className="erp-card">
+          <div className="erp-section-head">
+            <div className="erp-section-icon">
+              <i className="fa-solid fa-id-card"></i>
+            </div>
+            <div>
+              <h2>Account</h2>
+              <p>Identity and contact details for sign-in and mentions.</p>
+            </div>
+          </div>
+          <div className="erp-card-body">
+            <div className="row">
+              <div className="col-md-6">
+                <div className="erp-field">
+                  <label htmlFor="name" className="form-label">
+                    Full Name <span className="erp-required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    className="form-control"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Tanvir Hasan"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="col-md-6">
+                <div className="erp-field">
+                  <label htmlFor="email" className="form-label">
+                    Email Address <span className="erp-required">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    className="form-control"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="tanvir@ehishabi.com"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="col-md-6">
+                <div className="erp-field mb-md-0">
+                  <label htmlFor="job_title" className="form-label">
+                    Job Title
+                  </label>
+                  <input
+                    type="text"
+                    id="job_title"
+                    className="form-control"
+                    value={jobTitle}
+                    onChange={(e) => setJobTitle(e.target.value)}
+                    placeholder="Project Engineer"
+                  />
+                </div>
+              </div>
+
+              <div className="col-md-6">
+                <div className="erp-field mb-0">
+                  <label htmlFor="phone" className="form-label">
+                    Phone
+                  </label>
+                  <input
+                    type="text"
+                    id="phone"
+                    className="form-control"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+880 17..."
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="erp-card">
+          <div className="erp-section-head">
+            <div className="erp-section-icon">
+              <i className="fa-solid fa-key"></i>
+            </div>
+            <div>
+              <h2>Password</h2>
+              <p>Initial sign-in credentials. The user can change this later under Profile.</p>
+            </div>
+          </div>
+          <div className="erp-card-body">
+            <div className="row">
+              <div className="col-md-6">
+                <div className="erp-field mb-md-0">
+                  <label htmlFor="password" className="form-label">
+                    Password <span className="erp-required">*</span>
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    className="form-control"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    minLength={8}
+                    required
+                  />
+                  <span className="erp-help">Minimum 8 characters.</span>
+                </div>
+              </div>
+
+              <div className="col-md-6">
+                <div className="erp-field mb-0">
+                  <label htmlFor="password_confirmation" className="form-label">
+                    Confirm Password <span className="erp-required">*</span>
+                  </label>
+                  <input
+                    type="password"
+                    id="password_confirmation"
+                    className="form-control"
+                    value={passwordConfirmation}
+                    onChange={(e) => setPasswordConfirmation(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="erp-card">
+          <div className="erp-section-head">
+            <div className="erp-section-icon">
+              <i className="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+              <h2>Access Per Company</h2>
+              <p>Assign one or more roles, or make the account a Super Admin.</p>
+            </div>
+          </div>
+          <div className="erp-card-body">
+            <div className="erp-switch-row mb-3">
+              <div>
+                <h6>Super Admin</h6>
+                <p>Full unrestricted access across every company and setting.</p>
+              </div>
+              <div className="form-check form-switch">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  role="switch"
+                  id="is_super_admin"
+                  checked={isSuperAdmin}
+                  onChange={(e) => setIsSuperAdmin(e.target.checked)}
+                />
+              </div>
+            </div>
+
+            <div className={`erp-company-roles${isSuperAdmin ? " is-superseded" : ""}`}>
+              <div className="erp-company-roles-head">
+                <span>{companyName}</span>
+                <small className="text-muted">Role grant</small>
+              </div>
+              <div className="erp-check-grid">
+                {roles.map((r) => (
+                  <label key={r.id} className="erp-check-item">
+                    <input
+                      type="radio"
+                      name="role"
+                      value={r.name}
+                      checked={selectedRole === r.name}
+                      onChange={() => setSelectedRole(r.name)}
+                    />
+                    <span>
+                      <strong>{r.name}</strong>
+                      <small className="text-capitalize">{r.scope}</small>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="erp-card">
+          <div className="erp-section-head">
+            <div className="erp-section-icon">
+              <i className="fa-solid fa-toggle-on"></i>
+            </div>
+            <div>
+              <h2>Status</h2>
+              <p>Control whether the account can sign in immediately.</p>
+            </div>
+          </div>
+          <div className="erp-card-body">
+            <div className="erp-switch-row">
+              <div>
+                <h6>Active account</h6>
+                <p>Inactive users retain historical attribution but cannot sign in.</p>
+              </div>
+              <div className="form-check form-switch">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  role="switch"
+                  id="is_active"
+                  checked={isActive}
+                  onChange={(e) => setIsActive(e.target.checked)}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="erp-form-bar">
+          <span className="erp-form-bar-note">
+            <i className="fa-solid fa-circle-info me-1"></i>
+            Fields marked <span className="erp-required">*</span> are required.
+          </span>
+          <div className="erp-form-bar-actions">
+            <Link href="/settings/users" className="btn btn-erp-ghost">
+              Cancel
+            </Link>
+            <button type="submit" className="btn btn-erp" disabled={submitting}>
+              <i className="fa-solid fa-floppy-disk me-2"></i>
+              {submitting ? "Creating…" : "Create User"}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}

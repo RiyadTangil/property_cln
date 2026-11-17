@@ -1,0 +1,124 @@
+{
+  "pages": {
+    "/(erp)/land/parcels/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/land/parcels/page.js"
+    ],
+    "/(erp)/land/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/land/layout.js"
+    ],
+    "/(erp)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/layout.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/layout.js"
+    ],
+    "/(erp)/[...slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/[...slug]/page.js"
+    ],
+    "/(erp)/dashboard/executive/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/dashboard/executive/page.js"
+    ],
+    "/(erp)/settings/users/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/settings/users/page.js"
+    ],
+    "/(erp)/settings/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/settings/layout.js"
+    ],
+    "/(erp)/settings/roles/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/settings/roles/page.js"
+    ],
+    "/(erp)/settings/code-sequences/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/settings/code-sequences/page.js"
+    ],
+    "/(erp)/documents/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/documents/page.js"
+    ],
+    "/(erp)/documents/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/documents/layout.js"
+    ],
+    "/(erp)/settings/invoice-templates/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/settings/invoice-templates/page.js"
+    ],
+    "/(erp)/settings/invoice-templates/create/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/settings/invoice-templates/create/page.js"
+    ],
+    "/(erp)/settings/application/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/settings/application/page.js"
+    ],
+    "/(erp)/organization/companies/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/companies/page.js"
+    ],
+    "/(erp)/organization/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/layout.js"
+    ],
+    "/(erp)/organization/branches/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/branches/page.js"
+    ],
+    "/(erp)/organization/branches/create/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/branches/create/page.js"
+    ],
+    "/(erp)/organization/departments/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/departments/page.js"
+    ],
+    "/(erp)/organization/designations/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/designations/page.js"
+    ],
+    "/(erp)/organization/company-tree/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/company-tree/page.js"
+    ],
+    "/(erp)/organization/fiscal-years/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/fiscal-years/page.js"
+    ],
+    "/(erp)/organization/fiscal-years/create/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/fiscal-years/create/page.js"
+    ]
+  }
+}

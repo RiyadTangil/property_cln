@@ -1,0 +1,167 @@
+/* --- lines 4431-4579 --- */
+/* Lead score bar on the detail page */
+.erp-scorebar {
+    background: var(--erp-surface-2);
+    border-radius: 20px;
+    display: block;
+    height: 8px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.erp-scorebar span {
+    border-radius: 20px;
+    display: block;
+    height: 100%;
+    transition: width .25s ease;
+}
+
+.erp-scorebar-legend small {
+    color: var(--erp-muted);
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+/* Label/value grid â one card instead of several for a record's fields */
+.erp-factgrid {
+    display: grid;
+    gap: 0;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.erp-fact {
+    border-bottom: 1px solid var(--erp-line);
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    padding: 9px var(--erp-gutter);
+}
+
+.erp-fact-label {
+    color: var(--erp-muted);
+    flex: 0 0 auto;
+    font-size: 12px;
+}
+
+.erp-fact-value {
+    color: var(--erp-ink);
+    font-size: 12.5px;
+    font-weight: 600;
+    text-align: right;
+    word-break: break-word;
+}
+
+.erp-fact-value.is-empty {
+    color: var(--erp-muted);
+    font-weight: 400;
+}
+
+.erp-fact-value a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.erp-fact-value a:hover {
+    color: var(--erp-primary);
+    text-decoration: underline;
+}
+
+.erp-fact-notes {
+    border-top: 1px solid var(--erp-line);
+    padding: 12px var(--erp-gutter);
+}
+
+.erp-fact-notes p {
+    color: var(--erp-ink);
+    font-size: 13px;
+    margin: 4px 0 0;
+    white-space: pre-line;
+}
+
+/* ==========================================================================
+   Follow-ups
+   ========================================================================== */
+
+.erp-attachments {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.erp-attachment {
+    align-items: center;
+    background: var(--erp-surface);
+    border: 1px solid var(--erp-line);
+    border-radius: 8px;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+    margin: 0;
+    padding: 9px 11px;
+    text-decoration: none;
+    transition: border-color .18s ease;
+}
+
+.erp-attachment:hover {
+    border-color: var(--erp-primary);
+    color: inherit;
+}
+
+.erp-attachment-icon {
+    align-items: center;
+    background: var(--erp-surface-2);
+    border-radius: 7px;
+    color: var(--erp-muted);
+    display: flex;
+    flex: 0 0 32px;
+    height: 32px;
+    justify-content: center;
+}
+
+.erp-attachment-body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.erp-attachment-body strong {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.erp-attachment-body small {
+    color: var(--erp-muted);
+    font-size: 11px;
+}
+
+.erp-attachment-remove {
+    align-items: center;
+    color: var(--erp-muted);
+    display: flex;
+    flex: 0 0 auto;
+    font-size: 11px;
+    gap: 4px;
+}
+
+/* --- lines 5233-5248 --- */
+/* ==========================================================================
+   Lead lifecycle state
+   ==========================================================================
+   Which actions make sense depends on whether the lead is open or written off.
+   Both rules only ever hide, so nothing has to restore a display value the
+   element never declared â the script just toggles one class on the wrapper.
+   -------------------------------------------------------------------------- */
+
+[data-lead-detail]:not(.is-lead-lost) [data-when-lost] {
+    display: none !important;
+}
+
+[data-lead-detail].is-lead-lost [data-when-open] {
+    display: none !important;
+}
+

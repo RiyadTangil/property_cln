@@ -1,0 +1,551 @@
+/* --- lines 5249-5294 --- */
+/* ==========================================================================
+   HR â Employee CV, tabs, mini-cards and document cards
+   ==========================================================================
+   Reuses the record-detail primitives and adds the CV header, the tab strip,
+   and the compact cards the satellite sections are built from.
+   -------------------------------------------------------------------------- */
+
+.erp-avatar-img {
+    align-items: center;
+    background: var(--erp-surface-2);
+    border-radius: 10px;
+    display: inline-flex;
+    flex: 0 0 34px;
+    height: 34px;
+    overflow: hidden;
+    width: 34px;
+}
+
+.erp-avatar-img img { height: 100%; object-fit: cover; width: 100%; }
+
+.erp-cv-head {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+    padding: var(--erp-gutter);
+}
+
+.erp-cv-photo {
+    align-items: center;
+    background: linear-gradient(135deg, var(--erp-primary), var(--erp-primary-dark));
+    border-radius: 16px;
+    color: #fff;
+    display: flex;
+    flex: 0 0 76px;
+    font-size: 26px;
+    font-weight: 600;
+    height: 76px;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.erp-cv-photo img { height: 100%; object-fit: cover; width: 100%; }
+
+.erp-cv-id { flex: 1 1 auto; min-width: 0; }
+
+.erp-cv-id h2 {
+/* --- lines 5351-5634 --- */
+
+.erp-cv-grid {
+    display: grid;
+    gap: 20px 28px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.erp-cv-block-head {
+    align-items: center;
+    border-bottom: 1px solid var(--erp-line);
+    color: var(--erp-ink);
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 7px;
+}
+
+.erp-cv-block-head i { color: var(--erp-primary); font-size: 12px; }
+
+.erp-cv-block-head h3 {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* Bulk product entry grid */
+.erp-bulk-table { counter-reset: bulkrow; font-size: 12.5px; }
+.erp-bulk-table tbody tr { counter-increment: bulkrow; }
+.erp-bulk-table .bulk-rownum::before { content: counter(bulkrow); }
+.erp-bulk-table td { padding: 5px 6px; vertical-align: top; }
+.erp-bulk-table th { white-space: nowrap; }
+.erp-bulk-table .form-control-sm,
+.erp-bulk-table .form-select-sm { font-size: 12.5px; }
+.erp-bulk-table .bulk-err { color: var(--erp-danger, #e91e63); font-size: 10.5px; margin-top: 2px; }
+
+.erp-bulk-table .bulk-flags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    padding-top: 8px;
+}
+
+.erp-bulk-table .bulk-check {
+    align-items: center;
+    display: inline-flex;
+    font-size: 11px;
+    gap: 3px;
+    margin: 0;
+}
+
+.erp-bulk-table .bulk-check span { color: var(--erp-muted); }
+
+/* Contextual "what to do next" callout inside a card */
+.erp-nextstep {
+    align-items: flex-start;
+    background: var(--erp-primary-soft, rgba(0, 194, 146, .1));
+    border: 1px solid var(--erp-primary, #00c292);
+    border-radius: var(--erp-radius, 8px);
+    color: var(--erp-ink);
+    display: flex;
+    font-size: 12.5px;
+    gap: 10px;
+    line-height: 1.5;
+    padding: 10px 12px;
+}
+
+.erp-nextstep > i {
+    color: var(--erp-primary, #00c292);
+    font-size: 15px;
+    margin-top: 1px;
+}
+
+.erp-nextstep strong { display: block; margin-bottom: 1px; }
+
+.erp-nextstep .fa-pen,
+.erp-nextstep .fa-trophy { color: var(--erp-primary, #00c292); }
+
+.erp-nextstep-meta { color: var(--erp-muted); display: block; margin-top: 2px; }
+
+/* Small pill showing a count next to a section heading */
+.erp-count-chip {
+    background: var(--erp-primary-soft, rgba(0, 194, 146, .13));
+    border-radius: 999px;
+    margin-left: auto;
+    color: var(--erp-primary-ink, var(--erp-primary, #00c292));
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    min-width: 20px;
+    padding: 4px 8px;
+    text-align: center;
+}
+
+.erp-cv-section-head {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.erp-cv-section-head h3 {
+    color: var(--erp-ink);
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.erp-cv-subhead {
+    color: var(--erp-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    margin: 16px 0 8px;
+    text-transform: uppercase;
+}
+
+.erp-cv-empty { color: var(--erp-muted); font-size: 13px; padding: 8px 0; }
+
+.erp-cv-hint {
+    background: var(--erp-surface-2);
+    border-radius: 9px;
+    color: var(--erp-text);
+    font-size: 12.5px;
+    margin-bottom: 14px;
+    padding: 9px 12px;
+}
+
+.erp-card-grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.erp-mini-card,
+.erp-doc-card {
+    align-items: flex-start;
+    background: var(--erp-surface);
+    border: 1px solid var(--erp-line);
+    border-radius: 11px;
+    display: flex;
+    gap: 12px;
+    padding: 13px 14px;
+}
+
+.erp-mini-card-body,
+.erp-doc-body { flex: 1 1 auto; min-width: 0; }
+
+.erp-mini-card-body strong,
+.erp-doc-body strong {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.erp-mini-meta {
+    color: var(--erp-muted);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 12px;
+    gap: 4px 12px;
+}
+
+.erp-mini-meta > span { align-items: center; display: inline-flex; }
+
+.erp-mini-note {
+    color: var(--erp-muted);
+    display: block;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.erp-mini-actions { display: flex; flex: 0 0 auto; gap: 4px; }
+
+.erp-doc-icon {
+    align-items: center;
+    background: var(--erp-surface-2);
+    border-radius: 10px;
+    color: var(--erp-primary);
+    display: flex;
+    flex: 0 0 40px;
+    font-size: 17px;
+    height: 40px;
+    justify-content: center;
+}
+
+.erp-timeline-item { display: flex; gap: 14px; padding-bottom: 18px; position: relative; }
+
+.erp-timeline-item:not(:last-child)::before {
+    background: var(--erp-line);
+    bottom: 0;
+    content: "";
+    left: 15px;
+    position: absolute;
+    top: 32px;
+    width: 2px;
+}
+
+.erp-timeline-dot {
+    align-items: center;
+    background: var(--erp-surface-2);
+    border-radius: 50%;
+    color: var(--erp-primary);
+    display: flex;
+    flex: 0 0 32px;
+    font-size: 12px;
+    height: 32px;
+    justify-content: center;
+    z-index: 1;
+}
+
+.erp-timeline-body { flex: 1 1 auto; min-width: 0; padding-top: 4px; }
+
+.erp-timeline-head {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.erp-timeline-head strong { color: var(--erp-ink); font-size: 13.5px; font-weight: 600; }
+
+.erp-photo-field { align-items: center; display: flex; gap: 16px; margin-bottom: 18px; }
+
+.erp-photo-preview {
+    align-items: center;
+    background: var(--erp-surface-2);
+    border: 1px dashed var(--erp-line);
+    border-radius: 14px;
+    color: var(--erp-muted);
+    display: flex;
+    flex: 0 0 84px;
+    font-size: 30px;
+    height: 84px;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.erp-photo-preview img { height: 100%; object-fit: cover; width: 100%; }
+
+/* Passport-size variant: a taller dashed box that is itself the file picker. */
+.erp-photo-preview.is-passport {
+    flex: 0 0 104px;
+    width: 104px;
+    height: 132px;
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: border-color .15s ease, color .15s ease;
+}
+.erp-photo-preview.is-passport:hover { border-color: var(--erp-primary); color: var(--erp-primary); }
+.erp-photo-placeholder { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+.erp-photo-placeholder small { font-size: 10px; line-height: 1.2; }
+
+.erp-code-chip {
+    background: var(--erp-surface-2);
+    border-radius: 10px;
+    flex: 0 0 auto;
+    padding: 8px 14px;
+    text-align: center;
+}
+
+.erp-code-chip small {
+    color: var(--erp-muted);
+    display: block;
+    font-size: 10px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.erp-code-chip strong { color: var(--erp-primary); font-size: 15px; font-weight: 700; }
+
+.erp-fieldset-label {
+    color: var(--erp-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    margin: 8px 0 10px;
+    text-transform: uppercase;
+/* --- lines 17204-17421 --- */
+/* ---------------------------------------------------------------------------
+   Employee login (personnel file)
+--------------------------------------------------------------------------- */
+.erp-emp-login {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    align-self: center;
+    padding: 6px 12px;
+    border-radius: 9px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--erp-success-dark);
+    background: color-mix(in srgb, var(--erp-success) 12%, #fff);
+    border: 1px solid color-mix(in srgb, var(--erp-success) 28%, transparent);
+}
+
+.erp-emp-cred {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--erp-line);
+    border: 1px solid var(--erp-border);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.erp-emp-cred > div { background: var(--erp-surface); padding: 9px 12px; }
+
+.erp-emp-cred span {
+    display: block;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--erp-muted);
+}
+
+/* Monospace: these are credentials somebody reads aloud or copies down. */
+.erp-emp-cred strong { font-size: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+.erp-emp-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 14px 0 0;
+    padding: 9px 12px;
+    border-radius: 9px;
+    font-size: 11.5px;
+    line-height: 1.45;
+    color: #a35c00;
+    background: color-mix(in srgb, var(--erp-warning) 10%, #fff);
+    border: 1px solid color-mix(in srgb, var(--erp-warning) 26%, transparent);
+}
+
+.erp-emp-note i { margin-top: 2px; flex: 0 0 auto; }
+
+/* A login that cannot be created yet: the button stays, visibly out of
+   action, so the feature is still discoverable. */
+.btn.is-blocked,
+.btn.is-blocked:hover {
+    opacity: .55;
+    cursor: not-allowed;
+    border-style: dashed;
+}
+
+/* The reason, for anyone who cannot hover a tooltip. */
+.erp-emp-blocked-why {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0 0 12px;
+    padding: 9px 12px;
+    border-radius: 9px;
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--erp-muted);
+    background: var(--erp-surface-2);
+    border: 1px dashed var(--erp-line);
+}
+
+.erp-emp-blocked-why i { margin-top: 2px; flex: 0 0 auto; }
+.erp-emp-blocked-why strong { color: var(--erp-ink); }
+
+
+/* --------------------------------------------------------------------------
+   Team member transfers
+   People lent between projects: the muted "away" rows on the lending team,
+   the "on loan" marker on a borrowed member, and the history log.
+   -------------------------------------------------------------------------- */
+
+/* Someone who is away is present on the card but not available. Muted and
+   dashed rather than hidden: a name vanishing from a team is how a project
+   loses track of its own people, but it must not read as working headcount. */
+.erp-team-member.is-away {
+    opacity: .72;
+    border-style: dashed;
+}
+
+.erp-team-member.is-away .erp-kavatar {
+    filter: grayscale(1);
+}
+
+/* A borrowed member IS working here, so the row stays at full strength; only
+   the accent edge says they are on loan and will be leaving. */
+.erp-team-member.is-borrowed {
+    border-left: 2px solid var(--erp-info);
+}
+
+.erp-team-loan {
+    display: block;
+    margin-top: 2px;
+    font-size: 11px;
+    color: var(--erp-info);
+}
+
+.erp-team-loan i {
+    margin-right: 4px;
+}
+
+/* Overdue is the one state that must interrupt. Colour alone would not carry
+   it, so the row also says "Overdue by N days" in text. */
+.erp-team-loan.is-overdue,
+.erp-team-member.is-overdue .erp-team-loan {
+    color: var(--erp-danger);
+}
+
+.erp-team-member.is-away.is-overdue {
+    border-color: var(--erp-danger);
+    opacity: 1;
+}
+
+.erp-team-away {
+    color: var(--erp-info);
+    font-weight: 600;
+}
+
+.erp-team-loans {
+    margin-top: 6px;
+}
+
+.erp-team-histcount {
+    margin-left: 4px;
+    font-size: 10.5px;
+    font-weight: 600;
+    opacity: .75;
+}
+
+/* ---- the history log ---- */
+
+.erp-transfer-log {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.erp-transfer-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.erp-transfer-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    background: #fff;
+}
+
+.erp-transfer-row.is-overdue {
+    border-color: var(--erp-danger);
+}
+
+/* The direction icon is the first thing scanned â out of this team, or into
+   it â so it gets its own column rather than sitting inside the text. */
+.erp-transfer-dir {
+    flex: 0 0 26px;
+    width: 26px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--erp-bg);
+    color: var(--erp-muted);
+    font-size: 11px;
+}
+
+.erp-transfer-body {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.erp-transfer-body strong {
+    font-size: 12.5px;
+    color: var(--erp-ink);
+}
+
+.erp-transfer-where,
+.erp-transfer-when,
+.erp-transfer-note {
+    font-size: 11px;
+    color: var(--erp-muted);
+}
+
+.erp-transfer-note {
+    margin-top: 3px;
+    font-style: italic;
+}
+
+

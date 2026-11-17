@@ -1,0 +1,620 @@
+/* --- lines 1950-1999 --- */
+/* --------------------------------------------------------------------------
+   12. Sign-in screen
+   -------------------------------------------------------------------------- */
+
+.erp-auth .nk-auth-brand h1 {
+    font-size: 30px;
+}
+
+.erp-auth-modules {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 30px;
+}
+
+.erp-auth-modules span {
+    background: rgba(255, 255, 255, .14);
+    border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: 20px;
+    color: #fff;
+    font-size: 12px;
+    padding: 5px 13px;
+}
+
+.erp-auth-mark {
+    display: block;
+    margin-bottom: 26px;
+    text-align: left;
+}
+
+.erp-auth-mark img {
+    height: 44px;
+    max-width: 100%;
+    width: auto;
+}
+
+.erp-auth-note {
+    background: #f7f9fc;
+    border: 1px dashed var(--erp-line);
+    border-radius: 10px;
+    color: #5b6675;
+    font-size: 12.5px;
+    margin-top: 26px;
+    padding: 12px 14px;
+}
+
+.erp-auth-note strong {
+    color: var(--erp-ink);
+}
+
+/* --- lines 9597-9684 --- */
+/* --------------------------------------------------------------------------
+   12b. Sign-in screen â brand palette
+   --------------------------------------------------------------------------
+   The shipped theme paints this screen in the stock green. These tokens are
+   sampled from the company's own logo so the sign-in page and the mark on it
+   belong to each other.
+
+   Contrast was checked rather than eyeballed â white body text needs 4.5:1:
+     deep   #1c41ad  8.72:1
+     core   #2459d2  6.11:1
+     bright #2d6ee0  4.75:1
+   The logo's lightest tone, sky #49a4ed, only reaches 2.69:1, so it never
+   carries text: it appears as a corner glow and as the plate's ring.
+
+   Scoped to .erp-auth so the rest of the application keeps its own accent.
+   -------------------------------------------------------------------------- */
+
+.erp-auth {
+    --auth-deep: #1c41ad;
+    --auth-core: #2459d2;
+    --auth-bright: #2d6ee0;
+    --auth-sky: #49a4ed;
+
+    /* Re-pointed for this screen only, so anything reading the app accent â
+       including inline var(--erp-primary) â follows the brand here too. */
+    --erp-primary: var(--auth-core);
+    --erp-primary-dark: var(--auth-deep);
+}
+
+.erp-auth .nk-auth-brand {
+    background:
+        radial-gradient(circle at 100% 0%, rgba(73, 164, 237, .45) 0%, transparent 42%),
+        linear-gradient(150deg, var(--auth-deep) 0%, var(--auth-core) 55%, var(--auth-bright) 100%);
+}
+
+/* Form side ---------------------------------------------------------------- */
+
+.erp-auth .nk-auth-btn {
+    background: var(--auth-core);
+    border-color: var(--auth-core);
+}
+
+.erp-auth .nk-auth-btn:focus,
+.erp-auth .nk-auth-btn:hover {
+    background: var(--auth-deep);
+    border-color: var(--auth-deep);
+    box-shadow: 0 4px 12px rgba(36, 89, 210, .35);
+}
+
+.erp-auth .nk-auth-btn:active {
+    background: #17368f;
+    border-color: #17368f;
+}
+
+.erp-auth .nk-auth-link,
+.erp-auth .nk-auth-footer a {
+    color: var(--auth-core);
+}
+
+.erp-auth .nk-auth-link:hover,
+.erp-auth .nk-auth-footer a:hover {
+    color: var(--auth-deep);
+}
+
+.erp-auth .nk-auth-form .form-control:focus {
+    border-color: var(--auth-core);
+    box-shadow: 0 0 0 .2rem rgba(36, 89, 210, .15);
+}
+
+.erp-auth .nk-auth-form .input-group:focus-within .input-group-text {
+    border-color: var(--auth-core);
+    color: var(--auth-core);
+}
+
+.erp-auth .nk-auth-form .form-check-input:checked {
+    background-color: var(--auth-core);
+    border-color: var(--auth-core);
+}
+
+.erp-auth .nk-auth-form .form-check-input:focus {
+    border-color: var(--auth-core);
+    box-shadow: 0 0 0 .2rem rgba(36, 89, 210, .15);
+}
+
+.erp-auth .nk-toggle-password:hover {
+    color: var(--auth-core);
+}
+
+/* --- lines 11264-11742 --- */
+/* ==========================================================================
+   Sign-in screen â premium treatment
+   ==========================================================================
+   Appended after the brand-colour block above so these rules win at equal
+   specificity. The palette and its contrast ratios are unchanged; this is
+   about depth and material, not new colours.
+
+   The left panel is built from four stacked layers â aurora glow, blueprint
+   grid, vignette, gradient â because a single flat gradient is what makes a
+   sign-in screen look like a template. The grid is a deliberate nod to what
+   the product is for: it reads as drafting paper at a glance and as texture
+   from a distance.
+   ========================================================================== */
+
+.erp-auth {
+    --auth-ink: #0b1c46;
+    /* An even split. The base theme gives the brand side a fixed 520px, which
+       leaves it looking like a sidebar next to a wide form panel. */
+    --auth-panel: 50%;
+}
+
+/* Left: the brand panel ---------------------------------------------------- */
+
+.erp-auth .nk-auth-brand {
+    width: var(--auth-panel);
+    padding: 3.25rem 3rem;
+    background:
+        /* aurora */
+        radial-gradient(ellipse 70% 55% at 88% 6%, rgba(73, 164, 237, .5), transparent 60%),
+        radial-gradient(ellipse 60% 50% at 6% 96%, rgba(45, 110, 224, .45), transparent 58%),
+        /* base */
+        linear-gradient(155deg, var(--auth-deep) 0%, var(--auth-core) 52%, var(--auth-bright) 100%);
+}
+
+/* The blueprint grid. Two gradients rather than an image so it costs nothing
+   to load and stays crisp at any density. */
+.erp-auth .nk-auth-brand::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    right: auto;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, .055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .055) 1px, transparent 1px);
+    background-size: 46px 46px;
+    /* Faded at the edges so the grid never fights the text in the middle. */
+    -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, #000 35%, transparent 100%);
+    mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, #000 35%, transparent 100%);
+    opacity: 1;
+    pointer-events: none;
+}
+
+/* A vignette that seats the panel against the form side. */
+.erp-auth .nk-auth-brand::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    left: auto;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(to right, rgba(6, 20, 58, .34) 0%, transparent 28%, transparent 72%, rgba(6, 20, 58, .3) 100%),
+        linear-gradient(to top, rgba(6, 20, 58, .28), transparent 45%);
+    pointer-events: none;
+}
+
+.erp-auth .nk-auth-brand-inner {
+    max-width: 460px;
+}
+
+.erp-auth .nk-auth-brand h1 {
+    font-size: 2.05rem;
+    line-height: 1.22;
+    letter-spacing: -.02em;
+    font-weight: 700;
+    margin-bottom: .9rem;
+    text-wrap: balance;
+    text-shadow: 0 1px 18px rgba(6, 20, 58, .35);
+}
+
+.erp-auth .nk-auth-brand p {
+    font-size: .95rem;
+    line-height: 1.65;
+    opacity: .88;
+    margin-bottom: 2rem;
+    max-width: 36ch;
+}
+
+/* The four capability lines, as glass cards. Same material as the app's
+   glass tabs, so the sign-in screen already looks like the product. */
+.erp-auth .nk-auth-features {
+    gap: .55rem;
+    margin-bottom: 1.75rem;
+}
+
+.erp-auth .nk-auth-feature {
+    gap: .8rem;
+    padding: .6rem .85rem;
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 12px;
+    background: linear-gradient(150deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, .05));
+    -webkit-backdrop-filter: blur(8px) saturate(140%);
+    backdrop-filter: blur(8px) saturate(140%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22);
+    font-size: .875rem;
+    font-weight: 500;
+    opacity: 1;
+    transition: transform .16s ease, border-color .16s ease, background .16s ease;
+}
+
+.erp-auth .nk-auth-feature:hover {
+    transform: translateX(3px);
+    border-color: rgba(255, 255, 255, .3);
+    background: linear-gradient(150deg, rgba(255, 255, 255, .22), rgba(255, 255, 255, .08));
+}
+
+/* The icon gets its own tile, which is what stops four rows of icons reading
+   as a bulleted list. */
+.erp-auth .nk-auth-feature i {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, .18);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25);
+    font-size: .875rem;
+    opacity: 1;
+}
+
+.erp-auth-modules {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 1.15rem;
+    border-top: 1px solid rgba(255, 255, 255, .16);
+}
+
+.erp-auth-modules span {
+    padding: 4px 11px;
+    border: 1px solid rgba(255, 255, 255, .22);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .1);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .92);
+}
+
+/* Right: the form panel ---------------------------------------------------- */
+
+.erp-auth .nk-auth-form-panel {
+    /* Matched to the brand panel so neither side can win on content width. */
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 2.5rem 2rem;
+    /* A brand wash that deepens gradually from right to left, so the form side
+       reads as part of the product instead of a blank sheet. */
+    background:
+        radial-gradient(ellipse 70% 60% at 0% 50%, rgba(28, 78, 196, .26), transparent 64%),
+        radial-gradient(ellipse 55% 45% at 4% 108%, rgba(45, 110, 224, .22), transparent 66%),
+        linear-gradient(to left, #eaf0fb 0%, rgba(45, 110, 224, .12) 48%, rgba(28, 78, 196, .24) 100%);
+}
+
+.erp-auth .nk-auth-card {
+    max-width: 424px;
+    padding: 2.35rem 2.25rem;
+    border: 1px solid rgba(15, 32, 78, .07);
+    border-radius: 18px;
+    /* Three layers: a hairline, a close contact shadow, and a wide soft one.
+       A single box-shadow is what makes a card look pasted on. */
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, .9) inset,
+        0 2px 6px rgba(12, 30, 82, .05),
+        0 18px 46px -12px rgba(12, 30, 82, .18);
+}
+
+.erp-auth-mark {
+    margin-bottom: 1.1rem;
+}
+
+.erp-auth .nk-auth-card-header {
+    margin-bottom: 1.5rem;
+}
+
+.erp-auth .nk-auth-card-header h2 {
+    font-size: 1.55rem;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    color: var(--auth-ink);
+}
+
+.erp-auth .nk-auth-card-header p {
+    font-size: .875rem;
+    color: #6b7794;
+}
+
+/* A quiet reassurance line above the form. This is a private ERP, and saying
+   so is worth more here than another decorative flourish. */
+.erp-auth-secure {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 1rem;
+    padding: 4px 11px 4px 8px;
+    border: 1px solid rgba(36, 89, 210, .18);
+    border-radius: 999px;
+    background: linear-gradient(150deg, rgba(36, 89, 210, .1), rgba(36, 89, 210, .04));
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .01em;
+    color: var(--auth-deep);
+}
+
+.erp-auth-secure i { font-size: 11px; }
+
+/* Fields -------------------------------------------------------------------- */
+
+.erp-auth .nk-auth-form .form-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: .01em;
+    color: #45526f;
+    margin-bottom: .38rem;
+}
+
+.erp-auth .nk-auth-form .input-group {
+    /* One border on the group, none on the children. Bootstrap otherwise gives
+       each child its own border, so the icon/input/toggle met in double 2px
+       seams that read as a broken outline. */
+    border: 1px solid #dfe5f0;
+    border-radius: 11px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(12, 30, 82, .04);
+    transition: box-shadow .16s ease, border-color .16s ease;
+}
+
+.erp-auth .nk-auth-form .input-group:focus-within {
+    border-color: var(--auth-core);
+    box-shadow: 0 0 0 3.5px rgba(36, 89, 210, .13), 0 2px 8px rgba(36, 89, 210, .12);
+}
+
+.erp-auth .nk-auth-form .input-group-text {
+    background: #f4f7fc;
+    border: 0;
+    /* A single hairline divider between the icon tile and the field. */
+    border-right: 1px solid #dfe5f0;
+    color: #8a95ad;
+    border-radius: 0;
+    width: 42px;
+    justify-content: center;
+    transition: color .16s ease, background .16s ease, border-color .16s ease;
+}
+
+.erp-auth .nk-auth-form .form-control {
+    border: 0;
+    padding: .62rem .85rem;
+    font-size: .9375rem;
+    color: var(--auth-ink);
+}
+
+.erp-auth .nk-auth-form .form-control::placeholder { color: #a7b0c4; }
+
+/* The focus ring lives on the group, so the control itself must not draw a
+   second one on top of it. */
+.erp-auth .nk-auth-form .form-control:focus {
+    border: 0;
+    box-shadow: none;
+}
+
+.erp-auth .nk-auth-form .input-group:focus-within .input-group-text {
+    background: rgba(36, 89, 210, .08);
+    border-right-color: var(--auth-core);
+    color: var(--auth-core);
+}
+
+.erp-auth .nk-toggle-password {
+    border-radius: 0;
+    border: 0;
+    /* Divider between the field and the reveal button. */
+    border-left: 1px solid #dfe5f0;
+    background: #f4f7fc;
+    color: #8a95ad;
+    cursor: pointer;
+    transition: color .16s ease, background .16s ease;
+}
+
+.erp-auth .nk-toggle-password:hover {
+    background: rgba(36, 89, 210, .08);
+    color: var(--auth-core);
+}
+
+.erp-auth .nk-auth-form .form-check-label {
+    font-size: 13px;
+    color: #55617d;
+}
+
+/* The button ---------------------------------------------------------------- */
+
+.erp-auth .nk-auth-btn {
+    position: relative;
+    overflow: hidden;
+    padding: .72rem 1rem;
+    border: 0;
+    border-radius: 11px;
+    font-size: .9375rem;
+    font-weight: 600;
+    letter-spacing: .01em;
+    background: linear-gradient(140deg, var(--auth-bright), var(--auth-core) 55%, var(--auth-deep));
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .22),
+        0 6px 18px -6px rgba(28, 65, 173, .55);
+    transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+}
+
+/* A sheen that crosses on hover. Pure decoration, and the one place on this
+   screen where a little motion is worth the bytes. */
+.erp-auth .nk-auth-btn::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 -60%;
+    width: 45%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .3), transparent);
+    transform: skewX(-18deg);
+    transition: left .5s ease;
+    pointer-events: none;
+}
+
+.erp-auth .nk-auth-btn:hover::after { left: 115%; }
+
+.erp-auth .nk-auth-btn:focus,
+.erp-auth .nk-auth-btn:hover {
+    background: linear-gradient(140deg, var(--auth-bright), var(--auth-core) 55%, var(--auth-deep));
+    transform: translateY(-1px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .26),
+        0 10px 26px -8px rgba(28, 65, 173, .6);
+}
+
+.erp-auth .nk-auth-btn:active {
+    transform: translateY(0);
+    filter: brightness(.95);
+    box-shadow: inset 0 2px 6px rgba(9, 24, 70, .3);
+}
+
+.erp-auth .nk-auth-btn:focus-visible {
+    outline: 2px solid var(--auth-core);
+    outline-offset: 3px;
+}
+
+/* Footnotes ----------------------------------------------------------------- */
+
+.erp-auth-note {
+    margin-top: 1.4rem;
+    padding: .8rem .95rem;
+    border: 1px solid rgba(36, 89, 210, .14);
+    border-left: 3px solid var(--auth-core);
+    border-radius: 10px;
+    background: linear-gradient(150deg, rgba(36, 89, 210, .06), rgba(36, 89, 210, .02));
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: #55617d;
+}
+
+.erp-auth-note strong {
+    display: block;
+    margin-bottom: 2px;
+    color: var(--auth-ink);
+}
+
+.erp-auth .nk-auth-footer {
+    margin-top: 1.15rem;
+    font-size: 13px;
+}
+
+.erp-auth .alert {
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+/* Dark mode ----------------------------------------------------------------- */
+
+:root[data-theme="dark"] .erp-auth .nk-auth-form-panel {
+    background:
+        radial-gradient(ellipse 60% 45% at 50% -8%, rgba(45, 110, 224, .16), transparent 70%),
+        #0d1626;
+}
+
+:root[data-theme="dark"] .erp-auth .nk-auth-card {
+    background: #151f33;
+    border-color: rgba(255, 255, 255, .07);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, .05) inset,
+        0 20px 50px -14px rgba(0, 0, 0, .6);
+}
+
+:root[data-theme="dark"] .erp-auth {
+    --auth-ink: #e8edf7;
+}
+
+:root[data-theme="dark"] .erp-auth .nk-auth-card-header p,
+:root[data-theme="dark"] .erp-auth .nk-auth-form .form-check-label,
+:root[data-theme="dark"] .erp-auth-note { color: #97a3bd; }
+
+:root[data-theme="dark"] .erp-auth .nk-auth-form .form-label { color: #b3bed6; }
+
+:root[data-theme="dark"] .erp-auth .nk-auth-form .form-control,
+:root[data-theme="dark"] .erp-auth .nk-auth-form .input-group-text,
+:root[data-theme="dark"] .erp-auth .nk-toggle-password {
+    background: #1c283f;
+    border-color: rgba(255, 255, 255, .1);
+    color: #e8edf7;
+}
+
+:root[data-theme="dark"] .erp-auth .nk-auth-form .form-control::placeholder { color: #6b7794; }
+
+:root[data-theme="dark"] .erp-auth-secure,
+:root[data-theme="dark"] .erp-auth-note {
+    background: rgba(45, 110, 224, .12);
+    border-color: rgba(73, 164, 237, .22);
+}
+
+:root[data-theme="dark"] .erp-auth-secure { color: #8ab7f5; }
+
+/* Responsive ---------------------------------------------------------------- */
+
+@media (max-width: 991.98px) {
+    .erp-auth .nk-auth-brand {
+        width: 100%;
+        padding: 2.25rem 1.5rem;
+    }
+
+    /* Stacked now, so the 50% split is released on both sides. */
+    .erp-auth .nk-auth-form-panel {
+        flex: 1 1 auto;
+        max-width: none;
+    }
+
+    .erp-auth .nk-auth-brand h1 { font-size: 1.55rem; }
+    .erp-auth .nk-auth-brand p { margin-bottom: 1.25rem; }
+    .erp-auth .nk-auth-brand-inner { max-width: none; }
+
+    /* The module chips carry the same message as the feature cards in a
+       fraction of the height, so they are what survives on a phone. */
+    .erp-auth .nk-auth-features { display: none; }
+    .erp-auth-modules { padding-top: .9rem; }
+
+    .erp-auth .nk-auth-form-panel { padding: 1.75rem 1.15rem; }
+    .erp-auth .nk-auth-card { padding: 1.75rem 1.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .erp-auth .nk-auth-feature,
+    .erp-auth .nk-auth-btn,
+    .erp-auth .nk-auth-btn::after {
+        transition: none;
+    }
+
+    .erp-auth .nk-auth-feature:hover,
+    .erp-auth .nk-auth-btn:hover { transform: none; }
+    .erp-auth .nk-auth-btn:hover::after { left: -60%; }
+    .erp-auth .nk-auth-card.toggled { animation: none; }
+}
+
+/* Without backdrop-filter the feature cards would sit unblurred over the
+   gradient and look washed out, so their tint is deepened to compensate. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .erp-auth .nk-auth-feature {
+        background: rgba(255, 255, 255, .16);
+    }
+}
+

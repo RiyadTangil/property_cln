@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="44" height="44" role="img" aria-label="Estate ERP">
+  <defs>
+    <linearGradient id="erpIconBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00c292"/>
+      <stop offset="1" stop-color="#009a76"/>
+    </linearGradient>
+  </defs>
+  <rect width="44" height="44" rx="11" fill="url(#erpIconBg)"/>
+  <!-- tall tower -->
+  <path d="M23 13.5 30.5 9.5 38 13.5 38 34.5 23 34.5 Z" fill="#ffffff" fill-opacity=".95"/>
+  <!-- short tower -->
+  <path d="M6 19.5 14.5 15.5 23 19.5 23 34.5 6 34.5 Z" fill="#ffffff" fill-opacity=".72"/>
+  <!-- windows -->
+  <g fill="#00a37c">
+    <rect x="26" y="17" width="3" height="3" rx=".7"/>
+    <rect x="32" y="17" width="3" height="3" rx=".7"/>
+    <rect x="26" y="23" width="3" height="3" rx=".7"/>
+    <rect x="32" y="23" width="3" height="3" rx=".7"/>
+    <rect x="28.5" y="29" width="4" height="5.5" rx=".7"/>
+  </g>
+  <g fill="#0b8d6c" fill-opacity=".65">
+    <rect x="9.5" y="23" width="3" height="3" rx=".7"/>
+    <rect x="16.5" y="23" width="3" height="3" rx=".7"/>
+    <rect x="12.5" y="29" width="4" height="5.5" rx=".7"/>
+  </g>
+</svg>

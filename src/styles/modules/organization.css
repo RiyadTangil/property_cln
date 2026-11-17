@@ -1,0 +1,972 @@
+/* --- lines 2674-3274 --- */
+/* ==========================================================================
+   Holidays & Shifts
+   ========================================================================== */
+
+/* Scope picker â shared by the holiday and shift forms */
+.erp-scope-choices {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.erp-scope-choice {
+    cursor: pointer;
+    display: block;
+    margin: 0;
+    /* Scopes the visually-hidden radio below to this label. */
+    position: relative;
+}
+
+.erp-scope-choice input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.erp-scope-choice-body {
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    display: flex;
+    gap: 10px;
+    height: 100%;
+    padding: 12px 14px;
+    transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.erp-scope-choice-body i {
+    color: var(--erp-muted);
+    margin-top: 2px;
+    transition: color .18s ease;
+}
+
+.erp-scope-choice-body strong {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.erp-scope-choice-body small {
+    color: var(--erp-muted);
+    display: block;
+    font-size: 11.5px;
+    line-height: 1.45;
+}
+
+.erp-scope-choice:hover .erp-scope-choice-body {
+    border-color: rgba(0, 194, 146, .45);
+}
+
+.erp-scope-choice input:checked + .erp-scope-choice-body {
+    background: #f4faf8;
+    border-color: var(--erp-primary);
+    box-shadow: 0 0 0 3px rgba(0, 194, 146, .12);
+}
+
+.erp-scope-choice input:checked + .erp-scope-choice-body i {
+    color: var(--erp-primary);
+}
+
+.erp-scope-choice input:focus-visible + .erp-scope-choice-body {
+    outline: 2px solid var(--erp-primary);
+    outline-offset: 2px;
+}
+
+.erp-scope-panel {
+    background: #fbfcfe;
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    margin-top: 16px;
+    padding: 14px;
+}
+
+.erp-scope-panel-head {
+    align-items: center;
+    color: var(--erp-ink);
+    display: flex;
+    font-size: 13px;
+    font-weight: 600;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.erp-scope-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.erp-scope-empty {
+    color: var(--erp-muted);
+    font-size: 12.5px;
+    margin: 0;
+}
+
+.erp-check-grid {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.erp-check-item {
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    gap: 9px;
+    margin: 0;
+    padding: 9px 11px;
+    transition: border-color .18s ease, background .18s ease;
+}
+
+.erp-check-item:hover {
+    border-color: rgba(0, 194, 146, .45);
+}
+
+.erp-check-item input {
+    accent-color: var(--erp-primary);
+    flex: 0 0 auto;
+    height: 15px;
+    width: 15px;
+}
+
+.erp-check-item strong {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.erp-check-item small {
+    color: var(--erp-muted);
+    font-size: 11px;
+}
+
+.erp-check-item:has(input:checked) {
+    background: #f4faf8;
+    border-color: var(--erp-primary);
+}
+
+/* Compact scope label used in list rows */
+.erp-scope-tag {
+    align-items: center;
+    color: var(--erp-ink);
+    display: inline-flex;
+    font-size: 12.5px;
+    gap: 6px;
+}
+
+.erp-scope-tag i {
+    color: var(--erp-muted);
+    font-size: 11px;
+}
+
+/* Colour swatches on the holiday form */
+.erp-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.erp-swatch {
+    cursor: pointer;
+    display: inline-block;
+    margin: 0;
+    /* Scopes the visually-hidden radio below to this label. */
+    position: relative;
+}
+
+.erp-swatch input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.erp-swatch span {
+    background: var(--swatch);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px var(--erp-line);
+    display: block;
+    height: 26px;
+    transition: box-shadow .18s ease, transform .18s ease;
+    width: 26px;
+}
+
+.erp-swatch:hover span {
+    transform: scale(1.08);
+}
+
+.erp-swatch input:checked + span {
+    box-shadow: 0 0 0 2px var(--swatch);
+    transform: scale(1.12);
+}
+
+.erp-swatch input:focus-visible + span {
+    outline: 2px solid var(--erp-ink);
+    outline-offset: 2px;
+}
+
+/* Working-day picker on the shift form */
+.erp-daypicker {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+}
+
+.erp-day {
+    cursor: pointer;
+    margin: 0;
+    position: relative;
+}
+
+.erp-day input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.erp-day span {
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: 8px;
+    display: block;
+    padding: 10px 8px;
+    text-align: center;
+    transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.erp-day strong {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.erp-day small {
+    color: var(--erp-muted);
+    font-size: 10.5px;
+}
+
+.erp-day.is-weekend span {
+    background: #fbfcfe;
+}
+
+.erp-day input:checked + span {
+    background: #f4faf8;
+    border-color: var(--erp-primary);
+    box-shadow: 0 0 0 3px rgba(0, 194, 146, .12);
+}
+
+.erp-day input:checked + span strong {
+    color: var(--erp-primary-dark);
+}
+
+.erp-day input:focus-visible + span {
+    outline: 2px solid var(--erp-primary);
+    outline-offset: 2px;
+}
+
+/* Weekday chips in the shift list */
+.erp-daychips {
+    display: inline-flex;
+    gap: 3px;
+}
+
+.erp-daychip {
+    align-items: center;
+    background: #f1f4f8;
+    border-radius: 4px;
+    color: var(--erp-muted);
+    display: inline-flex;
+    font-size: 10px;
+    font-weight: 600;
+    height: 19px;
+    justify-content: center;
+    width: 19px;
+}
+
+.erp-daychip.is-on {
+    background: rgba(0, 194, 146, .16);
+    color: var(--erp-primary-dark);
+}
+
+/* Weekly pattern on the shift detail page */
+.erp-weekgrid {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+}
+
+.erp-weekgrid-day {
+    border: 1px solid var(--erp-line);
+    border-radius: 8px;
+    padding: 12px 8px;
+    text-align: center;
+}
+
+.erp-weekgrid-day strong {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 13px;
+}
+
+.erp-weekgrid-day span {
+    color: var(--erp-muted);
+    font-size: 11px;
+}
+
+.erp-weekgrid-day.is-on {
+    background: #f4faf8;
+    border-color: rgba(0, 194, 146, .4);
+}
+
+.erp-weekgrid-day.is-on span {
+    color: var(--erp-primary-dark);
+    font-weight: 600;
+}
+
+.erp-weekgrid-day.is-off {
+    background: #fbfcfe;
+}
+
+/* Coloured dot in the holiday list */
+.erp-dot {
+    border-radius: 50%;
+    display: inline-block;
+    flex: 0 0 10px;
+    height: 10px;
+    width: 10px;
+}
+
+/* ==========================================================================
+   Holiday calendar
+   ========================================================================== */
+
+.erp-calnav {
+    align-items: center;
+    display: flex;
+    gap: 6px;
+}
+
+.erp-calnav-title {
+    color: var(--erp-ink);
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 6px;
+    min-width: 150px;
+    text-align: center;
+}
+
+.erp-calendar-head,
+.erp-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.erp-calendar-head {
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.erp-calendar-weekday {
+    color: var(--erp-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    padding-bottom: 4px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.erp-calendar-grid {
+    gap: 6px;
+}
+
+.erp-calendar-day {
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-height: 92px;
+    padding: 6px;
+}
+
+.erp-calendar-daynum {
+    align-self: flex-start;
+    color: var(--erp-ink);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    padding: 2px;
+}
+
+.erp-calendar-day.is-outside {
+    background: #fbfcfe;
+}
+
+.erp-calendar-day.is-outside .erp-calendar-daynum {
+    color: var(--erp-muted);
+    opacity: .6;
+}
+
+.erp-calendar-day.is-weekly-off {
+    background: #f7f9fc;
+}
+
+.erp-calendar-day.is-today {
+    border-color: var(--erp-primary);
+    box-shadow: 0 0 0 2px rgba(0, 194, 146, .16);
+}
+
+.erp-calendar-day.is-today .erp-calendar-daynum {
+    background: var(--erp-primary);
+    border-radius: 5px;
+    color: #fff;
+    padding: 2px 6px;
+}
+
+.erp-calendar-chip {
+    background: color-mix(in srgb, var(--chip) 14%, transparent);
+    border-left: 3px solid var(--chip);
+    border-radius: 4px;
+    color: var(--erp-ink);
+    display: block;
+    font-size: 11px;
+    line-height: 1.3;
+    overflow: hidden;
+    padding: 3px 5px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: background .18s ease;
+    white-space: nowrap;
+}
+
+.erp-calendar-chip:hover {
+    background: color-mix(in srgb, var(--chip) 26%, transparent);
+    color: var(--erp-ink);
+}
+
+.erp-calendar-legend {
+    color: var(--erp-muted);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 11.5px;
+    gap: 14px;
+    margin-top: 12px;
+}
+
+.erp-calendar-legend span {
+    align-items: center;
+    display: inline-flex;
+    gap: 6px;
+}
+
+.erp-legend-swatch {
+    border-radius: 3px;
+    display: inline-block;
+    height: 11px;
+    width: 11px;
+}
+
+.erp-legend-swatch.is-today { background: var(--erp-primary); }
+.erp-legend-swatch.is-off { background: #f0f3f8; border: 1px solid var(--erp-line); }
+.erp-legend-swatch.is-holiday { background: rgba(0, 194, 146, .3); border-left: 3px solid var(--erp-primary); }
+
+/* Side panel listing the holidays for the month on view */
+.erp-calendar-panel {
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    overflow: hidden;
+}
+
+.erp-calendar-panel-head {
+    align-items: center;
+    background: #fbfcfe;
+    border-bottom: 1px solid var(--erp-line);
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 14px;
+}
+
+.erp-calendar-panel-head h3 {
+    color: var(--erp-ink);
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.erp-calendar-entry {
+    align-items: center;
+    border-bottom: 1px solid var(--erp-line);
+    display: flex;
+    gap: 12px;
+    padding: 11px 14px;
+    text-decoration: none;
+    transition: background .18s ease;
+}
+
+.erp-calendar-entry:last-child {
+    border-bottom: none;
+}
+
+.erp-calendar-entry:hover {
+    background: #f7f9fc;
+}
+
+.erp-calendar-entry-date {
+    background: color-mix(in srgb, var(--chip) 14%, transparent);
+    border-radius: 8px;
+    color: var(--chip);
+    flex: 0 0 42px;
+    padding: 6px 0;
+    text-align: center;
+}
+
+.erp-calendar-entry-date strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.erp-calendar-entry-date small {
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.erp-calendar-entry-body {
+    min-width: 0;
+}
+
+.erp-calendar-entry-body strong {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.erp-calendar-entry-body small {
+    color: var(--erp-muted);
+    display: block;
+    font-size: 11.5px;
+}
+
+.erp-calendar-entry-scope i {
+    font-size: 10px;
+}
+
+.erp-calendar-entry-flag {
+    color: var(--erp-muted);
+    font-size: 11px;
+    margin-left: auto;
+}
+
+.erp-calendar-panel-empty {
+    color: var(--erp-muted);
+    padding: 28px 16px;
+    text-align: center;
+}
+
+.erp-calendar-panel-empty i {
+    color: var(--erp-line);
+    font-size: 26px;
+}
+
+.erp-calendar-panel-empty p {
+    font-size: 12.5px;
+    margin: 10px 0;
+}
+
+@media (max-width: 767.98px) {
+    .erp-calendar-day {
+        min-height: 68px;
+        padding: 4px;
+    }
+
+    .erp-calendar-chip {
+        padding: 3px;
+    }
+
+    .erp-calendar-chip span {
+        display: none;
+    }
+}
+
+/* --- lines 10039-10407 --- */
+/* ==========================================================================
+   Organisation chart
+   ==========================================================================
+   Two layouts over ONE set of nested ul/li markup, so the template never has
+   to know which is on screen:
+
+     .is-crow  the crow's-foot chart â parent on top, a stem dropping to a
+               horizontal rail, and a riser up into each child
+     .is-list  a compact indented tree, which stays readable when the org is
+               too wide or too deep to chart comfortably
+
+   The connectors are pseudo-elements rather than SVG: they reflow for free
+   when a branch is collapsed, and they print.
+   ========================================================================== */
+
+.erp-tree,
+.erp-tree-children {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.erp-tree-children.is-collapsed { display: none; }
+
+/* The pannable, zoomable surface the chart is drawn on. */
+.erp-chart-viewport {
+    overflow: auto;
+    padding: 8px 0 24px;
+    position: relative;
+}
+
+.erp-chart-viewport.is-pannable { cursor: grab; }
+.erp-chart-viewport.is-grabbing { cursor: grabbing; user-select: none; }
+
+.erp-chart-canvas {
+    transform: scale(var(--chart-zoom, 1));
+    transform-origin: top center;
+    transition: transform .12s ease-out;
+    width: max-content;
+    min-width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Crow's foot
+   -------------------------------------------------------------------------- */
+
+.erp-tree.is-crow,
+.erp-tree.is-crow .erp-tree-children {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.erp-tree.is-crow .erp-tree-children { padding-top: 26px; }
+
+.erp-tree.is-crow .erp-tree-item {
+    position: relative;
+    padding: 26px 10px 0;
+    text-align: center;
+}
+
+.erp-tree.is-crow > .erp-tree-item { padding-top: 0; }
+
+/* The rail across a row of siblings: each child draws half of it, left and
+   right, so the rail always spans exactly the children present. */
+.erp-tree.is-crow .erp-tree-item::before,
+.erp-tree.is-crow .erp-tree-item::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 26px;
+    border-top: 2px solid var(--erp-line);
+}
+
+.erp-tree.is-crow .erp-tree-item::before { right: 50%; }
+.erp-tree.is-crow .erp-tree-item::after { left: 50%; border-left: 2px solid var(--erp-line); }
+
+/* Outer corners round off, and the rail must not overshoot the end children â
+   otherwise it hangs in the air past the last box. */
+.erp-tree.is-crow .erp-tree-item:first-child::before { border: 0 none; }
+.erp-tree.is-crow .erp-tree-item:last-child::after { border: 0 none; }
+
+.erp-tree.is-crow .erp-tree-item:last-child::before {
+    border-right: 2px solid var(--erp-line);
+    border-radius: 0 6px 0 0;
+}
+
+.erp-tree.is-crow .erp-tree-item:first-child::after { border-radius: 6px 0 0 0; }
+
+/* An only child needs no rail â just the stem straight down. */
+.erp-tree.is-crow .erp-tree-item:only-child::before,
+.erp-tree.is-crow .erp-tree-item:only-child::after { display: none; }
+.erp-tree.is-crow .erp-tree-item:only-child { padding-top: 26px; }
+
+/* The stem leaving the bottom of a parent. */
+.erp-tree.is-crow .erp-tree-children::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 26px;
+    border-left: 2px solid var(--erp-line);
+}
+
+/* Roots sit side by side; there is nothing above them to connect to. */
+.erp-tree.is-crow > .erp-tree-item::before,
+.erp-tree.is-crow > .erp-tree-item::after { display: none; }
+
+.erp-tree.is-crow .erp-tree-card {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 186px;
+    padding: 14px 12px 16px;
+    gap: 6px;
+}
+
+.erp-tree.is-crow .erp-tree-avatar { width: 46px; height: 46px; flex: 0 0 46px; font-size: 15px; }
+.erp-tree.is-crow .erp-tree-body { width: 100%; }
+.erp-tree.is-crow .erp-tree-tags { justify-content: center; margin-top: 2px; }
+
+/* The toggle hangs off the bottom edge, exactly where the stem leaves. */
+.erp-tree.is-crow .erp-tree-toggle {
+    position: absolute;
+    bottom: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+/* A collapsed parent says how many people are folded away beneath it. */
+.erp-tree.is-crow .erp-tree-item.is-closed > .erp-tree-card::after {
+    content: attr(data-hidden);
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10.5px;
+    color: var(--erp-muted);
+    white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Indented list
+   -------------------------------------------------------------------------- */
+
+.erp-tree.is-list .erp-tree-children {
+    margin-left: 22px;
+    padding-left: 18px;
+    position: relative;
+}
+
+.erp-tree.is-list .erp-tree-children::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 22px;
+    width: 1px;
+    background: var(--erp-line);
+}
+
+.erp-tree.is-list .erp-tree-item { position: relative; }
+
+.erp-tree.is-list .erp-tree-children > .erp-tree-item::before {
+    content: "";
+    position: absolute;
+    left: -18px;
+    top: 22px;
+    width: 18px;
+    height: 1px;
+    background: var(--erp-line);
+}
+
+.erp-tree.is-list .erp-tree-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+}
+
+.erp-tree.is-list .erp-tree-body { flex: 1 1 auto; min-width: 0; text-align: left; }
+.erp-tree.is-list .erp-tree-role,
+.erp-tree.is-list .erp-tree-dept { display: inline; }
+.erp-tree.is-list .erp-tree-dept::before { content: " Â· "; }
+.erp-tree.is-list .erp-tree-toggle { position: static; transform: none; order: -1; }
+
+/* --------------------------------------------------------------------------
+   The card itself â shared by both layouts
+   -------------------------------------------------------------------------- */
+
+.erp-tree-card {
+    position: relative;
+    margin: 4px 0;
+    border: 1px solid var(--erp-line);
+    border-radius: 10px;
+    background: var(--erp-surface, #fff);
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.erp-tree-card:hover {
+    border-color: var(--erp-primary);
+    box-shadow: 0 2px 12px rgba(20, 35, 60, .1);
+}
+
+.erp-tree-card.is-focus {
+    border-color: var(--erp-primary);
+    box-shadow: 0 0 0 3px rgba(0, 194, 146, .18);
+}
+
+.erp-tree-card.is-note { border-style: dashed; }
+
+.erp-tree-item.is-dimmed > .erp-tree-card { opacity: .55; }
+
+.erp-tree-item.is-match > .erp-tree-card {
+    border-color: var(--erp-primary);
+    background: rgba(0, 194, 146, .07);
+}
+
+.erp-tree-avatar {
+    flex: 0 0 34px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    background: var(--erp-line);
+    color: var(--erp-muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.erp-tree-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+.erp-tree-body { min-width: 0; }
+
+.erp-tree-name {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--erp-ink);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.erp-tree-name:hover { color: var(--erp-primary); }
+
+.erp-tree-role,
+.erp-tree-dept {
+    display: block;
+    font-size: 11px;
+    color: var(--erp-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.erp-tree-tags {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 0 0 auto;
+}
+
+.erp-tree-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--erp-muted);
+    background: var(--erp-line);
+    border-radius: 20px;
+    padding: 2px 8px;
+}
+
+.erp-tree-flag { font-size: 11px; }
+.erp-tree-flag.is-warn { color: #b45309; }
+.erp-tree-flag.is-bad { color: #b91c1c; }
+
+.erp-tree-toggle {
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--erp-line);
+    border-radius: 50%;
+    background: var(--erp-surface, #fff);
+    color: var(--erp-muted);
+    cursor: pointer;
+    font-size: 9px;
+    padding: 0;
+}
+
+.erp-tree-toggle:hover { border-color: var(--erp-primary); color: var(--erp-primary); }
+
+.erp-tree-focus {
+    color: var(--erp-muted);
+    text-decoration: none;
+    padding: 2px 5px;
+    border-radius: 6px;
+    font-size: 11px;
+}
+
+.erp-tree-focus:hover { color: var(--erp-primary); background: var(--erp-line); }
+
+/* Zoom control in the toolbar. */
+.erp-chart-zoom {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    border: 1px solid var(--erp-line);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.erp-chart-zoom button {
+    border: 0;
+    background: none;
+    color: var(--erp-muted);
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.erp-chart-zoom button:hover { background: var(--erp-line); color: var(--erp-ink); }
+.erp-chart-zoom span { font-size: 12px; color: var(--erp-muted); min-width: 46px; text-align: center; }
+
+@media (max-width: 640px) {
+    .erp-tree.is-list .erp-tree-children { margin-left: 10px; padding-left: 12px; }
+    .erp-tree.is-list .erp-tree-children > .erp-tree-item::before { left: -12px; width: 12px; }
+}
+
+@media print {
+    .erp-tree-children.is-collapsed { display: block; }   /* print the whole org */
+    .erp-tree-toggle,
+    .erp-tree-focus { display: none; }
+    .erp-tree-card { break-inside: avoid; }
+    .erp-chart-canvas { transform: none; }
+    .erp-chart-viewport { overflow: visible; }
+}
+
+/* Glass tabs on a dark surface: the label is lightened toward white rather
+   than darkened toward ink, at a ratio measured the same way (worst case
+   5.18:1). The white sheen is dropped â on dark glass it reads as haze. */
+:root[data-theme="dark"] .erp-tabs.is-glass .erp-tab {
+    color: color-mix(in srgb, #ffffff 45%, rgb(var(--tab)));
+    border-color: rgb(var(--tab) / .38);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .08);
+}
+
+:root[data-theme="dark"] .erp-tabs.is-glass .erp-tab::after {
+    background: linear-gradient(180deg, rgb(255 255 255 / .07), rgb(255 255 255 / 0));
+}
+
+:root[data-theme="dark"] .erp-tabs.is-glass .erp-tab.is-active,
+:root[data-theme="dark"] .erp-tabs.is-glass .erp-tab.active {
+    border-color: rgb(var(--tab) / .6);
+    box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / .12),
+        0 0 0 3px rgb(var(--tab) / .16),
+        0 6px 18px rgb(0 0 0 / .35);
+}
+

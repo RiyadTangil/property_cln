@@ -1,0 +1,426 @@
+/* --- lines 9447-9596 --- */
+/* ==========================================================================
+   Land Acquisition
+   ========================================================================== */
+
+/* The pipeline strip on the parcel list â a stage counter that is also a
+   filter link, so the list can be driven from the shape of the pipeline. */
+/* The acquisition pipeline, as a colour progression rather than ten identical
+   grey boxes.
+
+   The hue comes from LandStage::tone() and runs cold at the scouting end, warms
+   through the money stages and lands on green once the title is ours. That
+   ordering is the point: somebody glancing at this strip should know roughly
+   where the portfolio is sitting before they have read a label.
+
+   Each step also carries a --erp-tone pair rather than hard-coded colours, so
+   the whole rail restyles from the palette block and a new stage needs one line
+   in the enum and nothing here. */
+.erp-stage-rail {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.erp-stage-step {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex: 0 0 auto;
+    padding: 8px 13px 8px 10px;
+    border: 1px solid var(--erp-tone-line, var(--erp-line));
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--erp-ink);
+    background: var(--erp-surface, #fff);
+    /* A hairline of the tone down the leading edge. Inset rather than a real
+       border so switching tone never moves the text by a pixel. */
+    box-shadow: inset 3px 0 0 var(--erp-tone, var(--erp-muted));
+    transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
+}
+
+.erp-stage-step:hover {
+    background: var(--erp-tone-soft, rgba(138, 148, 166, .12));
+    border-color: var(--erp-tone, var(--erp-muted));
+    color: var(--erp-ink);
+}
+
+.erp-stage-step.is-active {
+    background: var(--erp-tone-soft, rgba(138, 148, 166, .12));
+    border-color: var(--erp-tone, var(--erp-muted));
+    box-shadow: inset 3px 0 0 var(--erp-tone, var(--erp-muted)), 0 1px 3px rgba(16, 30, 54, .08);
+}
+
+/* The icon sits in a tinted chip, which is what carries most of the colour.
+   Doing it on the glyph alone is not enough to read at a glance across a strip
+   that scrolls. */
+.erp-stage-icon {
+    align-items: center;
+    background: var(--erp-tone-soft, rgba(138, 148, 166, .12));
+    border-radius: 8px;
+    color: var(--erp-tone, var(--erp-muted));
+    display: inline-flex;
+    flex: 0 0 auto;
+    font-size: 13px;
+    height: 30px;
+    justify-content: center;
+    width: 30px;
+}
+
+.erp-stage-step.is-active .erp-stage-icon {
+    background: var(--erp-tone, var(--erp-muted));
+    color: #fff;
+}
+
+.erp-stage-body { display: flex; flex-direction: column; line-height: 1.2; }
+
+/* The count is the number somebody came here to read, so it takes the tone. */
+.erp-stage-body strong {
+    color: var(--erp-tone, var(--erp-muted));
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.erp-stage-body small { font-size: 11px; color: var(--erp-muted); white-space: nowrap; }
+
+/* A stage with nothing in it keeps its hue but stops competing.
+
+   Draining an empty step to grey would be easy, and on a pipeline where most
+   stages are empty -- the normal state of a land portfolio -- it turns the whole
+   strip grey and throws away the one thing the strip is for: the shape of the
+   pipeline at a glance, including the stages nothing has reached yet. So the
+   colour stays and only the EMPHASIS drops: no leading bar, and the count in
+   grey because a zero is not a figure anybody needs drawn to. A stage holding
+   parcels still reads louder than one that does not. */
+.erp-stage-step.is-empty {
+    box-shadow: none;
+    opacity: .78;
+}
+
+.erp-stage-step.is-empty .erp-stage-body strong { color: var(--erp-muted); font-weight: 600; }
+
+.erp-stage-step.is-empty:hover { opacity: 1; }
+
+/* The hues come from the shared tone palette near the top of this file. The
+   rail simply wears .is-tone-<name>, which LandStage::tone() supplies. */
+:root[data-theme="dark"] .erp-stage-step { background: var(--erp-surface, #1b2430); }
+:root[data-theme="dark"] .erp-stage-step.is-active .erp-stage-icon { color: #10202c; }
+
+/* The legal due-diligence checklist. */
+.erp-checklist { display: flex; flex-direction: column; gap: 10px; }
+.erp-checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--erp-line);
+    border-radius: 10px;
+}
+.erp-checklist-icon {
+    flex: 0 0 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: var(--erp-line);
+    color: var(--erp-muted);
+}
+.erp-checklist-body { flex: 1 1 auto; min-width: 0; }
+.erp-checklist-body p { margin-bottom: 4px; }
+.erp-checklist-meta { display: flex; flex-wrap: wrap; gap: 10px; color: var(--erp-muted); }
+.erp-checklist-action { flex: 0 0 auto; }
+
+@media (max-width: 640px) {
+    .erp-checklist-item { flex-wrap: wrap; }
+    .erp-checklist-action { width: 100%; }
+}
+
+/* A sub-heading inside a card body, for a second table under the first. */
+.erp-subhead {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--erp-muted);
+    margin-bottom: 10px;
+}
+
+/* Marks the row that is currently authoritative â the final valuation. */
+.erp-row-accent { background: rgba(0, 194, 146, .06); }
+
+/* --- lines 18006-18219 --- */
+/* --------------------------------------------------------------------------
+   Land acquisition progress
+   A donut of steps by state with the headline percentage in the hole, and the
+   steps themselves named in order beside it. The chart answers "how far", the
+   list answers "what is holding it up" â a pie can only ever do the first.
+   -------------------------------------------------------------------------- */
+
+.erp-landprog-grid {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+}
+
+/* Under 860px the donut would be squeezed to a bangle and the step names
+   would wrap to three lines each; stacked, both stay readable. */
+@media (max-width: 860px) {
+    .erp-landprog-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+}
+
+.erp-landprog-chart {
+    margin: 0;
+    text-align: center;
+}
+
+/* Chart.js measures its canvas against the nearest positioned ancestor, and
+   the centred percentage is absolutely placed against this same box. */
+.erp-landprog-canvas {
+    position: relative;
+    width: 100%;
+    height: 170px;
+}
+
+.erp-landprog-centre {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* The ring must stay hoverable through the label, or the tooltip dies
+       wherever the number sits. */
+    pointer-events: none;
+}
+
+.erp-landprog-centre strong {
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 700;
+    color: var(--erp-ink);
+    font-variant-numeric: tabular-nums;
+}
+
+.erp-landprog-centre strong span {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--erp-muted);
+    margin-left: 1px;
+}
+
+.erp-landprog-centre small {
+    margin-top: 2px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--erp-muted);
+}
+
+.erp-landprog-chart figcaption {
+    margin-top: 8px;
+    font-size: 11.5px;
+    color: var(--erp-muted);
+}
+
+/* ---- the step list ---- */
+
+.erp-landprog-head h3 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--erp-ink);
+}
+
+.erp-landprog-head p {
+    margin: 2px 0 9px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--erp-muted);
+}
+
+.erp-landprog-head strong {
+    color: var(--erp-ink);
+}
+
+.erp-landprog-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 5px;
+}
+
+.erp-landprog-jump {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 9px;
+    border: 1px solid var(--erp-line);
+    border-left: 3px solid var(--erp-line);
+    border-radius: 8px;
+    background: #fff;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color .12s ease, background .12s ease;
+}
+
+.erp-landprog-jump:hover {
+    background: var(--erp-bg);
+}
+
+.erp-landprog-jump:focus-visible {
+    outline: 2px solid var(--erp-primary);
+    outline-offset: 1px;
+}
+
+/* The state edge. Colour here is a second reading only â the row also carries
+   a state icon and the word beside it. */
+.erp-landprog-step.is-done .erp-landprog-jump { border-left-color: var(--erp-success); }
+.erp-landprog-step.is-active .erp-landprog-jump { border-left-color: var(--erp-warning); }
+.erp-landprog-step.is-pending .erp-landprog-jump { border-left-color: #dfe5ec; }
+
+.erp-landprog-num {
+    flex: 0 0 19px;
+    width: 19px;
+    height: 19px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--erp-bg);
+    color: var(--erp-muted);
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.erp-landprog-step.is-done .erp-landprog-num {
+    background: var(--erp-success);
+    color: #fff;
+}
+
+.erp-landprog-face {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.erp-landprog-name {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--erp-ink);
+}
+
+.erp-landprog-name i {
+    margin-right: 5px;
+    color: var(--erp-muted);
+    font-size: 10px;
+}
+
+.erp-landprog-detail {
+    display: block;
+    font-size: 10.5px;
+    line-height: 1.4;
+    color: var(--erp-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.erp-landprog-state {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--erp-muted);
+    white-space: nowrap;
+}
+
+.erp-landprog-step.is-done .erp-landprog-state { color: var(--erp-success-dark); }
+.erp-landprog-step.is-active .erp-landprog-state { color: #b26a00; }
+
+.erp-landprog-basis {
+    display: flex;
+    gap: 7px;
+    align-items: flex-start;
+    margin: 14px 0 0;
+    padding-top: 11px;
+    border-top: 1px solid var(--erp-line);
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--erp-muted);
+}
+
+.erp-landprog-basis i {
+    margin-top: 2px;
+}
+
+
+/* --- lines 19278-19336 --- */
+/* --------------------------------------------------------------------------
+   Land payment voucher
+   Gross â deductions = net, read as the sum it is. Three separate stat cards
+   stated the same three figures but hid the arithmetic between them, and spent
+   three times the height doing it.
+   -------------------------------------------------------------------------- */
+
+.erp-paystrip {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 11px 14px;
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    background: var(--erp-bg);
+    flex-wrap: wrap;
+}
+
+.erp-paystrip > div:not(.erp-paystrip-op) {
+    min-width: 0;
+}
+
+.erp-paystrip span {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--erp-muted);
+}
+
+.erp-paystrip strong {
+    display: block;
+    font-size: 16px;
+    line-height: 1.15;
+    color: var(--erp-ink);
+    font-variant-numeric: tabular-nums;
+}
+
+.erp-paystrip small {
+    display: block;
+    font-size: 10px;
+    color: var(--erp-muted);
+}
+
+/* The operators carry the relationship between the figures, so they are real
+   glyphs rather than spacing the reader has to infer a meaning from. */
+.erp-paystrip-op {
+    font-size: 15px;
+    color: var(--erp-muted);
+    padding-top: 10px;
+}
+
+/* The net is what actually left the bank â the figure the voucher is about. */
+.erp-paystrip .is-net strong {
+    color: var(--erp-primary-dark);
+    font-size: 18px;
+}
+
+

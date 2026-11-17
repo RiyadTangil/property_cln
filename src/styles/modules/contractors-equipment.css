@@ -1,0 +1,208 @@
+/* --- lines 24963-25072 --- */
+/* ==========================================================================
+   Equipment & Fleet
+   ==========================================================================
+   Three small patterns the module leans on. Kept here with the rest of the
+   design system rather than in a module stylesheet, so a theme change reaches
+   them like everything else. */
+
+/* A headline number with its label and a line of context underneath. Used
+   where a figure needs explaining -- "not recovered 16,800" means nothing
+   without "carried by overheads, not by a job". */
+.erp-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 12px 14px;
+    border: 1px solid var(--erp-border);
+    border-radius: 10px;
+    background: var(--erp-surface-2, transparent);
+    height: 100%;
+}
+.erp-metric > small {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--erp-text-muted);
+}
+.erp-metric > strong {
+    font-size: 22px;
+    line-height: 1.15;
+    font-weight: 650;
+}
+
+/* Label on the left, figure on the right. A definition list without the
+   markup argument. */
+.erp-keyval {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.erp-keyval > li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 7px 0;
+    border-bottom: 1px dashed var(--erp-border);
+    font-size: 13px;
+}
+.erp-keyval > li:last-child { border-bottom: 0; }
+.erp-keyval > li > span { color: var(--erp-text-muted); }
+.erp-keyval > li > strong { font-weight: 650; }
+
+/* A short list of things that happened, each with a coloured icon. The icon
+   colour carries the urgency, so the list can be scanned without reading it. */
+.erp-feed {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.erp-feed > li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--erp-border);
+    font-size: 13px;
+}
+.erp-feed > li:last-child { border-bottom: 0; }
+.erp-feed-icon {
+    flex: 0 0 26px;
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 7px;
+    font-size: 11px;
+    background: #e2e8f0;
+    color: #475569;
+}
+.erp-feed-icon.is-danger  { background: #fee2e2; color: #b91c1c; }
+.erp-feed-icon.is-warning { background: #fef3c7; color: #b45309; }
+.erp-feed-icon.is-success { background: #dcfce7; color: #15803d; }
+.erp-feed-icon.is-info    { background: #dbeafe; color: #1d4ed8; }
+
+/* Tone on a stat tile, so an alert row reads at a glance: red is somebody
+   stopped, amber is somebody about to be.
+
+   These set the deep pair rather than a background, which means they inherit the
+   whole treatment -- highlight, ring, hover lift, tinted shadow -- instead of
+   each one restating it. They also sit outside the hue rotation above, because a
+   red tile has to be red wherever it lands in the row. */
+.erp-stat.is-danger  { --erp-tone-deep: #b91c1c; --erp-tone-deeper: #7f1d1d; }
+.erp-stat.is-warning { --erp-tone-deep: #b45309; --erp-tone-deeper: #78350f; }
+.erp-stat.is-info    { --erp-tone-deep: #1d4ed8; --erp-tone-deeper: #1e3a8a; }
+.erp-stat.is-success { --erp-tone-deep: #047857; --erp-tone-deeper: #065f46; }
+
+/* Poor utilisation. The existing bar has no "this is bad" tone, and an idle
+   machine is exactly what this report exists to make obvious. */
+.erp-progress-bar.is-poor { background: #dc2626; }
+
+/* A field the form filled in from a category, flashed briefly so nothing
+   appears in a box the person did not type in without them noticing. */
+.is-inherited {
+    animation: erp-inherit-flash 1.8s ease-out;
+}
+@keyframes erp-inherit-flash {
+    0%, 40% { background-color: #dbeafe; }
+    100%    { background-color: transparent; }
+}
+
+/* --- lines 25915-26010 --- */
+/* ==========================================================================
+   Contractor ledger â tabbed, and the page itself does not scroll
+   Three stacked cards became three panels. The long thing (a statement of a
+   few hundred entries) now scrolls INSIDE its panel with its head pinned, so
+   the stats and the tab bar stay on screen instead of being pushed off the
+   top by the very table somebody is reading.
+   ========================================================================== */
+
+.erp-conshow {
+    background: var(--erp-surface);
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    box-shadow: var(--erp-shadow);
+    display: flex;
+    flex-direction: column;
+    /* The remaining viewport, measured from the topbar. Everything above this
+       block - pagehead and the stats strip - is a known height, so the panel
+       can take what is left rather than growing the document. */
+    height: calc(100dvh - var(--erp-topbar-h, 96px) - 196px);
+    min-height: 320px;
+    overflow: hidden;
+}
+
+.erp-conshow .erp-tabs { flex-shrink: 0; }
+
+.erp-conshow-panels {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* A panel is a column: a fixed bar, then the part that scrolls. */
+.erp-conshow-panels > .erp-tab-panel.is-active {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    padding: 0;
+}
+
+.erp-conshow-bar {
+    align-items: center;
+    border-bottom: 1px solid var(--erp-line);
+    display: flex;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 10px var(--erp-gutter);
+}
+
+/* The only thing that scrolls on this page. */
+.erp-conshow-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0 var(--erp-gutter) var(--erp-gutter);
+}
+
+/* Pinned, or a long statement loses its column headings on the first scroll
+   and the debit and credit columns become indistinguishable. */
+.erp-conshow-scroll .erp-table thead th {
+    background-color: var(--erp-table-head-solid, var(--erp-surface-2));
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+/* The closing balance stays in view at the foot for the same reason the head
+   stays at the top: it is the figure the page is opened for. */
+.erp-conshow-scroll .erp-table tfoot td {
+    background-color: var(--erp-surface-2);
+    bottom: 0;
+    position: sticky;
+    z-index: 2;
+}
+
+/* Details reads as a two-column sheet now it has the whole width, rather than
+   the narrow column it was squeezed into beside the ledger. */
+.erp-conshow-deflist {
+    display: grid;
+    gap: 0 28px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    padding-top: var(--erp-gutter);
+}
+
+@media (max-width: 991.98px) {
+    /* Short viewports and phones: let the document scroll again rather than
+       trapping a table in 200px. A fixed panel is an improvement only while
+       there is height to fix it to. */
+    .erp-conshow { height: auto; overflow: visible; }
+    .erp-conshow-panels, .erp-conshow-scroll { overflow: visible; }
+}
+

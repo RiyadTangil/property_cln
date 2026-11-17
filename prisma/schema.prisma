@@ -1,0 +1,405 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  username     String   @unique
+  password     String
+  name         String
+  role         String   @default("Administrator")
+  jobTitle     String?
+  phone        String?
+  isSuperAdmin Boolean  @default(true)
+  isActive     Boolean  @default(true)
+  theme        String   @default("light")
+  navLayout    String   @default("side")
+  sidebarColor String   @default("light")
+  timezone     String   @default("Asia/Dhaka")
+  dateFormat   String   @default("d M Y")
+  timeFormat   String   @default("g:i A")
+  createdAt    DateTime @default(now())
+}
+
+model Company {
+  id                 Int      @id @default(autoincrement())
+  code               String   @default("HQ")
+  name               String
+  legalName          String?
+  incorporationDate  String?
+  registrationNumber String?
+  tin                String?
+  email              String?
+  phone              String?
+  website            String?
+  addressLine1       String?
+  addressLine2       String?
+  city               String?
+  state              String?
+  postalCode         String?
+  country            String   @default("Bangladesh")
+  currency           String   @default("BDT")
+  timezone           String   @default("Asia/Dhaka")
+  fyStartMonth       Int      @default(7)
+  fyStartDay         Int      @default(1)
+  branch             String   @default("HQ")
+  fiscalYear         String   @default("1 Jul – 30 Jun")
+  isDefault          Boolean  @default(false)
+  isActive           Boolean  @default(true)
+  createdAt          DateTime @default(now())
+}
+
+model Branch {
+  id           Int          @id @default(autoincrement())
+  code         String       @unique
+  name         String
+  type         String       @default("branch")
+  companyId    Int          @default(1)
+  openedOn     String?
+  phone        String?
+  email        String?
+  managerName  String?
+  addressLine1 String?
+  addressLine2 String?
+  city         String?
+  state        String?
+  postalCode   String?
+  country      String       @default("Bangladesh")
+  isActive     Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+  departments  Department[]
+}
+
+model Department {
+  id           Int           @id @default(autoincrement())
+  code         String        @unique
+  name         String
+  companyId    Int           @default(1)
+  branchId     Int?
+  branch       Branch?       @relation(fields: [branchId], references: [id])
+  parentId     Int?
+  parent       Department?   @relation("DeptHierarchy", fields: [parentId], references: [id])
+  children     Department[]  @relation("DeptHierarchy")
+  headName     String?
+  email        String?
+  phone        String?
+  description  String?
+  isActive     Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  designations Designation[]
+}
+
+model Designation {
+  id             Int         @id @default(autoincrement())
+  code           String
+  name           String
+  departmentId   Int?
+  department     Department? @relation(fields: [departmentId], references: [id])
+  employmentType String      @default("full_time")
+  grade          String?
+  description    String?
+  isManagerial   Boolean     @default(false)
+  isActive       Boolean     @default(true)
+  createdBy      String?
+  createdAt      DateTime    @default(now())
+}
+
+model FiscalYear {
+  id                  Int      @id @default(autoincrement())
+  code                String   @unique
+  name                String
+  startDate           String
+  endDate             String
+  periodCadence       String   @default("monthly")
+  hasAdjustmentPeriod Boolean  @default(false)
+  isCurrent           Boolean  @default(false)
+  status              String   @default("open")
+  notes               String?
+  createdAt           DateTime @default(now())
+}
+
+model Holiday {
+  id          Int      @id @default(autoincrement())
+  name        String
+  type        String   @default("public")
+  startDate   String
+  endDate     String
+  color       String   @default("#00c292")
+  description String?
+  appliesTo   String   @default("all")
+  isRecurring Boolean  @default(false)
+  isPaid      Boolean  @default(true)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model Shift {
+  id              Int      @id @default(autoincrement())
+  code            String   @unique
+  name            String
+  startTime       String   @default("09:00")
+  endTime         String   @default("18:00")
+  breakMinutes    Int      @default(60)
+  graceInMinutes  Int      @default(15)
+  graceOutMinutes Int      @default(15)
+  fullDayMinutes  Int      @default(480)
+  halfDayMinutes  Int      @default(240)
+  workingDays     String   @default("mon,tue,wed,thu,sun")
+  appliesTo       String   @default("all")
+  description     String?
+  isDefault       Boolean  @default(false)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+}
+
+model Role {
+  id               Int      @id @default(autoincrement())
+  name             String   @unique
+  scope            String   @default("global")
+  isSuper          Boolean  @default(false)
+  permissionsCount Int      @default(0)
+  permissionsJson  String   @default("[]")
+  createdAt        DateTime @default(now())
+}
+
+model CodeSequence {
+  id          Int     @id @default(autoincrement())
+  key         String  @unique
+  label       String
+  prefix      String
+  suffix      String  @default("")
+  separator   String  @default("-")
+  padding     Int     @default(4)
+  nextNumber  Int     @default(1)
+  yearInCode  Boolean @default(false)
+  resetYearly Boolean @default(false)
+}
+
+model DocumentRecord {
+  id           Int      @id @default(autoincrement())
+  title        String
+  category     String
+  module       String
+  uploadedBy   String   @default("—")
+  uploadedDate String   @default("30 Oct 2026")
+  expiryDate   String?
+  fileSize     String   @default("—")
+  fileUrl      String   @default("#")
+  createdAt    DateTime @default(now())
+}
+
+model InvoiceTemplate {
+  id          Int      @id @default(autoincrement())
+  name        String
+  type        String   @default("sale")
+  paper       String   @default("a4")
+  orientation String   @default("portrait")
+  isDefault   Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  blocksJson  String   @default("[]")
+  createdAt   DateTime @default(now())
+}
+
+model MfsService {
+  id            Int      @id @default(autoincrement())
+  name          String
+  shortName     String?
+  accountName   String?
+  accountNumber String?
+  accountType   String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+}
+
+model AuditLog {
+  id          Int      @id @default(autoincrement())
+  userName    String   @default("System Administrator")
+  ipAddress   String   @default("172.68.163.168")
+  event       String   @default("created")
+  recordTitle String
+  recordType  String
+  fieldsCount Int      @default(1)
+  fieldsList  String   @default("")
+  whenLabel   String   @default("Just now")
+  createdAt   DateTime @default(now())
+}
+
+model AppSetting {
+  id             Int    @id @default(autoincrement())
+  appName        String @default("e-Hishabi ERP")
+  appTagline     String @default("Real Estate & Development Suite")
+  footerText     String @default("")
+  contactEmail   String @default("info@ehishabi.com")
+  contactPhone   String @default("")
+  website        String @default("https://erp.ehishabi.com")
+  contactAddress String @default("")
+  primaryColor   String @default("#00c292")
+}
+
+model Project {
+  id            Int          @id @default(autoincrement())
+  code          String       @unique
+  name          String
+  location      String
+  phase         String
+  completionPct Int          @default(0)
+  soldUnits     Int          @default(0)
+  totalUnits    Int          @default(0)
+  handoverDate  String
+  status        String       @default("Planning")
+  bookedValueCr Float        @default(0)
+  parcels       LandParcel[]
+}
+
+model LandParcel {
+  id            Int             @id @default(autoincrement())
+  code          String          @unique
+  title         String?
+  landType      String
+  stage         String          @default("prospect")
+  mouza         String
+  jlNo          String?
+  mouzaMapSheet String?
+  division      String?
+  district      String
+  upazila       String?
+  unionWard     String?
+  policeStation String?
+  road          String?
+  postalCode    String?
+  addressLine   String?
+  latitude      Float?
+  longitude     Float?
+  areaValue     Float
+  areaUnit      String
+  areaSqft      Float
+  boundaryNorth String?
+  boundarySouth String?
+  boundaryEast  String?
+  boundaryWest  String?
+  frontageFeet  Float?
+  roadWidthFeet Float?
+  currentUse    String?
+  isCornerPlot  Boolean         @default(false)
+  source        String?
+  brokerName    String?
+  brokerContact String?
+  remarks       String?
+  bookValue     Float           @default(0)
+  projectId     Int?
+  project       Project?        @relation(fields: [projectId], references: [id])
+  proposals     LandProposal[]
+  agreements    LandAgreement[]
+  payments      LandPayment[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model LandOwner {
+  id                      Int             @id @default(autoincrement())
+  code                    String          @unique
+  kind                    String          @default("individual")
+  name                    String
+  nid                     String?         @unique
+  tin                     String?
+  fatherName              String?
+  motherName              String?
+  spouseName              String?
+  registrationNumber      String?
+  dateOfBirth             String?
+  isMinor                 Boolean         @default(false)
+  isDeceased              Boolean         @default(false)
+  guardianName            String?
+  guardianNid             String?
+  guardianRelation        String?
+  successionCertificateNo String?
+  successionDate          String?
+  dateOfDeath             String?
+  phone                   String?
+  alternatePhone          String?
+  email                   String?
+  addressLine1            String?
+  village                 String?
+  postOffice              String?
+  policeStation           String?
+  upazila                 String?
+  district                String?
+  postalCode              String?
+  bankName                String?
+  bankBranch              String?
+  bankAccountName         String?
+  bankAccountNo           String?
+  routingNumber           String?
+  mfsProvider             String?
+  mfsNumber               String?
+  notes                   String?
+  isActive                Boolean         @default(true)
+  createdAt               DateTime        @default(now())
+  agreements              LandAgreement[]
+  payments                LandPayment[]
+}
+
+model LandProposal {
+  id           Int        @id @default(autoincrement())
+  code         String     @unique
+  parcelId     Int
+  parcel       LandParcel @relation(fields: [parcelId], references: [id], onDelete: Cascade)
+  proposalDate String
+  ratePerKatha Float
+  totalValue   Float
+  status       String     @default("draft")
+  remarks      String?
+  createdAt    DateTime   @default(now())
+}
+
+model LandAgreement {
+  id             Int           @id @default(autoincrement())
+  code           String        @unique
+  parcelId       Int
+  parcel         LandParcel    @relation(fields: [parcelId], references: [id], onDelete: Cascade)
+  ownerId        Int?
+  owner          LandOwner?    @relation(fields: [ownerId], references: [id])
+  type           String        @default("sale_agreement")
+  status         String        @default("active")
+  agreementDate  String
+  expiryDate     String?
+  agreedPrice    Float
+  advanceAmount  Float         @default(0)
+  advanceSettled Boolean       @default(false)
+  notes          String?
+  createdAt      DateTime      @default(now())
+  payments       LandPayment[]
+}
+
+model LandPayment {
+  id                   Int            @id @default(autoincrement())
+  voucherNo            String         @unique
+  parcelId             Int
+  parcel               LandParcel     @relation(fields: [parcelId], references: [id], onDelete: Cascade)
+  ownerId              Int?
+  owner                LandOwner?     @relation(fields: [ownerId], references: [id])
+  agreementId          Int?
+  agreement          LandAgreement? @relation(fields: [agreementId], references: [id])
+  direction            String         @default("payout")
+  type                 String         @default("advance")
+  paymentDate          String
+  grossAmount          Float
+  taxDeducted          Float          @default(0)
+  otherDeduction       Float          @default(0)
+  netAmount            Float
+  method               String         @default("bank_transfer")
+  accountName          String?
+  bankName             String?
+  chequeNo             String?
+  chequeDate           String?
+  transactionReference String?
+  narration            String?
+  status               String         @default("posted")
+  createdAt            DateTime       @default(now())
+}

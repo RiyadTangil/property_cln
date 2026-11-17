@@ -1,0 +1,3086 @@
+[
+  {
+    "module": "Organisation",
+    "icon": "fa-solid fa-sitemap",
+    "subjects": [
+      {
+        "name": "Companies",
+        "perms": [
+          {
+            "key": "companies.view",
+            "label": "View"
+          },
+          {
+            "key": "companies.create",
+            "label": "Create"
+          },
+          {
+            "key": "companies.update",
+            "label": "Edit"
+          },
+          {
+            "key": "companies.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "companies.set-default",
+            "label": "Set default"
+          }
+        ]
+      },
+      {
+        "name": "Branches",
+        "perms": [
+          {
+            "key": "branches.view",
+            "label": "View"
+          },
+          {
+            "key": "branches.create",
+            "label": "Create"
+          },
+          {
+            "key": "branches.update",
+            "label": "Edit"
+          },
+          {
+            "key": "branches.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Departments",
+        "perms": [
+          {
+            "key": "departments.view",
+            "label": "View"
+          },
+          {
+            "key": "departments.create",
+            "label": "Create"
+          },
+          {
+            "key": "departments.update",
+            "label": "Edit"
+          },
+          {
+            "key": "departments.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Designations",
+        "perms": [
+          {
+            "key": "designations.view",
+            "label": "View"
+          },
+          {
+            "key": "designations.create",
+            "label": "Create"
+          },
+          {
+            "key": "designations.update",
+            "label": "Edit"
+          },
+          {
+            "key": "designations.delete",
+            "label": "Delete"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module": "Calendar &amp; Rosters",
+    "icon": "fa-solid fa-calendar-days",
+    "subjects": [
+      {
+        "name": "Fiscal Years",
+        "perms": [
+          {
+            "key": "fiscal-years.view",
+            "label": "View"
+          },
+          {
+            "key": "fiscal-years.create",
+            "label": "Create"
+          },
+          {
+            "key": "fiscal-years.update",
+            "label": "Edit"
+          },
+          {
+            "key": "fiscal-years.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "fiscal-years.manage-status",
+            "label": "Open / close"
+          }
+        ]
+      },
+      {
+        "name": "Holidays",
+        "perms": [
+          {
+            "key": "holidays.view",
+            "label": "View"
+          },
+          {
+            "key": "holidays.create",
+            "label": "Create"
+          },
+          {
+            "key": "holidays.update",
+            "label": "Edit"
+          },
+          {
+            "key": "holidays.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Shifts",
+        "perms": [
+          {
+            "key": "shifts.view",
+            "label": "View"
+          },
+          {
+            "key": "shifts.create",
+            "label": "Create"
+          },
+          {
+            "key": "shifts.update",
+            "label": "Edit"
+          },
+          {
+            "key": "shifts.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "shifts.set-default",
+            "label": "Set default"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module": "CRM",
+    "icon": "fa-solid fa-users",
+    "subjects": [
+      {
+        "name": "Customers",
+        "perms": [
+          {
+            "key": "customers.view",
+            "label": "View"
+          },
+          {
+            "key": "customers.create",
+            "label": "Create"
+          },
+          {
+            "key": "customers.update",
+            "label": "Edit"
+          },
+          {
+            "key": "customers.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Contact Persons",
+        "perms": [
+          {
+            "key": "customer-contacts.view",
+            "label": "View"
+          },
+          {
+            "key": "customer-contacts.create",
+            "label": "Create"
+          },
+          {
+            "key": "customer-contacts.update",
+            "label": "Edit"
+          },
+          {
+            "key": "customer-contacts.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Leads",
+        "perms": [
+          {
+            "key": "leads.view",
+            "label": "View"
+          },
+          {
+            "key": "leads.create",
+            "label": "Create"
+          },
+          {
+            "key": "leads.update",
+            "label": "Edit"
+          },
+          {
+            "key": "leads.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "leads.convert",
+            "label": "Convert"
+          },
+          {
+            "key": "leads.assign",
+            "label": "Assign / distribute"
+          }
+        ]
+      },
+      {
+        "name": "Lost Reasons",
+        "perms": [
+          {
+            "key": "lead-lost-reasons.view",
+            "label": "View"
+          },
+          {
+            "key": "lead-lost-reasons.create",
+            "label": "Create"
+          },
+          {
+            "key": "lead-lost-reasons.update",
+            "label": "Edit"
+          },
+          {
+            "key": "lead-lost-reasons.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Pipelines",
+        "perms": [
+          {
+            "key": "pipelines.view",
+            "label": "View"
+          },
+          {
+            "key": "pipelines.create",
+            "label": "Create"
+          },
+          {
+            "key": "pipelines.update",
+            "label": "Edit"
+          },
+          {
+            "key": "pipelines.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Communication Log",
+        "perms": [
+          {
+            "key": "communications.view",
+            "label": "View"
+          },
+          {
+            "key": "communications.create",
+            "label": "Create"
+          },
+          {
+            "key": "communications.update",
+            "label": "Edit"
+          },
+          {
+            "key": "communications.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Follow-ups",
+        "perms": [
+          {
+            "key": "follow-ups.view",
+            "label": "View"
+          },
+          {
+            "key": "follow-ups.create",
+            "label": "Create"
+          },
+          {
+            "key": "follow-ups.update",
+            "label": "Edit"
+          },
+          {
+            "key": "follow-ups.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Follow-up Types",
+        "perms": [
+          {
+            "key": "follow-up-types.view",
+            "label": "View"
+          },
+          {
+            "key": "follow-up-types.create",
+            "label": "Create"
+          },
+          {
+            "key": "follow-up-types.update",
+            "label": "Edit"
+          },
+          {
+            "key": "follow-up-types.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Site Visits",
+        "perms": [
+          {
+            "key": "site-visits.view",
+            "label": "View"
+          },
+          {
+            "key": "site-visits.create",
+            "label": "Create"
+          },
+          {
+            "key": "site-visits.update",
+            "label": "Edit"
+          },
+          {
+            "key": "site-visits.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Tags",
+        "perms": [
+          {
+            "key": "tags.view",
+            "label": "View"
+          },
+          {
+            "key": "tags.create",
+            "label": "Create"
+          },
+          {
+            "key": "tags.update",
+            "label": "Edit"
+          },
+          {
+            "key": "tags.delete",
+            "label": "Delete"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module": "Clients",
+    "icon": "fa-solid fa-handshake",
+    "subjects": [
+      {
+        "name": "Clients",
+        "perms": [
+          {
+            "key": "clients.view",
+            "label": "View"
+          },
+          {
+            "key": "clients.create",
+            "label": "Create"
+          },
+          {
+            "key": "clients.update",
+            "label": "Edit"
+          },
+          {
+            "key": "clients.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "clients.portal-access",
+            "label": "Portal access"
+          }
+        ]
+      },
+      {
+        "name": "Owners",
+        "perms": [
+          {
+            "key": "owners.view",
+            "label": "View"
+          },
+          {
+            "key": "owners.create",
+            "label": "Create"
+          },
+          {
+            "key": "owners.update",
+            "label": "Edit"
+          },
+          {
+            "key": "owners.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Development Agreements",
+        "perms": [
+          {
+            "key": "development-agreements.view",
+            "label": "View"
+          },
+          {
+            "key": "development-agreements.create",
+            "label": "Create"
+          },
+          {
+            "key": "development-agreements.update",
+            "label": "Edit"
+          },
+          {
+            "key": "development-agreements.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "development-agreements.record-payment",
+            "label": "Record payment"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module": "Projects",
+    "icon": "fa-solid fa-city",
+    "subjects": [
+      {
+        "name": "Projects",
+        "perms": [
+          {
+            "key": "projects.view",
+            "label": "View"
+          },
+          {
+            "key": "projects.create",
+            "label": "Create"
+          },
+          {
+            "key": "projects.update",
+            "label": "Edit"
+          },
+          {
+            "key": "projects.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Project Types",
+        "perms": [
+          {
+            "key": "project-types.view",
+            "label": "View"
+          },
+          {
+            "key": "project-types.create",
+            "label": "Create"
+          },
+          {
+            "key": "project-types.update",
+            "label": "Edit"
+          },
+          {
+            "key": "project-types.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Task &amp; Cost Breakdown",
+        "perms": [
+          {
+            "key": "project-task-templates.view",
+            "label": "View"
+          },
+          {
+            "key": "project-task-templates.create",
+            "label": "Create"
+          },
+          {
+            "key": "project-task-templates.update",
+            "label": "Edit"
+          },
+          {
+            "key": "project-task-templates.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Work Breakdown Templates",
+        "perms": [
+          {
+            "key": "wbs-templates.view",
+            "label": "View"
+          },
+          {
+            "key": "wbs-templates.create",
+            "label": "Create"
+          },
+          {
+            "key": "wbs-templates.update",
+            "label": "Edit"
+          },
+          {
+            "key": "wbs-templates.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "wbs-templates.publish",
+            "label": "Publish"
+          }
+        ]
+      },
+      {
+        "name": "Cost Breakdown Templates",
+        "perms": [
+          {
+            "key": "cbs-templates.view",
+            "label": "View"
+          },
+          {
+            "key": "cbs-templates.create",
+            "label": "Create"
+          },
+          {
+            "key": "cbs-templates.update",
+            "label": "Edit"
+          },
+          {
+            "key": "cbs-templates.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "cbs-templates.publish",
+            "label": "Publish"
+          }
+        ]
+      },
+      {
+        "name": "Estimate Templates",
+        "perms": [
+          {
+            "key": "estimate-templates.view",
+            "label": "View"
+          },
+          {
+            "key": "estimate-templates.create",
+            "label": "Create"
+          },
+          {
+            "key": "estimate-templates.update",
+            "label": "Edit"
+          },
+          {
+            "key": "estimate-templates.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "estimate-templates.publish",
+            "label": "Publish"
+          }
+        ]
+      },
+      {
+        "name": "Project Parameters",
+        "perms": [
+          {
+            "key": "parameter-definitions.view",
+            "label": "View"
+          },
+          {
+            "key": "parameter-definitions.create",
+            "label": "Create"
+          },
+          {
+            "key": "parameter-definitions.update",
+            "label": "Edit"
+          },
+          {
+            "key": "parameter-definitions.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Project Categories",
+        "perms": [
+          {
+            "key": "project-categories.view",
+            "label": "View"
+          },
+          {
+            "key": "project-categories.create",
+            "label": "Create"
+          },
+          {
+            "key": "project-categories.update",
+            "label": "Edit"
+          },
+          {
+            "key": "project-categories.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Buildings",
+        "perms": [
+          {
+            "key": "buildings.view",
+            "label": "View"
+          },
+          {
+            "key": "buildings.create",
+            "label": "Create"
+          },
+          {
+            "key": "buildings.update",
+            "label": "Edit"
+          },
+          {
+            "key": "buildings.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Civil / Structural Engineering",
+        "perms": [
+          {
+            "key": "engineering.view",
+            "label": "View"
+          },
+          {
+            "key": "engineering.create",
+            "label": "Create"
+          },
+          {
+            "key": "engineering.update",
+            "label": "Edit"
+          },
+          {
+            "key": "engineering.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Inspection Plans (ITP)",
+        "perms": [
+          {
+            "key": "itp-templates.view",
+            "label": "View"
+          },
+          {
+            "key": "itp-templates.create",
+            "label": "Create"
+          },
+          {
+            "key": "itp-templates.update",
+            "label": "Edit"
+          },
+          {
+            "key": "itp-templates.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "itp-templates.publish",
+            "label": "Publish"
+          }
+        ]
+      },
+      {
+        "name": "Inspection Requests",
+        "perms": [
+          {
+            "key": "inspection-requests.view",
+            "label": "View"
+          },
+          {
+            "key": "inspection-requests.create",
+            "label": "Create"
+          },
+          {
+            "key": "inspection-requests.update",
+            "label": "Edit"
+          },
+          {
+            "key": "inspection-requests.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Site Observations",
+        "perms": [
+          {
+            "key": "qa-observations.view",
+            "label": "View"
+          },
+          {
+            "key": "qa-observations.create",
+            "label": "Create"
+          },
+          {
+            "key": "qa-observations.update",
+            "label": "Edit"
+          },
+          {
+            "key": "qa-observations.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Site &amp; Lab Tests",
+        "perms": [
+          {
+            "key": "qa-tests.view",
+            "label": "View"
+          },
+          {
+            "key": "qa-tests.create",
+            "label": "Create"
+          },
+          {
+            "key": "qa-tests.update",
+            "label": "Edit"
+          },
+          {
+            "key": "qa-tests.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Snag / Punch List",
+        "perms": [
+          {
+            "key": "punch-items.view",
+            "label": "View"
+          },
+          {
+            "key": "punch-items.create",
+            "label": "Create"
+          },
+          {
+            "key": "punch-items.update",
+            "label": "Edit"
+          },
+          {
+            "key": "punch-items.verify",
+            "label": "Verify a fix"
+          },
+          {
+            "key": "punch-items.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Non-Conformance (NCR)",
+        "perms": [
+          {
+            "key": "ncrs.view",
+            "label": "View"
+          },
+          {
+            "key": "ncrs.create",
+            "label": "Create"
+          },
+          {
+            "key": "ncrs.update",
+            "label": "Edit"
+          },
+          {
+            "key": "ncrs.close",
+            "label": "Close / reopen"
+          },
+          {
+            "key": "ncrs.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Carry Out Inspections",
+        "perms": [
+          {
+            "key": "inspections.view",
+            "label": "View"
+          },
+          {
+            "key": "inspections.update",
+            "label": "Edit"
+          }
+        ]
+      },
+      {
+        "name": "Inspection Checklists",
+        "perms": [
+          {
+            "key": "inspection-templates.view",
+            "label": "View"
+          },
+          {
+            "key": "inspection-templates.create",
+            "label": "Create"
+          },
+          {
+            "key": "inspection-templates.update",
+            "label": "Edit"
+          },
+          {
+            "key": "inspection-templates.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Cost Breakdown Structure",
+        "perms": [
+          {
+            "key": "cost-breakdown.view",
+            "label": "View"
+          },
+          {
+            "key": "cost-breakdown.create",
+            "label": "Create"
+          },
+          {
+            "key": "cost-breakdown.update",
+            "label": "Edit"
+          },
+          {
+            "key": "cost-breakdown.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Project Estimates",
+        "perms": [
+          {
+            "key": "project-estimates.view",
+            "label": "View"
+          },
+          {
+            "key": "project-estimates.create",
+            "label": "Create"
+          },
+          {
+            "key": "project-estimates.update",
+            "label": "Edit"
+          },
+          {
+            "key": "project-estimates.submit",
+            "label": "Submit for review"
+          },
+          {
+            "key": "project-estimates.approve",
+            "label": "Approve / reject"
+          },
+          {
+            "key": "project-estimates.issue",
+            "label": "Issue"
+          },
+          {
+            "key": "project-estimates.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Project Budgets",
+        "perms": [
+          {
+            "key": "project-budgets.view",
+            "label": "View"
+          },
+          {
+            "key": "project-budgets.create",
+            "label": "Create"
+          },
+          {
+            "key": "project-budgets.update",
+            "label": "Edit"
+          },
+          {
+            "key": "project-budgets.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Budget Changes",
+        "perms": [
+          {
+            "key": "budget-changes.view",
+            "label": "View"
+          },
+          {
+            "key": "budget-changes.create",
+            "label": "Create"
+          },
+          {
+            "key": "budget-changes.update",
+            "label": "Edit"
+          },
+          {
+            "key": "budget-changes.approve",
+            "label": "Approve / reject"
+          },
+          {
+            "key": "budget-changes.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Contractors",
+        "perms": [
+          {
+            "key": "contractors.view",
+            "label": "View"
+          },
+          {
+            "key": "contractors.create",
+            "label": "Create"
+          },
+          {
+            "key": "contractors.update",
+            "label": "Edit"
+          },
+          {
+            "key": "contractors.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Contractor Contracts",
+        "perms": [
+          {
+            "key": "contractor-contracts.view",
+            "label": "View"
+          },
+          {
+            "key": "contractor-contracts.create",
+            "label": "Create"
+          },
+          {
+            "key": "contractor-contracts.update",
+            "label": "Edit"
+          },
+          {
+            "key": "contractor-contracts.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Work Orders",
+        "perms": [
+          {
+            "key": "contractor-work-orders.view",
+            "label": "View"
+          },
+          {
+            "key": "contractor-work-orders.create",
+            "label": "Create"
+          },
+          {
+            "key": "contractor-work-orders.update",
+            "label": "Edit"
+          },
+          {
+            "key": "contractor-work-orders.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "contractor-work-orders.issue",
+            "label": "Issue"
+          }
+        ]
+      },
+      {
+        "name": "Contractor Bills (RA)",
+        "perms": [
+          {
+            "key": "contractor-bills.view",
+            "label": "View"
+          },
+          {
+            "key": "contractor-bills.create",
+            "label": "Create"
+          },
+          {
+            "key": "contractor-bills.update",
+            "label": "Edit"
+          },
+          {
+            "key": "contractor-bills.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "contractor-bills.certify",
+            "label": "Certify"
+          },
+          {
+            "key": "contractor-bills.post",
+            "label": "Post / reverse"
+          }
+        ]
+      },
+      {
+        "name": "Contractor Payments &amp; Advances",
+        "perms": [
+          {
+            "key": "contractor-payments.view",
+            "label": "View"
+          },
+          {
+            "key": "contractor-payments.create",
+            "label": "Create"
+          },
+          {
+            "key": "contractor-payments.update",
+            "label": "Edit"
+          },
+          {
+            "key": "contractor-payments.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "contractor-payments.pay",
+            "label": "Pay"
+          }
+        ]
+      },
+      {
+        "name": "Project Cost Breakdown",
+        "perms": [
+          {
+            "key": "project-cbs.view",
+            "label": "View"
+          },
+          {
+            "key": "project-cbs.create",
+            "label": "Create"
+          },
+          {
+            "key": "project-cbs.update",
+            "label": "Edit"
+          },
+          {
+            "key": "project-cbs.delete",
+            "label": "Delete"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module": "Accounting",
+    "icon": "fa-solid fa-sack-dollar",
+    "subjects": [
+      {
+        "name": "Daily Transactions",
+        "perms": [
+          {
+            "key": "daily-transactions.view",
+            "label": "View"
+          }
+        ]
+      },
+      {
+        "name": "Fund Transfers",
+        "perms": [
+          {
+            "key": "fund-transfers.view",
+            "label": "View"
+          },
+          {
+            "key": "fund-transfers.create",
+            "label": "Create"
+          },
+          {
+            "key": "fund-transfers.post",
+            "label": "Post / reverse"
+          }
+        ]
+      },
+      {
+        "name": "Employee Advances",
+        "perms": [
+          {
+            "key": "employee-advances.view",
+            "label": "View"
+          },
+          {
+            "key": "employee-advances.create",
+            "label": "Create"
+          },
+          {
+            "key": "employee-advances.post",
+            "label": "Post / reverse"
+          },
+          {
+            "key": "employee-advances.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Chart of Accounts",
+        "perms": [
+          {
+            "key": "accounts.view",
+            "label": "View"
+          },
+          {
+            "key": "accounts.create",
+            "label": "Create"
+          },
+          {
+            "key": "accounts.update",
+            "label": "Edit"
+          },
+          {
+            "key": "accounts.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Journal Vouchers",
+        "perms": [
+          {
+            "key": "journals.view",
+            "label": "View"
+          },
+          {
+            "key": "journals.create",
+            "label": "Create"
+          },
+          {
+            "key": "journals.update",
+            "label": "Edit"
+          },
+          {
+            "key": "journals.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "journals.post",
+            "label": "Post / reverse"
+          }
+        ]
+      },
+      {
+        "name": "Income/Expense Heads",
+        "perms": [
+          {
+            "key": "income-expense-heads.view",
+            "label": "View"
+          },
+          {
+            "key": "income-expense-heads.create",
+            "label": "Create"
+          },
+          {
+            "key": "income-expense-heads.update",
+            "label": "Edit"
+          },
+          {
+            "key": "income-expense-heads.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Income &amp; Expense",
+        "perms": [
+          {
+            "key": "income-expenses.view",
+            "label": "View"
+          },
+          {
+            "key": "income-expenses.create",
+            "label": "Create"
+          },
+          {
+            "key": "income-expenses.update",
+            "label": "Edit"
+          },
+          {
+            "key": "income-expenses.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "income-expenses.approve",
+            "label": "Approve / reject"
+          },
+          {
+            "key": "income-expenses.post",
+            "label": "Post / reverse"
+          }
+        ]
+      },
+      {
+        "name": "Banks",
+        "perms": [
+          {
+            "key": "banks.view",
+            "label": "View"
+          },
+          {
+            "key": "banks.create",
+            "label": "Create"
+          },
+          {
+            "key": "banks.update",
+            "label": "Edit"
+          },
+          {
+            "key": "banks.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "MFS Services",
+        "perms": [
+          {
+            "key": "mfs-services.view",
+            "label": "View"
+          },
+          {
+            "key": "mfs-services.create",
+            "label": "Create"
+          },
+          {
+            "key": "mfs-services.update",
+            "label": "Edit"
+          },
+          {
+            "key": "mfs-services.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Lenders",
+        "perms": [
+          {
+            "key": "lenders.view",
+            "label": "View"
+          },
+          {
+            "key": "lenders.create",
+            "label": "Create"
+          },
+          {
+            "key": "lenders.update",
+            "label": "Edit"
+          },
+          {
+            "key": "lenders.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Loans",
+        "perms": [
+          {
+            "key": "loans.view",
+            "label": "View"
+          },
+          {
+            "key": "loans.create",
+            "label": "Create"
+          },
+          {
+            "key": "loans.update",
+            "label": "Edit"
+          },
+          {
+            "key": "loans.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "loans.approve",
+            "label": "Approve / reject"
+          },
+          {
+            "key": "loans.disburse",
+            "label": "Disburse"
+          },
+          {
+            "key": "loans.repay",
+            "label": "Repay"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module": "Point of Sale",
+    "icon": "fa-solid fa-cash-register",
+    "subjects": [
+      {
+        "name": "Units of Measure",
+        "perms": [
+          {
+            "key": "units-of-measure.view",
+            "label": "View"
+          },
+          {
+            "key": "units-of-measure.create",
+            "label": "Create"
+          },
+          {
+            "key": "units-of-measure.update",
+            "label": "Edit"
+          },
+          {
+            "key": "units-of-measure.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Product Categories",
+        "perms": [
+          {
+            "key": "product-categories.view",
+            "label": "View"
+          },
+          {
+            "key": "product-categories.create",
+            "label": "Create"
+          },
+          {
+            "key": "product-categories.update",
+            "label": "Edit"
+          },
+          {
+            "key": "product-categories.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Warehouses",
+        "perms": [
+          {
+            "key": "warehouses.view",
+            "label": "View"
+          },
+          {
+            "key": "warehouses.create",
+            "label": "Create"
+          },
+          {
+            "key": "warehouses.update",
+            "label": "Edit"
+          },
+          {
+            "key": "warehouses.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Products",
+        "perms": [
+          {
+            "key": "products.view",
+            "label": "View"
+          },
+          {
+            "key": "products.create",
+            "label": "Create"
+          },
+          {
+            "key": "products.update",
+            "label": "Edit"
+          },
+          {
+            "key": "products.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "POS Stores",
+        "perms": [
+          {
+            "key": "pos-stores.view",
+            "label": "View"
+          },
+          {
+            "key": "pos-stores.create",
+            "label": "Create"
+          },
+          {
+            "key": "pos-stores.update",
+            "label": "Edit"
+          },
+          {
+            "key": "pos-stores.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "POS Terminals",
+        "perms": [
+          {
+            "key": "pos-terminals.view",
+            "label": "View"
+          },
+          {
+            "key": "pos-terminals.create",
+            "label": "Create"
+          },
+          {
+            "key": "pos-terminals.update",
+            "label": "Edit"
+          },
+          {
+            "key": "pos-terminals.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Discount Policies",
+        "perms": [
+          {
+            "key": "discount-policies.view",
+            "label": "View"
+          },
+          {
+            "key": "discount-policies.create",
+            "label": "Create"
+          },
+          {
+            "key": "discount-policies.update",
+            "label": "Edit"
+          },
+          {
+            "key": "discount-policies.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Sell (Till)",
+        "perms": [
+          {
+            "key": "pos-sell.operate",
+            "label": "Operate"
+          },
+          {
+            "key": "pos-sell.view",
+            "label": "View"
+          },
+          {
+            "key": "pos-sell.refund",
+            "label": "Refund"
+          },
+          {
+            "key": "pos-sell.void",
+            "label": "Void"
+          }
+        ]
+      },
+      {
+        "name": "Tax Rates",
+        "perms": [
+          {
+            "key": "tax-rates.view",
+            "label": "View"
+          },
+          {
+            "key": "tax-rates.create",
+            "label": "Create"
+          },
+          {
+            "key": "tax-rates.update",
+            "label": "Edit"
+          },
+          {
+            "key": "tax-rates.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Tax Groups",
+        "perms": [
+          {
+            "key": "tax-groups.view",
+            "label": "View"
+          },
+          {
+            "key": "tax-groups.create",
+            "label": "Create"
+          },
+          {
+            "key": "tax-groups.update",
+            "label": "Edit"
+          },
+          {
+            "key": "tax-groups.delete",
+            "label": "Delete"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module": "Procurement",
+    "icon": "fa-solid fa-truck-field",
+    "subjects": [
+      {
+        "name": "Suppliers",
+        "perms": [
+          {
+            "key": "suppliers.view",
+            "label": "View"
+          },
+          {
+            "key": "suppliers.create",
+            "label": "Create"
+          },
+          {
+            "key": "suppliers.update",
+            "label": "Edit"
+          },
+          {
+            "key": "suppliers.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Supplier Payments",
+        "perms": [
+          {
+            "key": "supplier-payments.view",
+            "label": "View"
+          },
+          {
+            "key": "supplier-payments.create",
+            "label": "Create"
+          },
+          {
+            "key": "supplier-payments.update",
+            "label": "Edit"
+          },
+          {
+            "key": "supplier-payments.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "supplier-payments.post",
+            "label": "Post / reverse"
+          }
+        ]
+      },
+      {
+        "name": "Purchases",
+        "perms": [
+          {
+            "key": "purchases.view",
+            "label": "View"
+          },
+          {
+            "key": "purchases.create",
+            "label": "Create"
+          },
+          {
+            "key": "purchases.update",
+            "label": "Edit"
+          },
+          {
+            "key": "purchases.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "purchases.receive",
+            "label": "Receive"
+          }
+        ]
+      },
+      {
+        "name": "Delivery Orders (DO)",
+        "perms": [
+          {
+            "key": "delivery-orders.view",
+            "label": "View"
+          },
+          {
+            "key": "delivery-orders.create",
+            "label": "Create"
+          },
+          {
+            "key": "delivery-orders.update",
+            "label": "Edit"
+          },
+          {
+            "key": "delivery-orders.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "delivery-orders.lift",
+            "label": "Lift"
+          }
+        ]
+      },
+      {
+        "name": "Purchase Requisitions",
+        "perms": [
+          {
+            "key": "requisitions.view",
+            "label": "View"
+          },
+          {
+            "key": "requisitions.create",
+            "label": "Create"
+          },
+          {
+            "key": "requisitions.update",
+            "label": "Edit"
+          },
+          {
+            "key": "requisitions.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "requisitions.submit",
+            "label": "Submit for review"
+          },
+          {
+            "key": "requisitions.approve",
+            "label": "Approve / reject"
+          },
+          {
+            "key": "requisitions.approve-own",
+            "label": "Approve own"
+          },
+          {
+            "key": "requisitions.convert",
+            "label": "Convert"
+          }
+        ]
+      },
+      {
+        "name": "Material Requirements",
+        "perms": [
+          {
+            "key": "material-requirements.view",
+            "label": "View"
+          },
+          {
+            "key": "material-requirements.create",
+            "label": "Create"
+          },
+          {
+            "key": "material-requirements.request",
+            "label": "Request"
+          },
+          {
+            "key": "material-requirements.update",
+            "label": "Edit"
+          },
+          {
+            "key": "material-requirements.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "material-requirements.plan",
+            "label": "Plan"
+          },
+          {
+            "key": "material-requirements.approve",
+            "label": "Approve / reject"
+          },
+          {
+            "key": "material-requirements.transfer",
+            "label": "Transfer"
+          },
+          {
+            "key": "material-requirements.requisition",
+            "label": "Requisition"
+          }
+        ]
+      },
+      {
+        "name": "Quality Inspections",
+        "perms": [
+          {
+            "key": "quality-inspections.view",
+            "label": "View"
+          },
+          {
+            "key": "quality-inspections.create",
+            "label": "Create"
+          },
+          {
+            "key": "quality-inspections.update",
+            "label": "Edit"
+          },
+          {
+            "key": "quality-inspections.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "quality-inspections.post",
+            "label": "Post / reverse"
+          }
+        ]
+      },
+      {
+        "name": "Bills of Quantities",
+        "perms": [
+          {
+            "key": "boqs.view",
+            "label": "View"
+          },
+          {
+            "key": "boqs.create",
+            "label": "Create"
+          },
+          {
+            "key": "boqs.update",
+            "label": "Edit"
+          },
+          {
+            "key": "boqs.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "boqs.activate",
+            "label": "Activate"
+          },
+          {
+            "key": "boqs.revise",
+            "label": "Revise"
+          }
+        ]
+      },
+      {
+        "name": "BOQ Scope Library",
+        "perms": [
+          {
+            "key": "boq-scopes.view",
+            "label": "View"
+          },
+          {
+            "key": "boq-scopes.create",
+            "label": "Create"
+          },
+          {
+            "key": "boq-scopes.update",
+            "label": "Edit"
+          },
+          {
+            "key": "boq-scopes.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Resource Analysis",
+        "perms": [
+          {
+            "key": "resource-analyses.view",
+            "label": "View"
+          },
+          {
+            "key": "resource-analyses.create",
+            "label": "Create"
+          },
+          {
+            "key": "resource-analyses.update",
+            "label": "Edit"
+          },
+          {
+            "key": "resource-analyses.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "resource-analyses.activate",
+            "label": "Activate"
+          }
+        ]
+      },
+      {
+        "name": "Labour &amp; Plant Resources",
+        "perms": [
+          {
+            "key": "resources.view",
+            "label": "View"
+          },
+          {
+            "key": "resources.create",
+            "label": "Create"
+          },
+          {
+            "key": "resources.update",
+            "label": "Edit"
+          },
+          {
+            "key": "resources.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Material Issues",
+        "perms": [
+          {
+            "key": "material-issues.view",
+            "label": "View"
+          },
+          {
+            "key": "material-issues.create",
+            "label": "Create"
+          },
+          {
+            "key": "material-issues.update",
+            "label": "Edit"
+          },
+          {
+            "key": "material-issues.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "material-issues.submit",
+            "label": "Submit for review"
+          },
+          {
+            "key": "material-issues.approve",
+            "label": "Approve / reject"
+          },
+          {
+            "key": "material-issues.post",
+            "label": "Post / reverse"
+          },
+          {
+            "key": "material-issues.reverse",
+            "label": "Reverse"
+          }
+        ]
+      },
+      {
+        "name": "Stock Transfers",
+        "perms": [
+          {
+            "key": "stock-transfers.view",
+            "label": "View"
+          },
+          {
+            "key": "stock-transfers.create",
+            "label": "Create"
+          },
+          {
+            "key": "stock-transfers.update",
+            "label": "Edit"
+          },
+          {
+            "key": "stock-transfers.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "stock-transfers.submit",
+            "label": "Submit for review"
+          },
+          {
+            "key": "stock-transfers.approve",
+            "label": "Approve / reject"
+          },
+          {
+            "key": "stock-transfers.dispatch",
+            "label": "Dispatch"
+          },
+          {
+            "key": "stock-transfers.receive",
+            "label": "Receive"
+          },
+          {
+            "key": "stock-transfers.cancel",
+            "label": "Cancel"
+          }
+        ]
+      },
+      {
+        "name": "Material Consumption",
+        "perms": [
+          {
+            "key": "material-consumptions.view",
+            "label": "View"
+          },
+          {
+            "key": "material-consumptions.create",
+            "label": "Create"
+          },
+          {
+            "key": "material-consumptions.update",
+            "label": "Edit"
+          },
+          {
+            "key": "material-consumptions.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "material-consumptions.submit",
+            "label": "Submit for review"
+          },
+          {
+            "key": "material-consumptions.approve",
+            "label": "Approve / reject"
+          },
+          {
+            "key": "material-consumptions.cancel",
+            "label": "Cancel"
+          }
+        ]
+      },
+      {
+        "name": "RFQ / Quotations",
+        "perms": [
+          {
+            "key": "rfqs.view",
+            "label": "View"
+          },
+          {
+            "key": "rfqs.create",
+            "label": "Create"
+          },
+          {
+            "key": "rfqs.update",
+            "label": "Edit"
+          },
+          {
+            "key": "rfqs.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "rfqs.send",
+            "label": "Send"
+          },
+          {
+            "key": "rfqs.award",
+            "label": "Award"
+          }
+        ]
+      },
+      {
+        "name": "Vendors",
+        "perms": [
+          {
+            "key": "vendors.view",
+            "label": "View"
+          },
+          {
+            "key": "vendors.create",
+            "label": "Create"
+          },
+          {
+            "key": "vendors.update",
+            "label": "Edit"
+          },
+          {
+            "key": "vendors.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Vendor Bills",
+        "perms": [
+          {
+            "key": "vendor-invoices.view",
+            "label": "View"
+          },
+          {
+            "key": "vendor-invoices.create",
+            "label": "Create"
+          },
+          {
+            "key": "vendor-invoices.update",
+            "label": "Edit"
+          },
+          {
+            "key": "vendor-invoices.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "vendor-invoices.post",
+            "label": "Post / reverse"
+          }
+        ]
+      },
+      {
+        "name": "Vendor Payments",
+        "perms": [
+          {
+            "key": "vendor-payments.view",
+            "label": "View"
+          },
+          {
+            "key": "vendor-payments.create",
+            "label": "Create"
+          },
+          {
+            "key": "vendor-payments.update",
+            "label": "Edit"
+          },
+          {
+            "key": "vendor-payments.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "vendor-payments.post",
+            "label": "Post / reverse"
+          }
+        ]
+      },
+      {
+        "name": "Vendor Documents",
+        "perms": [
+          {
+            "key": "vendor-documents.view",
+            "label": "View"
+          },
+          {
+            "key": "vendor-documents.create",
+            "label": "Create"
+          },
+          {
+            "key": "vendor-documents.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Vendor Ratings",
+        "perms": [
+          {
+            "key": "vendor-ratings.view",
+            "label": "View"
+          },
+          {
+            "key": "vendor-ratings.create",
+            "label": "Create"
+          },
+          {
+            "key": "vendor-ratings.update",
+            "label": "Edit"
+          },
+          {
+            "key": "vendor-ratings.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Vendor Team",
+        "perms": [
+          {
+            "key": "vendor-team.view",
+            "label": "View"
+          },
+          {
+            "key": "vendor-team.create",
+            "label": "Create"
+          },
+          {
+            "key": "vendor-team.update",
+            "label": "Edit"
+          },
+          {
+            "key": "vendor-team.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Vendor Service Logs",
+        "perms": [
+          {
+            "key": "vendor-service-logs.view",
+            "label": "View"
+          },
+          {
+            "key": "vendor-service-logs.create",
+            "label": "Create"
+          },
+          {
+            "key": "vendor-service-logs.update",
+            "label": "Edit"
+          },
+          {
+            "key": "vendor-service-logs.delete",
+            "label": "Delete"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module": "Sales",
+    "icon": "fa-solid fa-file-signature",
+    "subjects": [
+      {
+        "name": "Apartment Sales",
+        "perms": [
+          {
+            "key": "apartment-sales.view",
+            "label": "View"
+          },
+          {
+            "key": "apartment-sales.create",
+            "label": "Create"
+          },
+          {
+            "key": "apartment-sales.update",
+            "label": "Edit"
+          },
+          {
+            "key": "apartment-sales.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "apartment-sales.confirm",
+            "label": "Confirm"
+          },
+          {
+            "key": "apartment-sales.cancel",
+            "label": "Cancel"
+          },
+          {
+            "key": "apartment-sales.handover",
+            "label": "Handover"
+          }
+        ]
+      },
+      {
+        "name": "Sales Targets",
+        "perms": [
+          {
+            "key": "sales-targets.view",
+            "label": "View"
+          },
+          {
+            "key": "sales-targets.create",
+            "label": "Create"
+          },
+          {
+            "key": "sales-targets.update",
+            "label": "Edit"
+          },
+          {
+            "key": "sales-targets.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Payment Schedules",
+        "perms": [
+          {
+            "key": "sale-plans.view",
+            "label": "View"
+          },
+          {
+            "key": "sale-plans.update",
+            "label": "Edit"
+          },
+          {
+            "key": "sale-plans.waive",
+            "label": "Waive"
+          }
+        ]
+      },
+      {
+        "name": "Money Receipts",
+        "perms": [
+          {
+            "key": "payments.view",
+            "label": "View"
+          },
+          {
+            "key": "payments.create",
+            "label": "Create"
+          },
+          {
+            "key": "payments.update",
+            "label": "Edit"
+          },
+          {
+            "key": "payments.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "payments.post",
+            "label": "Post / reverse"
+          },
+          {
+            "key": "payments.cancel",
+            "label": "Cancel"
+          }
+        ]
+      },
+      {
+        "name": "Receipt Categories",
+        "perms": [
+          {
+            "key": "payment-types.view",
+            "label": "View"
+          },
+          {
+            "key": "payment-types.create",
+            "label": "Create"
+          },
+          {
+            "key": "payment-types.update",
+            "label": "Edit"
+          },
+          {
+            "key": "payment-types.delete",
+            "label": "Delete"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module": "Land Acquisition",
+    "icon": "fa-solid fa-map-location-dot",
+    "subjects": [
+      {
+        "name": "Land Parcels",
+        "perms": [
+          {
+            "key": "land-parcels.view",
+            "label": "View"
+          },
+          {
+            "key": "land-parcels.create",
+            "label": "Create"
+          },
+          {
+            "key": "land-parcels.update",
+            "label": "Edit"
+          },
+          {
+            "key": "land-parcels.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "land-parcels.assign-project",
+            "label": "Assign project"
+          }
+        ]
+      },
+      {
+        "name": "Landowners",
+        "perms": [
+          {
+            "key": "land-owners.view",
+            "label": "View"
+          },
+          {
+            "key": "land-owners.create",
+            "label": "Create"
+          },
+          {
+            "key": "land-owners.update",
+            "label": "Edit"
+          },
+          {
+            "key": "land-owners.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Legal Verification",
+        "perms": [
+          {
+            "key": "land-verifications.view",
+            "label": "View"
+          },
+          {
+            "key": "land-verifications.update",
+            "label": "Edit"
+          }
+        ]
+      },
+      {
+        "name": "Land Valuation",
+        "perms": [
+          {
+            "key": "land-valuations.view",
+            "label": "View"
+          },
+          {
+            "key": "land-valuations.create",
+            "label": "Create"
+          },
+          {
+            "key": "land-valuations.update",
+            "label": "Edit"
+          },
+          {
+            "key": "land-valuations.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "land-valuations.finalise",
+            "label": "Finalise"
+          }
+        ]
+      },
+      {
+        "name": "Acquisition Proposals",
+        "perms": [
+          {
+            "key": "land-proposals.view",
+            "label": "View"
+          },
+          {
+            "key": "land-proposals.create",
+            "label": "Create"
+          },
+          {
+            "key": "land-proposals.update",
+            "label": "Edit"
+          },
+          {
+            "key": "land-proposals.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "land-proposals.submit",
+            "label": "Submit for review"
+          },
+          {
+            "key": "land-proposals.approve",
+            "label": "Approve / reject"
+          }
+        ]
+      },
+      {
+        "name": "Agreements &amp; MOU",
+        "perms": [
+          {
+            "key": "land-agreements.view",
+            "label": "View"
+          },
+          {
+            "key": "land-agreements.create",
+            "label": "Create"
+          },
+          {
+            "key": "land-agreements.update",
+            "label": "Edit"
+          },
+          {
+            "key": "land-agreements.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "land-agreements.activate",
+            "label": "Activate"
+          },
+          {
+            "key": "land-agreements.terminate",
+            "label": "Terminate"
+          }
+        ]
+      },
+      {
+        "name": "Land Payments",
+        "perms": [
+          {
+            "key": "land-payments.view",
+            "label": "View"
+          },
+          {
+            "key": "land-payments.create",
+            "label": "Create"
+          },
+          {
+            "key": "land-payments.update",
+            "label": "Edit"
+          },
+          {
+            "key": "land-payments.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "land-payments.post",
+            "label": "Post / reverse"
+          },
+          {
+            "key": "land-payments.cancel",
+            "label": "Cancel"
+          }
+        ]
+      },
+      {
+        "name": "Land Investors",
+        "perms": [
+          {
+            "key": "land-shareholders.view",
+            "label": "View"
+          },
+          {
+            "key": "land-shareholders.create",
+            "label": "Create"
+          },
+          {
+            "key": "land-shareholders.update",
+            "label": "Edit"
+          },
+          {
+            "key": "land-shareholders.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Registration &amp; Mutation",
+        "perms": [
+          {
+            "key": "land-registrations.view",
+            "label": "View"
+          },
+          {
+            "key": "land-registrations.create",
+            "label": "Create"
+          },
+          {
+            "key": "land-registrations.update",
+            "label": "Edit"
+          },
+          {
+            "key": "land-registrations.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "land-registrations.register",
+            "label": "Register"
+          },
+          {
+            "key": "land-registrations.mutate",
+            "label": "Mutate"
+          }
+        ]
+      },
+      {
+        "name": "Land Bank",
+        "perms": [
+          {
+            "key": "land-bank.view",
+            "label": "View"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module": "Equipment &amp; Fleet",
+    "icon": "fa-solid fa-truck-monster",
+    "subjects": [
+      {
+        "name": "Equipment Categories",
+        "perms": [
+          {
+            "key": "equipment-categories.view",
+            "label": "View"
+          },
+          {
+            "key": "equipment-categories.create",
+            "label": "Create"
+          },
+          {
+            "key": "equipment-categories.update",
+            "label": "Edit"
+          },
+          {
+            "key": "equipment-categories.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Equipment &amp; Fleet Register",
+        "perms": [
+          {
+            "key": "equipment.view",
+            "label": "View"
+          },
+          {
+            "key": "equipment.create",
+            "label": "Create"
+          },
+          {
+            "key": "equipment.update",
+            "label": "Edit"
+          },
+          {
+            "key": "equipment.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "equipment.dispose",
+            "label": "Dispose"
+          },
+          {
+            "key": "equipment.dispatch-override",
+            "label": "Dispatch override"
+          }
+        ]
+      },
+      {
+        "name": "Assignments &amp; Transfers",
+        "perms": [
+          {
+            "key": "equipment-assignments.view",
+            "label": "View"
+          },
+          {
+            "key": "equipment-assignments.create",
+            "label": "Create"
+          },
+          {
+            "key": "equipment-assignments.update",
+            "label": "Edit"
+          },
+          {
+            "key": "equipment-assignments.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "equipment-assignments.approve",
+            "label": "Approve / reject"
+          },
+          {
+            "key": "equipment-assignments.dispatch",
+            "label": "Dispatch"
+          },
+          {
+            "key": "equipment-assignments.receive",
+            "label": "Receive"
+          },
+          {
+            "key": "equipment-assignments.return",
+            "label": "Return"
+          }
+        ]
+      },
+      {
+        "name": "Plant Usage Logs",
+        "perms": [
+          {
+            "key": "equipment-usage.view",
+            "label": "View"
+          },
+          {
+            "key": "equipment-usage.create",
+            "label": "Create"
+          },
+          {
+            "key": "equipment-usage.update",
+            "label": "Edit"
+          },
+          {
+            "key": "equipment-usage.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "equipment-usage.approve",
+            "label": "Approve / reject"
+          }
+        ]
+      },
+      {
+        "name": "Fuel Logs",
+        "perms": [
+          {
+            "key": "equipment-fuel.view",
+            "label": "View"
+          },
+          {
+            "key": "equipment-fuel.create",
+            "label": "Create"
+          },
+          {
+            "key": "equipment-fuel.update",
+            "label": "Edit"
+          },
+          {
+            "key": "equipment-fuel.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "equipment-fuel.approve",
+            "label": "Approve / reject"
+          }
+        ]
+      },
+      {
+        "name": "Maintenance Plans",
+        "perms": [
+          {
+            "key": "equipment-maintenance.view",
+            "label": "View"
+          },
+          {
+            "key": "equipment-maintenance.create",
+            "label": "Create"
+          },
+          {
+            "key": "equipment-maintenance.update",
+            "label": "Edit"
+          },
+          {
+            "key": "equipment-maintenance.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Work Orders &amp; Breakdowns",
+        "perms": [
+          {
+            "key": "equipment-work-orders.view",
+            "label": "View"
+          },
+          {
+            "key": "equipment-work-orders.create",
+            "label": "Create"
+          },
+          {
+            "key": "equipment-work-orders.update",
+            "label": "Edit"
+          },
+          {
+            "key": "equipment-work-orders.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "equipment-work-orders.verify",
+            "label": "Verify a fix"
+          }
+        ]
+      },
+      {
+        "name": "Equipment Inspections",
+        "perms": [
+          {
+            "key": "equipment-inspections.view",
+            "label": "View"
+          },
+          {
+            "key": "equipment-inspections.create",
+            "label": "Create"
+          },
+          {
+            "key": "equipment-inspections.update",
+            "label": "Edit"
+          },
+          {
+            "key": "equipment-inspections.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Operator Certifications",
+        "perms": [
+          {
+            "key": "equipment-operators.view",
+            "label": "View"
+          },
+          {
+            "key": "equipment-operators.create",
+            "label": "Create"
+          },
+          {
+            "key": "equipment-operators.update",
+            "label": "Edit"
+          },
+          {
+            "key": "equipment-operators.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "equipment-operators.verify",
+            "label": "Verify a fix"
+          }
+        ]
+      },
+      {
+        "name": "Hire Contracts",
+        "perms": [
+          {
+            "key": "equipment-rentals.view",
+            "label": "View"
+          },
+          {
+            "key": "equipment-rentals.create",
+            "label": "Create"
+          },
+          {
+            "key": "equipment-rentals.update",
+            "label": "Edit"
+          },
+          {
+            "key": "equipment-rentals.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Equipment Depreciation",
+        "perms": [
+          {
+            "key": "equipment-depreciation.view",
+            "label": "View"
+          },
+          {
+            "key": "equipment-depreciation.run",
+            "label": "Run"
+          }
+        ]
+      },
+      {
+        "name": "Cost &amp; Utilisation Reports",
+        "perms": [
+          {
+            "key": "equipment-reports.view",
+            "label": "View"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module": "Reports",
+    "icon": "fa-solid fa-chart-pie",
+    "subjects": [
+      {
+        "name": "Operational Reports",
+        "perms": [
+          {
+            "key": "reports.view",
+            "label": "View"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module": "HR",
+    "icon": "fa-solid fa-id-badge",
+    "subjects": [
+      {
+        "name": "Employees",
+        "perms": [
+          {
+            "key": "employees.view",
+            "label": "View"
+          },
+          {
+            "key": "employees.create",
+            "label": "Create"
+          },
+          {
+            "key": "employees.update",
+            "label": "Edit"
+          },
+          {
+            "key": "employees.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Employee Documents",
+        "perms": [
+          {
+            "key": "employee-documents.view",
+            "label": "View"
+          },
+          {
+            "key": "employee-documents.create",
+            "label": "Create"
+          },
+          {
+            "key": "employee-documents.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Salary Structures",
+        "perms": [
+          {
+            "key": "salary-structures.view",
+            "label": "View"
+          },
+          {
+            "key": "salary-structures.create",
+            "label": "Create"
+          },
+          {
+            "key": "salary-structures.update",
+            "label": "Edit"
+          },
+          {
+            "key": "salary-structures.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Deduction Heads",
+        "perms": [
+          {
+            "key": "deduction-heads.view",
+            "label": "View"
+          },
+          {
+            "key": "deduction-heads.create",
+            "label": "Create"
+          },
+          {
+            "key": "deduction-heads.update",
+            "label": "Edit"
+          },
+          {
+            "key": "deduction-heads.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Payroll / Salary Sheet",
+        "perms": [
+          {
+            "key": "payroll.view",
+            "label": "View"
+          },
+          {
+            "key": "payroll.create",
+            "label": "Create"
+          },
+          {
+            "key": "payroll.delete",
+            "label": "Delete"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "module": "System",
+    "icon": "fa-solid fa-gear",
+    "subjects": [
+      {
+        "name": "Users",
+        "perms": [
+          {
+            "key": "users.view",
+            "label": "View"
+          },
+          {
+            "key": "users.create",
+            "label": "Create"
+          },
+          {
+            "key": "users.update",
+            "label": "Edit"
+          },
+          {
+            "key": "users.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Roles &amp; Permissions",
+        "perms": [
+          {
+            "key": "roles.view",
+            "label": "View"
+          },
+          {
+            "key": "roles.create",
+            "label": "Create"
+          },
+          {
+            "key": "roles.update",
+            "label": "Edit"
+          },
+          {
+            "key": "roles.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Code Generators",
+        "perms": [
+          {
+            "key": "code-sequences.view",
+            "label": "View"
+          },
+          {
+            "key": "code-sequences.update",
+            "label": "Edit"
+          }
+        ]
+      },
+      {
+        "name": "Audit Trail",
+        "perms": [
+          {
+            "key": "audits.view",
+            "label": "View"
+          }
+        ]
+      },
+      {
+        "name": "Documents",
+        "perms": [
+          {
+            "key": "documents.view",
+            "label": "View"
+          },
+          {
+            "key": "documents.upload",
+            "label": "Upload"
+          },
+          {
+            "key": "documents.update",
+            "label": "Edit"
+          },
+          {
+            "key": "documents.delete",
+            "label": "Delete"
+          },
+          {
+            "key": "documents.view-all",
+            "label": "View all"
+          },
+          {
+            "key": "documents.group-management",
+            "label": "Group management"
+          },
+          {
+            "key": "documents.group-accounts",
+            "label": "Group accounts"
+          },
+          {
+            "key": "documents.group-legal",
+            "label": "Group legal"
+          },
+          {
+            "key": "documents.group-general",
+            "label": "Group general"
+          }
+        ]
+      },
+      {
+        "name": "Invoice Templates",
+        "perms": [
+          {
+            "key": "invoice-templates.view",
+            "label": "View"
+          },
+          {
+            "key": "invoice-templates.create",
+            "label": "Create"
+          },
+          {
+            "key": "invoice-templates.update",
+            "label": "Edit"
+          },
+          {
+            "key": "invoice-templates.delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "Application Settings",
+        "perms": [
+          {
+            "key": "app-settings.view",
+            "label": "View"
+          },
+          {
+            "key": "app-settings.update",
+            "label": "Edit"
+          }
+        ]
+      },
+      {
+        "name": "Module Switches",
+        "perms": [
+          {
+            "key": "modules.view",
+            "label": "View"
+          },
+          {
+            "key": "modules.update",
+            "label": "Edit"
+          }
+        ]
+      }
+    ]
+  }
+]

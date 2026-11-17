@@ -1,0 +1,5413 @@
+/* --- lines 1-1949 --- */
+﻿/* ==========================================================================
+   Estate ERP â layer on top of the Notika template
+   Loaded after css/style.css. Keeps the template's visual language but
+   stretches the shell to full width and adds the ERP building blocks.
+   ========================================================================== */
+
+:root {
+    --erp-primary: #00c292;
+    --erp-primary-dark: #009a76;
+    /* "Available / done / passing" â the same teal .erp-pill.is-available has
+       always used. It was referenced in ten places but never defined, and an
+       invalid var() makes the whole declaration compute to its initial value:
+       an Active project's progress bar was rendering fully transparent. */
+    --erp-success: #00c292;
+    --erp-success-dark: #00926e;
+    --erp-info: #03a9f3;
+    --erp-warning: #ff9800;
+    --erp-danger: #e91e63;
+    --erp-purple: #6c63ff;
+    --erp-ink: #2c3e50;
+    --erp-muted: #8a94a6;
+    --erp-line: #e9edf2;
+    --erp-bg: #f4f6fa;
+    --erp-radius: 9px;
+    --erp-shadow: 0 1px 2px rgba(16, 30, 54, .04), 0 4px 14px rgba(16, 30, 54, .05);
+    --erp-gutter: 18px;
+}
+
+/* --------------------------------------------------------------------------
+   Tone palette
+
+   Eleven hues as a set of custom properties, worn by any component that wants
+   colour to mean something: the land pipeline rail, the stat strips, the
+   contractor register. One class, four properties, and the component decides
+   what it paints with them.
+
+   ADDING A COMPONENT: read the properties with a fallback --
+   var(--erp-tone, var(--erp-muted)) -- and never declare --erp-tone defaults in
+   the component's own rule. A default there has the same specificity as the
+   palette class and would fight it depending on source order.
+
+   ADDING A HUE: add it here and in the dark block below, and give it a
+   text-safe --erp-tone-ink. Do not reach for a hex inside a component.
+   -------------------------------------------------------------------------- */
+
+.is-tone-slate {
+    --erp-tone-deep: #334155;
+    --erp-tone-deeper: #1e293b;
+    --erp-tone: #64748b;
+    --erp-tone-soft: rgba(100, 116, 139, .12);
+    --erp-tone-line: rgba(100, 116, 139, .32);
+    --erp-tone-ink: #475569;
+}
+
+.is-tone-indigo {
+    --erp-tone-deep: #4338ca;
+    --erp-tone-deeper: #312e81;
+    --erp-tone: #4f46e5;
+    --erp-tone-soft: rgba(79, 70, 229, .12);
+    --erp-tone-line: rgba(79, 70, 229, .32);
+    --erp-tone-ink: #4338ca;
+}
+
+.is-tone-blue {
+    --erp-tone-deep: #0369a1;
+    --erp-tone-deeper: #075985;
+    --erp-tone: #0aa2e0;
+    --erp-tone-soft: rgba(10, 162, 224, .13);
+    --erp-tone-line: rgba(10, 162, 224, .34);
+    --erp-tone-ink: #0369a1;
+}
+
+.is-tone-cyan {
+    --erp-tone-deep: #0e7490;
+    --erp-tone-deeper: #155e75;
+    --erp-tone: #0891b2;
+    --erp-tone-soft: rgba(8, 145, 178, .12);
+    --erp-tone-line: rgba(8, 145, 178, .32);
+    --erp-tone-ink: #0e7490;
+}
+
+.is-tone-violet {
+    --erp-tone-deep: #4f46e5;
+    --erp-tone-deeper: #3730a3;
+    --erp-tone: #6c63ff;
+    --erp-tone-soft: rgba(108, 99, 255, .12);
+    --erp-tone-line: rgba(108, 99, 255, .32);
+    --erp-tone-ink: #574fd6;
+}
+
+.is-tone-purple {
+    --erp-tone-deep: #7e22ce;
+    --erp-tone-deeper: #581c87;
+    --erp-tone: #a855f7;
+    --erp-tone-soft: rgba(168, 85, 247, .12);
+    --erp-tone-line: rgba(168, 85, 247, .32);
+    --erp-tone-ink: #7e22ce;
+}
+
+.is-tone-amber {
+    --erp-tone-deep: #b45309;
+    --erp-tone-deeper: #78350f;
+    --erp-tone: #d97706;
+    --erp-tone-soft: rgba(217, 119, 6, .13);
+    --erp-tone-line: rgba(217, 119, 6, .32);
+    --erp-tone-ink: #b45309;
+}
+
+.is-tone-orange {
+    --erp-tone-deep: #c2410c;
+    --erp-tone-deeper: #7c2d12;
+    --erp-tone: #ea580c;
+    --erp-tone-soft: rgba(234, 88, 12, .12);
+    --erp-tone-line: rgba(234, 88, 12, .32);
+    --erp-tone-ink: #c2410c;
+}
+
+.is-tone-teal {
+    --erp-tone-deep: #0f766e;
+    --erp-tone-deeper: #115e59;
+    --erp-tone: #0d9488;
+    --erp-tone-soft: rgba(13, 148, 136, .13);
+    --erp-tone-line: rgba(13, 148, 136, .34);
+    --erp-tone-ink: #0f766e;
+}
+
+.is-tone-green {
+    --erp-tone-deep: #047857;
+    --erp-tone-deeper: #065f46;
+    --erp-tone: #00a37a;
+    --erp-tone-soft: rgba(0, 163, 122, .14);
+    --erp-tone-line: rgba(0, 163, 122, .36);
+    --erp-tone-ink: #047857;
+}
+
+.is-tone-rose {
+    --erp-tone-deep: #be123c;
+    --erp-tone-deeper: #881337;
+    --erp-tone: #e11d48;
+    --erp-tone-soft: rgba(225, 29, 72, .11);
+    --erp-tone-line: rgba(225, 29, 72, .3);
+    --erp-tone-ink: #be123c;
+}
+
+/* Dark mode lifts the hue and strengthens the wash. The HUE DOES NOT CHANGE
+   identity -- a stage must not mean teal by day and green by night -- and the
+   ink becomes the lit hue itself, because text is now light on dark. */
+:root[data-theme="dark"] .is-tone-slate {
+    --erp-tone: #94a3b8;
+    --erp-tone-soft: rgba(148, 163, 184, .18);
+    --erp-tone-line: rgba(148, 163, 184, .34);
+    --erp-tone-ink: #94a3b8;
+}
+
+:root[data-theme="dark"] .is-tone-indigo {
+    --erp-tone: #8b84f8;
+    --erp-tone-soft: rgba(139, 132, 248, .18);
+    --erp-tone-line: rgba(139, 132, 248, .34);
+    --erp-tone-ink: #8b84f8;
+}
+
+:root[data-theme="dark"] .is-tone-blue {
+    --erp-tone: #4cc3f5;
+    --erp-tone-soft: rgba(76, 195, 245, .18);
+    --erp-tone-line: rgba(76, 195, 245, .34);
+    --erp-tone-ink: #4cc3f5;
+}
+
+:root[data-theme="dark"] .is-tone-cyan {
+    --erp-tone: #3ab7d4;
+    --erp-tone-soft: rgba(58, 183, 212, .18);
+    --erp-tone-line: rgba(58, 183, 212, .34);
+    --erp-tone-ink: #3ab7d4;
+}
+
+:root[data-theme="dark"] .is-tone-violet {
+    --erp-tone: #9a94ff;
+    --erp-tone-soft: rgba(154, 148, 255, .18);
+    --erp-tone-line: rgba(154, 148, 255, .34);
+    --erp-tone-ink: #9a94ff;
+}
+
+:root[data-theme="dark"] .is-tone-purple {
+    --erp-tone: #c489fa;
+    --erp-tone-soft: rgba(196, 137, 250, .18);
+    --erp-tone-line: rgba(196, 137, 250, .34);
+    --erp-tone-ink: #c489fa;
+}
+
+:root[data-theme="dark"] .is-tone-amber {
+    --erp-tone: #f0a936;
+    --erp-tone-soft: rgba(240, 169, 54, .18);
+    --erp-tone-line: rgba(240, 169, 54, .34);
+    --erp-tone-ink: #f0a936;
+}
+
+:root[data-theme="dark"] .is-tone-orange {
+    --erp-tone: #f5854a;
+    --erp-tone-soft: rgba(245, 133, 74, .18);
+    --erp-tone-line: rgba(245, 133, 74, .34);
+    --erp-tone-ink: #f5854a;
+}
+
+:root[data-theme="dark"] .is-tone-teal {
+    --erp-tone: #3ec2b4;
+    --erp-tone-soft: rgba(62, 194, 180, .18);
+    --erp-tone-line: rgba(62, 194, 180, .34);
+    --erp-tone-ink: #3ec2b4;
+}
+
+:root[data-theme="dark"] .is-tone-green {
+    --erp-tone: #33c99f;
+    --erp-tone-soft: rgba(51, 201, 159, .2);
+    --erp-tone-line: rgba(51, 201, 159, .36);
+    --erp-tone-ink: #33c99f;
+}
+
+:root[data-theme="dark"] .is-tone-rose {
+    --erp-tone: #f2557a;
+    --erp-tone-soft: rgba(242, 85, 122, .16);
+    --erp-tone-line: rgba(242, 85, 122, .32);
+    --erp-tone-ink: #f2557a;
+}
+
+/* --------------------------------------------------------------------------
+   1. Full-width shell
+   The template ships fixed-width .container wrappers; the ERP runs edge to
+   edge, so every container variant is unpinned in one place.
+   -------------------------------------------------------------------------- */
+
+.container,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl,
+.container-xxl {
+    max-width: 100% !important;
+    width: 100%;
+    padding-left: var(--erp-gutter);
+    padding-right: var(--erp-gutter);
+}
+
+/* Record screens (forms, detail views) read badly when fields are stretched
+   across an ultrawide monitor, so they cap to a measure and centre. The page
+   header shares the cap, keeping it aligned with the content beneath it. */
+.container.erp-container-narrow {
+    max-width: 100% !important;
+}
+
+.container.erp-container-form {
+    max-width: 1060px !important;
+}
+
+@media (max-width: 767.98px) {
+    :root {
+        --erp-gutter: 14px;
+    }
+}
+
+body {
+    background: var(--erp-bg);
+    color: var(--erp-ink);
+    font-family: Roboto, "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+.erp-shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* dvh accounts for mobile browser chrome; the vh above is the fallback. */
+    min-height: 100dvh;
+    /* Clears the fixed footer. */
+    padding-bottom: 24px;
+}
+
+.erp-main {
+    flex: 1 0 auto;
+    padding-bottom: 8px;
+    /* The module bar used to carry this gap as a margin; it now lives here so
+       the sticky block has no trailing whitespace pinned to the viewport. */
+    padding-top: var(--erp-gutter);
+}
+
+/* --------------------------------------------------------------------------
+   2. Top bar + horizontal menu (no sidebar)
+   -------------------------------------------------------------------------- */
+
+/* The utility header runs deliberately short â it is a strip, not a banner â
+   and can be collapsed away entirely for data-entry heavy screens. */
+.notika-header {
+    padding: 3px 0;
+}
+
+html.erp-header-collapsed .notika-header {
+    display: none;
+}
+
+.notika-header .notika-nav-link {
+    border-radius: 7px;
+    font-size: 15px;
+    height: 34px;
+    width: 34px;
+}
+
+.notika-header .notika-badge {
+    font-size: 9.5px;
+    height: 15px;
+    right: 1px;
+    top: 1px;
+    width: 15px;
+}
+
+.notika-header .btn-erp {
+    font-size: 12.5px;
+    padding: 6px 12px;
+}
+
+.notika-navbar {
+    margin-bottom: 0;
+}
+
+/* Collapse control, carried as the last item of the module bar so it can
+   never overlap the tabs and stays reachable once the header is hidden. */
+.erp-toggle-item {
+    align-items: center;
+    display: flex;
+    margin-left: 6px;
+    padding-left: 10px;
+    position: relative;
+}
+
+.erp-toggle-item:before {
+    background: var(--erp-line);
+    content: "";
+    height: 18px;
+    left: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+}
+
+.erp-header-toggle {
+    align-items: center;
+    background: transparent;
+    border: 1px solid var(--erp-line);
+    border-radius: 7px;
+    color: var(--erp-muted);
+    display: flex;
+    font-size: 11px;
+    height: 26px;
+    justify-content: center;
+    transition: all .16s ease;
+    width: 26px;
+}
+
+.erp-header-toggle:hover {
+    background: rgba(0, 194, 146, .1);
+    border-color: rgba(0, 194, 146, .45);
+    color: var(--erp-primary-dark);
+}
+
+.erp-header-toggle .fa-chevron-down {
+    display: none;
+}
+
+html.erp-header-collapsed .erp-header-toggle .fa-chevron-down {
+    display: block;
+}
+
+html.erp-header-collapsed .erp-header-toggle .fa-chevron-up {
+    display: none;
+}
+
+/* Header and module bar stick as one block, so neither needs a hand-tuned
+   offset that would drift whenever their heights change. Sticky only from lg
+   up: below that the header must not sit above the off-canvas drawer. */
+@media (min-width: 992px) {
+    .erp-topbar-stack {
+        position: sticky;
+        top: 0;
+        z-index: 1090;
+    }
+}
+
+/* The ERP carries ten modules in the bar, so the tabs run tighter than the
+   template default and wrap instead of overflowing on narrower desktops. */
+.notika-navbar .navbar-nav {
+    flex-wrap: wrap;
+}
+
+.notika-navbar .nav-link {
+    border-bottom-width: 2px;
+    font-size: 12.5px;
+    gap: 6px;
+    padding: 8px 13px;
+}
+
+.notika-navbar .nav-link i {
+    font-size: 13.5px;
+}
+
+@media (min-width: 992px) and (max-width: 1399.98px) {
+    .notika-navbar .nav-link {
+        font-size: 12px;
+        gap: 5px;
+        padding: 8px 9px;
+    }
+
+    .notika-navbar .nav-link i {
+        font-size: 13px;
+    }
+}
+
+/* The caret is sized in em, so it tracks the smaller font on its own â only
+   the gap in front of it needs pulling in. */
+.notika-navbar .dropdown-toggle:after {
+    margin-left: 4px;
+}
+
+.notika-navbar .dropdown-menu {
+    min-width: 232px;
+}
+
+.erp-brand-logo {
+    height: 29px;
+    width: auto;
+}
+
+.erp-brand-icon {
+    height: 26px;
+    width: 26px;
+}
+
+/* Company / branch switcher sitting next to the logo */
+.erp-context {
+    align-items: center;
+    border-left: 1px solid var(--erp-line);
+    display: flex;
+    gap: 10px;
+    margin-left: 14px;
+    padding-left: 14px;
+}
+
+.erp-context-btn {
+    align-items: center;
+    background: #f7f9fc;
+    border: 1px solid var(--erp-line);
+    border-radius: 8px;
+    color: var(--erp-ink);
+    display: flex;
+    font-size: 12px;
+    font-weight: 500;
+    gap: 8px;
+    line-height: 1.2;
+    padding: 4px 10px;
+    text-align: left;
+    transition: all .18s ease;
+}
+
+.erp-context-btn:hover {
+    background: #eef7f4;
+    border-color: rgba(0, 194, 146, .45);
+    color: var(--erp-primary-dark);
+}
+
+.erp-context-btn small {
+    color: var(--erp-muted);
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+/* Read-only company banner shown at the top of every record form, standing
+   in for the company select those forms used to carry. */
+.erp-context-banner {
+    align-items: center;
+    background: #f4faf8;
+    border: 1px solid rgba(0, 194, 146, .3);
+    border-radius: 9px;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 10px 14px;
+}
+
+.erp-context-banner-icon {
+    align-items: center;
+    background: rgba(0, 194, 146, .14);
+    border-radius: 8px;
+    color: var(--erp-primary);
+    display: flex;
+    flex: 0 0 34px;
+    height: 34px;
+    justify-content: center;
+}
+
+.erp-context-banner-body strong {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 13px;
+    line-height: 1.3;
+}
+
+.erp-context-banner-body span {
+    color: var(--erp-muted);
+    font-size: 11.5px;
+}
+
+/* Profile chip in the top-right cluster */
+.erp-user-chip {
+    align-items: center;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    gap: 8px;
+    padding: 2px 8px 2px 2px;
+    transition: background .18s ease;
+}
+
+.erp-user-chip:hover {
+    background: #f8f9fa;
+}
+
+.erp-user-chip img,
+.erp-user-chip .erp-avatar {
+    border-radius: 50%;
+    font-size: 12px;
+    height: 30px;
+    object-fit: cover;
+    width: 30px;
+}
+
+/* Initials avatar â used wherever a real photo is not available */
+.erp-avatar {
+    align-items: center;
+    background: linear-gradient(135deg, var(--erp-primary), var(--erp-primary-dark));
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    flex: 0 0 auto;
+    font-size: 14px;
+    font-weight: 600;
+    height: 38px;
+    justify-content: center;
+    letter-spacing: .3px;
+    width: 38px;
+}
+
+.erp-avatar-lg {
+    font-size: 17px;
+    height: 48px;
+    width: 48px;
+}
+
+.erp-user-chip .erp-user-meta {
+    line-height: 1.3;
+    text-align: left;
+}
+
+.erp-user-chip .erp-user-name {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+.erp-user-chip .erp-user-role {
+    color: var(--erp-muted);
+    display: block;
+    font-size: 10.5px;
+}
+
+.erp-user-menu {
+    min-width: 260px;
+}
+
+.erp-user-menu .dropdown-item {
+    align-items: center;
+    display: flex;
+    font-size: 14px;
+    gap: 10px;
+    padding: 10px 18px;
+}
+
+.erp-user-menu .dropdown-item i {
+    color: var(--erp-muted);
+    width: 16px;
+}
+
+.erp-user-menu .dropdown-item:hover {
+    background: #f2faf8;
+    color: var(--erp-primary-dark);
+}
+
+.erp-user-menu .dropdown-item:hover i {
+    color: var(--erp-primary);
+}
+
+/* --------------------------------------------------------------------------
+   3. Page header (title, breadcrumb, actions)
+   -------------------------------------------------------------------------- */
+
+.erp-pagehead {
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    box-shadow: var(--erp-shadow);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+    margin-bottom: var(--erp-gutter);
+    padding: 11px 16px;
+}
+
+.erp-pagehead-main {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+    min-width: 0;
+}
+
+.erp-pagehead-icon {
+    align-items: center;
+    background: linear-gradient(135deg, var(--erp-primary), var(--erp-primary-dark));
+    border-radius: 8px;
+    color: #fff;
+    display: flex;
+    flex: 0 0 auto;
+    font-size: 15px;
+    height: 38px;
+    justify-content: center;
+    width: 38px;
+}
+
+.erp-pagehead h1 {
+    color: var(--erp-ink);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0;
+}
+
+.erp-pagehead .breadcrumb {
+    font-size: 11.5px;
+    margin: 2px 0 0;
+}
+
+.erp-pagehead .breadcrumb-item,
+.erp-pagehead .breadcrumb-item a {
+    color: var(--erp-muted);
+    text-decoration: none;
+}
+
+.erp-pagehead .breadcrumb-item a:hover {
+    color: var(--erp-primary);
+}
+
+.erp-pagehead-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    /* Centred, not stretched. The default let a single taller child â a
+       two-line status chip, say â pull every button in the row up to its
+       height, which read as broken styling rather than as one odd element. */
+    align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   3b. Module submenu bar (in-page quick nav)
+   Rendered by layouts/partials/module-submenu.blade.php for any module that
+   sets `submenu_bar` in config/erp.php. It sits above the page header and
+   lists the module's sibling pages as buttons.
+   -------------------------------------------------------------------------- */
+
+.erp-submenubar {
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    box-shadow: var(--erp-shadow);
+    margin-bottom: 10px;
+    padding: 7px 8px;
+}
+
+/* The strip scrolls sideways rather than wrapping into three tall rows on a
+   laptop; a module can carry a dozen pages and the page header must stay in
+   view. */
+.erp-submenubar-scroll {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.erp-submenubar-scroll::-webkit-scrollbar {
+    height: 5px;
+}
+
+.erp-submenubar-scroll::-webkit-scrollbar-thumb {
+    background: var(--erp-line);
+    border-radius: 3px;
+}
+
+.erp-submenu-btn {
+    align-items: center;
+    background: var(--erp-bg);
+    border: 1px solid transparent;
+    border-radius: 7px;
+    color: var(--erp-ink);
+    display: inline-flex;
+    flex: 0 0 auto;
+    font-size: 12.5px;
+    font-weight: 500;
+    gap: 7px;
+    line-height: 1.2;
+    padding: 7px 12px;
+    text-decoration: none;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+    white-space: nowrap;
+}
+
+.erp-submenu-btn i {
+    color: var(--erp-muted);
+    font-size: 12px;
+    transition: color .15s ease;
+}
+
+.erp-submenu-btn:hover,
+.erp-submenu-btn:focus-visible {
+    background: #fff;
+    border-color: var(--erp-primary);
+    color: var(--erp-primary);
+}
+
+.erp-submenu-btn:hover i,
+.erp-submenu-btn:focus-visible i {
+    color: var(--erp-primary);
+}
+
+/* The page you are on stays obviously marked â this strip doubles as a
+   "where am I" indicator inside the module. */
+.erp-submenu-btn.is-active {
+    background: linear-gradient(135deg, var(--erp-primary), var(--erp-primary-dark));
+    border-color: transparent;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .12);
+    color: #fff;
+}
+
+.erp-submenu-btn.is-active i,
+.erp-submenu-btn.is-active:hover i {
+    color: #fff;
+}
+
+.erp-submenu-btn.is-active:hover,
+.erp-submenu-btn.is-active:focus-visible {
+    color: #fff;
+}
+
+@media (max-width: 575.98px) {
+    .erp-submenubar {
+        padding: 6px;
+    }
+
+    .erp-submenu-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   4. Cards
+   -------------------------------------------------------------------------- */
+
+.erp-card {
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    box-shadow: var(--erp-shadow);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-bottom: var(--erp-gutter);
+    overflow: hidden;
+}
+
+.erp-card-head {
+    align-items: center;
+    background: linear-gradient(180deg, #fbfcfe, #f7f9fc);
+    border-bottom: 1px solid var(--erp-line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    padding: 11px 18px;
+}
+
+.erp-card-head h2 {
+    color: var(--erp-ink);
+    font-size: 13.5px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.erp-card-head p {
+    color: var(--erp-muted);
+    font-size: 11.5px;
+    margin: 1px 0 0;
+}
+
+.erp-card-body {
+    flex: 1 1 auto;
+    padding: 16px 18px;
+}
+
+.erp-card-body.is-flush {
+    padding: 0;
+}
+
+.erp-card-foot {
+    background: #fafbfd;
+    border-top: 1px solid var(--erp-line);
+    padding: 9px 16px;
+}
+
+/* --------------------------------------------------------------------------
+   4b. Pagination â modern pill style layered over Bootstrap 5 markup
+   Laravel renders Bootstrap-5 paginators (Paginator::useBootstrapFive), so we
+   restyle its .pagination/.page-item/.page-link nodes rather than a partial.
+   Everything is scoped under .pagination to out-specify Bootstrap's own
+   first/last-child border-radius rules and its -1px border collapse.
+   -------------------------------------------------------------------------- */
+
+.pagination {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+}
+
+.pagination .page-item {
+    margin: 0;
+}
+
+/* Undo Bootstrap's border-collapsing so each control is a standalone pill. */
+.pagination .page-item:not(:first-child) .page-link {
+    margin-left: 0;
+}
+
+.pagination .page-link {
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: 8px;
+    color: var(--erp-ink);
+    display: inline-flex;
+    font-size: 12.5px;
+    font-weight: 500;
+    height: 34px;
+    justify-content: center;
+    line-height: 1;
+    min-width: 34px;
+    padding: 0 10px;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease,
+        border-color .15s ease, color .15s ease;
+}
+
+.pagination .page-link:hover {
+    background: color-mix(in srgb, var(--erp-primary) 8%, #fff);
+    border-color: color-mix(in srgb, var(--erp-primary) 45%, var(--erp-line));
+    box-shadow: 0 4px 12px rgba(16, 30, 54, .08);
+    color: var(--erp-primary-dark);
+    transform: translateY(-1px);
+    z-index: 1;
+}
+
+.pagination .page-link:focus {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--erp-primary) 25%, transparent);
+    outline: none;
+    z-index: 1;
+}
+
+.pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, var(--erp-primary), var(--erp-primary-dark));
+    border-color: transparent;
+    box-shadow: 0 6px 16px rgba(0, 194, 146, .32);
+    color: #fff;
+}
+
+/* An active page is where you already are â it should not invite a click. */
+.pagination .page-item.active .page-link:hover {
+    box-shadow: 0 6px 16px rgba(0, 194, 146, .32);
+    transform: none;
+}
+
+.pagination .page-item.disabled .page-link {
+    background: var(--erp-bg);
+    border-color: var(--erp-line);
+    box-shadow: none;
+    color: var(--erp-muted);
+    cursor: not-allowed;
+    opacity: .7;
+    transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   5. KPI tiles
+   -------------------------------------------------------------------------- */
+
+.erp-kpi {
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    box-shadow: var(--erp-shadow);
+    height: 100%;
+    margin-bottom: var(--erp-gutter);
+    overflow: hidden;
+    padding: 15px 16px;
+    position: relative;
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.erp-kpi:hover {
+    box-shadow: 0 10px 28px rgba(16, 30, 54, .1);
+    transform: translateY(-2px);
+}
+
+.erp-kpi:before {
+    background: var(--erp-primary);
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 3px;
+}
+
+.erp-kpi.is-info:before { background: var(--erp-info); }
+.erp-kpi.is-warning:before { background: var(--erp-warning); }
+.erp-kpi.is-danger:before { background: var(--erp-danger); }
+.erp-kpi.is-purple:before { background: var(--erp-purple); }
+
+.erp-kpi-top {
+    align-items: flex-start;
+    display: flex;
+    gap: 14px;
+    justify-content: space-between;
+}
+
+.erp-kpi-label {
+    color: var(--erp-muted);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .4px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.erp-kpi-value {
+    color: var(--erp-ink);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.5px;
+    line-height: 1.2;
+    margin: 6px 0 0;
+}
+
+.erp-kpi-value small {
+    color: var(--erp-muted);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.erp-kpi-icon {
+    align-items: center;
+    border-radius: 12px;
+    display: flex;
+    flex: 0 0 auto;
+    font-size: 18px;
+    height: 46px;
+    justify-content: center;
+    width: 46px;
+}
+
+.erp-kpi-icon.is-primary { background: rgba(0, 194, 146, .12); color: var(--erp-primary); }
+.erp-kpi-icon.is-info { background: rgba(3, 169, 243, .12); color: var(--erp-info); }
+.erp-kpi-icon.is-warning { background: rgba(255, 152, 0, .14); color: var(--erp-warning); }
+.erp-kpi-icon.is-danger { background: rgba(233, 30, 99, .12); color: var(--erp-danger); }
+.erp-kpi-icon.is-purple { background: rgba(108, 99, 255, .12); color: var(--erp-purple); }
+
+.erp-kpi-foot {
+    align-items: center;
+    border-top: 1px dashed var(--erp-line);
+    color: var(--erp-muted);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 11.5px;
+    gap: 7px;
+    margin-top: 12px;
+    padding-top: 9px;
+}
+
+.erp-delta {
+    align-items: center;
+    border-radius: 20px;
+    display: inline-flex;
+    font-size: 12px;
+    font-weight: 600;
+    gap: 4px;
+    padding: 3px 9px;
+}
+
+.erp-delta.is-up { background: rgba(0, 194, 146, .12); color: var(--erp-primary-dark); }
+.erp-delta.is-down { background: rgba(233, 30, 99, .1); color: var(--erp-danger); }
+.erp-delta.is-flat { background: #f1f3f7; color: var(--erp-muted); }
+
+/* --------------------------------------------------------------------------
+   5b. Executive summary banner, section labels & module snapshot cards
+   -------------------------------------------------------------------------- */
+
+.erp-summary {
+    align-items: center;
+    background: linear-gradient(120deg, rgba(0, 194, 146, .07), rgba(108, 99, 255, .06));
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 20px;
+    justify-content: space-between;
+    margin-bottom: var(--erp-gutter);
+    padding: 14px 18px;
+}
+
+.erp-summary-lead {
+    align-items: center;
+    display: flex;
+    flex: 1 1 420px;
+    gap: 12px;
+    min-width: 0;
+}
+
+.erp-summary-lead p {
+    color: var(--erp-ink);
+    font-size: 13.5px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.erp-summary-health {
+    align-items: center;
+    border-radius: 20px;
+    display: inline-flex;
+    flex: 0 0 auto;
+    font-size: 12px;
+    font-weight: 600;
+    gap: 5px;
+    padding: 5px 11px;
+}
+
+.erp-summary-health.is-up { background: rgba(0, 194, 146, .14); color: var(--erp-primary-dark); }
+.erp-summary-health.is-down { background: rgba(233, 30, 99, .12); color: var(--erp-danger); }
+.erp-summary-health.is-flat { background: #f1f3f7; color: var(--erp-muted); }
+
+.erp-summary-flags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.erp-section-label {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin: 6px 0 12px;
+}
+
+.erp-section-label h3 {
+    color: var(--erp-ink);
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.erp-section-label span {
+    font-size: 12.5px;
+}
+
+.erp-snap {
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    box-shadow: var(--erp-shadow);
+    display: flex;
+    gap: 12px;
+    height: 100%;
+    margin-bottom: var(--erp-gutter);
+    padding: 14px;
+    position: relative;
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.erp-snap:hover {
+    box-shadow: 0 10px 28px rgba(16, 30, 54, .1);
+    transform: translateY(-2px);
+}
+
+.erp-snap-icon {
+    align-items: center;
+    border-radius: 11px;
+    display: flex;
+    flex: 0 0 auto;
+    font-size: 16px;
+    height: 42px;
+    justify-content: center;
+    width: 42px;
+}
+
+.erp-snap-icon.is-primary { background: rgba(0, 194, 146, .12); color: var(--erp-primary); }
+.erp-snap-icon.is-info { background: rgba(3, 169, 243, .12); color: var(--erp-info); }
+.erp-snap-icon.is-warning { background: rgba(255, 152, 0, .14); color: var(--erp-warning); }
+.erp-snap-icon.is-danger { background: rgba(233, 30, 99, .12); color: var(--erp-danger); }
+.erp-snap-icon.is-purple { background: rgba(108, 99, 255, .12); color: var(--erp-purple); }
+
+.erp-snap-body { min-width: 0; }
+
+.erp-snap-label {
+    color: var(--erp-muted);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: .3px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.erp-snap-value {
+    color: var(--erp-ink);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -.4px;
+    line-height: 1.2;
+    margin: 3px 0 6px;
+}
+
+.erp-snap-value small {
+    color: var(--erp-muted);
+    font-size: 11.5px;
+    font-weight: 500;
+    margin-left: 3px;
+}
+
+.erp-snap-foot {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.erp-snap-foot .erp-delta { font-size: 11px; padding: 2px 8px; }
+
+.erp-snap-caption {
+    color: var(--erp-muted);
+    font-size: 11.5px;
+}
+
+/* Dashboard grid rhythm. Spacing is driven by row gutters and a margin between
+   the top-level rows, so the per-card margin-bottom is folded away here to stop
+   the two stacking into an uneven, cramped grid. Scoped to the dashboard. */
+.erp-dashboard .row {
+    --bs-gutter-x: var(--erp-gutter);
+    --bs-gutter-y: var(--erp-gutter);
+}
+
+.erp-dashboard .erp-kpi,
+.erp-dashboard .erp-snap,
+.erp-dashboard .erp-card {
+    margin-bottom: 0;
+}
+
+.erp-dashboard > .row {
+    margin-bottom: var(--erp-gutter);
+}
+
+/* --------------------------------------------------------------------------
+   6. Status pills
+   -------------------------------------------------------------------------- */
+
+.erp-pill {
+    /* Reads the tone palette when a tone class is present. The named variants
+       below are more specific, so every existing pill is untouched. */
+    background: var(--erp-tone-soft, transparent);
+    border-radius: 20px;
+    color: var(--erp-tone-ink, inherit);
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .2px;
+    line-height: 1.6;
+    padding: 3px 11px;
+    white-space: nowrap;
+}
+
+.erp-pill.is-available { background: rgba(0, 194, 146, .12); color: #00926e; }
+.erp-pill.is-booked { background: rgba(3, 169, 243, .12); color: #0281bb; }
+.erp-pill.is-sold { background: rgba(108, 99, 255, .12); color: #574fd6; }
+.erp-pill.is-hold { background: rgba(255, 152, 0, .16); color: #b96f00; }
+.erp-pill.is-overdue { background: rgba(233, 30, 99, .12); color: #c2185b; }
+.erp-pill.is-neutral { background: #f1f3f7; color: #5b6675; }
+
+/* A solid, colourful count chip â pops against the muted accordion header. */
+.erp-count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 7px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--erp-info), var(--erp-primary));
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: 0 2px 6px rgba(3, 169, 243, .3);
+}
+
+/* --------------------------------------------------------------------------
+   7. Tables
+
+   One colour scheme, driven by tokens, used by every table in the ERP.
+
+   The tokens exist so the whole system re-skins from a single place. There are
+   260-odd list screens; a scheme hard-coded into each of them is a scheme that
+   drifts, and within a release you have four slightly different greys and
+   nobody able to say which is correct.
+
+   WHY THE COLOUR SITS WHERE IT DOES. The header carries the strong colour and
+   the body stays quiet. These tables are read, not admired: a user scanning
+   forty rows for one number needs the data to be the loudest thing on the row,
+   so colour is used to separate STRUCTURE (which band is the header, where does
+   one row end) from CONTENT, never to compete with it. Rows alternate in a tint
+   barely off the card so the eye can track across a wide table without a ruler,
+   and hover states are strong enough to be unambiguous about which row is under
+   the cursor before somebody clicks its delete button.
+
+   Semantic colour still wins. A row that is overdue, failed or on hold sets its
+   own cell background further down this file, and those rules must keep beating
+   the stripe â see the note on Bootstrap below, which is what makes that work.
+   -------------------------------------------------------------------------- */
+
+:root {
+    --erp-table-head-bg: #07b8ff82;
+    /* The same colour composited over a white card. Four tables in the system
+       have a sticky header, and a translucent band would show the rows sliding
+       underneath it -- so those rules use this instead. Identical to the eye,
+       opaque where it has to be. Recompute it if --erp-table-head-bg changes. */
+    --erp-table-head-solid: #80dbff;
+    /* Dark, not white: the header is now a pale tint, and white text on it is
+       unreadable. */
+    --erp-table-head-ink: #0c4a63;
+    /* The divider between header cells. White reads as a gap in the tint rather
+       than a crack, which is what a column edge should look like. */
+    --erp-table-head-rule: rgba(255, 255, 255, .55);
+    --erp-table-stripe: #f4fbff;
+    --erp-table-hover: #e4f5ff;
+    --erp-table-accent: var(--erp-info);
+    --erp-table-line: #eef1f6;
+    --erp-table-ink: #46556a;
+    --erp-table-foot: #f0f9ff;
+    --erp-table-group: #e7f4fb;
+}
+
+:root[data-theme="dark"] {
+    /* The same tint, but the ink goes light: over a dark card the composite is
+       a deep blue, not a pale one, so dark text would disappear into it. */
+    --erp-table-head-bg: #07b8ff82;
+    --erp-table-head-solid: #116f9a;
+    --erp-table-head-ink: #eaf7ff;
+    --erp-table-head-rule: rgba(255, 255, 255, .16);
+    --erp-table-stripe: rgba(255, 255, 255, .03);
+    --erp-table-hover: rgba(7, 184, 255, .14);
+    --erp-table-line: var(--erp-line);
+    --erp-table-ink: var(--erp-ink);
+    --erp-table-foot: var(--erp-surface-2);
+    --erp-table-group: rgba(255, 255, 255, .06);
+}
+
+.erp-table {
+    margin: 0;
+    width: 100%;
+}
+
+/* Bootstrap paints EVERY cell with --bs-table-bg and an inset shadow of
+   --bs-table-accent-bg. Both are opaque, so anything set on the <tr> is hidden
+   behind them and row striping silently does nothing.
+
+   Clearing them here is what makes the layering below work: colour set on a row
+   shows through, and colour set on a cell still paints on top of it. That is
+   the whole reason a semantic state (.is-overdue td, .is-qc-open td) keeps
+   beating the stripe without needing !important anywhere.
+
+   The selector deliberately mirrors Bootstrap's own so the two have equal
+   specificity and load order decides â erp.css is loaded after bootstrap. */
+.erp-table > :not(caption) > * > * {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.erp-table thead th {
+    background-color: var(--erp-table-head-bg);
+    border-bottom: 0;
+    color: var(--erp-table-head-ink);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .6px;
+    padding: 9px 16px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Column edges, drawn inside the band rather than as a border so the tint stays
+   continuous across the whole header. */
+.erp-table thead th + th {
+    box-shadow: inset 1px 0 0 var(--erp-table-head-rule);
+}
+
+.erp-table tbody td {
+    border-bottom: 1px solid var(--erp-table-line);
+    color: var(--erp-table-ink);
+    font-size: 12.5px;
+    padding: 8px 16px;
+    vertical-align: middle;
+}
+
+/* The stripe is set on the ROW, not the cell. A cell-level stripe would need
+   higher specificity than the semantic row states in this file and would
+   therefore override them, quietly stripping the colour off every overdue and
+   failed row on an even index â a bug that only shows on half the data. */
+.erp-table tbody tr:nth-child(even) {
+    background-color: var(--erp-table-stripe);
+}
+
+.erp-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+/* Hover is on the cell, so it reads over the stripe. Strong enough to be
+   unmistakable: this is the row somebody is about to act on. */
+.erp-table tbody tr:hover > td {
+    background-color: var(--erp-table-hover);
+}
+
+/* And an accent bar on the leading edge, which tells you where the row STARTS
+   on a table wide enough to scroll sideways. */
+.erp-table tbody tr:hover > td:first-child {
+    box-shadow: inset 3px 0 0 var(--erp-table-accent);
+}
+
+.erp-table tfoot td,
+.erp-table tfoot th {
+    background-color: var(--erp-table-foot);
+    border-top: 2px solid var(--erp-table-line);
+    color: var(--erp-ink);
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 9px 16px;
+    vertical-align: middle;
+}
+
+.erp-table .erp-cell-strong {
+    color: var(--erp-ink);
+    font-weight: 600;
+}
+
+.erp-table-wrap {
+    overflow-x: auto;
+}
+
+/* Per-module accents ------------------------------------------------------- */
+
+/* A module that wants its own hue sets one class on the table rather than
+   redefining the rules. Used sparingly and never inside one module's own
+   screens at random: the point of a scheme is that a table looks the same
+   wherever you meet it, so these are for tables that mean something different
+   â a money table against a register, a warning list against a normal one. */
+
+.erp-table.is-accent-purple {
+    --erp-table-head-bg: #6c63ff59;
+    --erp-table-head-solid: #c4c1ff;
+    --erp-table-head-ink: #2a2472;
+    --erp-table-stripe: #f6f6fe;
+    --erp-table-hover: #ececfe;
+    --erp-table-accent: var(--erp-purple);
+    --erp-table-foot: #f4f4fe;
+}
+
+.erp-table.is-accent-teal {
+    --erp-table-head-bg: #00c29259;
+    --erp-table-head-solid: #99e7d3;
+    --erp-table-head-ink: #0a4f3e;
+    --erp-table-stripe: #f5fcfa;
+    --erp-table-hover: #e6f8f3;
+    --erp-table-accent: var(--erp-primary);
+    --erp-table-foot: #f1fbf8;
+}
+
+.erp-table.is-accent-amber {
+    --erp-table-head-bg: #ff980059;
+    --erp-table-head-solid: #ffd699;
+    --erp-table-head-ink: #6b3b00;
+    --erp-table-stripe: #fffaf2;
+    --erp-table-hover: #fff3e2;
+    --erp-table-accent: var(--erp-warning);
+    --erp-table-foot: #fff7ec;
+}
+
+.erp-table.is-accent-rose {
+    --erp-table-head-bg: #e91e6359;
+    --erp-table-head-solid: #f6a5c1;
+    --erp-table-head-ink: #780e33;
+    --erp-table-stripe: #fff6f8;
+    --erp-table-hover: #ffecf1;
+    --erp-table-accent: var(--erp-danger);
+    --erp-table-foot: #fff5f7;
+}
+
+/* A quiet table, for the places where a saturated band would be shouting: a
+   two-row summary inside a modal, a nested breakdown under a parent row. */
+.erp-table.is-plain thead th {
+    background: var(--erp-surface-2, #f7f9fc);
+    color: var(--erp-muted);
+    font-weight: 600;
+}
+
+.erp-table.is-plain thead th + th {
+    box-shadow: none;
+}
+
+.erp-table.is-plain tbody tr:nth-child(even) {
+    background-color: transparent;
+}
+
+/* A banner row inside the body: a stage, a group, a section heading that spans
+   the table. Colour is set on the CELLS, not the row, so it sits above the
+   stripe -- a banner that is tinted on odd rows and plain on even ones reads as
+   a rendering bug.
+
+   There were three separate inventions of this row before it was named. If you
+   are about to write a fourth, use this one. */
+.erp-table tr.erp-group-row > td,
+.erp-table tr.erp-group-row > th {
+    background-color: var(--erp-table-group);
+    border-bottom: 1px solid var(--erp-table-line);
+    border-top: 1px solid var(--erp-table-line);
+    color: var(--erp-ink);
+    font-size: 11.5px;
+    font-weight: 700;
+}
+
+.erp-table tr.erp-group-row:first-child > td,
+.erp-table tr.erp-group-row:first-child > th {
+    border-top: 0;
+}
+
+/* A banner is a heading, not a record, so it does not respond to hover. */
+.erp-table tbody tr.erp-group-row:hover > td {
+    background-color: var(--erp-table-group);
+    box-shadow: none;
+}
+
+/* Print -------------------------------------------------------------------- */
+
+/* A gradient header prints as grey mush on most office printers and costs a
+   surprising amount of toner doing it. Reports are printed and signed in this
+   business, so print gets ink on paper instead of colour on screen. */
+@media print {
+    .erp-table thead th {
+        background: #fff !important;
+        border-bottom: 1.5px solid #666 !important;
+        color: #000 !important;
+    }
+
+    .erp-table thead th + th {
+        box-shadow: none !important;
+    }
+
+    .erp-table tbody tr:nth-child(even) {
+        background-color: transparent !important;
+    }
+
+    .erp-table tfoot td,
+    .erp-table tfoot th {
+        background: #fff !important;
+        border-top: 1.5px solid #666 !important;
+    }
+
+    .erp-table tr.erp-group-row > td,
+    .erp-table tr.erp-group-row > th {
+        background-color: transparent !important;
+        border-top: 1px solid #999 !important;
+    }
+}
+
+/* Two-line identity cell: avatar + name/meta */
+.erp-identity {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+}
+
+.erp-identity img,
+.erp-identity .erp-initials {
+    border-radius: 50%;
+    flex: 0 0 auto;
+    height: 28px;
+    object-fit: cover;
+    width: 28px;
+}
+
+/* .erp-identity span sets display:block, which outranks .erp-initials' own
+   flex and would knock the text/icon off-centre â restore the centring here. */
+.erp-identity .erp-initials {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.erp-initials {
+    align-items: center;
+    background: rgba(0, 194, 146, .12);
+    color: var(--erp-primary-dark);
+    display: flex;
+    font-size: 11px;
+    font-weight: 600;
+    justify-content: center;
+}
+
+.erp-identity span {
+    display: block;
+    line-height: 1.35;
+}
+
+.erp-identity .erp-identity-name {
+    color: var(--erp-ink);
+    font-weight: 600;
+}
+
+.erp-identity .erp-identity-meta {
+    color: var(--erp-muted);
+    font-size: 11px;
+}
+
+.btn-erp.btn-sm,
+.btn-erp-ghost.btn-sm {
+    border-radius: 5px;
+    font-size: 11.5px;
+    padding: 4px 9px;
+}
+
+/* A sober brand-tinted wash so the small ghost actions read as interactive
+   at a glance, without shouting like a solid primary button. */
+.btn-erp-ghost.btn-sm {
+    background: rgba(0, 194, 146, .10);
+    border-color: rgba(0, 194, 146, .30);
+    color: var(--erp-primary-dark);
+}
+
+.btn-erp-ghost.btn-sm:hover,
+.btn-erp-ghost.btn-sm:focus {
+    background: rgba(0, 194, 146, .18);
+    border-color: rgba(0, 194, 146, .55);
+    color: var(--erp-primary-dark);
+}
+
+.btn-erp-ghost.btn-sm.text-danger {
+    background: rgba(220, 53, 69, .09);
+    border-color: rgba(220, 53, 69, .28);
+}
+
+.btn-erp-ghost.btn-sm.text-danger:hover,
+.btn-erp-ghost.btn-sm.text-danger:focus {
+    background: rgba(220, 53, 69, .16);
+    border-color: rgba(220, 53, 69, .5);
+}
+
+/* --------------------------------------------------------------------------
+   8. Lists â project progress, milestones, activity
+   -------------------------------------------------------------------------- */
+
+.erp-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.erp-list > li {
+    border-bottom: 1px solid #f2f4f8;
+    padding: 11px 16px;
+}
+
+.erp-list > li:last-child {
+    border-bottom: 0;
+}
+
+.erp-progress-head {
+    align-items: baseline;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.erp-progress-head strong {
+    color: var(--erp-ink);
+    font-size: 13.5px;
+    font-weight: 600;
+}
+
+.erp-progress-head span {
+    color: var(--erp-muted);
+    font-size: 12.5px;
+}
+
+.erp-list .progress {
+    background: #eef1f6;
+    border-radius: 20px;
+    height: 7px;
+}
+
+.erp-list .progress-bar {
+    border-radius: 20px;
+}
+
+.erp-meta-row {
+    color: var(--erp-muted);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 12px;
+    gap: 14px;
+    margin-top: 8px;
+}
+
+.erp-meta-row i {
+    margin-right: 4px;
+    opacity: .8;
+}
+
+/* Timeline used by the activity feed */
+.erp-timeline {
+    list-style: none;
+    margin: 0;
+    padding: 4px 20px 4px 20px;
+}
+
+.erp-timeline > li {
+    border-left: 2px solid var(--erp-line);
+    padding: 0 0 20px 20px;
+    position: relative;
+}
+
+.erp-timeline > li:last-child {
+    border-left-color: transparent;
+    padding-bottom: 0;
+}
+
+.erp-timeline > li:before {
+    background: #fff;
+    border: 2px solid var(--erp-primary);
+    border-radius: 50%;
+    content: "";
+    height: 11px;
+    left: -6.5px;
+    position: absolute;
+    top: 3px;
+    width: 11px;
+}
+
+.erp-timeline > li.is-info:before { border-color: var(--erp-info); }
+.erp-timeline > li.is-warning:before { border-color: var(--erp-warning); }
+.erp-timeline > li.is-danger:before { border-color: var(--erp-danger); }
+
+.erp-timeline h6 {
+    color: var(--erp-ink);
+    font-size: 13.5px;
+    font-weight: 600;
+    margin: 0 0 2px;
+}
+
+.erp-timeline p {
+    color: #6b7686;
+    font-size: 12.5px;
+    margin: 0;
+}
+
+.erp-timeline time {
+    color: var(--erp-muted);
+    display: block;
+    font-size: 11.5px;
+    margin-top: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   9. Charts + legends
+   -------------------------------------------------------------------------- */
+
+.erp-chart {
+    position: relative;
+    width: 100%;
+}
+
+.erp-chart-lg { height: 320px; }
+.erp-chart-md { height: 260px; }
+.erp-chart-sm { height: 210px; }
+
+/* The four-up dashboard grid. 180px is the floor at which a pie still reads and
+   a bar chart still has room for four value ticks; below it the axis labels
+   start colliding and the chart stops being worth the space it takes. */
+.erp-chart-xs { height: 180px; }
+
+/* --- Compact chart card --------------------------------------------------- */
+
+.erp-card-head.is-tight {
+    padding-bottom: 8px;
+}
+
+.erp-card-head.is-tight h2 {
+    font-size: 14px;
+}
+
+.erp-card-head.is-tight p {
+    font-size: 11.5px;
+    margin-bottom: 0;
+}
+
+.erp-legend.is-tight {
+    font-size: 11px;
+    gap: 4px 12px;
+    margin-bottom: 6px;
+}
+
+/* The value list under each small chart.
+   This is not a caption â it is the readable form of the same data. The marks
+   in a 180px chart sit below a 3:1 contrast ratio against the card, which is
+   only acceptable where the figures are ALSO available as text, and it is what
+   makes the charts usable for anyone who cannot separate the slices by hue. */
+.erp-chart-values {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+}
+
+.erp-chart-values li {
+    align-items: center;
+    display: flex;
+    font-size: 11.5px;
+    justify-content: space-between;
+    padding: 3px 0;
+}
+
+.erp-chart-values li + li {
+    border-top: 1px solid var(--erp-line);
+}
+
+.erp-chart-values-key {
+    align-items: center;
+    color: var(--erp-muted);
+    display: flex;
+    gap: 6px;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.erp-chart-values-key i {
+    border-radius: 2px;
+    flex: 0 0 auto;
+    height: 9px;
+    width: 9px;
+}
+
+/* Values wear text ink, never the series colour â the swatch beside the label
+   already carries identity, and a coloured number is a number that fails
+   contrast for the sake of a decoration. */
+.erp-chart-values strong {
+    color: var(--erp-ink);
+    font-size: 11.5px;
+    font-weight: 600;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.erp-donut-center.is-sm strong {
+    font-size: 16px;
+}
+
+.erp-donut-center.is-sm span {
+    font-size: 10.5px;
+}
+
+.erp-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.erp-legend li {
+    align-items: center;
+    color: #5b6675;
+    display: flex;
+    font-size: 12.5px;
+    gap: 7px;
+    list-style: none;
+}
+
+.erp-legend i {
+    border-radius: 3px;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+}
+
+/* Donut centre readout */
+.erp-donut-wrap {
+    position: relative;
+}
+
+.erp-donut-center {
+    left: 50%;
+    pointer-events: none;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.erp-donut-center strong {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.erp-donut-center span {
+    color: var(--erp-muted);
+    font-size: 11.5px;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   10. Buttons + form controls
+   -------------------------------------------------------------------------- */
+
+.btn-erp {
+    background: var(--erp-primary);
+    border: 1px solid var(--erp-primary);
+    border-radius: 6px;
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 6px 13px;
+    transition: all .18s ease;
+}
+
+.btn-erp:hover,
+.btn-erp:focus {
+    background: var(--erp-primary-dark);
+    border-color: var(--erp-primary-dark);
+    box-shadow: 0 6px 16px rgba(0, 194, 146, .28);
+    color: #fff;
+}
+
+.btn-erp-ghost {
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: 6px;
+    color: #5b6675;
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 6px 13px;
+    transition: all .18s ease;
+}
+
+.btn-erp-ghost:hover,
+.btn-erp-ghost:focus {
+    background: #f7f9fc;
+    border-color: rgba(0, 194, 146, .45);
+    color: var(--erp-primary-dark);
+}
+
+.erp-select {
+    background-color: #fff;
+    background-position: right 8px center;
+    background-size: 13px 10px;
+    border: 1px solid #dde3ec;
+    border-radius: 6px;
+    color: #5b6675;
+    font-size: 12.5px;
+    min-height: 32px;
+    padding: 5px 26px 5px 10px;
+    width: auto;
+}
+
+.erp-select:focus {
+    border-color: rgba(0, 194, 146, .65);
+    box-shadow: 0 0 0 2.5px rgba(0, 194, 146, .15);
+}
+
+/* --------------------------------------------------------------------------
+   11. Footer
+   -------------------------------------------------------------------------- */
+
+/* A premium, hairline-thin one-liner centred at the very bottom. No
+   background by design; it reads as a quiet imprint, not a bar. pointer-events
+   are off so the decorative line never intercepts a click on content beneath.
+   .erp-shell carries matching bottom padding so nothing hides under it. */
+.erp-footer {
+    background: transparent;
+    bottom: 0;
+    color: var(--erp-muted);
+    font-size: 10.5px;
+    font-weight: 500;
+    left: 0;
+    letter-spacing: .04em;
+    line-height: 1;
+    padding: 7px 18px;
+    pointer-events: none;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    white-space: nowrap;
+    z-index: 5;
+}
+
+.erp-footer-copy strong {
+    color: var(--erp-ink);
+    font-weight: 600;
+    letter-spacing: .02em;
+}
+
+/* --- lines 2000-2673 --- */
+/* --------------------------------------------------------------------------
+   13. Record forms â sectioned layout with a sticky section rail
+   -------------------------------------------------------------------------- */
+
+.erp-form-layout {
+    align-items: start;
+    display: grid;
+    gap: var(--erp-gutter);
+    grid-template-columns: 252px minmax(0, 1fr);
+}
+
+@media (max-width: 1199.98px) {
+    .erp-form-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.erp-form-rail {
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    box-shadow: var(--erp-shadow);
+    overflow: hidden;
+    position: sticky;
+    top: calc(var(--erp-topbar-h, 108px) + 16px);
+}
+
+@media (max-width: 1199.98px) {
+    .erp-form-rail {
+        position: static;
+    }
+}
+
+.erp-form-rail-head {
+    border-bottom: 1px solid var(--erp-line);
+    padding: 14px 18px;
+}
+
+.erp-form-rail-head h3 {
+    color: var(--erp-ink);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .3px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.erp-form-rail-head p {
+    color: var(--erp-muted);
+    font-size: 12px;
+    margin: 3px 0 0;
+}
+
+.erp-form-rail nav {
+    padding: 8px;
+}
+
+.erp-rail-link {
+    align-items: center;
+    border-radius: 6px;
+    color: #5b6675;
+    display: flex;
+    font-size: 12.5px;
+    font-weight: 500;
+    gap: 10px;
+    padding: 7px 10px;
+    text-decoration: none;
+    transition: background .16s ease, color .16s ease;
+}
+
+.erp-rail-link:hover {
+    background: #f5f8fb;
+    color: var(--erp-primary-dark);
+}
+
+.erp-rail-link.is-active {
+    background: rgba(0, 194, 146, .1);
+    color: var(--erp-primary-dark);
+    font-weight: 600;
+}
+
+.erp-rail-step {
+    align-items: center;
+    background: #eef1f6;
+    border-radius: 50%;
+    color: var(--erp-muted);
+    display: flex;
+    flex: 0 0 auto;
+    font-size: 10.5px;
+    font-weight: 600;
+    height: 21px;
+    justify-content: center;
+    transition: background .16s ease, color .16s ease;
+    width: 21px;
+}
+
+.erp-rail-link.is-active .erp-rail-step {
+    background: var(--erp-primary);
+    color: #fff;
+}
+
+.erp-rail-link.has-error .erp-rail-step {
+    background: rgba(233, 30, 99, .14);
+    color: var(--erp-danger);
+}
+
+.erp-rail-link.has-error {
+    color: var(--erp-danger);
+}
+
+/* Section cards ---------------------------------------------------------- */
+
+.erp-form-section {
+    scroll-margin-top: calc(var(--erp-topbar-h, 108px) + 16px);
+}
+
+/* The tinted strip is what separates one section from the next once the
+   fields themselves are packed tight. */
+.erp-section-head {
+    align-items: center;
+    background: linear-gradient(180deg, #fbfcfe, #f7f9fc);
+    border-bottom: 1px solid var(--erp-line);
+    display: flex;
+    gap: 11px;
+    padding: 10px 16px;
+}
+
+.erp-section-icon {
+    align-items: center;
+    background: rgba(0, 194, 146, .12);
+    border-radius: 7px;
+    color: var(--erp-primary);
+    display: flex;
+    flex: 0 0 auto;
+    font-size: 12.5px;
+    height: 30px;
+    justify-content: center;
+    width: 30px;
+}
+
+.erp-section-head h2 {
+    color: var(--erp-ink);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .1px;
+    margin: 0;
+}
+
+.erp-section-head p {
+    color: var(--erp-muted);
+    font-size: 11.5px;
+    margin: 1px 0 0;
+}
+
+/* Fields ----------------------------------------------------------------- */
+
+/* Density target: a ~32px control, the way a native desktop client sizes its
+   fields. Rows are tightened with it so the grid stays visually balanced. */
+.erp-form .row {
+    --bs-gutter-x: 16px;
+}
+
+.erp-form .form-label {
+    color: #55627a;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .15px;
+    margin-bottom: 4px;
+}
+
+.erp-required {
+    color: var(--erp-danger);
+    margin-left: 2px;
+}
+
+.erp-form .form-control,
+.erp-form .form-select {
+    border: 1px solid #dde3ec;
+    border-radius: 6px;
+    box-shadow: none;
+    color: var(--erp-ink);
+    font-size: 12.5px;
+    line-height: 1.45;
+    min-height: 32px;
+    padding: 5px 10px;
+    transition: border-color .16s ease, box-shadow .16s ease;
+}
+
+/* Bootstrap reserves the right padding for the caret; the shorthand above
+   would otherwise let long option labels run underneath it. */
+.erp-form .form-select {
+    background-position: right 8px center;
+    background-size: 13px 10px;
+    padding-right: 26px;
+}
+
+.erp-form textarea.form-control {
+    line-height: 1.55;
+    min-height: 0;
+    padding: 7px 10px;
+}
+
+.erp-form .form-control::placeholder {
+    color: #b6bfcd;
+}
+
+.erp-form .form-control:focus,
+.erp-form .form-select:focus {
+    border-color: rgba(0, 194, 146, .65);
+    box-shadow: 0 0 0 2.5px rgba(0, 194, 146, .15);
+}
+
+.erp-form .form-control.is-invalid,
+.erp-form .form-select.is-invalid {
+    border-color: rgba(233, 30, 99, .6);
+    background-image: none;
+}
+
+.erp-form .form-control.is-invalid:focus,
+.erp-form .form-select.is-invalid:focus {
+    box-shadow: 0 0 0 2.5px rgba(233, 30, 99, .13);
+}
+
+.erp-form .input-group-text {
+    background: #f4f7fb;
+    border: 1px solid #dde3ec;
+    border-radius: 6px;
+    color: var(--erp-muted);
+    font-size: 11.5px;
+    min-width: 32px;
+    padding: 5px 9px;
+}
+
+.erp-form .invalid-feedback {
+    font-size: 11.5px;
+    margin-top: 4px;
+}
+
+.erp-help {
+    color: var(--erp-muted);
+    display: block;
+    font-size: 11px;
+    line-height: 1.45;
+    margin-top: 4px;
+}
+
+.erp-field {
+    margin-bottom: 14px;
+}
+
+/* Side-by-side form layout ------------------------------------------------
+
+   A form laid out in two columns is trying to fit on one screen, so it buys
+   back vertical space everywhere it can: tighter field rhythm, tighter card
+   padding, and a fieldset label that separates without costing a whole row.
+   Scoped to .erp-form-split so every other form keeps the roomier default.
+
+   The two cards are equal height because .erp-card is already height: 100%
+   inside its column â the shorter side stretches rather than leaving a step
+   halfway down the page. */
+
+.erp-form-split .erp-field {
+    margin-bottom: 9px;
+}
+
+.erp-form-split .erp-card-body {
+    padding: 11px 16px;
+}
+
+.erp-form-split .erp-section-head {
+    padding: 8px 16px;
+}
+
+.erp-form-split .erp-fieldset-label {
+    border-top: 1px solid var(--erp-line);
+    margin: 3px 0 10px;
+    padding-top: 9px;
+}
+
+.erp-form-split .erp-help {
+    margin-top: 2px;
+}
+
+/* The chrome around the two cards, trimmed for the same reason the cards
+   themselves were: on a 900px-tall screen the banner, the card gutter and the
+   action bar's margin together cost more than a whole field row. */
+
+.erp-form-split .erp-context-banner {
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 6px 12px;
+}
+
+.erp-form-split .erp-context-banner-icon {
+    height: 28px;
+    width: 28px;
+}
+
+.erp-form-split .erp-card {
+    margin-bottom: 6px;
+}
+
+.erp-form-split .erp-form-bar {
+    margin-top: 0;
+}
+
+/* The section subtitle explains the card once. It is worth its line on a tall
+   screen and not on a short one, where the same 16px is a field row. */
+@media (max-height: 950px) {
+    .erp-form-split .erp-section-head p {
+        display: none;
+    }
+}
+
+/* The page chrome around a split form, reached through :has() because the
+   padding belongs to the layout and the decision belongs to the form. The
+   alternative was a second container class threaded through every page that
+   renders one, which is a lot of plumbing to move 16px. */
+.erp-main:has(.erp-form-split) {
+    padding-top: 10px;
+}
+
+.erp-main:has(.erp-form-split) .erp-pagehead {
+    margin-bottom: 10px;
+}
+
+/* The slider carries its own value in the label, so it needs no reserved
+   space beneath it the way a text field does. */
+.erp-form-split .form-range {
+    margin-top: 2px;
+}
+
+/* Switches --------------------------------------------------------------- */
+
+.erp-switch-row {
+    align-items: center;
+    background: #fafbfd;
+    border: 1px solid var(--erp-line);
+    border-radius: 7px;
+    display: flex;
+    gap: 14px;
+    justify-content: space-between;
+    padding: 9px 13px;
+}
+
+.erp-switch-row + .erp-switch-row {
+    margin-top: 8px;
+}
+
+.erp-switch-row h6 {
+    color: var(--erp-ink);
+    font-size: 12.5px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.erp-switch-row p {
+    color: var(--erp-muted);
+    font-size: 11.5px;
+    margin: 1px 0 0;
+}
+
+.erp-form .form-switch .form-check-input {
+    border-color: #d5dbe5;
+    cursor: pointer;
+    height: 19px;
+    margin: 0;
+    width: 34px;
+}
+
+.erp-form .form-switch .form-check-input:checked {
+    background-color: var(--erp-primary);
+    border-color: var(--erp-primary);
+}
+
+.erp-form .form-switch .form-check-input:focus {
+    border-color: rgba(0, 194, 146, .6);
+    box-shadow: 0 0 0 3px rgba(0, 194, 146, .14);
+}
+
+/* Logo drop zone --------------------------------------------------------- */
+
+.erp-logo-zone {
+    align-items: center;
+    background: #fafbfd;
+    border: 2px dashed #d9e0ea;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    gap: 18px;
+    padding: 18px;
+    transition: border-color .18s ease, background .18s ease;
+}
+
+.erp-logo-zone:hover,
+.erp-logo-zone.is-dragging {
+    background: rgba(0, 194, 146, .05);
+    border-color: rgba(0, 194, 146, .6);
+}
+
+.erp-logo-preview {
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: 12px;
+    display: flex;
+    flex: 0 0 auto;
+    height: 92px;
+    justify-content: center;
+    overflow: hidden;
+    width: 92px;
+}
+
+.erp-logo-preview img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.erp-logo-preview .erp-logo-placeholder {
+    color: #c3cbd8;
+    font-size: 26px;
+}
+
+.erp-logo-copy h6 {
+    color: var(--erp-ink);
+    font-size: 13.5px;
+    font-weight: 600;
+    margin: 0 0 3px;
+}
+
+.erp-logo-copy p {
+    color: var(--erp-muted);
+    font-size: 12.5px;
+    margin: 0;
+}
+
+.erp-logo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+/* Sticky action bar ------------------------------------------------------ */
+
+.erp-form-bar {
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    bottom: 14px;
+    box-shadow: 0 -2px 20px rgba(16, 30, 54, .1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    margin-top: 16px;
+    padding: 9px 16px;
+    position: sticky;
+    z-index: 5;
+}
+
+.erp-form-bar-note {
+    color: var(--erp-muted);
+    font-size: 11.5px;
+}
+
+.erp-form-bar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   14. Index toolbar, empty state, detail lists
+   -------------------------------------------------------------------------- */
+
+.erp-toolbar {
+    align-items: center;
+    background: linear-gradient(180deg, #fbfcfe, #f7f9fc);
+    border-bottom: 1px solid var(--erp-line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: space-between;
+    padding: 10px 16px;
+}
+
+.erp-search {
+    max-width: 340px;
+    position: relative;
+    width: 100%;
+}
+
+.erp-search input {
+    border: 1px solid #dde3ec;
+    border-radius: 6px;
+    font-size: 12.5px;
+    min-height: 32px;
+    padding: 5px 10px 5px 31px;
+    width: 100%;
+}
+
+.erp-search input:focus {
+    border-color: rgba(0, 194, 146, .65);
+    box-shadow: 0 0 0 2.5px rgba(0, 194, 146, .15);
+    outline: none;
+}
+
+.erp-search i {
+    color: var(--erp-muted);
+    font-size: 11.5px;
+    left: 11px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.erp-empty {
+    padding: 56px 24px;
+    text-align: center;
+}
+
+.erp-empty-icon {
+    align-items: center;
+    background: rgba(0, 194, 146, .08);
+    border-radius: 50%;
+    color: var(--erp-primary);
+    display: inline-flex;
+    font-size: 26px;
+    height: 74px;
+    justify-content: center;
+    margin-bottom: 18px;
+    width: 74px;
+}
+
+.erp-empty h3 {
+    color: var(--erp-ink);
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 6px;
+}
+
+.erp-empty p {
+    color: var(--erp-muted);
+    font-size: 13.5px;
+    margin: 0 auto 20px;
+    max-width: 420px;
+}
+
+.erp-logo-thumb {
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: 9px;
+    display: flex;
+    flex: 0 0 auto;
+    height: 40px;
+    justify-content: center;
+    overflow: hidden;
+    width: 40px;
+}
+
+.erp-logo-thumb img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.erp-detail-grid {
+    display: grid;
+    gap: 0 28px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 767.98px) {
+    .erp-detail-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.erp-detail {
+    border-bottom: 1px solid #f2f4f8;
+    padding: 9px 0;
+}
+
+/* The tabbed-workspace .erp-detail further down shares this name; inside a
+   detail grid it must stay a plain row, not a 420px flex column. */
+.erp-detail-grid > .erp-detail {
+    display: block;
+    height: auto;
+    min-height: 0;
+}
+
+.erp-detail dt {
+    color: var(--erp-muted);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .4px;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+}
+
+.erp-detail dd {
+    color: var(--erp-ink);
+    font-size: 12.5px;
+    margin: 0;
+    word-break: break-word;
+}
+
+.erp-detail dd.is-empty {
+    color: #b3bccb;
+}
+
+.erp-profile-head {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.erp-profile-logo {
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--erp-line);
+    border-radius: 14px;
+    display: flex;
+    flex: 0 0 auto;
+    height: 84px;
+    justify-content: center;
+    overflow: hidden;
+    width: 84px;
+}
+
+.erp-profile-logo img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* --------------------------------------------------------------------------
+   15. Utilities
+   -------------------------------------------------------------------------- */
+
+.erp-divider-y {
+    border-right: 1px solid var(--erp-line);
+}
+
+@media (max-width: 991.98px) {
+    .erp-divider-y {
+        border-bottom: 1px solid var(--erp-line);
+        border-right: 0;
+    }
+
+    /* The template gives the header z-index 1090, which would paint it over
+       the off-canvas drawer (1045). Static drops it out of the z-order. */
+    .notika-header {
+        position: static;
+    }
+}
+
+.erp-scroll-y {
+    overflow-y: auto;
+}
+
+/* Lets flex children with long text truncate instead of pushing siblings out. */
+.min-w-0 {
+    min-width: 0;
+}
+
+.erp-h-320 { max-height: 320px; }
+.erp-h-380 { max-height: 380px; }
+
+/* --- lines 3275-3577 --- */
+/* ==========================================================================
+   Module bar accents
+   ========================================================================== */
+
+/* Each module carries a deep accent from config/erp.php as --nav-accent. The
+   icon wears it at full strength; the label stays neutral so the bar still
+   reads as one row rather than a rainbow of text. */
+.notika-navbar .nav-link i:first-child,
+.erp-nav-icon {
+    color: var(--nav-accent, var(--erp-primary));
+    transition: color .18s ease, transform .18s ease;
+}
+
+.notika-navbar .nav-link:hover i:first-child {
+    transform: translateY(-1px);
+}
+
+/* The active module gets a tinted plate and a matching underline, so the
+   accent identifies where you are rather than just decorating. */
+.notika-navbar .nav-link.active {
+    background: color-mix(in srgb, var(--nav-accent, var(--erp-primary)) 10%, transparent);
+    border-bottom-color: var(--nav-accent, var(--erp-primary));
+    border-radius: 7px 7px 0 0;
+    color: var(--nav-accent, var(--erp-primary));
+}
+
+.notika-navbar .nav-link.active i:first-child {
+    color: var(--nav-accent, var(--erp-primary));
+}
+
+/* ==========================================================================
+   Dark theme
+   ==========================================================================
+   Driven by data-theme on <html>, set server-side from the user's saved
+   preference and corrected before paint by the boot script when that
+   preference is "system". Everything below re-points the design tokens the
+   rest of the stylesheet already builds on. */
+
+:root[data-theme="dark"] {
+    --erp-primary: #1ad3a6;
+    --erp-primary-dark: #00b283;
+    --erp-info: #38bdf8;
+    --erp-warning: #fbbf24;
+    --erp-danger: #fb7185;
+    --erp-purple: #a78bfa;
+    --erp-ink: #e6edf5;
+    --erp-muted: #93a2b7;
+    --erp-line: #2a3442;
+    --erp-bg: #131a23;
+    --erp-surface: #1b2430;
+    --erp-surface-2: #212c3a;
+    --erp-shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 14px rgba(0, 0, 0, .28);
+
+    color-scheme: dark;
+}
+
+/* Light keeps the same two surface tokens so components can reference them
+   unconditionally. */
+:root[data-theme="light"],
+:root:not([data-theme]) {
+    --erp-surface: #ffffff;
+    --erp-surface-2: #f7f9fc;
+}
+
+:root[data-theme="dark"] body {
+    background: var(--erp-bg);
+    color: var(--erp-ink);
+}
+
+/* Surfaces ---------------------------------------------------------------- */
+
+:root[data-theme="dark"] .erp-card,
+:root[data-theme="dark"] .erp-submenubar,
+:root[data-theme="dark"] .notika-header,
+:root[data-theme="dark"] .notika-navbar,
+:root[data-theme="dark"] .dropdown-menu,
+:root[data-theme="dark"] .modal-content,
+:root[data-theme="dark"] .offcanvas,
+:root[data-theme="dark"] .erp-calendar-day,
+:root[data-theme="dark"] .erp-scope-choice-body,
+:root[data-theme="dark"] .erp-check-item,
+:root[data-theme="dark"] .erp-snap,
+:root[data-theme="dark"] .erp-day span {
+    background: var(--erp-surface);
+    border-color: var(--erp-line);
+    color: var(--erp-ink);
+}
+
+/* Submenu bar. Only the resting and hover states are restated â the active
+   button keeps its accent gradient in both themes, so it is excluded rather
+   than folded into the surface rules above. */
+:root[data-theme="dark"] .erp-submenu-btn:not(.is-active) {
+    background: var(--erp-surface-2);
+    color: var(--erp-ink);
+}
+
+:root[data-theme="dark"] .erp-submenu-btn:not(.is-active):hover,
+:root[data-theme="dark"] .erp-submenu-btn:not(.is-active):focus-visible {
+    background: var(--erp-bg);
+    border-color: var(--erp-primary);
+    color: var(--erp-primary);
+}
+
+:root[data-theme="dark"] .erp-toolbar,
+:root[data-theme="dark"] .erp-card-foot,
+:root[data-theme="dark"] .erp-section-head,
+:root[data-theme="dark"] .erp-calendar-panel-head,
+:root[data-theme="dark"] .erp-scope-panel,
+:root[data-theme="dark"] .erp-context-btn,
+:root[data-theme="dark"] .erp-calendar-day.is-weekly-off,
+:root[data-theme="dark"] .erp-calendar-day.is-outside,
+:root[data-theme="dark"] .erp-weekgrid-day.is-off,
+:root[data-theme="dark"] .erp-day.is-weekend span {
+    background: var(--erp-surface-2);
+    border-color: var(--erp-line);
+    color: var(--erp-ink);
+}
+
+/* The dark header and hover come from the --erp-table-* tokens, which the
+   dark theme redefines in section 7. Repainting them here would undo that and
+   leave dark mode on the old flat grey while light mode moved on. */
+:root[data-theme="dark"] .erp-table tbody tr:hover > td {
+    background-color: var(--erp-table-hover);
+}
+
+:root[data-theme="dark"] .erp-table td,
+:root[data-theme="dark"] .erp-table th,
+:root[data-theme="dark"] .erp-list li,
+:root[data-theme="dark"] .erp-calendar-entry,
+:root[data-theme="dark"] .erp-switch-row + .erp-switch-row {
+    border-color: var(--erp-line);
+}
+
+/* Typography -------------------------------------------------------------- */
+
+:root[data-theme="dark"] h1,
+:root[data-theme="dark"] h2,
+:root[data-theme="dark"] h3,
+:root[data-theme="dark"] h4,
+:root[data-theme="dark"] h5,
+:root[data-theme="dark"] h6,
+:root[data-theme="dark"] .erp-identity-name,
+:root[data-theme="dark"] .erp-cell-strong,
+:root[data-theme="dark"] .dropdown-item {
+    color: var(--erp-ink);
+}
+
+:root[data-theme="dark"] .text-muted {
+    color: var(--erp-muted) !important;
+}
+
+:root[data-theme="dark"] .dropdown-item:hover,
+:root[data-theme="dark"] .dropdown-item:focus {
+    background: var(--erp-surface-2);
+    color: var(--erp-ink);
+}
+
+:root[data-theme="dark"] .breadcrumb-item,
+:root[data-theme="dark"] .breadcrumb-item a {
+    color: var(--erp-muted);
+}
+
+/* Form controls ----------------------------------------------------------- */
+
+:root[data-theme="dark"] .form-control,
+:root[data-theme="dark"] .form-select,
+:root[data-theme="dark"] .erp-search input,
+:root[data-theme="dark"] .input-group-text {
+    background: var(--erp-surface-2);
+    border-color: var(--erp-line);
+    color: var(--erp-ink);
+}
+
+:root[data-theme="dark"] .form-control:focus,
+:root[data-theme="dark"] .form-select:focus {
+    background: var(--erp-surface-2);
+    border-color: var(--erp-primary);
+    color: var(--erp-ink);
+}
+
+:root[data-theme="dark"] .form-control::placeholder,
+:root[data-theme="dark"] .erp-search input::placeholder {
+    color: var(--erp-muted);
+}
+
+/* The browser paints native date/time pickers dark once color-scheme is set,
+   but the calendar glyph still needs inverting. */
+:root[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
+:root[data-theme="dark"] input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) opacity(.7);
+}
+
+:root[data-theme="dark"] .btn-erp-ghost {
+    background: transparent;
+    border-color: var(--erp-line);
+    color: var(--erp-ink);
+}
+
+:root[data-theme="dark"] .btn-erp-ghost:hover {
+    background: var(--erp-surface-2);
+    color: var(--erp-ink);
+}
+
+:root[data-theme="dark"] .btn-erp-ghost.btn-sm {
+    background: rgba(0, 194, 146, .16);
+    border-color: rgba(0, 194, 146, .38);
+    color: var(--erp-primary);
+}
+
+:root[data-theme="dark"] .btn-erp-ghost.btn-sm:hover,
+:root[data-theme="dark"] .btn-erp-ghost.btn-sm:focus {
+    background: rgba(0, 194, 146, .26);
+    border-color: rgba(0, 194, 146, .6);
+    color: var(--erp-primary);
+}
+
+/* Accents ---------------------------------------------------------------- */
+
+/* Deep print colours go muddy on a dark ground, so lift them without losing
+   the hue that identifies each module. */
+:root[data-theme="dark"] .notika-navbar .nav-link i:first-child,
+:root[data-theme="dark"] .erp-nav-icon {
+    filter: brightness(1.55) saturate(1.15);
+}
+
+:root[data-theme="dark"] .notika-navbar .nav-link.active {
+    background: color-mix(in srgb, var(--nav-accent, var(--erp-primary)) 22%, transparent);
+    color: #fff;
+}
+
+:root[data-theme="dark"] .erp-context-banner {
+    background: color-mix(in srgb, var(--erp-primary) 12%, var(--erp-surface));
+    border-color: color-mix(in srgb, var(--erp-primary) 35%, transparent);
+}
+
+:root[data-theme="dark"] .erp-scope-choice input:checked + .erp-scope-choice-body,
+:root[data-theme="dark"] .erp-check-item:has(input:checked),
+:root[data-theme="dark"] .erp-day input:checked + span,
+:root[data-theme="dark"] .erp-weekgrid-day.is-on {
+    background: color-mix(in srgb, var(--erp-primary) 16%, var(--erp-surface));
+    border-color: var(--erp-primary);
+}
+
+:root[data-theme="dark"] .erp-daychip {
+    background: var(--erp-surface-2);
+}
+
+:root[data-theme="dark"] .erp-daychip.is-on {
+    background: color-mix(in srgb, var(--erp-primary) 24%, transparent);
+    color: var(--erp-primary);
+}
+
+:root[data-theme="dark"] .erp-swatch span {
+    border-color: var(--erp-surface);
+}
+
+:root[data-theme="dark"] .erp-empty-icon,
+:root[data-theme="dark"] .erp-calendar-panel-empty i {
+    color: var(--erp-line);
+}
+
+/* Brand marks are drawn for a light ground. */
+:root[data-theme="dark"] .erp-brand-logo,
+:root[data-theme="dark"] .offcanvas-header img {
+    filter: brightness(0) invert(1);
+}
+
+:root[data-theme="dark"] .alert-danger {
+    background: color-mix(in srgb, var(--erp-danger) 16%, var(--erp-surface));
+    border-color: color-mix(in srgb, var(--erp-danger) 40%, transparent);
+    color: var(--erp-ink);
+}
+
+:root[data-theme="dark"] .alert-warning {
+    background: color-mix(in srgb, var(--erp-warning) 16%, var(--erp-surface));
+    border-color: color-mix(in srgb, var(--erp-warning) 40%, transparent);
+    color: var(--erp-ink);
+}
+
+:root[data-theme="dark"] .pagination .page-link {
+    background: var(--erp-surface-2);
+    border-color: var(--erp-line);
+    color: var(--erp-ink);
+}
+
+:root[data-theme="dark"] .pagination .page-link:hover {
+    background: color-mix(in srgb, var(--erp-primary) 16%, var(--erp-surface));
+    border-color: color-mix(in srgb, var(--erp-primary) 50%, var(--erp-line));
+    color: #fff;
+}
+
+:root[data-theme="dark"] .pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, var(--erp-primary), var(--erp-primary-dark));
+    border-color: transparent;
+    color: #06231c;
+}
+
+:root[data-theme="dark"] .pagination .page-item.disabled .page-link {
+    background: var(--erp-surface);
+    border-color: var(--erp-line);
+    color: var(--erp-muted);
+}
+
+/* --- lines 4006-4430 --- */
+/* ==========================================================================
+   CRM
+   ========================================================================== */
+
+/* Counts strip above a list, each one a filter link */
+.erp-statrow {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    margin-bottom: var(--erp-gutter);
+}
+
+/* A deep two-stop gradient, lit from the top-left, with everything inside it
+   turned light. The depth comes from three things stacked in one rule and not
+   from any one of them: a soft highlight over the gradient so the surface is not
+   flat, a hairline of white along the top edge, and a shadow tinted toward the
+   tile's own hue rather than grey.
+
+   The hue comes from the shared tone palette: a tile wears .is-tone-<name>, or
+   takes the rotation further down, or falls back to deep slate. The DEEP pair is
+   a separate pair of properties from the light one because a wash that works
+   behind 10px text is not a background that works behind white 18px figures --
+   the same hue at two very different weights.
+
+   .erp-stat covers both shapes in the system: icon + body, and the label/value
+   pair with no icon. flex-wrap plus full-width label and value is what lets the
+   second one stack without needing :has(). */
+.erp-stat {
+    align-items: center;
+    background-color: var(--erp-tone-deep, #334155);
+    background-image:
+        linear-gradient(160deg, rgba(255, 255, 255, .14) 0%, rgba(255, 255, 255, 0) 46%),
+        linear-gradient(135deg, var(--erp-tone-deep, #334155), var(--erp-tone-deeper, #1e293b));
+    border: 1px solid transparent;
+    border-radius: var(--erp-radius);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .16),
+        0 4px 14px -8px color-mix(in srgb, var(--erp-tone-deeper, #1e293b) 70%, transparent);
+    color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 11px;
+    padding: 12px 14px;
+    text-decoration: none;
+    transition: box-shadow .18s ease, transform .18s ease, filter .18s ease;
+}
+
+/* Lifts rather than changing colour. Most of these tiles are links, and a hover
+   that recolours a deep tile reads as a state change rather than a pointer. */
+.erp-stat:hover {
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .2),
+        0 10px 22px -10px color-mix(in srgb, var(--erp-tone-deeper, #1e293b) 85%, transparent);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* THE SELECTED FILTER.
+
+   These tiles are filter buttons on twelve screens, and .is-active used to say
+   so by being the only coloured one in the row. Now that they are all coloured
+   it says so with a white ring and a lift instead -- a signal that survives
+   whatever hue the tile happens to be wearing. */
+.erp-stat.is-active {
+    background-image:
+        linear-gradient(160deg, rgba(255, 255, 255, .24) 0%, rgba(255, 255, 255, .04) 52%),
+        linear-gradient(135deg, var(--erp-tone-deep, #334155), var(--erp-tone-deeper, #1e293b));
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, .9),
+        0 10px 24px -10px color-mix(in srgb, var(--erp-tone-deeper, #1e293b) 90%, transparent);
+}
+
+/* ...and once a rail HAS a selection, the rest step back. Without this the
+   selected tile competes with five equally saturated neighbours and the ring has
+   to do all the work on its own. Browsers without :has() simply skip it, which
+   leaves the ring â a graceful floor, not a broken layout. */
+.erp-statrow:has(.erp-stat.is-active) .erp-stat:not(.is-active) {
+    filter: saturate(.72);
+    opacity: .74;
+}
+
+.erp-statrow:has(.erp-stat.is-active) .erp-stat:not(.is-active):hover {
+    filter: none;
+    opacity: 1;
+}
+
+.erp-stat-icon {
+    align-items: center;
+    /* Frosted rather than a second colour: one hue per tile, at two depths. */
+    background: rgba(255, 255, 255, .17);
+    border-radius: 9px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .14);
+    color: #fff;
+    display: flex;
+    flex: 0 0 36px;
+    height: 36px;
+    justify-content: center;
+}
+
+.erp-stat.is-active .erp-stat-icon {
+    background: rgba(255, 255, 255, .26);
+    color: #fff;
+}
+
+.erp-stat-body {
+    display: block;
+    min-width: 0;
+}
+
+.erp-stat-body strong {
+    color: #fff;
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -.2px;
+    line-height: 1.1;
+}
+
+.erp-stat-body small {
+    /* 93%, not the 80% this started at. Measured against all fifteen deep
+       tones: below 93% the caption drops under WCAG AA on thirteen of them, and
+       these captions are the content -- "down right now", "papers expiring" --
+       rather than decoration. */
+    color: rgba(255, 255, 255, .93);
+    font-size: 11.5px;
+}
+
+/* The second shape: a caption above a figure, no icon. Used 85 times across the
+   views and never defined until now -- on a flex row the two were sitting side
+   by side instead of stacking, which is what the full width here fixes. */
+.erp-stat-label {
+    color: rgba(255, 255, 255, .93);
+    display: block;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.erp-stat-value {
+    color: #fff;
+    display: block;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+    line-height: 1.15;
+    width: 100%;
+}
+
+/* Equal heights on a grid ---------------------------------------------------- */
+
+/* Bootstrap stretches the COLUMNS to match each other, but not the tile inside
+   one, so a row where one tile carries a progress bar and another does not comes
+   out with ragged bottoms.
+
+   :only-child rather than a blanket rule: a tile that shares its column with
+   other content must not fill the column, because it would stretch straight over
+   its siblings. Every one of the 47 stat columns in the views holds nothing else,
+   so this covers all of them and cannot catch the case it would break. */
+[class*="col-"] > .erp-stat:only-child {
+    height: 100%;
+}
+
+/* Tiles inside .erp-statrow need nothing: it is a grid, and grid items stretch
+   to their row on their own. */
+
+/* And now that the boxes match, the contents have to line up inside them.
+
+   .erp-stat wraps, and a wrapping flex container with no align-content stretches
+   its LINES to fill the height -- so a two-line tile gives each line half the
+   card and a three-line tile gives each a third. The captions and the figures
+   then sit at different heights from one card to the next, which is the ragged
+   look that survives equalising the boxes. Packing the lines to the top puts
+   every caption on one baseline and every figure on another, and leaves the
+   slack at the bottom where the extras hang.
+
+   Scoped to the caption/figure shape, because the icon + body shape is a single
+   line that should stay vertically centred. Without :has() support the tiles are
+   still equal height -- the ask -- and the contents merely spread as before. */
+.erp-stat:has(> .erp-stat-label) {
+    align-content: flex-start;
+    /* The 11px column gap is right between an icon and its body, and far too
+       much between a caption and the figure under it. */
+    row-gap: 2px;
+}
+
+/* Anything after the figure -- a progress bar, an overdue note -- is secondary,
+   so it takes the slack rather than the figure drifting down the card. */
+.erp-stat > .erp-stat-value ~ * {
+    margin-top: 4px;
+    width: 100%;
+}
+
+
+/* Anything inside a tile that was coloured for a white card.
+
+   Bootstrap's text utilities carry !important, so overriding them needs it too.
+   These are the four that actually appear inside stat tiles in this codebase;
+   without them a .text-muted caption is grey-on-deep-navy and unreadable. */
+/* Each of these is the lightest tint of its own hue that still clears AA on the
+   deepest tone it can land on. The first guesses -- #fde68a, #a7f3d0 -- came out
+   at 4.03 and 4.28, which looks fine and is not readable enough. */
+.erp-stat .text-muted { color: rgba(255, 255, 255, .93) !important; }
+.erp-stat .text-danger { color: #ffe4e6 !important; }
+.erp-stat .text-warning { color: #fffbeb !important; }
+.erp-stat .text-success { color: #d1fae5 !important; }
+
+/* A progress track inside a tile has to read against the tile, not against a
+   card. */
+.erp-stat .erp-progress {
+    background: rgba(255, 255, 255, .2);
+}
+
+/* A link inside a tile -- a drill-through on a figure -- keeps the tile's ink
+   rather than reverting to the page's link colour. */
+.erp-stat .erp-plain-link,
+.erp-stat a {
+    color: #fff;
+}
+
+/* Hue rotation for a row of tiles.
+
+   32 screens use these and almost none of them name a tone, so a default alone
+   would give the whole system rows of identical navy. The rotation gives each
+   position its own hue and costs no blade edits.
+
+   Guarded so that anything MEANING something keeps its meaning: an explicit
+   tone, or one of the alert tones below, is never rotated over. Rose and the
+   alert hues stay out of the rotation itself, because a red tile has to mean
+   red. */
+.erp-statrow > .erp-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success):nth-child(6n + 1) { --erp-tone-deep: #0369a1; --erp-tone-deeper: #075985; }
+.erp-statrow > .erp-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success):nth-child(6n + 2) { --erp-tone-deep: #4f46e5; --erp-tone-deeper: #3730a3; }
+.erp-statrow > .erp-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success):nth-child(6n + 3) { --erp-tone-deep: #0f766e; --erp-tone-deeper: #115e59; }
+.erp-statrow > .erp-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success):nth-child(6n + 4) { --erp-tone-deep: #7e22ce; --erp-tone-deeper: #581c87; }
+.erp-statrow > .erp-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success):nth-child(6n + 5) { --erp-tone-deep: #0e7490; --erp-tone-deeper: #155e75; }
+.erp-statrow > .erp-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success):nth-child(6n + 6) { --erp-tone-deep: #334155; --erp-tone-deeper: #1e293b; }
+
+/* The same rotation for tiles laid out on a grid rather than in a statrow.
+
+   Two container shapes exist in the views -- .erp-statrow > .erp-stat, and
+   .row > .col-* > .erp-stat -- and covering only the first left the grid version
+   as a run of identical slate tiles next to a six-hue strip. Same component, two
+   looks, decided by nothing more than its wrapper.
+
+   :has() keeps this off every other Bootstrap row in the application. Where it
+   is unsupported the tiles keep the deep slate default: duller, never broken. */
+.row:has(> [class*="col-"] > .erp-stat) > [class*="col-"]:nth-child(6n + 1) > .erp-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success) { --erp-tone-deep: #0369a1; --erp-tone-deeper: #075985; }
+.row:has(> [class*="col-"] > .erp-stat) > [class*="col-"]:nth-child(6n + 2) > .erp-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success) { --erp-tone-deep: #4f46e5; --erp-tone-deeper: #3730a3; }
+.row:has(> [class*="col-"] > .erp-stat) > [class*="col-"]:nth-child(6n + 3) > .erp-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success) { --erp-tone-deep: #0f766e; --erp-tone-deeper: #115e59; }
+.row:has(> [class*="col-"] > .erp-stat) > [class*="col-"]:nth-child(6n + 4) > .erp-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success) { --erp-tone-deep: #7e22ce; --erp-tone-deeper: #581c87; }
+.row:has(> [class*="col-"] > .erp-stat) > [class*="col-"]:nth-child(6n + 5) > .erp-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success) { --erp-tone-deep: #0e7490; --erp-tone-deeper: #155e75; }
+.row:has(> [class*="col-"] > .erp-stat) > [class*="col-"]:nth-child(6n + 6) > .erp-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success) { --erp-tone-deep: #334155; --erp-tone-deeper: #1e293b; }
+
+/* Tags */
+.erp-tag-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.erp-tag-choice {
+    cursor: pointer;
+    display: inline-block;
+    margin: 0;
+    position: relative;
+}
+
+.erp-tag-choice input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.erp-tag-choice span {
+    background: var(--erp-surface);
+    border: 1px solid var(--erp-line);
+    border-radius: 20px;
+    color: var(--erp-muted);
+    display: block;
+    font-size: 11.5px;
+    font-weight: 500;
+    padding: 4px 13px;
+    transition: border-color .18s ease, background .18s ease, color .18s ease;
+    white-space: nowrap;
+}
+
+.erp-tag-choice:hover span {
+    border-color: var(--tag, var(--erp-primary));
+    color: var(--erp-ink);
+}
+
+.erp-tag-choice input:checked + span {
+    background: color-mix(in srgb, var(--tag, var(--erp-primary)) 16%, transparent);
+    border-color: var(--tag, var(--erp-primary));
+    color: var(--erp-ink);
+}
+
+.erp-tag-choice input:focus-visible + span {
+    outline: 2px solid var(--tag, var(--erp-primary));
+    outline-offset: 2px;
+}
+
+.erp-tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 6px;
+}
+
+.erp-tag-chip {
+    background: color-mix(in srgb, var(--tag, var(--erp-muted)) 16%, transparent);
+    border-left: 3px solid var(--tag, var(--erp-muted));
+    border-radius: 4px;
+    color: var(--erp-ink);
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 500;
+    padding: 2px 7px;
+}
+
+/* Contact rows on the customer detail page */
+.erp-contact-row {
+    align-items: center;
+    border-bottom: 1px solid var(--erp-line);
+    display: flex;
+    gap: 13px;
+    padding: 13px var(--erp-gutter);
+}
+
+.erp-contact-row:last-child {
+    border-bottom: none;
+}
+
+.erp-contact-body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.erp-contact-body strong {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+}
+
+.erp-contact-body small {
+    color: var(--erp-muted);
+    display: block;
+    font-size: 11.5px;
+}
+
+.erp-contact-actions {
+    flex: 0 0 auto;
+}
+
+/* One-line action forms on the lead detail page */
+.erp-inline-action {
+    align-items: center;
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 12px 14px;
+}
+
+.erp-inline-action:last-child {
+    margin-bottom: 0;
+}
+
+.erp-inline-action.is-primary {
+    background: color-mix(in srgb, var(--erp-primary) 7%, transparent);
+    border-color: color-mix(in srgb, var(--erp-primary) 35%, transparent);
+}
+
+.erp-inline-action strong {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.erp-inline-action small {
+    color: var(--erp-muted);
+    display: block;
+    font-size: 11.5px;
+}
+
+.erp-inline-action .form-control,
+.erp-inline-action .form-select {
+    max-width: 190px;
+}
+
+/* Table cell links that should not look like links until hovered */
+.erp-plain-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.erp-plain-link:hover {
+    color: var(--erp-primary);
+    text-decoration: underline;
+}
+
+:root[data-theme="dark"] .erp-tag-choice span,
+:root[data-theme="dark"] .erp-inline-action {
+    background: var(--erp-surface);
+    border-color: var(--erp-line);
+}
+
+/* .erp-stat is deliberately NOT repainted here. Its gradient is already dark and
+   its text is already white, so it needs nothing from the dark theme -- and the
+   rule that used to be here set `background`, the shorthand, which resets
+   background-image and would have dropped the gradient on the floor. The tile
+   only loses a little of its lift, because a shadow tinted toward the hue does
+   less work on a dark card. */
+:root[data-theme="dark"] .erp-stat {
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .12),
+        0 4px 14px -10px rgba(0, 0, 0, .8);
+}
+
+/* --- lines 4580-5232 --- */
+/* ==========================================================================
+   Select2 â matched to the form controls
+   ========================================================================== */
+
+.select2-container--default .select2-selection--single {
+    background: var(--erp-surface);
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    height: 38px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: var(--erp-ink);
+    font-size: 13px;
+    line-height: 36px;
+    padding-left: 12px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 36px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+    color: var(--erp-muted);
+}
+
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--open .select2-selection--single {
+    border-color: var(--erp-primary);
+}
+
+.select2-dropdown {
+    background: var(--erp-surface);
+    border-color: var(--erp-line);
+    border-radius: var(--erp-radius);
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    background: var(--erp-surface-2);
+    border: 1px solid var(--erp-line);
+    border-radius: 7px;
+    color: var(--erp-ink);
+    font-size: 13px;
+    padding: 6px 9px;
+}
+
+.select2-container--default .select2-results__option {
+    color: var(--erp-ink);
+    font-size: 13px;
+    padding: 7px 12px;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background: var(--erp-primary);
+    color: #fff;
+}
+
+.select2-container--default .select2-results__option[aria-selected="true"] {
+    background: var(--erp-surface-2);
+    color: var(--erp-ink);
+}
+
+/* Name on the left, phone on the right, code underneath */
+.erp-s2-row {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.erp-s2-name {
+    font-weight: 500;
+}
+
+.erp-s2-phone {
+    color: var(--erp-muted);
+    font-size: 11.5px;
+    margin-left: auto;
+}
+
+/* Follows the row's own text colour rather than assuming a dark highlight:
+   a highlighted row is white-on-primary in a single-select but primary-on-white
+   in the multi-select checkbox list, and a fixed colour vanishes on one of them. */
+.select2-container--default .select2-results__option--highlighted .erp-s2-phone,
+.select2-container--default .select2-results__option--highlighted .erp-s2-meta {
+    color: inherit;
+    opacity: .75;
+}
+
+/* Multi-select â selected values render as tidy badges, not a plain list */
+.select2-container--default .select2-selection--multiple {
+    background: var(--erp-surface);
+    border: 1px solid var(--erp-line);
+    border-radius: var(--erp-radius);
+    min-height: 38px;
+    padding: 2px 4px;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--open .select2-selection--multiple {
+    border-color: var(--erp-primary);
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 3px 2px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    align-items: center;
+    background: var(--erp-primary-soft, rgba(0, 194, 146, .13));
+    border: 1px solid var(--erp-primary, #00c292);
+    border-radius: 999px;
+    color: var(--erp-primary-ink, var(--erp-primary, #00c292));
+    display: inline-flex;
+    flex-direction: row-reverse;
+    font-size: 12px;
+    font-weight: 500;
+    gap: 6px;
+    line-height: 1.4;
+    margin: 0;
+    padding: 3px 10px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    border: 0;
+    color: var(--erp-primary, #00c292);
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+    opacity: .75;
+    padding: 0;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+    background: transparent;
+    color: var(--erp-danger, #e91e63);
+    opacity: 1;
+}
+
+.select2-container--default .select2-selection--multiple .select2-search--inline .select2-search__field {
+    color: var(--erp-ink);
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__placeholder {
+    color: var(--erp-muted);
+    line-height: 30px;
+    margin-left: 6px;
+}
+
+/* Checkbox-list dropdown for multi-selects (dropdownCssClass: erp-s2-checkable).
+   Each option gets a tick box on the left, filled when the option is selected. */
+.erp-s2-checkable .select2-results__option {
+    align-items: center;
+    display: flex;
+    gap: 9px;
+}
+
+.erp-s2-checkable .select2-results__option::before {
+    border: 1.5px solid var(--erp-line);
+    border-radius: 4px;
+    background: var(--erp-surface);
+    color: transparent;
+    content: "\2713"; /* check mark, hidden until selected */
+    flex: 0 0 auto;
+    font-size: 11px;
+    font-weight: 700;
+    height: 16px;
+    line-height: 14px;
+    text-align: center;
+    width: 16px;
+}
+
+/* A row counts as ticked when Select2 marks it --selected. aria-selected is
+   ALSO true for the row merely under the cursor, so keying the tick off it
+   made a hovered row look chosen when it was not. */
+.erp-s2-checkable .select2-results__option--selected {
+    background: var(--erp-surface);
+    color: var(--erp-ink);
+    font-weight: 500;
+}
+
+.erp-s2-checkable .select2-results__option--selected::before {
+    background: var(--erp-primary, #00c292);
+    border-color: var(--erp-primary, #00c292);
+    color: #fff;
+}
+
+/* A highlighted row sits on the primary colour, so its box needs a white edge
+   to show at all â and a ticked one has to invert completely, or it is a green
+   box on a green row. */
+.erp-s2-checkable .select2-results__option--highlighted::before {
+    border-color: #fff;
+}
+
+.erp-s2-checkable .select2-results__option--highlighted.select2-results__option--selected::before {
+    background: #fff;
+    border-color: #fff;
+    color: var(--erp-primary, #00c292);
+}
+
+.erp-s2-meta {
+    color: var(--erp-muted);
+    font-size: 10.5px;
+}
+
+/* Colour picker on the follow-up type form */
+.erp-pill-choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.erp-pill-choice {
+    cursor: pointer;
+    display: inline-block;
+    margin: 0;
+    position: relative;
+}
+
+.erp-pill-choice input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.erp-pill-choice .erp-pill {
+    border: 2px solid transparent;
+    display: inline-block;
+}
+
+.erp-pill-choice input:checked + .erp-pill {
+    border-color: var(--erp-ink);
+}
+
+.erp-pill-choice input:focus-visible + .erp-pill {
+    outline: 2px solid var(--erp-primary);
+    outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Record detail â one card, sectioned
+   ==========================================================================
+   Replaces the old multi-card / label-left-value-right layout. Labels sit
+   above their values in a responsive grid, which packs far tighter than a
+   two-column list and avoids the ragged gap between a long label and a short
+   value. */
+
+.erp-rec-head {
+    align-items: center;
+    border-bottom: 1px solid var(--erp-line);
+    display: flex;
+    gap: 14px;
+    padding: 16px var(--erp-gutter);
+}
+
+.erp-rec-avatar {
+    align-items: center;
+    background: linear-gradient(135deg, var(--erp-primary), var(--erp-primary-dark));
+    border-radius: 12px;
+    color: #fff;
+    display: flex;
+    flex: 0 0 46px;
+    font-size: 16px;
+    font-weight: 600;
+    height: 46px;
+    justify-content: center;
+    letter-spacing: .3px;
+    overflow: hidden;
+}
+
+.erp-rec-avatar img {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+}
+
+.erp-rec-id {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.erp-rec-id h2 {
+    color: var(--erp-ink);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.erp-rec-id p {
+    color: var(--erp-muted);
+    font-size: 12px;
+    margin: 2px 0 0;
+}
+
+.erp-rec-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 7px;
+}
+
+/* Sections stack inside the one card, split by hairlines instead of gaps. */
+.erp-rec-section {
+    border-bottom: 1px solid var(--erp-line);
+    padding: 14px var(--erp-gutter);
+}
+
+.erp-rec-section:last-child {
+    border-bottom: none;
+}
+
+.erp-rec-section-head {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    margin-bottom: 11px;
+}
+
+.erp-rec-section-head h3 {
+    color: var(--erp-muted);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .07em;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.erp-deflist {
+    display: grid;
+    gap: 12px 20px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.erp-def {
+    min-width: 0;
+}
+
+.erp-def.is-wide {
+    grid-column: 1 / -1;
+}
+
+.erp-def-label {
+    color: var(--erp-muted);
+    display: block;
+    font-size: 10.5px;
+    letter-spacing: .03em;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+}
+
+.erp-def-value {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.erp-def-value.is-empty {
+    color: var(--erp-muted);
+    font-weight: 400;
+}
+
+.erp-def-value a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.erp-def-value a:hover {
+    color: var(--erp-primary);
+    text-decoration: underline;
+}
+
+.erp-def-note {
+    color: var(--erp-ink);
+    font-size: 13px;
+    line-height: 1.55;
+    margin: 0;
+    white-space: pre-line;
+}
+
+/* Compact people rows (contact persons) */
+.erp-person {
+    align-items: center;
+    border-top: 1px solid var(--erp-line);
+    display: flex;
+    gap: 11px;
+    padding: 9px 0;
+}
+
+.erp-person:first-of-type {
+    border-top: none;
+    padding-top: 0;
+}
+
+.erp-person-avatar {
+    align-items: center;
+    background: var(--erp-surface-2);
+    border-radius: 8px;
+    color: var(--erp-muted);
+    display: flex;
+    flex: 0 0 32px;
+    font-size: 11px;
+    font-weight: 600;
+    height: 32px;
+    justify-content: center;
+}
+
+.erp-person-body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.erp-person-body strong {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.erp-person-body small {
+    color: var(--erp-muted);
+    display: block;
+    font-size: 11.5px;
+}
+
+.erp-person-actions {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+/* Slim metric strip under the header */
+.erp-rec-metrics {
+    border-bottom: 1px solid var(--erp-line);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+}
+
+.erp-rec-metric {
+    border-right: 1px solid var(--erp-line);
+    padding: 11px var(--erp-gutter);
+}
+
+.erp-rec-metric:last-child {
+    border-right: none;
+}
+
+.erp-rec-metric strong {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.erp-rec-metric small {
+    color: var(--erp-muted);
+    font-size: 10.5px;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+}
+
+@media (max-width: 575.98px) {
+    .erp-rec-metric {
+        border-bottom: 1px solid var(--erp-line);
+        border-right: none;
+    }
+}
+
+/* Inline notes editor */
+.erp-note-actions {
+    display: flex;
+    gap: 7px;
+    justify-content: flex-end;
+    margin-top: 9px;
+}
+
+.erp-note-hint {
+    color: var(--erp-warning);
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+}
+
+[data-note-form] textarea {
+    font-size: 13px;
+    line-height: 1.55;
+    resize: vertical;
+}
+
+/* Communication log entries */
+.erp-comm {
+    border-top: 1px solid var(--erp-line);
+    display: flex;
+    gap: 11px;
+    padding: 12px 0;
+}
+
+.erp-comm:first-of-type {
+    border-top: none;
+    padding-top: 0;
+}
+
+.erp-comm-icon {
+    align-items: center;
+    display: flex;
+    flex: 0 0 30px;
+    height: 30px;
+    justify-content: center;
+    padding: 0;
+}
+
+.erp-comm-body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.erp-comm-body strong {
+    color: var(--erp-ink);
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.erp-comm-meta {
+    color: var(--erp-muted);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 11.5px;
+    gap: 12px;
+    margin-top: 3px;
+}
+
+.erp-comm-notes {
+    color: var(--erp-ink);
+    font-size: 12.5px;
+    line-height: 1.55;
+    margin: 6px 0 0;
+    white-space: pre-line;
+}
+
+.erp-comm-audit {
+    color: var(--erp-muted);
+    display: block;
+    font-size: 10.5px;
+    margin-top: 5px;
+}
+
+.erp-comm-actions {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   Toasts â transient feedback for AJAX actions
+   ==========================================================================
+   Actions that never reload the page have no flash message to ride on, so
+   window.erpToast() drops one of these in instead.
+
+   Top-right, where the eye already is after clicking something in a toolbar or
+   a dialog. It used to sit bottom-left â the far corner from every control
+   that fires it, and the one most likely to be off-screen on a long list where
+   the user is working near the top of the page.
+
+   Offset by the real height of the sticky header rather than a guessed number,
+   so it lands just under the module bar instead of over it; --erp-topbar-h is
+   published by erp-app.js and already tracks the header being collapsed or the
+   bar wrapping to a second row.
+   -------------------------------------------------------------------------- */
+
+.erp-toasts {
+    position: fixed;
+    right: 18px;
+    top: calc(var(--erp-topbar-h, 96px) + 12px);
+    z-index: 1085;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: min(380px, calc(100vw - 36px));
+    pointer-events: none;
+}
+
+/* Below lg the header is not sticky, so there is no bar to clear â pinning to
+   its height would leave the toast hanging in the middle of a scrolled page. */
+@media (max-width: 991.98px) {
+    .erp-toasts {
+        right: 12px;
+        top: 12px;
+        max-width: calc(100vw - 24px);
+    }
+}
+
+.erp-toast {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 11px 14px;
+    border-radius: 10px;
+    border-left: 3px solid var(--erp-success);
+    background: var(--erp-surface);
+    color: var(--erp-text);
+    box-shadow: 0 8px 26px rgba(15, 23, 42, 0.18);
+    font-size: 12.5px;
+    line-height: 1.45;
+    cursor: pointer;
+    pointer-events: auto;
+    animation: erp-toast-in 0.22s ease-out;
+}
+
+.erp-toast.is-error {
+    border-left-color: var(--erp-danger);
+}
+
+.erp-toast i {
+    margin-top: 2px;
+    color: var(--erp-success);
+}
+
+.erp-toast.is-error i {
+    color: var(--erp-danger);
+}
+
+/* Both directions follow the anchor: a top-anchored toast that slid up from
+   below read as rising off the bottom of a panel it was nowhere near. */
+.erp-toast.is-leaving {
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+@keyframes erp-toast-in {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .erp-toast { animation: none; }
+}
+
+/* --- lines 5295-5350 --- */
+    color: var(--erp-ink);
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0 0 2px;
+}
+
+.erp-cv-id p { color: var(--erp-muted); font-size: 13px; margin: 0 0 8px; }
+
+.erp-tabs {
+    border-bottom: 1px solid var(--erp-line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    overflow-x: auto;
+    padding: 0 var(--erp-gutter);
+}
+
+.erp-tab {
+    align-items: center;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--erp-muted);
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 13px;
+    font-weight: 500;
+    gap: 7px;
+    padding: 13px 14px;
+    white-space: nowrap;
+}
+
+.erp-tab:hover { color: var(--erp-text); }
+
+.erp-tab.is-active {
+    border-bottom-color: var(--erp-primary);
+    color: var(--erp-primary);
+}
+
+.erp-tab-count {
+    background: var(--erp-surface-2);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 20px;
+    padding: 1px 6px;
+    text-align: center;
+}
+
+.erp-tab.is-active .erp-tab-count {
+    background: color-mix(in srgb, var(--erp-primary) 16%, transparent);
+    color: var(--erp-primary);
+}
+
+.erp-tab-panel { display: none; padding: var(--erp-gutter); }
+.erp-tab-panel.is-active { display: block; }
+/* --- lines 5635-5674 --- */
+}
+
+.erp-nominee-row { align-items: center; display: flex; gap: 18px; }
+.erp-nominee-row [data-nominee-share] { width: 130px; }
+
+.erp-code-preview-box {
+    background: var(--erp-surface-2);
+    border-radius: 10px;
+    padding: 8px 14px;
+    width: 100%;
+}
+
+.erp-code-preview-box small {
+    color: var(--erp-muted);
+    display: block;
+    font-size: 10px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.erp-code-preview-box strong {
+    color: var(--erp-primary);
+    font-family: ui-monospace, monospace;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+@media (max-width: 575.98px) {
+    .erp-cv-head { flex-wrap: wrap; }
+    .erp-mini-card, .erp-doc-card { flex-wrap: wrap; }
+}
+
+/* Multi-document upload rows */
+.erp-doc-upload-row {
+    background: var(--erp-surface-2);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+/* --- lines 7118-7500 --- */
+.erp-wizard-steps li.is-done span { background: var(--erp-primary); color: #fff; }
+
+.erp-wizard-nav { display: flex; align-items: center; gap: 8px; }
+
+/* --- Manage-page rows ---------------------------------------------------- */
+
+.erp-rows { display: flex; flex-direction: column; gap: 8px; }
+
+.erp-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 12px;
+    background: var(--erp-bg);
+    border: 1px solid var(--erp-line);
+    border-radius: 10px;
+}
+.erp-row .erp-kavatar { width: 36px; height: 36px; font-size: 13px; flex: 0 0 auto; background: var(--erp-primary); }
+.erp-row-body { flex: 1 1 auto; min-width: 0; }
+.erp-row-body strong { display: block; font-size: 13.5px; color: var(--erp-ink); }
+.erp-row-body small { font-size: 12px; color: var(--erp-muted); }
+.erp-row-tag { font-size: 10px; padding: 1px 7px; margin-left: 6px; vertical-align: middle; }
+.erp-row-meta { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 3px; font-size: 11.5px; color: var(--erp-muted); }
+.erp-row-actions { display: inline-flex; gap: 4px; flex: 0 0 auto; }
+
+/* Pipeline stage rows â a draggable variant of the manage-page row. */
+.erp-stage-row { gap: 10px; }
+.erp-stage-row[draggable="true"] { cursor: grab; }
+.erp-stage-row[draggable="true"]:active { cursor: grabbing; }
+.erp-stage-row.is-dragging { opacity: .55; }
+.erp-stage-handle { color: var(--erp-muted); flex: 0 0 auto; cursor: grab; }
+.erp-stage-dot { width: 12px; height: 12px; border-radius: 50%; flex: 0 0 auto; background: var(--dot, #94a3b8); }
+
+/* ==========================================================================
+   Suppliers â manage page (profile hero + tabbed detail card)
+   ========================================================================== */
+
+.erp-supplier-profile { padding: 0; overflow: hidden; }
+
+.erp-supplier-hero {
+    text-align: center;
+    padding: 22px 18px 18px;
+    border-bottom: 1px solid var(--erp-line);
+    background: linear-gradient(180deg, rgba(3, 105, 161, .06), transparent);
+}
+.erp-supplier-avatar {
+    width: 62px;
+    height: 62px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #0369a1, #075985);
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.erp-supplier-hero h2 { font-size: 16px; font-weight: 600; color: var(--erp-ink); margin: 0; word-break: break-word; }
+.erp-supplier-code { font-size: 12px; color: var(--erp-muted); font-family: ui-monospace, "Consolas", monospace; margin: 2px 0 0; }
+
+.erp-supplier-quick {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+.erp-supplier-quick > div {
+    flex: 1 1 0;
+    background: var(--erp-surface);
+    border: 1px solid var(--erp-line);
+    border-radius: 10px;
+    padding: 8px 6px;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+.erp-supplier-quick strong { font-size: 15px; color: var(--erp-ink); }
+.erp-supplier-quick small { font-size: 10px; text-transform: uppercase; letter-spacing: .03em; color: var(--erp-muted); }
+
+.erp-supplier-info { padding: 6px 18px 14px; }
+.erp-supplier-info .erp-cv-block { margin-top: 14px; }
+
+/* --- Tabbed detail card -------------------------------------------------- */
+
+.erp-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2px;
+    border-bottom: 1px solid var(--erp-line);
+    padding: 0 10px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+.erp-tab {
+    border: none;
+    background: transparent;
+    padding: 15px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--erp-muted);
+    border-bottom: 2px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.erp-tab:hover { color: var(--erp-ink); }
+.erp-tab.active { color: var(--erp-primary); border-bottom-color: var(--erp-primary); }
+.erp-tab-count {
+    font-size: 11px;
+    min-width: 20px;
+    text-align: center;
+    padding: 0 6px;
+    border-radius: 20px;
+    background: var(--erp-bg);
+    border: 1px solid var(--erp-line);
+    color: var(--erp-muted);
+}
+.erp-tab.active .erp-tab-count { background: rgba(0, 194, 146, .12); color: var(--erp-primary); border-color: transparent; }
+
+@media (max-width: 560px) {
+    .erp-tab-label { display: none; }
+}
+
+/* --- Glass tabs ----------------------------------------------------------- */
+
+/* An opt-in treatment: add `is-glass` to an .erp-tabs strip and each tab
+   becomes a tinted glass button in its own colour. Opt-in rather than global
+   because .erp-tabs is shared by a dozen screens, and a strip of two tabs does
+   not want the same weight as a workflow of ten.
+
+   Every tab carries its accent as `--tab`, three space-separated channels so
+   one value can drive the plate, the border, the label and the badge at
+   different alphas. The label is that accent mixed toward ink at a ratio
+   measured â not guessed â to clear WCAG AA against its own plate in both
+   themes: the worst case (amber, active) lands at 5.09:1. */
+
+.erp-tabs.is-glass {
+    --tab-plate: .12;
+    --tab-ink-mix: 48%;
+
+    border-bottom: 0;
+    gap: 8px;
+    padding: 12px 12px 4px;
+    flex-wrap: wrap;
+}
+
+.erp-tabs.is-glass .erp-tab {
+    --tab: 100 116 139;
+
+    position: relative;
+    border: 1px solid rgb(var(--tab) / .28);
+    border-bottom: 1px solid rgb(var(--tab) / .28);
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: color-mix(in srgb, rgb(var(--tab)) var(--tab-ink-mix), #0e1726);
+    background:
+        linear-gradient(155deg, rgb(var(--tab) / var(--tab-plate)), rgb(var(--tab) / calc(var(--tab-plate) * .35)));
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
+    backdrop-filter: blur(10px) saturate(150%);
+    /* The top highlight is what reads as glass rather than as a flat chip. */
+    box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / .55),
+        0 1px 2px rgb(15 23 42 / .04);
+    transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease, background .14s ease;
+}
+
+/* A soft sheen across the upper half, clipped to the button's radius. */
+.erp-tabs.is-glass .erp-tab::after {
+    content: "";
+    position: absolute;
+    inset: 1px 1px auto;
+    height: 45%;
+    border-radius: 11px 11px 40% 40%;
+    background: linear-gradient(180deg, rgb(255 255 255 / .35), rgb(255 255 255 / 0));
+    pointer-events: none;
+}
+
+.erp-tabs.is-glass .erp-tab:hover {
+    --tab-plate: .18;
+    border-color: rgb(var(--tab) / .42);
+    transform: translateY(-1px);
+    box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / .6),
+        0 4px 12px rgb(var(--tab) / .18);
+}
+
+.erp-tabs.is-glass .erp-tab.is-active,
+.erp-tabs.is-glass .erp-tab.active {
+    --tab-plate: .3;
+    border-color: rgb(var(--tab) / .65);
+    font-weight: 700;
+    transform: translateY(-1px);
+    box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / .65),
+        0 0 0 3px rgb(var(--tab) / .18),
+        0 6px 16px rgb(var(--tab) / .26);
+}
+
+/* A solid bar along the bottom of the selected tab. In a strip where every
+   tab is already coloured, a deeper tint alone is a weak signal â this is the
+   one mark only the active tab carries, and it survives greyscale. */
+.erp-tabs.is-glass .erp-tab.is-active::before,
+.erp-tabs.is-glass .erp-tab.active::before {
+    content: "";
+    position: absolute;
+    left: 22%;
+    right: 22%;
+    bottom: -1px;
+    height: 3px;
+    border-radius: 3px 3px 0 0;
+    background: rgb(var(--tab));
+}
+
+.erp-tabs.is-glass .erp-tab:focus-visible {
+    outline: 2px solid rgb(var(--tab));
+    outline-offset: 2px;
+}
+
+.erp-tabs.is-glass .erp-tab i { color: rgb(var(--tab) / .95); }
+
+.erp-tabs.is-glass .erp-tab-count {
+    background: rgb(var(--tab) / .18);
+    border: 0;
+    color: inherit;
+    font-weight: 700;
+}
+
+.erp-tabs.is-glass .erp-tab.is-active .erp-tab-count,
+.erp-tabs.is-glass .erp-tab.active .erp-tab-count {
+    background: rgb(var(--tab) / .3);
+    color: inherit;
+}
+
+/* The palette. Ordered as the work happens â describe the land, prove the
+   title, price it, approve it, sign it, fund it, pay, register, file. */
+.erp-tabs.is-glass .erp-tab[data-tab="dags"] { --tab: 14 165 233; }
+.erp-tabs.is-glass .erp-tab[data-tab="owners"] { --tab: 139 92 246; }
+.erp-tabs.is-glass .erp-tab[data-tab="verification"] { --tab: 245 158 11; }
+.erp-tabs.is-glass .erp-tab[data-tab="valuation"] { --tab: 16 185 129; }
+.erp-tabs.is-glass .erp-tab[data-tab="proposals"] { --tab: 249 115 22; }
+.erp-tabs.is-glass .erp-tab[data-tab="agreements"] { --tab: 99 102 241; }
+.erp-tabs.is-glass .erp-tab[data-tab="funding"] { --tab: 236 72 153; }
+.erp-tabs.is-glass .erp-tab[data-tab="payments"] { --tab: 20 184 166; }
+.erp-tabs.is-glass .erp-tab[data-tab="registration"] { --tab: 168 85 247; }
+.erp-tabs.is-glass .erp-tab[data-tab="documents"] { --tab: 100 116 139; }
+
+/* Without backdrop-filter the plate would sit over whatever is behind it with
+   no blur and look washed out, so the tint is deepened to compensate. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .erp-tabs.is-glass { --tab-plate: .16; }
+    .erp-tabs.is-glass .erp-tab.is-active,
+    .erp-tabs.is-glass .erp-tab.active { --tab-plate: .36; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .erp-tabs.is-glass .erp-tab { transition: none; }
+    .erp-tabs.is-glass .erp-tab:hover,
+    .erp-tabs.is-glass .erp-tab.is-active,
+    .erp-tabs.is-glass .erp-tab.active { transform: none; }
+}
+
+@media (max-width: 560px) {
+    .erp-tabs.is-glass { gap: 6px; padding: 10px 10px 2px; }
+    .erp-tabs.is-glass .erp-tab { padding: 7px 10px; font-size: 12px; }
+}
+
+@media print {
+    .erp-tabs.is-glass .erp-tab {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        box-shadow: none;
+        transform: none;
+    }
+    .erp-tabs.is-glass .erp-tab::after { display: none; }
+}
+
+.erp-tab-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 16px var(--erp-gutter) 4px;
+}
+.erp-tab-head > span { font-size: 14px; font-weight: 600; color: var(--erp-ink); }
+.erp-tab-body { padding: 12px var(--erp-gutter) 18px; }
+
+/* ==========================================================================
+   Accounting â Journal voucher line editor + view
+   ========================================================================== */
+
+.jv-editor td, .jv-view td { vertical-align: middle; }
+.jv-editor .jv-line-idx { color: var(--erp-muted); font-size: 12px; text-align: center; }
+.jv-editor .form-select-sm, .jv-editor .form-control-sm { font-size: 12.5px; }
+.jv-editor .select2-container { min-width: 100%; }
+
+.jv-totals td { border-top: 2px solid var(--erp-line); font-size: 13.5px; }
+.jv-balance-row td { border: none; padding-top: 4px; }
+
+/* Keep the select2 dropdowns readable inside the compact editor rows. */
+.jv-editor .select2-selection { min-height: 31px; }
+.jv-editor .select2-selection__rendered { line-height: 29px !important; font-size: 12.5px; }
+
+/* --- Compact filter bar (reports) ---------------------------------------- */
+
+.erp-filterbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex: 1 1 auto;
+}
+
+.erp-search-sm { width: 210px; max-width: 100%; }
+
+/* A filter bar with many controls, laid out as a grid instead of a wrapping
+   flex. Flex-wrap leaves a ragged edge â the second line starts wherever the
+   first happened to run out â whereas fixed columns keep every control
+   aligned.
+
+   The columns are declared explicitly rather than with auto-fit. auto-fit
+   sizes by a single minimum, so the widest control sets the width of the
+   narrowest, and ten equal columns need roughly 1350px before they stop
+   wrapping. Weighting them by what they actually hold â a search box needs
+   room, a bedroom count does not â brings the row's minimum to about 940px,
+   which fits a 1366px laptop on one line. */
+.erp-filter-grid {
+    display: grid;
+    grid-template-columns:
+        minmax(150px, 1.6fr)    /* search */
+        minmax(96px, 1.1fr)     /* project */
+        minmax(96px, 1.1fr)     /* building */
+        minmax(90px, 1fr)       /* status */
+        minmax(90px, 1fr)       /* type */
+        minmax(78px, .8fr)      /* bedrooms */
+        minmax(76px, .8fr)      /* min price */
+        minmax(76px, .8fr)      /* max price */
+        auto;                   /* checkbox + buttons */
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    flex: 1 1 auto;
+}
+
+/* The controls stretch to their cell; the fixed widths they carry for the
+   flex layout would otherwise fight the grid. */
+.erp-filter-grid .erp-select,
+.erp-filter-grid .erp-search,
+.erp-filter-grid .erp-search-sm,
+.erp-filter-grid .form-control,
+.erp-filter-grid .select2-container {
+    width: 100% !important;
+    max-width: none;
+    min-width: 0;
+}
+
+/* The checkbox and the buttons ride together at the end so the row finishes
+   on an action rather than trailing off. */
+.erp-filter-grid .erp-filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.erp-filter-grid .erp-check { margin: 0; white-space: nowrap; }
+
+/* Below the one-row width the count halves rather than dropping by one, so
+   the bar never leaves a single control stranded on its own line. */
+@media (max-width: 1399.98px) {
+    .erp-filter-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    /* Search keeps its extra width once the row wraps â it is still the
+       control reached for first. */
+    .erp-filter-grid .erp-filter-wide { grid-column: span 2; }
+    .erp-filter-grid .erp-filter-actions { grid-column: 1 / -1; justify-content: flex-end; }
+}
+
+@media (max-width: 767.98px) {
+    .erp-filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* --- lines 9057-9140 --- */
+   monitored, so these earn a line rather than four dashboard tiles. */
+.erp-sale-strip {
+    /* The tiles supply the surface now, so the container is only a frame and a
+       clip. The deep slate underneath shows through in the gap a wrapped row
+       leaves, which is better than a strip of white appearing mid-band. */
+    background: #1e293b;
+    border: 1px solid transparent;
+    border-radius: var(--erp-radius);
+    box-shadow: 0 4px 16px -10px rgba(15, 23, 42, .5);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin-bottom: var(--erp-gutter);
+    overflow: hidden;
+}
+
+/* Each figure gets a hue: a bar along its top edge, a wash fading out beneath
+   it, and the number itself in a darkened version of the same colour.
+
+   The colour is on the TOP EDGE rather than the left, because these tiles sit
+   shoulder to shoulder in one band -- a left bar would read as a divider
+   between two tiles rather than as a marker belonging to one.
+
+   Where a figure MEANS something, the page says so with .is-tone-<name>: rose
+   for a blacklist count, amber for a thing that will fail later. Where it does
+   not, the rotation below gives it a hue anyway, so a strip of four figures
+   reads as four figures instead of one grey ribbon. */
+.erp-sale-stat {
+    /* The same deep pair, highlight and top rule as .erp-stat, so the two
+       components read as one thing however the page was built. */
+    background-color: var(--erp-tone-deep, #334155);
+    background-image:
+        linear-gradient(170deg, rgba(255, 255, 255, .12) 0%, rgba(255, 255, 255, 0) 52%),
+        linear-gradient(135deg, var(--erp-tone-deep, #334155), var(--erp-tone-deeper, #1e293b));
+    /* Translucent white, not the grey line this used to be: a grey rule drawn
+       between two deep panels reads as a crack rather than a division. */
+    border-left: 1px solid rgba(255, 255, 255, .14);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .13);
+    color: #fff;
+    flex: 1 1 150px;
+    min-width: 0;
+    padding: 9px 13px 8px;
+}
+
+.erp-sale-stat:first-child { border-left: 0; }
+
+/* Utilities that were written for a white card. Bootstrap's carry !important, so
+   the override has to as well. The tints are the same ones .erp-stat uses, each
+   measured to clear WCAG AA on the deepest tone it can land on. */
+.erp-sale-stat .text-muted { color: rgba(255, 255, 255, .93) !important; }
+.erp-sale-stat .text-danger { color: #ffe4e6 !important; }
+.erp-sale-stat .text-warning { color: #fffbeb !important; }
+.erp-sale-stat .text-success { color: #d1fae5 !important; }
+
+.erp-sale-stat .erp-plain-link,
+.erp-sale-stat a { color: #fff; }
+
+/* A tile that names no tone still gets one, cycling through six hues that sit
+   together without arguing. Guarded by :not() so an explicit tone always wins --
+   this selector is far more specific than a bare palette class, and without the
+   guard it would quietly override every meaning a page tried to express. */
+.erp-sale-strip > .erp-sale-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success):not(.is-warn):nth-child(6n + 1) { --erp-tone-deep: #0369a1; --erp-tone-deeper: #075985; }
+.erp-sale-strip > .erp-sale-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success):not(.is-warn):nth-child(6n + 2) { --erp-tone-deep: #4f46e5; --erp-tone-deeper: #3730a3; }
+.erp-sale-strip > .erp-sale-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success):not(.is-warn):nth-child(6n + 3) { --erp-tone-deep: #0f766e; --erp-tone-deeper: #115e59; }
+.erp-sale-strip > .erp-sale-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success):not(.is-warn):nth-child(6n + 4) { --erp-tone-deep: #b45309; --erp-tone-deeper: #78350f; }
+.erp-sale-strip > .erp-sale-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success):not(.is-warn):nth-child(6n + 5) { --erp-tone-deep: #7e22ce; --erp-tone-deeper: #581c87; }
+.erp-sale-strip > .erp-sale-stat:not([class*="is-tone-"]):not(.is-danger):not(.is-warning):not(.is-info):not(.is-success):not(.is-warn):nth-child(6n + 6) { --erp-tone-deep: #0e7490; --erp-tone-deeper: #155e75; }
+
+.erp-sale-stat-label {
+    /* 93%, for the same reason as the .erp-stat caption: below that it drops
+       under WCAG AA on most of the deep tones, and a caption is content. */
+    color: rgba(255, 255, 255, .93);
+    display: block;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+}
+
+.erp-sale-stat strong {
+    color: #fff;
+    display: block;
+    font-size: 17px;
+    font-weight: 700;
+/* --- lines 9394-9398 --- */
+@media print {
+    .erp-sidebar, .erp-topbar, .erp-submenubar, .erp-pagehead-actions, .erp-toolbar, .app-sidebar, nav.breadcrumb, .breadcrumb { display: none !important; }
+    .erp-card { border: none !important; box-shadow: none !important; }
+    .bs-panel { break-inside: avoid; }
+}
+/* --- lines 9883-10038 --- */
+/* --------------------------------------------------------------------------
+   Workspace layout â a full-height, two-column working screen for the
+   till-style forms (money receipts). The page itself does not scroll: each
+   column owns its own scrolling so the running totals and the submit button
+   stay put while a long dues list is worked through.
+
+   Desktop only. Below lg there is not enough height to be worth pinning, and
+   a phone user expects to scroll, so the whole thing falls back to normal
+   document flow.
+   -------------------------------------------------------------------------- */
+
+.erp-ws {
+    display: flex;
+    flex-direction: column;
+    gap: var(--erp-gutter);
+}
+
+.erp-ws-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--erp-gutter);
+    /* Without this a flex child refuses to shrink below its content, and the
+       inner overflow-y never engages. */
+    min-height: 0;
+}
+
+.erp-ws-card {
+    display: flex;
+    flex-direction: column;
+    /* .erp-card sets height:100%, which would stretch every card in the
+       column and defeat the flex sizing below. */
+    height: auto;
+    margin-bottom: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.erp-ws-card.is-fill { flex: 1 1 auto; }
+.erp-ws-card.is-static { flex: 0 0 auto; }
+
+/* Compact card header: one line, no descriptive paragraph. On a working
+   screen the label and the controls earn their space; prose does not. */
+.erp-ws-head {
+    align-items: center;
+    border-bottom: 1px solid var(--erp-line);
+    display: flex;
+    flex: 0 0 auto;
+    gap: 10px;
+    padding: 10px 14px;
+}
+
+.erp-ws-head h2 {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -.2px;
+    margin: 0;
+}
+
+.erp-ws-head-icon {
+    align-items: center;
+    background: rgba(0, 194, 146, .12);
+    border-radius: 9px;
+    color: var(--erp-primary);
+    display: flex;
+    flex: 0 0 auto;
+    font-size: 13px;
+    height: 30px;
+    justify-content: center;
+    width: 30px;
+}
+
+.erp-ws-head-hint {
+    color: var(--erp-muted);
+    font-size: 11.5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.erp-ws-head-actions {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 6px;
+    margin-left: auto;
+}
+
+/* The scrolling region inside a workspace card. */
+.erp-ws-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 14px;
+}
+
+.erp-ws-scroll.is-flush { padding: 0; }
+
+.erp-ws-foot {
+    border-top: 1px solid var(--erp-line);
+    flex: 0 0 auto;
+    padding: 12px 14px;
+}
+
+/* A row of fields that stays on one line on desktop. */
+.erp-ws-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px 14px 0;
+}
+
+.erp-ws-foot .erp-ws-row { padding: 0; }
+
+.erp-ws-row .erp-field { margin-bottom: 14px; }
+.erp-ws-foot .erp-ws-row .erp-field { margin-bottom: 10px; }
+
+.erp-ws-grow { flex: 1 1 180px; min-width: 0; }
+.erp-ws-fixed { flex: 0 1 150px; min-width: 0; }
+
+/* Snapshot sits flush inside the compact customer card. */
+.erp-ws-card .erp-customer-snapshot {
+    border-radius: 0;
+    margin-top: 0;
+    padding: 10px 14px;
+}
+
+.erp-ws-card .erp-snap-value { font-size: 15px; }
+
+@media (min-width: 992px) {
+    .erp-ws {
+        flex-direction: row;
+        /* Fills what is left of the viewport under the page chrome. The offset
+           is measured at runtime because the module bar wraps to two lines on
+           narrower desktops; the fallback covers a stylesheet loaded without
+           the script. */
+        height: calc(100dvh - var(--erp-ws-offset, 230px));
+        /* A floor so the panels stay usable; on a viewport too short to give
+           even this, letting the page scroll beats crushing the form. */
+        min-height: 360px;
+    }
+
+    /* Read screens have no inputs to squeeze, so they tolerate a shorter panel
+       than a data-entry desk and can still fit a 720px-tall laptop. */
+    .erp-ws.is-compact {
+        min-height: 280px;
+    }
+
+    .erp-ws-main { flex: 1 1 58%; min-width: 0; }
+    .erp-ws-side { flex: 0 0 40%; max-width: 460px; min-width: 340px; }
+}
+
+/* Tenders sit tighter inside the pinned panel than they did in a long page. */
+.erp-ws .erp-tender { padding: 9px 14px; }
+.erp-ws .erp-receipt-line { padding: 6px 12px; }
+.erp-ws .erp-due-group { margin-bottom: 10px; }
+.erp-ws .erp-due-head { padding: 8px 12px; }
+
+/* --- lines 11165-11263 --- */
+   WBS â ESTIMATION â BOQ â BUDGET. */
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="overview"] { --tab: 194 65 12; }
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="work-breakdown"] { --tab: 2 132 199; }
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="estimates"] { --tab: 22 163 74; }
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="boq"] { --tab: 162 28 175; }
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="budget"] { --tab: 22 101 52; }
+
+/* Architecture */
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="architecture"] { --tab: 14 165 233; }
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="building-design"] { --tab: 139 92 246; }
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="floor-plan"] { --tab: 14 165 233; }
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="approval-drawings"] { --tab: 16 185 129; }
+
+/* Civil / structural */
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="materials"] { --tab: 217 119 6; }
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="engineering"] { --tab: 245 158 11; }
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="engineers"] { --tab: 99 102 241; }
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="assessments"] { --tab: 180 83 9; }
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="structural-design"] { --tab: 20 184 166; }
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="supervision"] { --tab: 236 72 153; }
+
+/* Site and records. Check-ins was slate and Documents and Teams had no hue at
+   all, so a third of the row fell back to the default grey â which is what the
+   colouring exists to avoid in the first place. */
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="check-ins"] { --tab: 21 94 117; }
+
+/* Activity. Bronze, and chosen from what was left rather than from what would
+   have been ideal â this is the sixteenth tab, and sixteen is past the point
+   where hue alone can separate a row. Measured like the rest: 6.43:1 light and
+   4.79:1 dark, and 6.9 or better against every tab within three of it. Its
+   closest match anywhere is Budget, six tabs away. Every tab carries an icon
+   and a word as well, which is what the row leans on from here. */
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="activity"] { --tab: 133 77 14; }
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="documents"] { --tab: 192 38 211; }
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="teams"] { --tab: 161 98 7; }
+
+/* Violet, and picked rather than liked: it is the one strong hue left unused
+   in this row. Its neighbours are pink (supervision), amber (engineering),
+   orange (materials) and sky (architecture), so a warm or a blue would have
+   read as one of them at a glance â which is the whole point of colouring tabs
+   in the first place.
+
+   Measured against its own plate the same way the hues above were, across all
+   five plate alphas (.12 rest / .18 hover / .30 active, and the .16 / .36
+   no-backdrop-filter fallbacks): worst case 5.96:1 light, 4.67:1 dark. Both
+   clear WCAG AA. Substituting a different violet means re-measuring â the two
+   themes compute the ink from different formulas, so passing one says nothing
+   about the other. */
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="material-batches"] { --tab: 124 58 237; }
+
+/* Teal, the last strong hue unused in this row. Measured the same way as the
+   others across all five plate alphas: worst case 5.33:1 light, 4.78:1 dark â
+   both clear WCAG AA. */
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="financials"] { --tab: 13 148 136; }
+
+/* Cost Breakdown. Deep indigo â the last hue in this row far enough from the
+   teal beside it and the violet two along. Measured across all five plate
+   alphas the same way as its neighbours: worst case 6.41:1 light, 4.57:1 dark,
+   both clear of WCAG AA. */
+.erp-tabs.is-glass.is-project .erp-tab[data-tab="cbs"] { --tab: 67 56 202; }
+
+/* The second row: the same buttons one size down, so the hierarchy reads
+   without the two rows competing. */
+.erp-tabs.is-glass.is-sub {
+    /* Enough air to read as a second level, not as the first row wrapping. */
+    padding: 6px 12px 8px;
+    gap: 6px;
+}
+.erp-tabs.is-glass.is-sub .erp-tab {
+    padding: 6px 11px;
+    font-size: 12px;
+    border-radius: 10px;
+}
+.erp-tabs.is-glass.is-sub .erp-tab i { font-size: 11px; }
+.erp-tabs.is-glass.is-sub .erp-tab::after { border-radius: 9px 9px 40% 40%; }
+
+/* An anchor carries the browser's link colour and underline into the button,
+   which the base .erp-tab rules never had to deal with. */
+.erp-tabs.is-glass a.erp-tab,
+.erp-tabs.is-glass a.erp-tab:hover,
+.erp-tabs.is-glass a.erp-tab:focus {
+    text-decoration: none;
+}
+
+:root[data-theme="dark"] .erp-tabs.is-glass .erp-tab {
+    --tab-ink-mix: 78%;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .08), 0 1px 2px rgb(0 0 0 / .2);
+}
+:root[data-theme="dark"] .erp-tabs.is-glass .erp-tab::after {
+    background: linear-gradient(180deg, rgb(255 255 255 / .1), rgb(255 255 255 / 0));
+}
+
+/* The assessment form's step rail, sharing the same glass buttons. */
+.erp-tabs.is-glass .erp-tab[data-tab="step-basics"] { --tab: 100 116 139; }
+.erp-tabs.is-glass .erp-tab[data-tab="step-site"] { --tab: 14 165 233; }
+.erp-tabs.is-glass .erp-tab[data-tab="step-findings"] { --tab: 16 185 129; }
+.erp-tabs.is-glass .erp-tab[data-tab="step-boreholes"] { --tab: 180 83 9; }
+.erp-tabs.is-glass .erp-tab[data-tab="step-files"] { --tab: 139 92 246; }
+
+/* --- lines 12028-12080 --- */
+   form column but wrong in a flex filter bar: each dropdown then claims a full
+   row and the controls stack instead of sitting side by side. Sized like the
+   plain inputs beside them instead. */
+.erp-filterbar .select2-container {
+    width: auto !important;
+    flex: 0 1 190px;
+    min-width: 150px;
+}
+.erp-filterbar .select2-container .select2-selection--single {
+    min-height: 32px;
+}
+@media (max-width: 767.98px) {
+    /* One per line is the right answer on a phone; the point of the rule above
+       is only to stop it happening on a desktop. */
+    .erp-filterbar .select2-container { flex: 1 1 100%; }
+}
+
+/* The trailing end of a filter bar: a date range and the control that clears
+   it. Kept as one flex item so the button cannot be orphaned onto a line of
+   its own underneath the dates â as separate items it was simply the last
+   thing on the row, and the first thing to wrap. */
+.erp-filter-tail {
+    align-items: center;
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 8px;
+}
+
+/* Inside a range the boxes sit next to each other, so they do not each need
+   the breathing room a lone date input gets. 140px twice made this group the
+   widest thing in the bar and pushed everything after it onto a second row;
+   dd/mm/yyyy needs nothing like that much. */
+.erp-filterbar .erp-daterange input[type="date"].erp-select {
+    min-width: 0;
+    width: 124px;
+}
+
+/* A line of context under a card head â which bill a report is measured
+   against, what a figure is scoped to. Deliberately NOT a child of
+   .erp-card-head: that is a space-between flex row, so anything sharing it
+   takes width away from the filter bar and is what pushes trailing controls
+   onto a second line. */
+.erp-card-note {
+    border-bottom: 1px solid var(--erp-line);
+    color: var(--erp-muted);
+    font-size: 12px;
+    padding: 7px 18px;
+}
+
+/* Staff tick-list in the team form ---------------------------------------
+   A bordered, scrolling box of checkboxes: each row is one person with their
+   code and designation, so someone can be identified without leaving the
+   dialog. Rows are <label>s, which makes the whole row a hit target. */
+/* --- lines 18220-18322 --- */
+/* --------------------------------------------------------------------------
+   Top bar project picker
+   Sits beside the company switcher and borrows its button, but does something
+   different: the company switcher re-scopes the app, this one just navigates.
+   -------------------------------------------------------------------------- */
+
+.erp-projectpicker {
+    margin-left: 8px;
+}
+
+.erp-projectpicker .erp-context-btn[disabled] {
+    opacity: .55;
+    cursor: default;
+}
+
+.erp-projectpicker-menu {
+    min-width: 320px;
+    max-width: 380px;
+}
+
+/* The list scrolls, the header, search and footer do not â a company with
+   forty projects would otherwise push "All Projects" off the screen. */
+.erp-projectpicker-scroll {
+    max-height: 340px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.erp-projectpicker-search {
+    position: relative;
+    padding: 4px 10px 6px;
+}
+
+.erp-projectpicker-search i {
+    position: absolute;
+    left: 19px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10.5px;
+    color: var(--erp-muted);
+    pointer-events: none;
+}
+
+.erp-projectpicker-search input {
+    width: 100%;
+    padding: 5px 9px 5px 26px;
+    border: 1px solid var(--erp-line);
+    border-radius: 7px;
+    background: var(--erp-bg);
+    font-size: 12px;
+    color: var(--erp-ink);
+}
+
+.erp-projectpicker-search input:focus {
+    outline: none;
+    border-color: var(--erp-primary);
+    background: #fff;
+}
+
+.erp-projectpicker-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 12px;
+}
+
+.erp-projectpicker-face {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
+
+.erp-projectpicker-name {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--erp-ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.erp-projectpicker-face small {
+    font-size: 10.5px;
+    color: var(--erp-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.erp-projectpicker-item .erp-pill {
+    flex: 0 0 auto;
+    font-size: 9.5px;
+}
+
+/* [hidden] loses to .dropdown-item's display:flex without this, so a filtered
+   item would stay on screen with everything else. */
+.erp-projectpicker-item[hidden] {
+    display: none !important;
+}
+
+
+/* --- lines 19337-19415 --- */
+/* --------------------------------------------------------------------------
+   Tight cards
+   A record page is a thing people open, read and leave. Four cards of default
+   chrome â a 52px head, 32px of body padding and an 18px margin each â spent
+   well over 300px on framing before a single value was shown, which is what
+   pushed this page below the fold. Opt-in, so nothing else changes.
+   -------------------------------------------------------------------------- */
+
+.erp-tightcards .erp-card {
+    margin-bottom: 10px;
+}
+
+.erp-tightcards .erp-card:last-child {
+    margin-bottom: 0;
+}
+
+.erp-tightcards .erp-section-head {
+    padding: 7px 14px;
+    gap: 9px;
+}
+
+.erp-tightcards .erp-section-icon {
+    height: 24px;
+    width: 24px;
+    font-size: 11px;
+    border-radius: 6px;
+}
+
+.erp-tightcards .erp-card-body {
+    padding: 11px 14px;
+}
+
+/* The pairs themselves close up with everything else, or the card shrinks
+   around a grid that did not. */
+.erp-tightcards .erp-deflist {
+    gap: 9px 16px;
+}
+
+/* A table inside a tight card follows suit. */
+.erp-tightcards .erp-table > :not(caption) > * > * {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+/* The audit trail, as a footer line on the card it belongs to rather than a
+   card of its own. */
+.erp-paytrail {
+    display: flex;
+    gap: 7px;
+    align-items: baseline;
+    margin: 10px 0 0;
+    padding-top: 9px;
+    border-top: 1px solid var(--erp-line);
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--erp-muted);
+}
+
+.erp-paytrail i {
+    font-size: 10px;
+}
+
+.erp-paytrail strong {
+    color: var(--erp-danger);
+}
+
+
+/* A tight record pulls its header in too â the default gutter below the page
+   head was sized for pages that breathe, not for one asked to fit a screen. */
+.erp-tightpage .erp-pagehead {
+    margin-bottom: 10px;
+}
+
+.erp-tightpage .alert {
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    font-size: 12.5px;
+}
+
+/* --- lines 19565-19697 --- */
+/* ==========================================================================
+   Document viewer â the in-page preview opened from any documents list
+   ========================================================================== */
+
+.erp-docview {
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.erp-docview .modal-header {
+    align-items: center;
+    background: linear-gradient(180deg, #fbfcfe, #f7f9fc);
+    border-bottom: 1px solid var(--erp-line);
+    gap: 12px;
+    padding: 14px 18px;
+}
+
+.erp-docview-head {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+    min-width: 0;
+}
+
+.erp-docview-head > i {
+    color: var(--erp-primary, #00c292);
+    font-size: 20px;
+}
+
+.erp-docview-head h5 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.erp-docview-sub {
+    color: var(--erp-muted);
+    font-size: 11.5px;
+}
+
+.erp-docview-tools {
+    align-items: center;
+    display: flex;
+    gap: 6px;
+    margin-left: auto;
+}
+
+/* A fixed viewport height rather than one that grows with the file: a preview
+   that pushes its own toolbar off the screen is worse than a scrollbar. */
+.erp-docview-stage {
+    background: #f2f4f8;
+    display: flex;
+    height: min(76vh, 820px);
+}
+
+.erp-docview-frame {
+    border: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.erp-docview-fallback {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    padding: 40px 24px;
+    text-align: center;
+}
+
+.erp-docview-fallback-icon {
+    color: var(--erp-muted);
+    font-size: 46px;
+    margin-bottom: 14px;
+}
+
+.erp-docview-fallback-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 4px;
+}
+
+.erp-docview-fallback-note {
+    color: var(--erp-muted);
+    font-size: 12.5px;
+    margin: 0 0 18px;
+    max-width: 380px;
+}
+
+.erp-docview-fallback-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* The document title in a list is a button so it can open the preview, but it
+   has to read as the link it replaced. */
+.erp-link-plain {
+    background: none;
+    border: 0;
+    color: inherit;
+    padding: 0;
+    text-align: left;
+}
+
+.erp-link-plain:hover {
+    text-decoration: underline;
+}
+
+/* An image previews as an image, never in a frame â nothing to execute, and
+   it can be sized to fit instead of being scrolled inside a viewport. */
+.erp-docview-image {
+    display: block;
+    margin: auto;
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* Legend swatch â only pies need one; a bar chart names its own axis. */
+.erp-whchart-dot {
+    border-radius: 50%;
+    display: inline-block;
+    flex: 0 0 auto;
+    height: 8px;
+    margin-right: 6px;
+    width: 8px;
+}
+
+/* --- lines 25073-25234 --- */
+/* ==========================================================================
+   Detail workspace â a tabbed record that fills the viewport
+   ==========================================================================
+   Height comes from --erp-fill-h, which erp-app.js measures from where the
+   pane actually starts, so the page itself never scrolls and the tab strip
+   stays reachable. Only the body below the strip scrolls.
+
+   Below lg the stylesheet gives up and lets the page scroll normally: a fixed
+   workspace on a phone is a viewport you cannot escape. */
+.erp-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 0;
+}
+.erp-detail > .erp-tabs { flex: 0 0 auto; }
+
+.erp-detail-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: visible;
+}
+
+@media (min-width: 992px) {
+    .erp-detail {
+        height: var(--erp-fill-h, calc(100dvh - var(--erp-topbar-h, 96px) - 260px));
+        min-height: 420px;
+    }
+    .erp-detail-body {
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        /* Room for the scrollbar so content does not sit under it, and a little
+           breathing space at the foot of a long panel. */
+        padding-right: 4px;
+        padding-bottom: 4px;
+    }
+    /* A card that is the whole panel should not also carry a top margin: the
+       gap above it belongs to the tab strip. */
+    .erp-detail-panel > .erp-card:first-child { margin-top: 0 !important; }
+}
+
+/* A count on a tab that means something is WRONG.
+
+   Deliberately not .erp-tab-count, which already exists: that one inherits the
+   tab's own accent and so reads as "here are N items". This one has to say
+   "three of these have lapsed" in a colour that means it, which an inherited
+   accent cannot do.
+
+   Only ever used for something wrong or outstanding. A badge that merely
+   counts rows reads as work to do, and teaches people to ignore the ones
+   that are. */
+.erp-tab-badge {
+    display: inline-grid;
+    place-items: center;
+    min-width: 18px;
+    height: 18px;
+    margin-left: 6px;
+    padding: 0 5px;
+    border-radius: 9px;
+    font-size: 10.5px;
+    font-weight: 700;
+    line-height: 1;
+    background: #e2e8f0;
+    color: #475569;
+}
+.erp-tab-badge.is-danger  { background: #fee2e2; color: #b91c1c; }
+.erp-tab-badge.is-warning { background: #fef3c7; color: #b45309; }
+.erp-tab-badge.is-info    { background: #dbeafe; color: #1d4ed8; }
+
+/* The tab strip is a row of buttons here rather than links, so it needs the
+   same reset every other button in the system gets. */
+.erp-tabs button.erp-tab {
+    border: 0;
+    font: inherit;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   New Bill dialog
+   ========================================================================== */
+
+.erp-formgroup-head {
+    border-bottom: 1px solid var(--erp-line);
+    color: var(--erp-muted);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    margin: 18px 0 12px;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.erp-formgroup-head:first-child { margin-top: 0; }
+
+/* Start-from, as cards rather than a dropdown: the four options differ in
+   what they DO, and a one-line description per option is what makes that
+   visible before the choice instead of after it. */
+.erp-startfrom {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.erp-startfrom-opt {
+    align-items: flex-start;
+    border: 1px solid var(--erp-line);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    gap: 8px;
+    margin: 0;
+    padding: 10px;
+    transition: border-color .12s ease, background .12s ease;
+}
+
+.erp-startfrom-opt:hover { border-color: var(--erp-primary); }
+
+.erp-startfrom-opt:has(input:checked) {
+    background: var(--erp-surface-2);
+    border-color: var(--erp-primary);
+}
+
+.erp-startfrom-opt.is-disabled { cursor: not-allowed; opacity: .55; }
+.erp-startfrom-opt.is-disabled:hover { border-color: var(--erp-line); }
+
+.erp-startfrom-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.erp-startfrom-body strong { font-size: 12.5px; }
+.erp-startfrom-body span { color: var(--erp-muted); font-size: 11px; line-height: 1.35; }
+
+/* The two pickers the dialog loads over AJAX. Capped and scrolled so a company
+   with two hundred bills cannot push the Create button off the dialog. */
+.erp-boq-sources,
+.erp-boq-docs {
+    border: 1px solid var(--erp-line);
+    border-radius: 8px;
+    max-height: 190px;
+    overflow-y: auto;
+    padding: 6px;
+}
+
+.erp-boq-source,
+.erp-boq-doc {
+    align-items: flex-start;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    gap: 9px;
+    margin: 0;
+    padding: 6px 8px;
+}
+
+.erp-boq-source:hover,
+.erp-boq-doc:hover { background: var(--erp-surface-2); }
+
+.erp-boq-source-main,
+.erp-boq-doc-main { display: flex; flex-direction: column; flex: 1; font-size: 12.5px; min-width: 0; }
+
+.erp-boq-source-meta,
+.erp-boq-doc-meta { color: var(--erp-muted); font-size: 10.5px; }
+
+.erp-boq-doc-main code { font-size: 10.5px; }
+
+/* --- lines 25762-25799 --- */
+/* ==========================================================================
+   Stats strip â separated variant
+   The base .erp-sale-strip is deliberately ONE joined band: the container
+   supplies the surface, tiles butt together, and a translucent hairline
+   divides them. This variant breaks it into free-standing cards instead.
+
+   A modifier rather than a change to the base, because fifty-one pages use
+   that strip and restyling all of them is not what "make the cards separated
+   on this page" asks for. Promoting it is one line: move these rules onto
+   .erp-sale-strip itself.
+   ========================================================================== */
+
+.erp-sale-strip.is-separated {
+    /* The container stops being a surface. Left as a band it would show as
+       dark slate bars in the new gaps, which reads as the gaps being filled
+       rather than empty. */
+    background: none;
+    border: 0;
+    box-shadow: none;
+    gap: var(--erp-gutter, 12px);
+    /* Dropped so each tile's own corners are not clipped by the frame. */
+    overflow: visible;
+}
+
+.erp-sale-strip.is-separated > .erp-sale-stat {
+    /* Each tile now carries what the strip used to: its own corners, its own
+       shadow, and no dividing rule. */
+    border-left: 0;
+    border-radius: var(--erp-radius);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .13),
+        0 4px 16px -10px rgba(15, 23, 42, .5);
+}
+
+/* The base resets the first tile's divider; with no dividers at all that rule
+   has nothing to do, but it is harmless and left alone so the two variants
+   share one selector list. */
+

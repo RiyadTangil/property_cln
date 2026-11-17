@@ -1,0 +1,7 @@
+{
+  "/(erp)/organization/departments/page": "app/(erp)/organization/departments/page.js",
+  "/(erp)/organization/company-tree/page": "app/(erp)/organization/company-tree/page.js",
+  "/(erp)/organization/fiscal-years/create/page": "app/(erp)/organization/fiscal-years/create/page.js",
+  "/(erp)/organization/fiscal-years/page": "app/(erp)/organization/fiscal-years/page.js",
+  "/(erp)/organization/designations/page": "app/(erp)/organization/designations/page.js"
+}

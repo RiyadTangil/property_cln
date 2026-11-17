@@ -1,0 +1,326 @@
+export interface NavSubItem {
+  label: string;
+  href: string;
+}
+
+export interface NavGroup {
+  id: string;
+  label: string;
+  icon: string;
+  accent: string;
+  items: NavSubItem[];
+}
+
+export const SIDEBAR_NAV: NavGroup[] = [
+  {
+    id: "erpSideMenu0",
+    label: "Dashboard",
+    icon: "fa-solid fa-gauge-high",
+    accent: "#4338ca",
+    items: [
+      { label: "Executive Overview", href: "/dashboard/executive" },
+      { label: "Procurement Dashboard", href: "/dashboard/procurement" },
+      { label: "Sales Performance", href: "/dashboard/sales-performance" },
+      { label: "Collection Summary", href: "/dashboard/collection-summary" },
+      { label: "Project Health", href: "/dashboard/project-health" },
+    ],
+  },
+  {
+    id: "erpSideMenu1",
+    label: "Land",
+    icon: "fa-solid fa-map-location-dot",
+    accent: "#15803d",
+    items: [
+      { label: "Land Parcels", href: "/land/parcels" },
+      { label: "Landowners", href: "/land/owners" },
+      { label: "Acquisition Proposals", href: "/land/proposals" },
+      { label: "Agreements & MOU", href: "/land/agreements" },
+      { label: "Land Payments", href: "/land/payments" },
+      { label: "Land Bank", href: "/land/bank" },
+    ],
+  },
+  {
+    id: "erpSideMenu2",
+    label: "Projects",
+    icon: "fa-solid fa-city",
+    accent: "#b45309",
+    items: [
+      { label: "All Projects", href: "/projects/projects" },
+      { label: "New Project", href: "/projects/projects/create" },
+      { label: "Buildings", href: "/buildings" },
+      { label: "Project Types", href: "/projects/types" },
+      { label: "Project Categories", href: "/projects/categories" },
+      { label: "Task & Cost Setup", href: "/projects/projects/task-templates" },
+      { label: "WBS Templates", href: "/projects/projects/wbs-templates" },
+      { label: "CBS Templates", href: "/projects/projects/cbs-templates" },
+      { label: "Estimate Templates", href: "/projects/projects/estimate-templates" },
+      { label: "Project Parameters", href: "/projects/projects/parameters" },
+      { label: "Inspection Plans (ITP)", href: "/projects/projects/itp-templates" },
+      { label: "Cost Breakdown (CBS)", href: "/projects/projects/cost-breakdown" },
+      { label: "Inspection Checklists", href: "/projects/inspection-checklists" },
+    ],
+  },
+  {
+    id: "erpSideMenu3",
+    label: "Contractors",
+    icon: "fa-solid fa-helmet-safety",
+    accent: "#b45309",
+    items: [
+      { label: "Contractors", href: "/contractors" },
+      { label: "Contracts", href: "/contractors/contracts" },
+      { label: "Work Orders", href: "/contractors/work-orders" },
+      { label: "Running Bills (RA)", href: "/contractors/bills" },
+      { label: "Advances & Payments", href: "/contractors/payments" },
+    ],
+  },
+  {
+    id: "erpSideMenu4",
+    label: "Equipment & Fleet",
+    icon: "fa-solid fa-truck-monster",
+    accent: "#0f766e",
+    items: [
+      { label: "Fleet Dashboard", href: "/equipment" },
+      { label: "Equipment Register", href: "/equipment/register" },
+      { label: "Categories", href: "/equipment/categories" },
+      { label: "Assignments & Transfers", href: "/equipment/assignments" },
+      { label: "Plant Usage Logs", href: "/equipment/usage" },
+      { label: "Fuel Logs", href: "/equipment/fuel" },
+      { label: "Maintenance Due", href: "/equipment/maintenance/due" },
+      { label: "Work Orders & Breakdowns", href: "/equipment/work-orders" },
+      { label: "Inspections", href: "/equipment/inspections" },
+      { label: "Operator Certifications", href: "/equipment/operators" },
+      { label: "Hire Contracts", href: "/equipment/rentals" },
+      { label: "Cost & Recovery", href: "/equipment/reports/costs" },
+      { label: "Utilisation", href: "/equipment/reports/utilisation" },
+      { label: "Reliability & Downtime", href: "/equipment/reports/reliability" },
+      { label: "Plant Cost by Project", href: "/equipment/reports/project-cost" },
+      { label: "Compliance & Expiry", href: "/equipment/reports/compliance" },
+      { label: "Depreciation Run", href: "/equipment/reports/depreciation" },
+    ],
+  },
+  {
+    id: "erpSideMenu5",
+    label: "Inventory",
+    icon: "fa-solid fa-building",
+    accent: "#7c3aed",
+    items: [
+      { label: "Unit Inventory", href: "/inventory/units" },
+      { label: "Availability Board", href: "/inventory/availability" },
+      { label: "Land & Plots", href: "/inventory/land-plots" },
+      { label: "Price Lists", href: "/inventory/price-lists" },
+      { label: "Unit Blocking", href: "/inventory/unit-blocking" },
+    ],
+  },
+  {
+    id: "erpSideMenu6",
+    label: "CRM",
+    icon: "fa-solid fa-users",
+    accent: "#be123c",
+    items: [
+      { label: "Leads", href: "/crm/leads" },
+      { label: "Lead Board", href: "/crm/leads/board" },
+      { label: "Customers", href: "/crm/customers" },
+      { label: "Follow-ups", href: "/crm/followups" },
+      { label: "Site Visits", href: "/crm/site-visits" },
+      { label: "Follow-up Types", href: "/crm/followup-types" },
+      { label: "Lost Reasons", href: "/crm/lost-reasons" },
+      { label: "Pipelines", href: "/crm/settings/pipelines" },
+      { label: "Auto-distribution", href: "/crm/lead-distribution" },
+      { label: "Assignment Rules", href: "/crm/assignment-rules" },
+      { label: "Agents & Brokers", href: "/crm/agents-brokers" },
+      { label: "Campaigns", href: "/crm/campaigns" },
+    ],
+  },
+  {
+    id: "erpSideMenu7",
+    label: "Clients",
+    icon: "fa-solid fa-handshake",
+    accent: "#9333ea",
+    items: [
+      { label: "Clients", href: "/clients" },
+      { label: "Owners", href: "/owners" },
+      { label: "Development Agreements", href: "/agreements" },
+    ],
+  },
+  {
+    id: "erpSideMenu8",
+    label: "Sales",
+    icon: "fa-solid fa-file-signature",
+    accent: "#047857",
+    items: [
+      { label: "Apartment Sales", href: "/sales" },
+      { label: "New Sale", href: "/sales/create" },
+      { label: "Sales Target", href: "/sales/targets" },
+      { label: "Money Receipts", href: "/payments" },
+      { label: "Receive Payment", href: "/payments/create" },
+      { label: "Transfers & Name Change", href: "/sales/transfers" },
+      { label: "Cancellations & Refunds", href: "/sales/cancellations" },
+      { label: "Broker Commissions", href: "/sales/broker-commissions" },
+    ],
+  },
+  {
+    id: "erpSideMenu9",
+    label: "Materials & Stock",
+    icon: "fa-solid fa-cash-register",
+    accent: "#0f766e",
+    items: [
+      { label: "Products", href: "/pos/products" },
+      { label: "Stock", href: "/pos/stock" },
+      { label: "Stock Movements", href: "/pos/stock/movements" },
+      { label: "Product Batches", href: "/pos/batches" },
+      { label: "Product Categories", href: "/pos/categories" },
+      { label: "Units of Measure", href: "/pos/units" },
+      { label: "Warehouses", href: "/pos/warehouses" },
+    ],
+  },
+  {
+    id: "erpSideMenu10",
+    label: "Finance",
+    icon: "fa-solid fa-sack-dollar",
+    accent: "#a16207",
+    items: [
+      { label: "Daily Transactions", href: "/accounting/daily" },
+      { label: "Chart of Accounts", href: "/accounting/accounts" },
+      { label: "Journal Vouchers", href: "/accounting/journals" },
+      { label: "Contra Vouchers", href: "/accounting/contra" },
+      { label: "Income & Expense", href: "/accounting/income-expenses" },
+      { label: "Income/Expense Heads", href: "/accounting/heads" },
+      { label: "Banks", href: "/accounting/banks" },
+      { label: "Loans", href: "/accounting/loans" },
+      { label: "Lenders", href: "/accounting/lenders" },
+      { label: "General Ledger", href: "/accounting/ledger" },
+      { label: "Trial Balance", href: "/accounting/trial-balance" },
+      { label: "Balance Sheet", href: "/accounting/balance-sheet" },
+      { label: "Cash Flow Statement", href: "/accounting/cash-flow" },
+      { label: "Invoices & Demands", href: "/accounting/invoices-demands" },
+      { label: "Receipts & Collections", href: "/accounting/receipts-collections" },
+      { label: "Receivable Ageing", href: "/accounting/receivable-ageing" },
+      { label: "Vendor Bills & Payments", href: "/accounting/vendor-bills" },
+      { label: "Bank & Cash Book", href: "/accounting/bank-cash-book" },
+      { label: "Tax & VAT", href: "/accounting/tax-vat" },
+    ],
+  },
+  {
+    id: "erpSideMenu11",
+    label: "Procurement",
+    icon: "fa-solid fa-truck-ramp-box",
+    accent: "#c2410c",
+    items: [
+      { label: "Bills of Quantities", href: "/boqs" },
+      { label: "BOQ Scope Library", href: "/boq-scopes" },
+      { label: "Rate Analysis", href: "/resource-analyses/workbench" },
+      { label: "Labour & Plant", href: "/resources" },
+      { label: "Material Requisitions", href: "/procurement/material-requisitions" },
+      { label: "Material Requirements", href: "/procurement/requirements" },
+      { label: "Purchase Requisitions", href: "/requisitions" },
+      { label: "RFQ / Quotations", href: "/rfqs" },
+      { label: "Purchases", href: "/purchases" },
+      { label: "Delivery Orders (DO)", href: "/procurement/delivery-orders" },
+      { label: "Goods Receipts", href: "/purchases/receipts" },
+      { label: "Quality Inspections", href: "/procurement/inspections" },
+      { label: "Supplier Payments", href: "/purchases/supplier-payments" },
+      { label: "Suppliers", href: "/suppliers/suppliers" },
+      { label: "Vendors", href: "/vendors/vendors" },
+      { label: "Material Issues", href: "/material-issues" },
+      { label: "Stock Transfers", href: "/inventory/stock-transfers" },
+      { label: "Material Consumption", href: "/material-consumptions" },
+    ],
+  },
+  {
+    id: "erpSideMenu12",
+    label: "HR",
+    icon: "fa-solid fa-user-tie",
+    accent: "#0369a1",
+    items: [
+      { label: "Employees", href: "/hr/employees" },
+      { label: "Attendance", href: "/hr/attendance" },
+      { label: "Leave Management", href: "/hr/leave" },
+      { label: "Salary Sheet", href: "/hr/payroll" },
+      { label: "Salary Structures", href: "/hr/salary-structures" },
+      { label: "Deduction Heads", href: "/hr/deduction-heads" },
+      { label: "Site Labour", href: "/hr/site-labour" },
+    ],
+  },
+  {
+    id: "erpSideMenu13",
+    label: "Reports",
+    icon: "fa-solid fa-chart-pie",
+    accent: "#7e22ce",
+    items: [
+      { label: "All Reports", href: "/reports" },
+      { label: "Daily Sales Report", href: "/reports/daily-sales" },
+      { label: "Terminal-wise Sales Report", href: "/reports/terminal-sales" },
+      { label: "Daily Purchase Report", href: "/reports/daily-purchases" },
+      { label: "Payment Collection Report", href: "/reports/collections" },
+      { label: "Due Report", href: "/reports/dues" },
+      { label: "Supplier-wise Due Report", href: "/reports/supplier-dues" },
+      { label: "Stock Report", href: "/reports/stock" },
+      { label: "Material Variance", href: "/reports/material-variance" },
+      { label: "Consumption vs Purchase", href: "/reports/consumption-vs-purchase" },
+      { label: "Project Cost (Est. vs Budget vs BOQ vs Actual)", href: "/reports/project-cost" },
+      { label: "Trial Balance", href: "/reports/trial-balance" },
+      { label: "Profit & Loss", href: "/reports/profit-loss" },
+      { label: "Balance Sheet", href: "/reports/balance-sheet" },
+      { label: "Project Costing", href: "/reports/project-costing" },
+    ],
+  },
+  {
+    id: "erpSideMenu14",
+    label: "Organization",
+    icon: "fa-solid fa-sitemap",
+    accent: "#0e7490",
+    items: [
+      { label: "Company", href: "/organization/companies" },
+      { label: "Branch", href: "/organization/branches" },
+      { label: "Department", href: "/organization/departments" },
+      { label: "Designation", href: "/organization/designations" },
+      { label: "Company Tree", href: "/organization/company-tree" },
+      { label: "Fiscal Years", href: "/organization/fiscal-years" },
+      { label: "Holidays", href: "/organization/holidays" },
+      { label: "Shifts", href: "/organization/shifts" },
+    ],
+  },
+  {
+    id: "erpSideMenu15",
+    label: "Settings",
+    icon: "fa-solid fa-gear",
+    accent: "#475569",
+    items: [
+      { label: "Users", href: "/settings/users" },
+      { label: "Roles & Permissions", href: "/settings/roles" },
+      { label: "Code Generators", href: "/settings/code-sequences" },
+      { label: "Documents", href: "/documents" },
+      { label: "Invoice Templates", href: "/settings/invoice-templates" },
+      { label: "Master Data", href: "/settings/master-data" },
+      { label: "MFS Services", href: "/settings/mfs-services" },
+      { label: "Audit Trail", href: "/settings/audit" },
+      { label: "Application Settings", href: "/settings/application" },
+    ],
+  },
+];
+
+export const SIDEBAR_SWATCHES = [
+  { key: "light", title: "White", tone: "light", bg: "#ffffff" },
+  { key: "slate", title: "Mist", tone: "light", bg: "linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%)" },
+  { key: "mint", title: "Mint", tone: "light", bg: "linear-gradient(180deg, #f0fdf8 0%, #e3f7ee 100%)" },
+  { key: "midnight", title: "Midnight", tone: "dark", bg: "linear-gradient(180deg, #0f172a 0%, #1e293b 100%)" },
+  { key: "navy", title: "Navy", tone: "dark", bg: "linear-gradient(180deg, #0b1f3a 0%, #133a6b 100%)" },
+  { key: "emerald", title: "Emerald", tone: "dark", bg: "linear-gradient(180deg, #053f31 0%, #0b5e4a 100%)" },
+  { key: "indigo", title: "Indigo", tone: "dark", bg: "linear-gradient(180deg, #1e1b4b 0%, #3730a3 100%)" },
+  { key: "plum", title: "Plum", tone: "dark", bg: "linear-gradient(180deg, #3b0d3f 0%, #6b2167 100%)" },
+  { key: "charcoal", title: "Charcoal", tone: "dark", bg: "linear-gradient(180deg, #18181b 0%, #2a2a30 100%)" },
+];
+
+export function findNavMeta(pathname: string): {
+  group: NavGroup | null;
+  item: NavSubItem | null;
+} {
+  for (const group of SIDEBAR_NAV) {
+    for (const item of group.items) {
+      if (pathname === item.href || pathname.startsWith(item.href + "/")) {
+        return { group, item };
+      }
+    }
+  }
+  return { group: null, item: null };
+}
