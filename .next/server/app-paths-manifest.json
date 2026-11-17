@@ -1,7 +1,10 @@
 {
-  "/(erp)/organization/departments/page": "app/(erp)/organization/departments/page.js",
-  "/(erp)/organization/company-tree/page": "app/(erp)/organization/company-tree/page.js",
-  "/(erp)/organization/fiscal-years/create/page": "app/(erp)/organization/fiscal-years/create/page.js",
-  "/(erp)/organization/fiscal-years/page": "app/(erp)/organization/fiscal-years/page.js",
-  "/(erp)/organization/designations/page": "app/(erp)/organization/designations/page.js"
+  "/api/settings/application/route": "app/api/settings/application/route.js",
+  "/(erp)/dashboard/executive/page": "app/(erp)/dashboard/executive/page.js",
+  "/(erp)/[...slug]/page": "app/(erp)/[...slug]/page.js",
+  "/(erp)/settings/code-sequences/page": "app/(erp)/settings/code-sequences/page.js",
+  "/(erp)/documents/page": "app/(erp)/documents/page.js",
+  "/(erp)/settings/audit/page": "app/(erp)/settings/audit/page.js",
+  "/(erp)/settings/application/page": "app/(erp)/settings/application/page.js",
+  "/(erp)/settings/users/page": "app/(erp)/settings/users/page.js"
 }

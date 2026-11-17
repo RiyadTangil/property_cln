@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { TEMPLATE_TYPES } from "@/lib/tier0";
+import { ErpDeleteModal, ErpPageHeader, ErpPill } from "@/components/ui";
 
 export interface InvoiceTemplateRow {
   id: number;
@@ -41,27 +42,15 @@ export default function InvoiceTemplatesClient({
 
   return (
     <div className="container">
-      <div className="erp-pagehead">
-        <div className="erp-pagehead-main">
-          <div className="erp-pagehead-icon">
-            <i className="fa-solid fa-file-invoice"></i>
-          </div>
-          <div>
-            <h1>Invoice Templates</h1>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <Link href="/dashboard">Home</Link>
-                </li>
-                <li className="breadcrumb-item">Settings</li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  Invoice Templates
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-        <div className="erp-pagehead-actions">
+      <ErpPageHeader
+        icon="fa-solid fa-file-invoice"
+        title="Invoice Templates"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Settings" },
+          { label: "Invoice Templates" },
+        ]}
+        actions={
           <div className="dropdown">
             <button
               type="button"
@@ -71,11 +60,7 @@ export default function InvoiceTemplatesClient({
             >
               <i className="fa-solid fa-plus me-2"></i>New Template
             </button>
-            <ul
-              className={`dropdown-menu dropdown-menu-end${
-                dropdownOpen ? " show" : ""
-              }`}
-            >
+            <ul className={`dropdown-menu dropdown-menu-end${dropdownOpen ? " show" : ""}`}>
               {TEMPLATE_TYPES.map((t) => (
                 <li key={t.value}>
                   <Link
@@ -88,8 +73,8 @@ export default function InvoiceTemplatesClient({
               ))}
             </ul>
           </div>
-        </div>
-      </div>
+        }
+      />
 
       <p className="erp-help mb-3">
         <i className="fa-solid fa-circle-info me-1"></i>Design your own document layouts
@@ -131,19 +116,17 @@ export default function InvoiceTemplatesClient({
                           <td>
                             <span className="erp-cell-strong">{tpl.name}</span>
                             {tpl.isDefault && (
-                              <span className="erp-pill is-sold ms-2">Default</span>
+                              <ErpPill tone="sold" className="ms-2">
+                                Default
+                              </ErpPill>
                             )}
                           </td>
                           <td className="text-uppercase">{tpl.paper}</td>
                           <td className="text-capitalize">{tpl.orientation}</td>
                           <td>
-                            <span
-                              className={`erp-pill ${
-                                tpl.isActive ? "is-available" : "is-neutral"
-                              }`}
-                            >
+                            <ErpPill tone={tpl.isActive ? "available" : "neutral"}>
                               {tpl.isActive ? "Active" : "Inactive"}
-                            </span>
+                            </ErpPill>
                           </td>
                           <td className="text-end">
                             <button
@@ -166,53 +149,20 @@ export default function InvoiceTemplatesClient({
         );
       })}
 
-      {deleteTarget && (
-        <>
-          <div className="modal-backdrop fade show" />
-          <div className="modal fade show d-block" tabIndex={-1} role="dialog" aria-modal="true">
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content" style={{ border: "none", borderRadius: 14 }}>
-                <div className="modal-body p-4">
-                  <div className="d-flex gap-3">
-                    <div className="erp-kpi-icon is-danger">
-                      <i className="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-                    <div>
-                      <h5 className="mb-2" style={{ fontSize: 16, fontWeight: 600 }}>
-                        Delete template?
-                      </h5>
-                      <p className="text-muted mb-0" style={{ fontSize: "13.5px" }}>
-                        <strong>{deleteTarget.name}</strong> will be deleted permanently.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="modal-footer border-0 pt-0 px-4 pb-4">
-                  <button
-                    type="button"
-                    className="btn btn-erp-ghost"
-                    onClick={() => setDeleteTarget(null)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-erp"
-                    style={{
-                      background: "var(--erp-danger)",
-                      borderColor: "var(--erp-danger)",
-                    }}
-                    disabled={busyId === deleteTarget.id}
-                    onClick={confirmDelete}
-                  >
-                    <i className="fa-solid fa-trash-can me-2"></i>Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
+      <ErpDeleteModal
+        open={Boolean(deleteTarget)}
+        title="Delete template?"
+        description={
+          deleteTarget && (
+            <>
+              <strong>{deleteTarget.name}</strong> will be deleted permanently.
+            </>
+          )
+        }
+        busy={busyId === deleteTarget?.id}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

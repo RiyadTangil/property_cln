@@ -1,8 +1,14 @@
 "use client";
 
 import React, { FormEvent, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import {
+  ErpDeleteModal,
+  ErpEmptyState,
+  ErpPageHeader,
+  ErpPill,
+  ErpTableCard,
+} from "@/components/ui";
 
 export interface MfsRow {
   id: number;
@@ -93,35 +99,25 @@ export default function MfsClient({ services }: { services: MfsRow[] }) {
 
   return (
     <div className="container">
-      <div className="erp-pagehead">
-        <div className="erp-pagehead-main">
-          <div className="erp-pagehead-icon">
-            <i className="fa-solid fa-mobile-screen-button"></i>
-          </div>
-          <div>
-            <h1>MFS Services</h1>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <Link href="/dashboard">Home</Link>
-                </li>
-                <li className="breadcrumb-item">Settings</li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  MFS Services
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-        <div className="erp-pagehead-actions">
-          <a href="/api/settings/mfs-services/export" className="btn btn-erp-ghost">
-            <i className="fa-solid fa-file-excel me-2"></i>Export
-          </a>
-          <button type="button" className="btn btn-erp" onClick={openNew}>
-            <i className="fa-solid fa-plus me-2"></i>New Service
-          </button>
-        </div>
-      </div>
+      <ErpPageHeader
+        icon="fa-solid fa-mobile-screen-button"
+        title="MFS Services"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Settings" },
+          { label: "MFS Services" },
+        ]}
+        actions={
+          <>
+            <a href="/api/settings/mfs-services/export" className="btn btn-erp-ghost">
+              <i className="fa-solid fa-file-excel me-2"></i>Export
+            </a>
+            <button type="button" className="btn btn-erp" onClick={openNew}>
+              <i className="fa-solid fa-plus me-2"></i>New Service
+            </button>
+          </>
+        }
+      />
 
       <p className="erp-def-note mb-3">
         The mobile financial services this company collects money through. A payment taken as{" "}
@@ -129,84 +125,71 @@ export default function MfsClient({ services }: { services: MfsRow[] }) {
         actually landed rather than only that it arrived by phone.
       </p>
 
-      <div className="erp-card">
-        {services.length === 0 ? (
-          <div className="erp-empty">
-            <div className="erp-empty-icon">
-              <i className="fa-solid fa-mobile-screen-button"></i>
-            </div>
-            <h3>No mobile services yet</h3>
-            <p>
-              Add bKash, Nagad, Rocket or any other service you collect through; they can then be picked on mobile money payments.
-            </p>
-          </div>
-        ) : (
-          <div className="erp-card-body is-flush">
-            <div className="erp-table-wrap">
-              <table className="table erp-table">
-                <thead>
-                  <tr>
-                    <th>Provider</th>
-                    <th>Account Name</th>
-                    <th>Account Number</th>
-                    <th>Account Type</th>
-                    <th>Status</th>
-                    <th className="text-end">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {services.map((s) => (
-                    <tr key={s.id}>
-                      <td>
-                        <span className="erp-cell-strong">{s.name}</span>
-                        {s.shortName && (
-                          <span className="erp-identity-meta d-block">{s.shortName}</span>
-                        )}
-                      </td>
-                      <td>{s.accountName || "—"}</td>
-                      <td className="erp-cell-strong">{s.accountNumber || "—"}</td>
-                      <td>
-                        <span className="erp-pill is-neutral text-capitalize">
-                          {s.accountType || "merchant"}
-                        </span>
-                      </td>
-                      <td>
-                        <span
-                          className={`erp-pill ${
-                            s.isActive ? "is-available" : "is-neutral"
-                          }`}
-                        >
-                          {s.isActive ? "Active" : "Inactive"}
-                        </span>
-                      </td>
-                      <td className="text-end text-nowrap">
-                        <div className="d-inline-flex gap-1">
-                          <button
-                            type="button"
-                            className="btn btn-erp-ghost btn-sm"
-                            onClick={() => openEdit(s)}
-                            title="Edit"
-                          >
-                            <i className="fa-solid fa-pen"></i>
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-erp-ghost btn-sm text-danger"
-                            onClick={() => setDeleteTarget(s)}
-                            title="Delete"
-                          >
-                            <i className="fa-solid fa-trash-can"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-      </div>
+      <ErpTableCard
+        isEmpty={services.length === 0}
+        emptyState={
+          <ErpEmptyState
+            icon="fa-solid fa-mobile-screen-button"
+            title="No mobile services yet"
+            description="Add bKash, Nagad, Rocket or any other service you collect through; they can then be picked on mobile money payments."
+          />
+        }
+      >
+        <table className="table erp-table">
+          <thead>
+            <tr>
+              <th>Provider</th>
+              <th>Account Name</th>
+              <th>Account Number</th>
+              <th>Account Type</th>
+              <th>Status</th>
+              <th className="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {services.map((s) => (
+              <tr key={s.id}>
+                <td>
+                  <span className="erp-cell-strong">{s.name}</span>
+                  {s.shortName && <span className="erp-identity-meta d-block">{s.shortName}</span>}
+                </td>
+                <td>{s.accountName || "—"}</td>
+                <td className="erp-cell-strong">{s.accountNumber || "—"}</td>
+                <td>
+                  <ErpPill tone="neutral" className="text-capitalize">
+                    {s.accountType || "merchant"}
+                  </ErpPill>
+                </td>
+                <td>
+                  <ErpPill tone={s.isActive ? "available" : "neutral"}>
+                    {s.isActive ? "Active" : "Inactive"}
+                  </ErpPill>
+                </td>
+                <td className="text-end text-nowrap">
+                  <div className="d-inline-flex gap-1">
+                    <button
+                      type="button"
+                      className="btn btn-erp-ghost btn-sm"
+                      onClick={() => openEdit(s)}
+                      title="Edit"
+                    >
+                      <i className="fa-solid fa-pen"></i>
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-erp-ghost btn-sm text-danger"
+                      onClick={() => setDeleteTarget(s)}
+                      title="Delete"
+                    >
+                      <i className="fa-solid fa-trash-can"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </ErpTableCard>
 
       {modalOpen && (
         <>
@@ -325,53 +308,21 @@ export default function MfsClient({ services }: { services: MfsRow[] }) {
         </>
       )}
 
-      {deleteTarget && (
-        <>
-          <div className="modal-backdrop fade show" />
-          <div className="modal fade show d-block" tabIndex={-1} role="dialog" aria-modal="true">
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content" style={{ border: "none", borderRadius: 14 }}>
-                <div className="modal-body p-4">
-                  <div className="d-flex gap-3">
-                    <div className="erp-kpi-icon is-danger">
-                      <i className="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-                    <div>
-                      <h5 className="mb-2" style={{ fontSize: 16, fontWeight: 600 }}>
-                        Delete service?
-                      </h5>
-                      <p className="text-muted mb-0" style={{ fontSize: "13.5px" }}>
-                        <strong>{deleteTarget.name}</strong> ({deleteTarget.accountNumber || "—"}) will be deleted.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="modal-footer border-0 pt-0 px-4 pb-4">
-                  <button
-                    type="button"
-                    className="btn btn-erp-ghost"
-                    onClick={() => setDeleteTarget(null)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-erp"
-                    style={{
-                      background: "var(--erp-danger)",
-                      borderColor: "var(--erp-danger)",
-                    }}
-                    disabled={saving}
-                    onClick={confirmDelete}
-                  >
-                    <i className="fa-solid fa-trash-can me-2"></i>Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
+      <ErpDeleteModal
+        open={Boolean(deleteTarget)}
+        title="Delete service?"
+        description={
+          deleteTarget && (
+            <>
+              <strong>{deleteTarget.name}</strong> ({deleteTarget.accountNumber || "—"}) will be
+              deleted.
+            </>
+          )
+        }
+        busy={saving}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

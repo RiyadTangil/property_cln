@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { prisma } from "./prisma";
+import { AuthService } from "@/server/services/auth.service";
 
 export const SESSION_COOKIE = "estate_erp_user";
 
@@ -23,21 +23,7 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   const userId = Number(raw);
   if (!Number.isInteger(userId) || userId <= 0) return null;
 
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: {
-      id: true,
-      email: true,
-      username: true,
-      name: true,
-      role: true,
-      theme: true,
-      navLayout: true,
-      sidebarColor: true,
-    },
-  });
-
-  return user ?? null;
+  return AuthService.getUserById(userId);
 }
 
 export async function requireUser(): Promise<SessionUser> {

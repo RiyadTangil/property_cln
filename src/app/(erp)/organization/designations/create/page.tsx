@@ -1,14 +1,11 @@
 import React from "react";
-import { prisma } from "@/lib/prisma";
+import { OrganizationService } from "@/server/services/organization.service";
 import CreateDesignationForm from "@/components/organization/CreateDesignationForm";
 
 export const dynamic = "force-dynamic";
 
 export default async function CreateDesignationPage() {
-  const departments = await prisma.department.findMany({
-    orderBy: { name: "asc" },
-    select: { id: true, name: true },
-  });
+  const { departments } = await OrganizationService.getCreateDesignationPageData();
 
   return <CreateDesignationForm departments={departments} />;
 }

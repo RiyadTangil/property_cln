@@ -1,6 +1,6 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/prisma";
+import { LandService } from "@/server/services/land.service";
 import ParcelDetailClient from "@/components/land/ParcelDetailClient";
 
 export const dynamic = "force-dynamic";
@@ -13,29 +13,8 @@ export default async function LandParcelDetailPage({
   const id = Number(params.id);
   if (!Number.isInteger(id)) notFound();
 
-  const [parcel, projects] = await Promise.all([
-    prisma.landParcel.findUnique({
-      where: { id },
-      include: {
-        project: { select: { id: true, name: true } },
-        proposals: { orderBy: { id: "desc" } },
-        agreements: {
-          include: { owner: { select: { id: true, name: true } } },
-          orderBy: { id: "desc" },
-        },
-        payments: {
-          include: { owner: { select: { id: true, name: true } } },
-          orderBy: { id: "desc" },
-        },
-      },
-    }),
-    prisma.project.findMany({
-      orderBy: { id: "asc" },
-      select: { id: true, name: true },
-    }),
-  ]);
+  const data = await LandService.getParcelDetailPageData(id);
+  if (!data) notFound();
 
-  if (!parcel) notFound();
-
-  return <ParcelDetailClient parcel={parcel} projects={projects} />;
+  return <ParcelDetailClient parcel={data.parcel} projects={data.projects} />;
 }

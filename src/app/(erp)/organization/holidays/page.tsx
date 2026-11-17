@@ -1,5 +1,5 @@
 import { requireUser } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { OrganizationService } from "@/server/services/organization.service";
 import HolidaysClient from "@/components/organization/HolidaysClient";
 
 export const dynamic = "force-dynamic";
@@ -17,63 +17,15 @@ export default async function HolidaysPage({
   };
 }) {
   await requireUser();
-  const search = (searchParams.search ?? "").trim();
-  const year = (searchParams.year ?? "").trim();
-  const type = (searchParams.type ?? "").trim();
-  const branchId = (searchParams.branch_id ?? "").trim();
-  const departmentId = (searchParams.department_id ?? "").trim();
-  const status = (searchParams.status ?? "").trim();
-
-  const [holidays, branches, departments] = await Promise.all([
-    prisma.holiday.findMany({
-      where: {
-        ...(type ? { type } : {}),
-        ...(year ? { startDate: { startsWith: year } } : {}),
-        ...(status === "active"
-          ? { isActive: true }
-          : status === "inactive"
-          ? { isActive: false }
-          : {}),
-        ...(search
-          ? {
-              OR: [
-                { name: { contains: search } },
-                { description: { contains: search } },
-              ],
-            }
-          : {}),
-      },
-      orderBy: { startDate: "asc" },
-    }),
-    prisma.branch.findMany({ where: { isActive: true }, orderBy: { name: "asc" } }),
-    prisma.department.findMany({ where: { isActive: true }, orderBy: { name: "asc" } }),
-  ]);
+  const { holidays, branches, departments, filters } =
+    await OrganizationService.getHolidaysPageData(searchParams);
 
   return (
     <HolidaysClient
-      holidays={holidays.map((h) => ({
-        id: h.id,
-        name: h.name,
-        type: h.type,
-        startDate: h.startDate,
-        endDate: h.endDate,
-        color: h.color,
-        description: h.description,
-        appliesTo: h.appliesTo,
-        isRecurring: h.isRecurring,
-        isPaid: h.isPaid,
-        isActive: h.isActive,
-      }))}
-      branches={branches.map((b) => ({ id: b.id, name: b.name }))}
-      departments={departments.map((d) => ({ id: d.id, name: d.name }))}
-      filters={{
-        search,
-        year,
-        type,
-        branch_id: branchId,
-        department_id: departmentId,
-        status,
-      }}
+      holidays={holidays}
+      branches={branches}
+      departments={departments}
+      filters={filters}
     />
   );
 }

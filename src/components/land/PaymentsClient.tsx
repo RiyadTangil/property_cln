@@ -11,6 +11,7 @@ import {
   formatMoney,
   getLabel,
 } from "@/lib/land";
+import { ErpDeleteModal, ErpEmptyState, ErpPageHeader, ErpPill, ErpTableCard } from "@/components/ui";
 
 export interface PaymentRow {
   id: number;
@@ -69,6 +70,7 @@ export default function PaymentsClient({
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const [busyId, setBusyId] = useState<number | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<PaymentRow | null>(null);
 
   const netPayable = useMemo(() => {
     const g = Number(grossAmount) || 0;
@@ -165,11 +167,12 @@ export default function PaymentsClient({
     }
   }
 
-  async function handleDelete(id: number) {
-    if (!confirm("Delete this payment voucher?")) return;
-    setBusyId(id);
+  async function confirmDelete() {
+    if (!deleteTarget) return;
+    setBusyId(deleteTarget.id);
     try {
-      await fetch(`/api/land/payments/${id}`, { method: "DELETE" });
+      await fetch(`/api/land/payments/${deleteTarget.id}`, { method: "DELETE" });
+      setDeleteTarget(null);
       router.refresh();
     } finally {
       setBusyId(null);
@@ -178,42 +181,33 @@ export default function PaymentsClient({
 
   return (
     <div className="container">
-      <div className="erp-pagehead">
-        <div className="erp-pagehead-main">
-          <div className="erp-pagehead-icon">
-            <i className="fa-solid fa-hand-holding-dollar"></i>
-          </div>
-          <div>
-            <h1>Land Payments</h1>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <Link href="/dashboard">Home</Link>
-                </li>
-                <li className="breadcrumb-item">Land</li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  Payments
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-        <div className="erp-pagehead-actions">
-          <a href="/api/land/payments/export" className="btn btn-erp-ghost">
-            <i className="fa-solid fa-file-excel me-2"></i>Export
-          </a>
-          <button
-            type="button"
-            className="btn btn-erp"
-            onClick={() => setModalOpen(true)}
-          >
-            <i className="fa-solid fa-plus me-2"></i>New Voucher
-          </button>
-        </div>
-      </div>
+      <ErpPageHeader
+        icon="fa-solid fa-hand-holding-dollar"
+        title="Land Payments"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Land" },
+          { label: "Payments" },
+        ]}
+        actions={
+          <>
+            <a href="/api/land/payments/export" className="btn btn-erp-ghost">
+              <i className="fa-solid fa-file-excel me-2"></i>Export
+            </a>
+            <button
+              type="button"
+              className="btn btn-erp"
+              onClick={() => setModalOpen(true)}
+            >
+              <i className="fa-solid fa-plus me-2"></i>New Voucher
+            </button>
+          </>
+        }
+      />
 
-      <div className="erp-card">
-        <div className="erp-card-head">
+      <ErpTableCard
+        headerClass="erp-card-head"
+        toolbar={
           <form method="GET" action="/land/payments" className="erp-filterbar">
             <div className="erp-daterange" aria-label="Payment date range">
               <input
@@ -297,26 +291,23 @@ export default function PaymentsClient({
               </Link>
             )}
           </form>
-          <span className="text-muted" style={{ fontSize: "12.5px" }}>
-            {payments.length} {payments.length === 1 ? "voucher" : "vouchers"}
-          </span>
-        </div>
-
-        {payments.length === 0 ? (
-          <div className="erp-empty">
-            <div className="erp-empty-icon">
-              <i className="fa-solid fa-hand-holding-dollar"></i>
-            </div>
-            <h3>No land money has moved</h3>
-            <p>
-              A voucher is raised against a land file and its live agreement. Start one
-              with <strong>New Voucher</strong> above.
-            </p>
-          </div>
-        ) : (
-          <div className="erp-card-body is-flush">
-            <div className="erp-table-wrap">
-              <table className="table erp-table">
+        }
+        countText={`${payments.length} ${payments.length === 1 ? "voucher" : "vouchers"}`}
+        isEmpty={payments.length === 0}
+        emptyState={
+          <ErpEmptyState
+            icon="fa-solid fa-hand-holding-dollar"
+            title="No land money has moved"
+            description={
+              <>
+                A voucher is raised against a land file and its live agreement. Start one
+                with <strong>New Voucher</strong> above.
+              </>
+            }
+          />
+        }
+      >
+        <table className="table erp-table">
                 <thead>
                   <tr>
                     <th>Voucher No.</th>
@@ -360,17 +351,17 @@ export default function PaymentsClient({
                         ৳ {formatMoney(pm.netAmount)}
                       </td>
                       <td>
-                        <span
-                          className={`erp-pill ${
+                        <ErpPill
+                          tone={
                             pm.status === "posted"
-                              ? "is-available"
+                              ? "available"
                               : pm.status === "draft"
-                              ? "is-hold"
-                              : "is-overdue"
-                          }`}
+                              ? "hold"
+                              : "overdue"
+                          }
                         >
                           {getLabel(PAYMENT_STATUSES, pm.status)}
-                        </span>
+                        </ErpPill>
                       </td>
                       <td className="text-end text-nowrap">
                         {pm.status === "draft" && (
@@ -388,7 +379,7 @@ export default function PaymentsClient({
                           type="button"
                           className="btn btn-erp-ghost btn-sm text-danger"
                           disabled={busyId === pm.id}
-                          onClick={() => handleDelete(pm.id)}
+                          onClick={() => setDeleteTarget(pm)}
                         >
                           <i className="fa-solid fa-trash"></i>
                         </button>
@@ -396,11 +387,23 @@ export default function PaymentsClient({
                     </tr>
                   ))}
                 </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-      </div>
+        </table>
+      </ErpTableCard>
+
+      <ErpDeleteModal
+        open={Boolean(deleteTarget)}
+        title="Delete payment voucher?"
+        description={
+          deleteTarget && (
+            <>
+              Delete payment voucher <strong>{deleteTarget.voucherNo}</strong>?
+            </>
+          )
+        }
+        busy={Boolean(deleteTarget && busyId === deleteTarget.id)}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+      />
 
       {/* New Payment Voucher Modal */}
       {modalOpen && (

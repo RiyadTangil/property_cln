@@ -20,6 +20,17 @@ This repository (`erp_clone`) is a full-stack Next.js 14 (App Router + TypeScrip
 - **Brand Assets**: `public/brand/erp-icon.svg`, `public/brand/erp-logo.jpg`
 - **Auth**: Cookie-based session (`estate_erp_user`) via `src/lib/auth.ts` (`admin@ehishabi.com` / `password`)
 - **Navigation Shell**: `src/components/ErpShell.tsx` + `src/lib/navigation.ts` (all 16 sidebar modules and ~130 routes)
+- **Relational Schema (`prisma/schema.prisma`)**: Company-scoped tables declare explicit `companyId Int` + `@relation(..., onDelete: Cascade)` (`Branch`, `Department`, `FiscalYear`, `Holiday`, `Shift`, `CodeSequence`, `MfsService`, `Project`, `LandParcel`), hierarchical self/branch/department links use `onDelete: SetNull`, `User.roleId -> Role`, and `AuditLog.userId -> User`.
+- **Backend Strict MVC / Service Layer**:
+  - `src/app/**` (Rule: **Zero `@/lib/prisma` imports** inside `src/app/**`):
+    - API routes (`src/app/api/**/route.ts`) are thin HTTP endpoints wrapped with `withAuth(handler)` (`src/server/http/api-handler.ts`), mapping typed `ServiceError` instances to JSON responses and calling controllers or `csvResponse`.
+    - SSR pages (`src/app/(erp)/**/page.tsx`) fetch view models from domain services (`OrganizationService.get*PageData`, `SettingsService.get*PageData`, `LandService.get*PageData`, `CoreService.*`) and pass props into `*Client.tsx`.
+  - `src/server/controllers/*.controller.ts`: Request normalization and DTO validation layer (`organization.controller.ts`, `settings.controller.ts`, `land.controller.ts`) using `reqStr`, `optStr`, and `optNum` to transform raw HTTP snake_case/camelCase payloads into strictly typed DTOs before invoking services.
+  - `src/server/dto/*.dto.ts`: Dedicated per-module TypeScript DTO definitions (`auth.dto.ts`, `organization.dto.ts`, `settings.dto.ts`, `land.dto.ts`, re-exported via `index.ts`) shared between controllers and services.
+  - `src/server/services/*.service.ts`: Domain services (`auth.service.ts`, `core.service.ts`, `organization.service.ts`, `settings.service.ts`, `land.service.ts`) accept typed DTOs only, own all Prisma queries, relational validation, code sequence allocation (`allocateSequenceCode`), and audit trail writes (`recordAudit`). New tiers must add matching `*.dto.ts` + `*.controller.ts` + `*.service.ts` files cleanly.
+- **Frontend DRY Shared UI Primitives (`src/components/ui/erp-primitives.tsx`, `@/components/ui`)**:
+  - Reusable `.erp-*` components preserving 100% identical CSS classes and DOM structure: `ErpPageHeader`, `ErpTableCard`, `ErpSectionCard`, `ErpEmptyState`, `ErpDeleteModal`, `ErpContextBanner`, `ErpFormBar`, `ErpPill`, `ErpIdentity`.
+  - All list, form, and settings views in new tiers must compose `@/components/ui` primitives instead of duplicating `.erp-pagehead`, `.erp-card`, `.erp-empty`, `.erp-form-bar`, or confirmation modals.
 
 ---
 
@@ -63,7 +74,7 @@ Always build dependencies before dependents so downstream modules read real data
 
 ### Step 4 — 1:1 CSS Class & Markup Preservation
 - Never invent custom Bootstrap/Tailwind wrapper layouts when the target CSS already defines `.erp-*`, `.cf-*`, `.ctree-*`, or `.nk-*`.
-- Reuse the exact page header (`.erp-pagehead`), toolbar/filter bar (`.erp-toolbar` / `.erp-filterbar`), empty state (`.erp-empty`), table (`.erp-table`), card sections (`.erp-card` + `.erp-section-head`), and sticky form bar (`.erp-form-bar`).
+- Compose the shared DRY UI primitives in `@/components/ui` (`ErpPageHeader`, `ErpTableCard`, `ErpSectionCard`, `ErpEmptyState`, `ErpDeleteModal`, `ErpContextBanner`, `ErpFormBar`, `ErpPill`, `ErpIdentity`) so page headers (`.erp-pagehead`), toolbars/filter bars (`.erp-toolbar` / `.erp-filterbar`), empty states (`.erp-empty`), tables (`.erp-table`), card sections (`.erp-card` + `.erp-section-head`), and sticky form bars (`.erp-form-bar`) stay consistent without copy-paste drift.
 - Implement interactive dropdowns, modals, tabs, and switches in React state (avoid relying on external jQuery/Bootstrap JS CDN scripts inside Next.js App Router).
 - Keep `src/app/(erp)/[...slug]/page.tsx` only as a fallback for unbuilt routes; creating an explicit route under `src/app/(erp)/...` overrides the catch-all automatically.
 

@@ -4,6 +4,14 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getInitials } from "@/lib/tier0";
+import {
+  ErpDeleteModal,
+  ErpEmptyState,
+  ErpIdentity,
+  ErpPageHeader,
+  ErpPill,
+  ErpTableCard,
+} from "@/components/ui";
 
 export interface UserRow {
   id: number;
@@ -61,38 +69,28 @@ export default function UsersClient({
 
   return (
     <div className="container">
-      <div className="erp-pagehead">
-        <div className="erp-pagehead-main">
-          <div className="erp-pagehead-icon">
-            <i className="fa-solid fa-users-gear"></i>
-          </div>
-          <div>
-            <h1>Users</h1>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <Link href="/dashboard">Home</Link>
-                </li>
-                <li className="breadcrumb-item">Settings</li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  Users
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-        <div className="erp-pagehead-actions">
-          <Link href="/settings/roles" className="btn btn-erp-ghost">
-            <i className="fa-solid fa-user-shield me-2"></i>Roles
-          </Link>
-          <Link href="/settings/users/create" className="btn btn-erp">
-            <i className="fa-solid fa-plus me-2"></i>New User
-          </Link>
-        </div>
-      </div>
+      <ErpPageHeader
+        icon="fa-solid fa-users-gear"
+        title="Users"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Settings" },
+          { label: "Users" },
+        ]}
+        actions={
+          <>
+            <Link href="/settings/roles" className="btn btn-erp-ghost">
+              <i className="fa-solid fa-user-shield me-2"></i>Roles
+            </Link>
+            <Link href="/settings/users/create" className="btn btn-erp">
+              <i className="fa-solid fa-plus me-2"></i>New User
+            </Link>
+          </>
+        }
+      />
 
-      <div className="erp-card">
-        <div className="erp-toolbar">
+      <ErpTableCard
+        toolbar={
           <form
             method="GET"
             action="/settings/users"
@@ -146,154 +144,102 @@ export default function UsersClient({
               </Link>
             )}
           </form>
-
-          <span className="text-muted" style={{ fontSize: "12.5px" }}>
-            {users.length} {users.length === 1 ? "user" : "users"} &middot; roles shown for HQ
-          </span>
-        </div>
-
-        {users.length === 0 ? (
-          <div className="erp-empty">
-            <div className="erp-empty-icon">
-              <i className="fa-solid fa-users-gear"></i>
-            </div>
-            <h3>No users yet</h3>
-            <p>Invite your team and grant them access through roles.</p>
-            <Link href="/settings/users/create" className="btn btn-erp">
-              <i className="fa-solid fa-plus me-2"></i>Create User
-            </Link>
-          </div>
-        ) : (
-          <div className="erp-card-body is-flush">
-            <div className="erp-table-wrap">
-              <table className="table erp-table">
-                <thead>
-                  <tr>
-                    <th>User</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>Created</th>
-                    <th className="text-end">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((u) => (
-                    <tr key={u.id}>
-                      <td>
-                        <div className="erp-identity">
-                          <span className="erp-initials">{getInitials(u.name)}</span>
-                          <span>
-                            <span className="erp-identity-name">{u.name}</span>
-                            <span className="erp-identity-meta">
-                              {u.jobTitle || `@${u.username}`}
-                            </span>
-                          </span>
-                        </div>
-                      </td>
-                      <td>{u.email}</td>
-                      <td>
-                        <span
-                          className={`erp-pill ${
-                            u.isSuperAdmin ? "is-sold" : "is-booked"
-                          }`}
-                        >
-                          {u.isSuperAdmin ? "Super Admin" : u.role}
-                        </span>
-                      </td>
-                      <td>{u.phone || "—"}</td>
-                      <td>
-                        <span
-                          className={`erp-pill ${
-                            u.isActive ? "is-available" : "is-neutral"
-                          }`}
-                        >
-                          {u.isActive ? "Active" : "Suspended"}
-                        </span>
-                      </td>
-                      <td className="text-nowrap">
-                        <span className="erp-identity-meta">{u.createdAt}</span>
-                      </td>
-                      <td className="text-end text-nowrap">
-                        <div className="d-inline-flex gap-1">
-                          <button
-                            type="button"
-                            className="btn btn-erp-ghost btn-sm"
-                            disabled={busyId === u.id}
-                            onClick={() => toggleActive(u)}
-                          >
-                            {u.isActive ? "Suspend" : "Activate"}
-                          </button>
-                          {u.id !== 1 && (
-                            <button
-                              type="button"
-                              className="btn btn-erp-ghost btn-sm text-danger"
-                              onClick={() => setDeleteTarget(u)}
-                              title="Delete"
-                            >
-                              <i className="fa-solid fa-trash-can"></i>
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {deleteTarget && (
-        <>
-          <div className="modal-backdrop fade show" />
-          <div className="modal fade show d-block" tabIndex={-1} role="dialog" aria-modal="true">
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content" style={{ border: "none", borderRadius: 14 }}>
-                <div className="modal-body p-4">
-                  <div className="d-flex gap-3">
-                    <div className="erp-kpi-icon is-danger">
-                      <i className="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-                    <div>
-                      <h5 className="mb-2" style={{ fontSize: 16, fontWeight: 600 }}>
-                        Delete user?
-                      </h5>
-                      <p className="text-muted mb-0" style={{ fontSize: "13.5px" }}>
-                        <strong>{deleteTarget.name}</strong> ({deleteTarget.email}) will be
-                        removed from active use.
-                      </p>
-                    </div>
+        }
+        countText={`${users.length} ${users.length === 1 ? "user" : "users"} · roles shown for HQ`}
+        isEmpty={users.length === 0}
+        emptyState={
+          <ErpEmptyState
+            icon="fa-solid fa-users-gear"
+            title="No users yet"
+            description="Invite your team and grant them access through roles."
+            action={
+              <Link href="/settings/users/create" className="btn btn-erp">
+                <i className="fa-solid fa-plus me-2"></i>Create User
+              </Link>
+            }
+          />
+        }
+      >
+        <table className="table erp-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Phone</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th className="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((u) => (
+              <tr key={u.id}>
+                <td>
+                  <ErpIdentity
+                    initials={getInitials(u.name)}
+                    title={u.name}
+                    meta={u.jobTitle || `@${u.username}`}
+                  />
+                </td>
+                <td>{u.email}</td>
+                <td>
+                  <ErpPill tone={u.isSuperAdmin ? "sold" : "booked"}>
+                    {u.isSuperAdmin ? "Super Admin" : u.role}
+                  </ErpPill>
+                </td>
+                <td>{u.phone || "—"}</td>
+                <td>
+                  <ErpPill tone={u.isActive ? "available" : "neutral"}>
+                    {u.isActive ? "Active" : "Suspended"}
+                  </ErpPill>
+                </td>
+                <td className="text-nowrap">
+                  <span className="erp-identity-meta">{u.createdAt}</span>
+                </td>
+                <td className="text-end text-nowrap">
+                  <div className="d-inline-flex gap-1">
+                    <button
+                      type="button"
+                      className="btn btn-erp-ghost btn-sm"
+                      disabled={busyId === u.id}
+                      onClick={() => toggleActive(u)}
+                    >
+                      {u.isActive ? "Suspend" : "Activate"}
+                    </button>
+                    {u.id !== 1 && (
+                      <button
+                        type="button"
+                        className="btn btn-erp-ghost btn-sm text-danger"
+                        onClick={() => setDeleteTarget(u)}
+                        title="Delete"
+                      >
+                        <i className="fa-solid fa-trash-can"></i>
+                      </button>
+                    )}
                   </div>
-                </div>
-                <div className="modal-footer border-0 pt-0 px-4 pb-4">
-                  <button
-                    type="button"
-                    className="btn btn-erp-ghost"
-                    onClick={() => setDeleteTarget(null)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-erp"
-                    style={{
-                      background: "var(--erp-danger)",
-                      borderColor: "var(--erp-danger)",
-                    }}
-                    disabled={busyId === deleteTarget.id}
-                    onClick={confirmDelete}
-                  >
-                    <i className="fa-solid fa-trash-can me-2"></i>Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </ErpTableCard>
+
+      <ErpDeleteModal
+        open={Boolean(deleteTarget)}
+        title="Delete user?"
+        description={
+          deleteTarget && (
+            <>
+              <strong>{deleteTarget.name}</strong> ({deleteTarget.email}) will be removed from
+              active use.
+            </>
+          )
+        }
+        busy={busyId === deleteTarget?.id}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

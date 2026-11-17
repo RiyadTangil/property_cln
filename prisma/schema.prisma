@@ -8,28 +8,31 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  email        String   @unique
-  username     String   @unique
+  id           Int        @id @default(autoincrement())
+  email        String     @unique
+  username     String     @unique
   password     String
   name         String
-  role         String   @default("Administrator")
+  role         String     @default("Administrator")
+  roleId       Int?
+  roleRel      Role?      @relation(fields: [roleId], references: [id], onDelete: SetNull)
   jobTitle     String?
   phone        String?
-  isSuperAdmin Boolean  @default(true)
-  isActive     Boolean  @default(true)
-  theme        String   @default("light")
-  navLayout    String   @default("side")
-  sidebarColor String   @default("light")
-  timezone     String   @default("Asia/Dhaka")
-  dateFormat   String   @default("d M Y")
-  timeFormat   String   @default("g:i A")
-  createdAt    DateTime @default(now())
+  isSuperAdmin Boolean    @default(true)
+  isActive     Boolean    @default(true)
+  theme        String     @default("light")
+  navLayout    String     @default("side")
+  sidebarColor String     @default("light")
+  timezone     String     @default("Asia/Dhaka")
+  dateFormat   String     @default("d M Y")
+  timeFormat   String     @default("g:i A")
+  createdAt    DateTime   @default(now())
+  auditLogs    AuditLog[]
 }
 
 model Company {
-  id                 Int      @id @default(autoincrement())
-  code               String   @default("HQ")
+  id                 Int            @id @default(autoincrement())
+  code               String         @default("HQ")
   name               String
   legalName          String?
   incorporationDate  String?
@@ -43,16 +46,25 @@ model Company {
   city               String?
   state              String?
   postalCode         String?
-  country            String   @default("Bangladesh")
-  currency           String   @default("BDT")
-  timezone           String   @default("Asia/Dhaka")
-  fyStartMonth       Int      @default(7)
-  fyStartDay         Int      @default(1)
-  branch             String   @default("HQ")
-  fiscalYear         String   @default("1 Jul – 30 Jun")
-  isDefault          Boolean  @default(false)
-  isActive           Boolean  @default(true)
-  createdAt          DateTime @default(now())
+  country            String         @default("Bangladesh")
+  currency           String         @default("BDT")
+  timezone           String         @default("Asia/Dhaka")
+  fyStartMonth       Int            @default(7)
+  fyStartDay         Int            @default(1)
+  branch             String         @default("HQ")
+  fiscalYear         String         @default("1 Jul – 30 Jun")
+  isDefault          Boolean        @default(false)
+  isActive           Boolean        @default(true)
+  createdAt          DateTime       @default(now())
+  branches           Branch[]
+  departments        Department[]
+  fiscalYears        FiscalYear[]
+  holidays           Holiday[]
+  shifts             Shift[]
+  codeSequences      CodeSequence[]
+  mfsServices        MfsService[]
+  projects           Project[]
+  landParcels        LandParcel[]
 }
 
 model Branch {
@@ -61,6 +73,7 @@ model Branch {
   name         String
   type         String       @default("branch")
   companyId    Int          @default(1)
+  company      Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
   openedOn     String?
   phone        String?
   email        String?
@@ -81,10 +94,11 @@ model Department {
   code         String        @unique
   name         String
   companyId    Int           @default(1)
+  company      Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
   branchId     Int?
-  branch       Branch?       @relation(fields: [branchId], references: [id])
+  branch       Branch?       @relation(fields: [branchId], references: [id], onDelete: SetNull)
   parentId     Int?
-  parent       Department?   @relation("DeptHierarchy", fields: [parentId], references: [id])
+  parent       Department?   @relation("DeptHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
   children     Department[]  @relation("DeptHierarchy")
   headName     String?
   email        String?
@@ -100,7 +114,7 @@ model Designation {
   code           String
   name           String
   departmentId   Int?
-  department     Department? @relation(fields: [departmentId], references: [id])
+  department     Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
   employmentType String      @default("full_time")
   grade          String?
   description    String?
@@ -112,6 +126,8 @@ model Designation {
 
 model FiscalYear {
   id                  Int      @id @default(autoincrement())
+  companyId           Int      @default(1)
+  company             Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   code                String   @unique
   name                String
   startDate           String
@@ -126,6 +142,8 @@ model FiscalYear {
 
 model Holiday {
   id          Int      @id @default(autoincrement())
+  companyId   Int      @default(1)
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   name        String
   type        String   @default("public")
   startDate   String
@@ -141,6 +159,8 @@ model Holiday {
 
 model Shift {
   id              Int      @id @default(autoincrement())
+  companyId       Int      @default(1)
+  company         Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   code            String   @unique
   name            String
   startTime       String   @default("09:00")
@@ -166,10 +186,13 @@ model Role {
   permissionsCount Int      @default(0)
   permissionsJson  String   @default("[]")
   createdAt        DateTime @default(now())
+  users            User[]
 }
 
 model CodeSequence {
   id          Int     @id @default(autoincrement())
+  companyId   Int     @default(1)
+  company     Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   key         String  @unique
   label       String
   prefix      String
@@ -208,6 +231,8 @@ model InvoiceTemplate {
 
 model MfsService {
   id            Int      @id @default(autoincrement())
+  companyId     Int      @default(1)
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   name          String
   shortName     String?
   accountName   String?
@@ -219,6 +244,8 @@ model MfsService {
 
 model AuditLog {
   id          Int      @id @default(autoincrement())
+  userId      Int?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   userName    String   @default("System Administrator")
   ipAddress   String   @default("172.68.163.168")
   event       String   @default("created")
@@ -244,6 +271,8 @@ model AppSetting {
 
 model Project {
   id            Int          @id @default(autoincrement())
+  companyId     Int          @default(1)
+  company       Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
   code          String       @unique
   name          String
   location      String
@@ -259,6 +288,8 @@ model Project {
 
 model LandParcel {
   id            Int             @id @default(autoincrement())
+  companyId     Int             @default(1)
+  company       Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
   code          String          @unique
   title         String?
   landType      String

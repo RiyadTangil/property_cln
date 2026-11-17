@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { OWNER_KINDS, getLabel } from "@/lib/land";
+import { ErpDeleteModal, ErpEmptyState, ErpPageHeader, ErpPill, ErpTableCard } from "@/components/ui";
 
 export interface OwnerRow {
   id: number;
@@ -40,6 +41,7 @@ export default function OwnersClient({
 }) {
   const router = useRouter();
   const [busyId, setBusyId] = useState<number | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<OwnerRow | null>(null);
 
   async function toggleStatus(owner: OwnerRow) {
     setBusyId(owner.id);
@@ -55,11 +57,12 @@ export default function OwnersClient({
     }
   }
 
-  async function handleDelete(owner: OwnerRow) {
-    if (!confirm(`Delete landowner ${owner.name} (${owner.code})?`)) return;
-    setBusyId(owner.id);
+  async function confirmDelete() {
+    if (!deleteTarget) return;
+    setBusyId(deleteTarget.id);
     try {
-      await fetch(`/api/land/owners/${owner.id}`, { method: "DELETE" });
+      await fetch(`/api/land/owners/${deleteTarget.id}`, { method: "DELETE" });
+      setDeleteTarget(null);
       router.refresh();
     } finally {
       setBusyId(null);
@@ -68,38 +71,29 @@ export default function OwnersClient({
 
   return (
     <div className="container">
-      <div className="erp-pagehead">
-        <div className="erp-pagehead-main">
-          <div className="erp-pagehead-icon">
-            <i className="fa-solid fa-users"></i>
-          </div>
-          <div>
-            <h1>Landowners</h1>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <Link href="/dashboard">Home</Link>
-                </li>
-                <li className="breadcrumb-item">Land</li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  Landowners
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-        <div className="erp-pagehead-actions">
-          <a href="/api/land/owners/export" className="btn btn-erp-ghost">
-            <i className="fa-solid fa-file-excel me-2"></i>Export
-          </a>
-          <Link href="/land/owners/create" className="btn btn-erp">
-            <i className="fa-solid fa-plus me-2"></i>New Landowner
-          </Link>
-        </div>
-      </div>
+      <ErpPageHeader
+        icon="fa-solid fa-users"
+        title="Landowners"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Land" },
+          { label: "Landowners" },
+        ]}
+        actions={
+          <>
+            <a href="/api/land/owners/export" className="btn btn-erp-ghost">
+              <i className="fa-solid fa-file-excel me-2"></i>Export
+            </a>
+            <Link href="/land/owners/create" className="btn btn-erp">
+              <i className="fa-solid fa-plus me-2"></i>New Landowner
+            </Link>
+          </>
+        }
+      />
 
-      <div className="erp-card">
-        <div className="erp-card-head">
+      <ErpTableCard
+        headerClass="erp-card-head"
+        toolbar={
           <form method="GET" action="/land/owners" className="erp-filterbar">
             <div className="erp-search erp-search-sm">
               <i className="fa-solid fa-magnifying-glass"></i>
@@ -166,29 +160,23 @@ export default function OwnersClient({
               </Link>
             )}
           </form>
-          <span className="text-muted" style={{ fontSize: "12.5px" }}>
-            {owners.length} {owners.length === 1 ? "owner" : "owners"}
-          </span>
-        </div>
-
-        {owners.length === 0 ? (
-          <div className="erp-empty">
-            <div className="erp-empty-icon">
-              <i className="fa-solid fa-users"></i>
-            </div>
-            <h3>No landowners yet</h3>
-            <p>
-              Sellers are kept apart from CRM customers — a seller carries parentage,
-              NID and payout details a customer never needs.
-            </p>
-            <Link href="/land/owners/create" className="btn btn-erp">
-              <i className="fa-solid fa-plus me-2"></i>New Landowner
-            </Link>
-          </div>
-        ) : (
-          <div className="erp-card-body is-flush">
-            <div className="erp-table-wrap">
-              <table className="table erp-table">
+        }
+        countText={`${owners.length} ${owners.length === 1 ? "owner" : "owners"}`}
+        isEmpty={owners.length === 0}
+        emptyState={
+          <ErpEmptyState
+            icon="fa-solid fa-users"
+            title="No landowners yet"
+            description="Sellers are kept apart from CRM customers — a seller carries parentage, NID and payout details a customer never needs."
+            action={
+              <Link href="/land/owners/create" className="btn btn-erp">
+                <i className="fa-solid fa-plus me-2"></i>New Landowner
+              </Link>
+            }
+          />
+        }
+      >
+        <table className="table erp-table">
                 <thead>
                   <tr>
                     <th>Owner ID</th>
@@ -233,22 +221,22 @@ export default function OwnersClient({
                                 : `${o.mfsProvider || "MFS"} (${o.mfsNumber})`}
                             </span>
                           ) : (
-                            <span className="erp-pill is-hold">No payout</span>
+                            <ErpPill tone="hold">No payout</ErpPill>
                           )}
                         </td>
                         <td>
                           {blocked ? (
-                            <span className="erp-pill is-overdue">Cannot sign yet</span>
+                            <ErpPill tone="overdue">Cannot sign yet</ErpPill>
                           ) : o.isMinor ? (
-                            <span className="erp-pill is-hold">
+                            <ErpPill tone="hold">
                               Minor (Guardian: {o.guardianName})
-                            </span>
+                            </ErpPill>
                           ) : o.isDeceased ? (
-                            <span className="erp-pill is-hold">
+                            <ErpPill tone="hold">
                               Deceased (Succession: {o.successionCertificateNo})
-                            </span>
+                            </ErpPill>
                           ) : (
-                            <span className="erp-pill is-available">Eligible</span>
+                            <ErpPill tone="available">Eligible</ErpPill>
                           )}
                         </td>
                         <td>
@@ -268,7 +256,7 @@ export default function OwnersClient({
                             type="button"
                             className="btn btn-erp-ghost btn-sm text-danger"
                             disabled={busyId === o.id}
-                            onClick={() => handleDelete(o)}
+                            onClick={() => setDeleteTarget(o)}
                           >
                             <i className="fa-solid fa-trash"></i>
                           </button>
@@ -277,11 +265,23 @@ export default function OwnersClient({
                     );
                   })}
                 </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-      </div>
+        </table>
+      </ErpTableCard>
+
+      <ErpDeleteModal
+        open={Boolean(deleteTarget)}
+        title="Delete landowner?"
+        description={
+          deleteTarget && (
+            <>
+              Delete landowner <strong>{deleteTarget.name}</strong> ({deleteTarget.code})?
+            </>
+          )
+        }
+        busy={Boolean(deleteTarget && busyId === deleteTarget.id)}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

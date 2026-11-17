@@ -12,6 +12,7 @@ import {
   getStageMeta,
   sqftToKatha,
 } from "@/lib/land";
+import { ErpDeleteModal, ErpEmptyState, ErpPageHeader, ErpTableCard } from "@/components/ui";
 
 export interface ParcelRow {
   id: number;
@@ -52,6 +53,7 @@ export default function ParcelsClient({
 }: ParcelsClientProps) {
   const router = useRouter();
   const [busyId, setBusyId] = useState<number | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<ParcelRow | null>(null);
 
   async function handleStageChange(id: number, stage: string) {
     setBusyId(id);
@@ -67,13 +69,12 @@ export default function ParcelsClient({
     }
   }
 
-  async function handleDelete(id: number, code: string) {
-    if (!confirm(`Delete land file ${code}? This will remove linked proposals, agreements, and payments.`)) {
-      return;
-    }
-    setBusyId(id);
+  async function confirmDelete() {
+    if (!deleteTarget) return;
+    setBusyId(deleteTarget.id);
     try {
-      await fetch(`/api/land/parcels/${id}`, { method: "DELETE" });
+      await fetch(`/api/land/parcels/${deleteTarget.id}`, { method: "DELETE" });
+      setDeleteTarget(null);
       router.refresh();
     } finally {
       setBusyId(null);
@@ -82,35 +83,25 @@ export default function ParcelsClient({
 
   return (
     <div className="container">
-      <div className="erp-pagehead">
-        <div className="erp-pagehead-main">
-          <div className="erp-pagehead-icon">
-            <i className="fa-solid fa-map-location-dot"></i>
-          </div>
-          <div>
-            <h1>Land Parcels</h1>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <Link href="/dashboard">Home</Link>
-                </li>
-                <li className="breadcrumb-item">Land</li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  Parcels
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-        <div className="erp-pagehead-actions">
-          <a href="/api/land/parcels/export" className="btn btn-erp-ghost">
-            <i className="fa-solid fa-file-excel me-2"></i>Export
-          </a>
-          <Link href="/land/parcels/create" className="btn btn-erp">
-            <i className="fa-solid fa-plus me-2"></i>New Land File
-          </Link>
-        </div>
-      </div>
+      <ErpPageHeader
+        icon="fa-solid fa-map-location-dot"
+        title="Land Parcels"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Land" },
+          { label: "Parcels" },
+        ]}
+        actions={
+          <>
+            <a href="/api/land/parcels/export" className="btn btn-erp-ghost">
+              <i className="fa-solid fa-file-excel me-2"></i>Export
+            </a>
+            <Link href="/land/parcels/create" className="btn btn-erp">
+              <i className="fa-solid fa-plus me-2"></i>New Land File
+            </Link>
+          </>
+        }
+      />
 
       {/* Stage Rail */}
       <div className="erp-card mb-3">
@@ -143,8 +134,9 @@ export default function ParcelsClient({
       </div>
 
       {/* Filter Card + Table / Empty State */}
-      <div className="erp-card">
-        <div className="erp-card-head">
+      <ErpTableCard
+        headerClass="erp-card-head"
+        toolbar={
           <form method="GET" action="/land/parcels" className="erp-filterbar">
             <div className="erp-search erp-search-sm">
               <i className="fa-solid fa-magnifying-glass"></i>
@@ -229,29 +221,23 @@ export default function ParcelsClient({
               </Link>
             )}
           </form>
-          <span className="text-muted" style={{ fontSize: "12.5px" }}>
-            {parcels.length} {parcels.length === 1 ? "parcel" : "parcels"}
-          </span>
-        </div>
-
-        {parcels.length === 0 ? (
-          <div className="erp-empty">
-            <div className="erp-empty-icon">
-              <i className="fa-solid fa-map-location-dot"></i>
-            </div>
-            <h3>No land files yet</h3>
-            <p>
-              Open a file the moment a plot is worth looking at — the legal checklist
-              starts with it.
-            </p>
-            <Link href="/land/parcels/create" className="btn btn-erp">
-              <i className="fa-solid fa-plus me-2"></i>New Land File
-            </Link>
-          </div>
-        ) : (
-          <div className="erp-card-body is-flush">
-            <div className="erp-table-wrap">
-              <table className="table erp-table">
+        }
+        countText={`${parcels.length} ${parcels.length === 1 ? "parcel" : "parcels"}`}
+        isEmpty={parcels.length === 0}
+        emptyState={
+          <ErpEmptyState
+            icon="fa-solid fa-map-location-dot"
+            title="No land files yet"
+            description="Open a file the moment a plot is worth looking at — the legal checklist starts with it."
+            action={
+              <Link href="/land/parcels/create" className="btn btn-erp">
+                <i className="fa-solid fa-plus me-2"></i>New Land File
+              </Link>
+            }
+          />
+        }
+      >
+        <table className="table erp-table">
                 <thead>
                   <tr>
                     <th>Land ID</th>
@@ -331,7 +317,7 @@ export default function ParcelsClient({
                             className="btn btn-erp-ghost btn-sm text-danger"
                             title="Delete"
                             disabled={busyId === p.id}
-                            onClick={() => handleDelete(p.id, p.code)}
+                            onClick={() => setDeleteTarget(p)}
                           >
                             <i className="fa-solid fa-trash"></i>
                           </button>
@@ -340,11 +326,24 @@ export default function ParcelsClient({
                     );
                   })}
                 </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-      </div>
+        </table>
+      </ErpTableCard>
+
+      <ErpDeleteModal
+        open={Boolean(deleteTarget)}
+        title="Delete land file?"
+        description={
+          deleteTarget && (
+            <>
+              Delete land file <strong>{deleteTarget.code}</strong>? This will remove linked
+              proposals, agreements, and payments.
+            </>
+          )
+        }
+        busy={Boolean(deleteTarget && busyId === deleteTarget.id)}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

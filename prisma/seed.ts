@@ -225,6 +225,14 @@ async function main() {
     });
   }
 
+  const adminRole = await prisma.role.findUnique({ where: { name: "Administrator" } });
+  if (adminRole) {
+    await prisma.user.updateMany({
+      where: { email: "admin@ehishabi.com", roleId: null },
+      data: { roleId: adminRole.id },
+    });
+  }
+
   // 9. All 22 Code Sequences
   const sequences = [
     { key: "building", label: "Building Code", prefix: "BLD", suffix: "", separator: "-", padding: 4, nextNumber: 2, yearInCode: false, resetYearly: false },

@@ -4,6 +4,7 @@ import React, { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PROPOSAL_STATUSES, formatMoney, getLabel, sqftToKatha } from "@/lib/land";
+import { ErpDeleteModal, ErpEmptyState, ErpPageHeader, ErpTableCard } from "@/components/ui";
 
 export interface ProposalRow {
   id: number;
@@ -51,6 +52,7 @@ export default function ProposalsClient({
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const [busyId, setBusyId] = useState<number | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<ProposalRow | null>(null);
 
   function handleRateChange(nextRate: string) {
     setRatePerKatha(nextRate);
@@ -115,11 +117,12 @@ export default function ProposalsClient({
     }
   }
 
-  async function handleDelete(id: number) {
-    if (!confirm("Delete this proposal?")) return;
-    setBusyId(id);
+  async function confirmDelete() {
+    if (!deleteTarget) return;
+    setBusyId(deleteTarget.id);
     try {
-      await fetch(`/api/land/proposals/${id}`, { method: "DELETE" });
+      await fetch(`/api/land/proposals/${deleteTarget.id}`, { method: "DELETE" });
+      setDeleteTarget(null);
       router.refresh();
     } finally {
       setBusyId(null);
@@ -128,48 +131,39 @@ export default function ProposalsClient({
 
   return (
     <div className="container">
-      <div className="erp-pagehead">
-        <div className="erp-pagehead-main">
-          <div className="erp-pagehead-icon">
-            <i className="fa-solid fa-file-invoice-dollar"></i>
-          </div>
-          <div>
-            <h1>Acquisition Proposals</h1>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <Link href="/dashboard">Home</Link>
-                </li>
-                <li className="breadcrumb-item">Land</li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  Proposals
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-        <div className="erp-pagehead-actions">
-          <a href="/api/land/proposals/export" className="btn btn-erp-ghost">
-            <i className="fa-solid fa-file-excel me-2"></i>Export
-          </a>
-          <button
-            type="button"
-            className="btn btn-erp"
-            onClick={() => setModalOpen(true)}
-            disabled={parcels.length === 0}
-            title={
-              parcels.length === 0
-                ? "Create a land file first before raising a proposal"
-                : "Raise acquisition proposal"
-            }
-          >
-            <i className="fa-solid fa-plus me-2"></i>Raise Proposal
-          </button>
-        </div>
-      </div>
+      <ErpPageHeader
+        icon="fa-solid fa-file-invoice-dollar"
+        title="Acquisition Proposals"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Land" },
+          { label: "Proposals" },
+        ]}
+        actions={
+          <>
+            <a href="/api/land/proposals/export" className="btn btn-erp-ghost">
+              <i className="fa-solid fa-file-excel me-2"></i>Export
+            </a>
+            <button
+              type="button"
+              className="btn btn-erp"
+              onClick={() => setModalOpen(true)}
+              disabled={parcels.length === 0}
+              title={
+                parcels.length === 0
+                  ? "Create a land file first before raising a proposal"
+                  : "Raise acquisition proposal"
+              }
+            >
+              <i className="fa-solid fa-plus me-2"></i>Raise Proposal
+            </button>
+          </>
+        }
+      />
 
-      <div className="erp-card">
-        <div className="erp-card-head">
+      <ErpTableCard
+        headerClass="erp-card-head"
+        toolbar={
           <form method="GET" action="/land/proposals" className="erp-filterbar">
             <div className="erp-daterange" aria-label="Proposal date range">
               <input
@@ -220,32 +214,29 @@ export default function ProposalsClient({
               </Link>
             )}
           </form>
-          <span className="text-muted" style={{ fontSize: "12.5px" }}>
-            {proposals.length} {proposals.length === 1 ? "proposal" : "proposals"}
-          </span>
-        </div>
-
-        {proposals.length === 0 ? (
-          <div className="erp-empty">
-            <div className="erp-empty-icon">
-              <i className="fa-solid fa-file-invoice-dollar"></i>
-            </div>
-            <h3>No proposals raised</h3>
-            <p>A proposal is raised from a land file once its valuation is final.</p>
-            {parcels.length > 0 && (
-              <button
-                type="button"
-                className="btn btn-erp"
-                onClick={() => setModalOpen(true)}
-              >
-                <i className="fa-solid fa-plus me-2"></i>Raise Proposal
-              </button>
-            )}
-          </div>
-        ) : (
-          <div className="erp-card-body is-flush">
-            <div className="erp-table-wrap">
-              <table className="table erp-table">
+        }
+        countText={`${proposals.length} ${proposals.length === 1 ? "proposal" : "proposals"}`}
+        isEmpty={proposals.length === 0}
+        emptyState={
+          <ErpEmptyState
+            icon="fa-solid fa-file-invoice-dollar"
+            title="No proposals raised"
+            description="A proposal is raised from a land file once its valuation is final."
+            action={
+              parcels.length > 0 ? (
+                <button
+                  type="button"
+                  className="btn btn-erp"
+                  onClick={() => setModalOpen(true)}
+                >
+                  <i className="fa-solid fa-plus me-2"></i>Raise Proposal
+                </button>
+              ) : undefined
+            }
+          />
+        }
+      >
+        <table className="table erp-table">
                 <thead>
                   <tr>
                     <th>Proposal</th>
@@ -308,7 +299,7 @@ export default function ProposalsClient({
                           type="button"
                           className="btn btn-erp-ghost btn-sm text-danger"
                           disabled={busyId === pr.id}
-                          onClick={() => handleDelete(pr.id)}
+                          onClick={() => setDeleteTarget(pr)}
                         >
                           <i className="fa-solid fa-trash"></i>
                         </button>
@@ -316,11 +307,23 @@ export default function ProposalsClient({
                     </tr>
                   ))}
                 </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-      </div>
+        </table>
+      </ErpTableCard>
+
+      <ErpDeleteModal
+        open={Boolean(deleteTarget)}
+        title="Delete proposal?"
+        description={
+          deleteTarget && (
+            <>
+              Delete acquisition proposal <strong>{deleteTarget.code}</strong>?
+            </>
+          )
+        }
+        busy={Boolean(deleteTarget && busyId === deleteTarget.id)}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+      />
 
       {/* Raise Proposal Modal */}
       {modalOpen && (

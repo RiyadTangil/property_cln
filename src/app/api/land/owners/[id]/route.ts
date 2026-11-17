@@ -1,31 +1,13 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { getSessionUser } from "@/lib/auth";
+import { withAuth } from "@/server/http/api-handler";
+import { LandController } from "@/server/controllers/land.controller";
 
-export async function PATCH(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  const user = await getSessionUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
-  const id = Number(params.id);
-  const body = await request.json();
-  const data: Record<string, unknown> = {};
-  if (body.isActive !== undefined) data.isActive = Boolean(body.isActive);
-
-  const owner = await prisma.landOwner.update({ where: { id }, data });
+export const PATCH = withAuth<{ id: string }>(async ({ user, request, params }) => {
+  const owner = await LandController.updateOwner(user, Number(params.id), await request.json());
   return NextResponse.json({ owner });
-}
+});
 
-export async function DELETE(
-  _req: Request,
-  { params }: { params: { id: string } }
-) {
-  const user = await getSessionUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
-  const id = Number(params.id);
-  await prisma.landOwner.delete({ where: { id } });
+export const DELETE = withAuth<{ id: string }>(async ({ user, params }) => {
+  await LandController.deleteOwner(user, Number(params.id));
   return NextResponse.json({ ok: true });
-}
+});

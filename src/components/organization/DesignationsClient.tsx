@@ -5,6 +5,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { DESIGNATION_GRADES, EMPLOYMENT_TYPES, getInitials } from "@/lib/tier0";
 import { getLabel } from "@/lib/land";
+import {
+  ErpDeleteModal,
+  ErpEmptyState,
+  ErpIdentity,
+  ErpPageHeader,
+  ErpPill,
+  ErpTableCard,
+} from "@/components/ui";
 
 export interface DesigRow {
   id: number;
@@ -40,11 +48,10 @@ export default function DesignationsClient({
 
   async function submitBulk(e: FormEvent) {
     e.preventDefault();
-    const lines = bulkText
+    const items = bulkText
       .split(/\r?\n/)
       .map((l) => l.trim())
-      .filter(Boolean);
-    const items = lines
+      .filter(Boolean)
       .map((line) => {
         const [code, ...rest] = line.split(/[|,]/);
         return { code: (code || "").trim(), name: rest.join(" ").trim() };
@@ -82,42 +89,32 @@ export default function DesignationsClient({
 
   return (
     <div className="container">
-      <div className="erp-pagehead">
-        <div className="erp-pagehead-main">
-          <div className="erp-pagehead-icon">
-            <i className="fa-solid fa-user-tie"></i>
-          </div>
-          <div>
-            <h1>Designation</h1>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <Link href="/dashboard">Home</Link>
-                </li>
-                <li className="breadcrumb-item">Organization</li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  Designation
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-        <div className="erp-pagehead-actions">
-          <button
-            type="button"
-            className="btn btn-erp-ghost"
-            onClick={() => setBulkOpen(true)}
-          >
-            <i className="fa-solid fa-layer-group me-2"></i>Bulk Add
-          </button>
-          <Link href="/organization/designations/create" className="btn btn-erp">
-            <i className="fa-solid fa-plus me-2"></i>New Designation
-          </Link>
-        </div>
-      </div>
+      <ErpPageHeader
+        icon="fa-solid fa-user-tie"
+        title="Designation"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Organization" },
+          { label: "Designation" },
+        ]}
+        actions={
+          <>
+            <button
+              type="button"
+              className="btn btn-erp-ghost"
+              onClick={() => setBulkOpen(true)}
+            >
+              <i className="fa-solid fa-layer-group me-2"></i>Bulk Add
+            </button>
+            <Link href="/organization/designations/create" className="btn btn-erp">
+              <i className="fa-solid fa-plus me-2"></i>New Designation
+            </Link>
+          </>
+        }
+      />
 
-      <div className="erp-card">
-        <div className="erp-toolbar">
+      <ErpTableCard
+        toolbar={
           <form
             method="GET"
             action="/organization/designations"
@@ -171,109 +168,91 @@ export default function DesignationsClient({
               </Link>
             )}
           </form>
+        }
+        countText={`${designations.length} ${designations.length === 1 ? "designation" : "designations"}`}
+        isEmpty={designations.length === 0}
+        emptyState={
+          <ErpEmptyState
+            icon="fa-solid fa-user-tie"
+            title="No designations found"
+            description="Add job titles, seniority grades, and employment types."
+            action={
+              <Link href="/organization/designations/create" className="btn btn-erp">
+                <i className="fa-solid fa-plus me-2"></i>New Designation
+              </Link>
+            }
+          />
+        }
+      >
+        <table className="table erp-table">
+          <thead>
+            <tr>
+              <th>Designation</th>
+              <th>Code</th>
+              <th>Company</th>
+              <th>Department</th>
+              <th>Grade</th>
+              <th>Employment</th>
+              <th>Status</th>
+              <th>Created By</th>
+              <th className="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {designations.map((ds) => (
+              <tr key={ds.id}>
+                <td>
+                  <ErpIdentity
+                    initials={getInitials(ds.name)}
+                    title={ds.name}
+                    badge={
+                      ds.isManagerial && (
+                        <ErpPill tone="sold" className="ms-1">
+                          Managerial
+                        </ErpPill>
+                      )
+                    }
+                    meta={ds.description || "No description"}
+                  />
+                </td>
+                <td className="erp-cell-strong">{ds.code}</td>
+                <td>{companyName}</td>
+                <td>{ds.departmentName || "Company-wide"}</td>
+                <td>
+                  {ds.grade ? (
+                    <ErpPill tone="booked">{getLabel(DESIGNATION_GRADES, ds.grade)}</ErpPill>
+                  ) : (
+                    "—"
+                  )}
+                </td>
+                <td>{getLabel(EMPLOYMENT_TYPES, ds.employmentType)}</td>
+                <td>
+                  <ErpPill tone={ds.isActive ? "available" : "neutral"}>
+                    {ds.isActive ? "Active" : "Inactive"}
+                  </ErpPill>
+                </td>
+                <td>
+                  <span className="erp-created-by">
+                    <span className="erp-cell-strong">{ds.createdBy || "—"}</span>
+                    <span className="erp-identity-meta d-block">{ds.createdAt}</span>
+                  </span>
+                </td>
+                <td className="text-end text-nowrap">
+                  <button
+                    type="button"
+                    className="btn btn-erp-ghost btn-sm text-danger"
+                    title="Delete"
+                    onClick={() => setDeleteTarget(ds)}
+                  >
+                    <i className="fa-solid fa-trash-can"></i>
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </ErpTableCard>
 
-          <span className="text-muted" style={{ fontSize: "12.5px" }}>
-            {designations.length} {designations.length === 1 ? "designation" : "designations"}
-          </span>
-        </div>
-
-        {designations.length === 0 ? (
-          <div className="erp-empty">
-            <div className="erp-empty-icon">
-              <i className="fa-solid fa-user-tie"></i>
-            </div>
-            <h3>No designations found</h3>
-            <p>Add job titles, seniority grades, and employment types.</p>
-            <Link href="/organization/designations/create" className="btn btn-erp">
-              <i className="fa-solid fa-plus me-2"></i>New Designation
-            </Link>
-          </div>
-        ) : (
-          <div className="erp-card-body is-flush">
-            <div className="erp-table-wrap">
-              <table className="table erp-table">
-                <thead>
-                  <tr>
-                    <th>Designation</th>
-                    <th>Code</th>
-                    <th>Company</th>
-                    <th>Department</th>
-                    <th>Grade</th>
-                    <th>Employment</th>
-                    <th>Status</th>
-                    <th>Created By</th>
-                    <th className="text-end">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {designations.map((ds) => (
-                    <tr key={ds.id}>
-                      <td>
-                        <div className="erp-identity">
-                          <span className="erp-initials">{getInitials(ds.name)}</span>
-                          <span>
-                            <span className="erp-identity-name">
-                              {ds.name}
-                              {ds.isManagerial && (
-                                <span className="erp-pill is-sold ms-1">Managerial</span>
-                              )}
-                            </span>
-                            <span className="erp-identity-meta">
-                              {ds.description || "No description"}
-                            </span>
-                          </span>
-                        </div>
-                      </td>
-                      <td className="erp-cell-strong">{ds.code}</td>
-                      <td>{companyName}</td>
-                      <td>{ds.departmentName || "Company-wide"}</td>
-                      <td>
-                        {ds.grade ? (
-                          <span className="erp-pill is-booked">
-                            {getLabel(DESIGNATION_GRADES, ds.grade)}
-                          </span>
-                        ) : (
-                          "—"
-                        )}
-                      </td>
-                      <td>{getLabel(EMPLOYMENT_TYPES, ds.employmentType)}</td>
-                      <td>
-                        <span
-                          className={`erp-pill ${
-                            ds.isActive ? "is-available" : "is-neutral"
-                          }`}
-                        >
-                          {ds.isActive ? "Active" : "Inactive"}
-                        </span>
-                      </td>
-                      <td>
-                        <span className="erp-created-by">
-                          <span className="erp-cell-strong">{ds.createdBy || "—"}</span>
-                          <span className="erp-identity-meta d-block">
-                            {ds.createdAt}
-                          </span>
-                        </span>
-                      </td>
-                      <td className="text-end text-nowrap">
-                        <button
-                          type="button"
-                          className="btn btn-erp-ghost btn-sm text-danger"
-                          title="Delete"
-                          onClick={() => setDeleteTarget(ds)}
-                        >
-                          <i className="fa-solid fa-trash-can"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Bulk Add Modal */}
       {bulkOpen && (
         <>
           <div className="modal-backdrop fade show" />
@@ -322,55 +301,20 @@ export default function DesignationsClient({
         </>
       )}
 
-      {/* Delete Modal */}
-      {deleteTarget && (
-        <>
-          <div className="modal-backdrop fade show" />
-          <div className="modal fade show d-block" tabIndex={-1} role="dialog" aria-modal="true">
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content" style={{ border: "none", borderRadius: 14 }}>
-                <div className="modal-body p-4">
-                  <div className="d-flex gap-3">
-                    <div className="erp-kpi-icon is-danger">
-                      <i className="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-                    <div>
-                      <h5 className="mb-2" style={{ fontSize: 16, fontWeight: 600 }}>
-                        Delete designation?
-                      </h5>
-                      <p className="text-muted mb-0" style={{ fontSize: "13.5px" }}>
-                        <strong>{deleteTarget.name}</strong> will be removed from active
-                        use.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="modal-footer border-0 pt-0 px-4 pb-4">
-                  <button
-                    type="button"
-                    className="btn btn-erp-ghost"
-                    onClick={() => setDeleteTarget(null)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-erp"
-                    style={{
-                      background: "var(--erp-danger)",
-                      borderColor: "var(--erp-danger)",
-                    }}
-                    disabled={busy}
-                    onClick={confirmDelete}
-                  >
-                    <i className="fa-solid fa-trash-can me-2"></i>Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
+      <ErpDeleteModal
+        open={Boolean(deleteTarget)}
+        title="Delete designation?"
+        description={
+          deleteTarget && (
+            <>
+              <strong>{deleteTarget.name}</strong> will be removed from active use.
+            </>
+          )
+        }
+        busy={busy}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

@@ -146,11 +146,13 @@ export async function recordAudit(
   event: "created" | "updated" | "deleted" | "restored",
   recordTitle: string,
   recordType: string,
-  fieldsList: string[]
+  fieldsList: string[],
+  userId?: number | null
 ) {
   try {
     await prisma.auditLog.create({
       data: {
+        userId: userId ?? null,
         userName: userName || "System Administrator",
         ipAddress: "127.0.0.1",
         event,

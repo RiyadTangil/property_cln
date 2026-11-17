@@ -1,14 +1,10 @@
-import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { getSessionUser } from "@/lib/auth";
-import { toCsv } from "@/lib/csv";
+import { csvResponse, withAuth } from "@/server/http/api-handler";
+import { LandController } from "@/server/controllers/land.controller";
 
-export async function GET() {
-  const user = await getSessionUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
-  const owners = await prisma.landOwner.findMany({ orderBy: { id: "desc" } });
-  const csv = toCsv(
+export const GET = withAuth(async () => {
+  const owners = await LandController.listOwners();
+  return csvResponse(
+    "landowners.csv",
     ["Code", "Kind", "Name", "NID", "TIN", "Father Name", "Phone", "District", "Bank", "Account No", "Status"],
     owners.map((o) => [
       o.code,
@@ -24,11 +20,4 @@ export async function GET() {
       o.isActive ? "Active" : "Inactive",
     ])
   );
-
-  return new NextResponse(csv, {
-    headers: {
-      "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": 'attachment; filename="landowners.csv"',
-    },
-  });
-}
+});

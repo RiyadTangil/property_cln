@@ -3,6 +3,14 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { getInitials } from "@/lib/tier0";
+import {
+  ErpEmptyState,
+  ErpIdentity,
+  ErpPageHeader,
+  ErpPill,
+  ErpTableCard,
+  type ErpPillTone,
+} from "@/components/ui";
 
 export interface AuditRow {
   id: number;
@@ -17,11 +25,11 @@ export interface AuditRow {
   createdAt: string;
 }
 
-const EVENT_PILL: Record<string, { cls: string; icon: string }> = {
-  created: { cls: "is-available", icon: "fa-plus" },
-  updated: { cls: "is-booked", icon: "fa-pen" },
-  deleted: { cls: "is-overdue", icon: "fa-trash-can" },
-  restored: { cls: "is-available", icon: "fa-rotate-left" },
+const EVENT_PILL: Record<string, { tone: ErpPillTone; icon: string }> = {
+  created: { tone: "available", icon: "fa-plus" },
+  updated: { tone: "booked", icon: "fa-pen" },
+  deleted: { tone: "overdue", icon: "fa-trash-can" },
+  restored: { tone: "available", icon: "fa-rotate-left" },
 };
 
 export default function AuditClient({
@@ -53,35 +61,23 @@ export default function AuditClient({
 
   return (
     <div className="container">
-      <div className="erp-pagehead">
-        <div className="erp-pagehead-main">
-          <div className="erp-pagehead-icon">
-            <i className="fa-solid fa-clock-rotate-left"></i>
-          </div>
-          <div>
-            <h1>Audit Trail</h1>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <Link href="/dashboard">Home</Link>
-                </li>
-                <li className="breadcrumb-item">Settings</li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  Audit Trail
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-        <div className="erp-pagehead-actions">
+      <ErpPageHeader
+        icon="fa-solid fa-clock-rotate-left"
+        title="Audit Trail"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Settings" },
+          { label: "Audit Trail" },
+        ]}
+        actions={
           <a href="/api/settings/audit/export" className="btn btn-erp-ghost">
             <i className="fa-solid fa-file-excel me-2"></i>Export
           </a>
-        </div>
-      </div>
+        }
+      />
 
-      <div className="erp-card">
-        <div className="erp-toolbar">
+      <ErpTableCard
+        toolbar={
           <form
             method="GET"
             action="/settings/audit"
@@ -169,87 +165,76 @@ export default function AuditClient({
               </Link>
             )}
           </form>
-          <span className="text-muted" style={{ fontSize: "12.5px" }}>
-            {logs.length} {logs.length === 1 ? "entry" : "entries"}
-          </span>
-        </div>
-
-        {logs.length === 0 ? (
-          <div className="erp-empty">
-            <div className="erp-empty-icon">
-              <i className="fa-solid fa-clock-rotate-left"></i>
-            </div>
-            <h3>No audit entries</h3>
-            <p>Changes made across organization, settings, and transactions appear here automatically.</p>
-          </div>
-        ) : (
-          <div className="erp-card-body is-flush">
-            <div className="erp-table-wrap">
-              <table className="table erp-table">
-                <thead>
-                  <tr>
-                    <th>When</th>
-                    <th>User</th>
-                    <th>Event</th>
-                    <th>Record</th>
-                    <th>Changes</th>
-                    <th className="text-end">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {logs.map((row) => {
-                    const ev = EVENT_PILL[row.event] ?? {
-                      cls: "is-neutral",
-                      icon: "fa-circle-info",
-                    };
-                    return (
-                      <tr key={row.id}>
-                        <td className="text-nowrap" style={{ fontSize: "12.5px" }}>
-                          {row.createdAt}
-                          <small className="d-block text-muted">{row.whenLabel}</small>
-                        </td>
-                        <td>
-                          <div className="erp-identity">
-                            <span className="erp-initials">{getInitials(row.userName)}</span>
-                            <span>
-                              <span className="erp-identity-name">{row.userName}</span>
-                              <span className="erp-identity-meta">{row.ipAddress}</span>
-                            </span>
-                          </div>
-                        </td>
-                        <td>
-                          <span className={`erp-pill text-capitalize ${ev.cls}`}>
-                            <i className={`fa-solid ${ev.icon} me-1`}></i>
-                            {row.event}
-                          </span>
-                        </td>
-                        <td>
-                          <span className="erp-cell-strong">{row.recordTitle}</span>
-                          <small className="d-block text-muted">{row.recordType}</small>
-                        </td>
-                        <td style={{ fontSize: "12.5px" }}>
-                          {row.fieldsCount} {row.fieldsCount === 1 ? "field" : "fields"}
-                          <small className="d-block text-muted">{row.fieldsList}</small>
-                        </td>
-                        <td className="text-end">
-                          <button
-                            type="button"
-                            className="btn btn-erp-ghost btn-sm"
-                            title="Details"
-                            onClick={() => setDetail(row)}
-                          >
-                            <i className="fa-solid fa-eye"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-      </div>
+        }
+        countText={`${logs.length} ${logs.length === 1 ? "entry" : "entries"}`}
+        isEmpty={logs.length === 0}
+        emptyState={
+          <ErpEmptyState
+            icon="fa-solid fa-clock-rotate-left"
+            title="No audit entries"
+            description="Changes made across organization, settings, and transactions appear here automatically."
+          />
+        }
+      >
+        <table className="table erp-table">
+          <thead>
+            <tr>
+              <th>When</th>
+              <th>User</th>
+              <th>Event</th>
+              <th>Record</th>
+              <th>Changes</th>
+              <th className="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {logs.map((row) => {
+              const ev = EVENT_PILL[row.event] ?? {
+                tone: "neutral" as ErpPillTone,
+                icon: "fa-circle-info",
+              };
+              return (
+                <tr key={row.id}>
+                  <td className="text-nowrap" style={{ fontSize: "12.5px" }}>
+                    {row.createdAt}
+                    <small className="d-block text-muted">{row.whenLabel}</small>
+                  </td>
+                  <td>
+                    <ErpIdentity
+                      initials={getInitials(row.userName)}
+                      title={row.userName}
+                      meta={row.ipAddress}
+                    />
+                  </td>
+                  <td>
+                    <ErpPill tone={ev.tone} icon={ev.icon} className="text-capitalize">
+                      {row.event}
+                    </ErpPill>
+                  </td>
+                  <td>
+                    <span className="erp-cell-strong">{row.recordTitle}</span>
+                    <small className="d-block text-muted">{row.recordType}</small>
+                  </td>
+                  <td style={{ fontSize: "12.5px" }}>
+                    {row.fieldsCount} {row.fieldsCount === 1 ? "field" : "fields"}
+                    <small className="d-block text-muted">{row.fieldsList}</small>
+                  </td>
+                  <td className="text-end">
+                    <button
+                      type="button"
+                      className="btn btn-erp-ghost btn-sm"
+                      title="Details"
+                      onClick={() => setDetail(row)}
+                    >
+                      <i className="fa-solid fa-eye"></i>
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </ErpTableCard>
 
       {detail && (
         <>

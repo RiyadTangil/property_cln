@@ -5,6 +5,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BRANCH_TYPES, getInitials } from "@/lib/tier0";
 import { getLabel } from "@/lib/land";
+import {
+  ErpDeleteModal,
+  ErpEmptyState,
+  ErpIdentity,
+  ErpPageHeader,
+  ErpPill,
+  ErpTableCard,
+} from "@/components/ui";
 
 export interface BranchRow {
   id: number;
@@ -48,35 +56,23 @@ export default function BranchesClient({
 
   return (
     <div className="container">
-      <div className="erp-pagehead">
-        <div className="erp-pagehead-main">
-          <div className="erp-pagehead-icon">
-            <i className="fa-solid fa-code-branch"></i>
-          </div>
-          <div>
-            <h1>Branch</h1>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <Link href="/dashboard">Home</Link>
-                </li>
-                <li className="breadcrumb-item">Organization</li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  Branch
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-        <div className="erp-pagehead-actions">
+      <ErpPageHeader
+        icon="fa-solid fa-code-branch"
+        title="Branch"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Organization" },
+          { label: "Branch" },
+        ]}
+        actions={
           <Link href="/organization/branches/create" className="btn btn-erp">
             <i className="fa-solid fa-plus me-2"></i>New Branch
           </Link>
-        </div>
-      </div>
+        }
+      />
 
-      <div className="erp-card">
-        <div className="erp-toolbar">
+      <ErpTableCard
+        toolbar={
           <form
             method="GET"
             action="/organization/branches"
@@ -112,151 +108,100 @@ export default function BranchesClient({
               </Link>
             )}
           </form>
-          <span className="text-muted" style={{ fontSize: "12.5px" }}>
-            {branches.length} {branches.length === 1 ? "branch" : "branches"}
-          </span>
-        </div>
-
-        {branches.length === 0 ? (
-          <div className="erp-empty">
-            <div className="erp-empty-icon">
-              <i className="fa-solid fa-code-branch"></i>
-            </div>
-            <h3>No branches match your filters</h3>
-            <p>Create a branch, sales centre, site office, or warehouse.</p>
-            <Link href="/organization/branches/create" className="btn btn-erp">
-              <i className="fa-solid fa-plus me-2"></i>New Branch
-            </Link>
-          </div>
-        ) : (
-          <div className="erp-card-body is-flush">
-            <div className="erp-table-wrap">
-              <table className="table erp-table">
-                <thead>
-                  <tr>
-                    <th>Branch</th>
-                    <th>Code</th>
-                    <th>Company</th>
-                    <th>Type</th>
-                    <th>Location</th>
-                    <th className="text-end">Depts</th>
-                    <th>Status</th>
-                    <th>Created By</th>
-                    <th className="text-end">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {branches.map((b) => (
-                    <tr key={b.id}>
-                      <td>
-                        <div className="erp-identity">
-                          <span className="erp-initials">{getInitials(b.name)}</span>
-                          <span>
-                            <span className="erp-identity-name">{b.name}</span>
-                            <span className="erp-identity-meta">
-                              {b.managerName || "No manager assigned"}
-                            </span>
-                          </span>
-                        </div>
-                      </td>
-                      <td className="erp-cell-strong">{b.code}</td>
-                      <td>{companyName}</td>
-                      <td>
-                        <span className="erp-pill is-neutral">
-                          {getLabel(BRANCH_TYPES, b.type)}
-                        </span>
-                      </td>
-                      <td>
-                        <span className="d-block">{b.city || "—"}</span>
-                        <span className="text-muted" style={{ fontSize: 12 }}>
-                          {b.country}
-                        </span>
-                      </td>
-                      <td className="text-end erp-cell-strong">{b.deptsCount}</td>
-                      <td>
-                        <span
-                          className={`erp-pill ${
-                            b.isActive ? "is-available" : "is-neutral"
-                          }`}
-                        >
-                          {b.isActive ? "Active" : "Inactive"}
-                        </span>
-                      </td>
-                      <td>
-                        <span className="erp-created-by">
-                          <span className="erp-cell-strong">—</span>
-                          <span className="erp-identity-meta d-block">
-                            {b.createdAt}
-                          </span>
-                        </span>
-                      </td>
-                      <td className="text-end text-nowrap">
-                        <button
-                          type="button"
-                          className="btn btn-erp-ghost btn-sm text-danger"
-                          title="Delete"
-                          onClick={() => setDeleteTarget(b)}
-                        >
-                          <i className="fa-solid fa-trash-can"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {deleteTarget && (
-        <>
-          <div className="modal-backdrop fade show" />
-          <div className="modal fade show d-block" tabIndex={-1} role="dialog" aria-modal="true">
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content" style={{ border: "none", borderRadius: 14 }}>
-                <div className="modal-body p-4">
-                  <div className="d-flex gap-3">
-                    <div className="erp-kpi-icon is-danger">
-                      <i className="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-                    <div>
-                      <h5 className="mb-2" style={{ fontSize: 16, fontWeight: 600 }}>
-                        Delete branch?
-                      </h5>
-                      <p className="text-muted mb-0" style={{ fontSize: "13.5px" }}>
-                        <strong>{deleteTarget.name}</strong> will be removed from active use.
-                        The record is retained and can be restored by an administrator.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="modal-footer border-0 pt-0 px-4 pb-4">
+        }
+        countText={`${branches.length} ${branches.length === 1 ? "branch" : "branches"}`}
+        isEmpty={branches.length === 0}
+        emptyState={
+          <ErpEmptyState
+            icon="fa-solid fa-code-branch"
+            title="No branches match your filters"
+            description="Create a branch, sales centre, site office, or warehouse."
+            action={
+              <Link href="/organization/branches/create" className="btn btn-erp">
+                <i className="fa-solid fa-plus me-2"></i>New Branch
+              </Link>
+            }
+          />
+        }
+      >
+        <table className="table erp-table">
+          <thead>
+            <tr>
+              <th>Branch</th>
+              <th>Code</th>
+              <th>Company</th>
+              <th>Type</th>
+              <th>Location</th>
+              <th className="text-end">Depts</th>
+              <th>Status</th>
+              <th>Created By</th>
+              <th className="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {branches.map((b) => (
+              <tr key={b.id}>
+                <td>
+                  <ErpIdentity
+                    initials={getInitials(b.name)}
+                    title={b.name}
+                    meta={b.managerName || "No manager assigned"}
+                  />
+                </td>
+                <td className="erp-cell-strong">{b.code}</td>
+                <td>{companyName}</td>
+                <td>
+                  <ErpPill tone="neutral">{getLabel(BRANCH_TYPES, b.type)}</ErpPill>
+                </td>
+                <td>
+                  <span className="d-block">{b.city || "—"}</span>
+                  <span className="text-muted" style={{ fontSize: 12 }}>
+                    {b.country}
+                  </span>
+                </td>
+                <td className="text-end erp-cell-strong">{b.deptsCount}</td>
+                <td>
+                  <ErpPill tone={b.isActive ? "available" : "neutral"}>
+                    {b.isActive ? "Active" : "Inactive"}
+                  </ErpPill>
+                </td>
+                <td>
+                  <span className="erp-created-by">
+                    <span className="erp-cell-strong">—</span>
+                    <span className="erp-identity-meta d-block">{b.createdAt}</span>
+                  </span>
+                </td>
+                <td className="text-end text-nowrap">
                   <button
                     type="button"
-                    className="btn btn-erp-ghost"
-                    onClick={() => setDeleteTarget(null)}
+                    className="btn btn-erp-ghost btn-sm text-danger"
+                    title="Delete"
+                    onClick={() => setDeleteTarget(b)}
                   >
-                    Cancel
+                    <i className="fa-solid fa-trash-can"></i>
                   </button>
-                  <button
-                    type="button"
-                    className="btn btn-erp"
-                    style={{
-                      background: "var(--erp-danger)",
-                      borderColor: "var(--erp-danger)",
-                    }}
-                    disabled={busy}
-                    onClick={confirmDelete}
-                  >
-                    <i className="fa-solid fa-trash-can me-2"></i>Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </ErpTableCard>
+
+      <ErpDeleteModal
+        open={Boolean(deleteTarget)}
+        title="Delete branch?"
+        description={
+          deleteTarget && (
+            <>
+              <strong>{deleteTarget.name}</strong> will be removed from active use. The record
+              is retained and can be restored by an administrator.
+            </>
+          )
+        }
+        busy={busy}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

@@ -1,20 +1,11 @@
-import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { getSessionUser } from "@/lib/auth";
-import { toCsv } from "@/lib/csv";
 import { sqftToKatha } from "@/lib/land";
+import { csvResponse, withAuth } from "@/server/http/api-handler";
+import { LandController } from "@/server/controllers/land.controller";
 
-export async function GET() {
-  const user = await getSessionUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
-  const parcels = await prisma.landParcel.findMany({
-    where: { stage: { in: ["owned", "registered"] } },
-    include: { project: true },
-    orderBy: { id: "desc" },
-  });
-
-  const csv = toCsv(
+export const GET = withAuth(async () => {
+  const parcels = await LandController.listBankParcels();
+  return csvResponse(
+    "land-bank.csv",
     ["Code", "Working Name", "Mouza", "District", "Land Type", "Area (katha)", "Area (sft)", "Book Value", "Stage", "Allocated Project"],
     parcels.map((p) => [
       p.code,
@@ -29,11 +20,4 @@ export async function GET() {
       p.project?.name ?? "Unallocated",
     ])
   );
-
-  return new NextResponse(csv, {
-    headers: {
-      "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": 'attachment; filename="land-bank.csv"',
-    },
-  });
-}
+});

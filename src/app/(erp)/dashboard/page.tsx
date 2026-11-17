@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { CoreService } from "@/server/services/core.service";
 import {
   AgeingBarChart,
   HorizontalBarsChart,
@@ -11,11 +11,7 @@ import {
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  const [projects, parcelCount, ownedParcelCount] = await Promise.all([
-    prisma.project.findMany({ orderBy: { id: "asc" } }),
-    prisma.landParcel.count(),
-    prisma.landParcel.count({ where: { stage: "owned" } }),
-  ]);
+  const { projects, parcelCount, ownedParcelCount } = await CoreService.getDashboardData();
 
   const activeProjectsList = projects.filter((p) => p.code !== "PRJ-2026-001");
 

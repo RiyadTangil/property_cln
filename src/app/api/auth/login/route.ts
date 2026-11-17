@@ -1,43 +1,21 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { SESSION_COOKIE } from "@/lib/auth";
+import { ServiceError } from "@/server/http/api-handler";
+import { AuthService } from "@/server/services/auth.service";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const login = String(body?.login ?? "").trim();
+    const login = String(body?.login ?? "");
     const password = String(body?.password ?? "");
     const remember = Boolean(body?.remember);
 
-    if (!login || !password) {
-      return NextResponse.json(
-        { error: "Username/email and password are required." },
-        { status: 400 }
-      );
-    }
-
-    const user = await prisma.user.findFirst({
-      where: {
-        OR: [{ email: login }, { username: login }],
-      },
-    });
-
-    if (!user || user.password !== password) {
-      return NextResponse.json(
-        { error: "These credentials do not match our records." },
-        { status: 401 }
-      );
-    }
+    const user = await AuthService.authenticate({ login, password });
 
     const response = NextResponse.json({
       ok: true,
       redirectTo: "/land/parcels",
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
+      user,
     });
 
     response.cookies.set(SESSION_COOKIE, String(user.id), {
@@ -49,6 +27,9 @@ export async function POST(request: Request) {
 
     return response;
   } catch (err) {
+    if (err instanceof ServiceError) {
+      return NextResponse.json({ error: err.message }, { status: err.status });
+    }
     console.error("Login error:", err);
     return NextResponse.json({ error: "Unable to sign in." }, { status: 500 });
   }

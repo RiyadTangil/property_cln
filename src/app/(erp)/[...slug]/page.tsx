@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { findNavMeta } from "@/lib/navigation";
-import { prisma } from "@/lib/prisma";
+import { CoreService } from "@/server/services/core.service";
 
 export const dynamic = "force-dynamic";
 
@@ -23,9 +23,7 @@ export default async function ModuleCatchAllPage({
 
   // If user clicks /projects/projects or /projects/projects/[id], show real seeded projects
   const isProjectsList = path === "/projects/projects";
-  const projects = isProjectsList
-    ? await prisma.project.findMany({ orderBy: { id: "asc" } })
-    : [];
+  const projects = await CoreService.getCatchAllProjects(isProjectsList);
 
   return (
     <div className="container">

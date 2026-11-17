@@ -4,6 +4,13 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { HOLIDAY_TYPES } from "@/lib/tier0";
+import {
+  ErpDeleteModal,
+  ErpEmptyState,
+  ErpPageHeader,
+  ErpPill,
+  ErpTableCard,
+} from "@/components/ui";
 
 export interface HolidayRow {
   id: number;
@@ -95,35 +102,23 @@ export default function HolidaysClient({
 
   return (
     <div className="container">
-      <div className="erp-pagehead">
-        <div className="erp-pagehead-main">
-          <div className="erp-pagehead-icon">
-            <i className="fa-solid fa-calendar-day"></i>
-          </div>
-          <div>
-            <h1>Holidays</h1>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <Link href="/dashboard">Home</Link>
-                </li>
-                <li className="breadcrumb-item">Organization</li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  Holidays
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-        <div className="erp-pagehead-actions">
+      <ErpPageHeader
+        icon="fa-solid fa-calendar-day"
+        title="Holidays"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Organization" },
+          { label: "Holidays" },
+        ]}
+        actions={
           <Link href="/organization/holidays/create" className="btn btn-erp">
             <i className="fa-solid fa-plus me-2"></i>New Holiday
           </Link>
-        </div>
-      </div>
+        }
+      />
 
-      <div className="erp-card">
-        <div className="erp-toolbar">
+      <ErpTableCard
+        toolbar={
           <form
             method="GET"
             action="/organization/holidays"
@@ -222,186 +217,134 @@ export default function HolidaysClient({
               </Link>
             )}
           </form>
-
-          <span className="text-muted" style={{ fontSize: "12.5px" }}>
-            {holidays.length} {holidays.length === 1 ? "holiday" : "holidays"}
-          </span>
-        </div>
-
-        {holidays.length === 0 ? (
-          <div className="erp-empty">
-            <div className="erp-empty-icon">
-              <i className="fa-solid fa-calendar-day"></i>
-            </div>
-            <h3>No holidays yet</h3>
-            <p>
-              Record public, national, or company holidays so attendance and payroll treat them properly.
-            </p>
-            <Link href="/organization/holidays/create" className="btn btn-erp">
-              <i className="fa-solid fa-plus me-2"></i>New Holiday
-            </Link>
-          </div>
-        ) : (
-          <div className="erp-card-body is-flush">
-            <div className="erp-table-wrap">
-              <table className="table erp-table">
-                <thead>
-                  <tr>
-                    <th>Holiday</th>
-                    <th>Type</th>
-                    <th>Dates</th>
-                    <th>Scope</th>
-                    <th>Treatment</th>
-                    <th>Status</th>
-                    <th className="text-end">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {holidays.map((h) => {
-                    const dotColor = SWATCH_HEX[h.color] ?? h.color ?? "#00c292";
-                    const days = calcDays(h.startDate, h.endDate);
-                    return (
-                      <tr key={h.id}>
-                        <td>
-                          <div className="d-flex align-items-center gap-2">
-                            <span
-                              style={{
-                                width: 10,
-                                height: 10,
-                                borderRadius: "50%",
-                                background: dotColor,
-                                display: "inline-block",
-                                flexShrink: 0,
-                              }}
-                            />
-                            <div>
-                              <span className="erp-cell-strong">{h.name}</span>
-                              {h.description && (
-                                <span className="erp-identity-meta d-block">
-                                  {h.description}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <span className="erp-pill is-neutral">
-                            {HOLIDAY_TYPES.find((t) => t.value === h.type)?.label ?? h.type}
-                          </span>
-                        </td>
-                        <td>
-                          <div>
-                            {h.startDate}
-                            {h.endDate && h.endDate !== h.startDate
-                              ? ` → ${h.endDate}`
-                              : ""}
-                          </div>
-                          <span className="erp-identity-meta">
-                            {days} {days === 1 ? "day" : "days"}
-                          </span>
-                        </td>
-                        <td>
-                          <span className="erp-scope-tag">
-                            <i className="fa-solid fa-building-columns"></i>
-                            {h.appliesTo === "all" || h.appliesTo === "company"
-                              ? "Whole company"
-                              : h.appliesTo}
-                          </span>
-                        </td>
-                        <td>
-                          <div className="d-flex flex-wrap gap-1">
-                            {h.isPaid && <span className="erp-pill is-available">Paid</span>}
-                            {h.isRecurring && (
-                              <span className="erp-pill is-booked">Yearly</span>
-                            )}
-                          </div>
-                        </td>
-                        <td>
-                          <span
-                            className={`erp-pill ${
-                              h.isActive ? "is-available" : "is-neutral"
-                            }`}
-                          >
-                            {h.isActive ? "Active" : "Inactive"}
-                          </span>
-                        </td>
-                        <td className="text-end text-nowrap">
-                          <div className="d-inline-flex gap-1">
-                            <button
-                              type="button"
-                              className="btn btn-erp-ghost btn-sm"
-                              disabled={busyId === h.id}
-                              onClick={() => toggleActive(h)}
-                            >
-                              {h.isActive ? "Deactivate" : "Activate"}
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn-erp-ghost btn-sm text-danger"
-                              onClick={() => setDeleteTarget(h)}
-                              title="Delete"
-                            >
-                              <i className="fa-solid fa-trash-can"></i>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {deleteTarget && (
-        <>
-          <div className="modal-backdrop fade show" />
-          <div className="modal fade show d-block" tabIndex={-1} role="dialog" aria-modal="true">
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content" style={{ border: "none", borderRadius: 14 }}>
-                <div className="modal-body p-4">
-                  <div className="d-flex gap-3">
-                    <div className="erp-kpi-icon is-danger">
-                      <i className="fa-solid fa-triangle-exclamation"></i>
+        }
+        countText={`${holidays.length} ${holidays.length === 1 ? "holiday" : "holidays"}`}
+        isEmpty={holidays.length === 0}
+        emptyState={
+          <ErpEmptyState
+            icon="fa-solid fa-calendar-day"
+            title="No holidays yet"
+            description="Record public, national, or company holidays so attendance and payroll treat them properly."
+            action={
+              <Link href="/organization/holidays/create" className="btn btn-erp">
+                <i className="fa-solid fa-plus me-2"></i>New Holiday
+              </Link>
+            }
+          />
+        }
+      >
+        <table className="table erp-table">
+          <thead>
+            <tr>
+              <th>Holiday</th>
+              <th>Type</th>
+              <th>Dates</th>
+              <th>Scope</th>
+              <th>Treatment</th>
+              <th>Status</th>
+              <th className="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {holidays.map((h) => {
+              const dotColor = SWATCH_HEX[h.color] ?? h.color ?? "#00c292";
+              const days = calcDays(h.startDate, h.endDate);
+              return (
+                <tr key={h.id}>
+                  <td>
+                    <div className="d-flex align-items-center gap-2">
+                      <span
+                        style={{
+                          width: 10,
+                          height: 10,
+                          borderRadius: "50%",
+                          background: dotColor,
+                          display: "inline-block",
+                          flexShrink: 0,
+                        }}
+                      />
+                      <div>
+                        <span className="erp-cell-strong">{h.name}</span>
+                        {h.description && (
+                          <span className="erp-identity-meta d-block">{h.description}</span>
+                        )}
+                      </div>
                     </div>
+                  </td>
+                  <td>
+                    <ErpPill tone="neutral">
+                      {HOLIDAY_TYPES.find((t) => t.value === h.type)?.label ?? h.type}
+                    </ErpPill>
+                  </td>
+                  <td>
                     <div>
-                      <h5 className="mb-2" style={{ fontSize: 16, fontWeight: 600 }}>
-                        Delete holiday?
-                      </h5>
-                      <p className="text-muted mb-0" style={{ fontSize: "13.5px" }}>
-                        <strong>{deleteTarget.name}</strong> will be removed from active use.
-                      </p>
+                      {h.startDate}
+                      {h.endDate && h.endDate !== h.startDate ? ` → ${h.endDate}` : ""}
                     </div>
-                  </div>
-                </div>
-                <div className="modal-footer border-0 pt-0 px-4 pb-4">
-                  <button
-                    type="button"
-                    className="btn btn-erp-ghost"
-                    onClick={() => setDeleteTarget(null)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-erp"
-                    style={{
-                      background: "var(--erp-danger)",
-                      borderColor: "var(--erp-danger)",
-                    }}
-                    disabled={busyId === deleteTarget.id}
-                    onClick={confirmDelete}
-                  >
-                    <i className="fa-solid fa-trash-can me-2"></i>Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
+                    <span className="erp-identity-meta">
+                      {days} {days === 1 ? "day" : "days"}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="erp-scope-tag">
+                      <i className="fa-solid fa-building-columns"></i>
+                      {h.appliesTo === "all" || h.appliesTo === "company"
+                        ? "Whole company"
+                        : h.appliesTo}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="d-flex flex-wrap gap-1">
+                      {h.isPaid && <ErpPill tone="available">Paid</ErpPill>}
+                      {h.isRecurring && <ErpPill tone="booked">Yearly</ErpPill>}
+                    </div>
+                  </td>
+                  <td>
+                    <ErpPill tone={h.isActive ? "available" : "neutral"}>
+                      {h.isActive ? "Active" : "Inactive"}
+                    </ErpPill>
+                  </td>
+                  <td className="text-end text-nowrap">
+                    <div className="d-inline-flex gap-1">
+                      <button
+                        type="button"
+                        className="btn btn-erp-ghost btn-sm"
+                        disabled={busyId === h.id}
+                        onClick={() => toggleActive(h)}
+                      >
+                        {h.isActive ? "Deactivate" : "Activate"}
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-erp-ghost btn-sm text-danger"
+                        onClick={() => setDeleteTarget(h)}
+                        title="Delete"
+                      >
+                        <i className="fa-solid fa-trash-can"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </ErpTableCard>
+
+      <ErpDeleteModal
+        open={Boolean(deleteTarget)}
+        title="Delete holiday?"
+        description={
+          deleteTarget && (
+            <>
+              <strong>{deleteTarget.name}</strong> will be removed from active use.
+            </>
+          )
+        }
+        busy={busyId === deleteTarget?.id}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

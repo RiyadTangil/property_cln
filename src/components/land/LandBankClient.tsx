@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LAND_TYPES, formatMoney, getLabel, getStageMeta, sqftToKatha } from "@/lib/land";
+import { ErpEmptyState, ErpPageHeader, ErpTableCard } from "@/components/ui";
 
 export interface BankParcelRow {
   id: number;
@@ -62,32 +63,20 @@ export default function LandBankClient({
 
   return (
     <div className="container">
-      <div className="erp-pagehead">
-        <div className="erp-pagehead-main">
-          <div className="erp-pagehead-icon">
-            <i className="fa-solid fa-landmark"></i>
-          </div>
-          <div>
-            <h1>Land Bank</h1>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <Link href="/dashboard">Home</Link>
-                </li>
-                <li className="breadcrumb-item">Land</li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  Land Bank
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-        <div className="erp-pagehead-actions">
+      <ErpPageHeader
+        icon="fa-solid fa-landmark"
+        title="Land Bank"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Land" },
+          { label: "Land Bank" },
+        ]}
+        actions={
           <a href="/api/land/bank/export" className="btn btn-erp-ghost">
             <i className="fa-solid fa-file-excel me-2"></i>Export
           </a>
-        </div>
-      </div>
+        }
+      />
 
       {/* 4 KPI Stat Cards */}
       <div className="erp-card mb-3">
@@ -132,8 +121,9 @@ export default function LandBankClient({
         </div>
       </div>
 
-      <div className="erp-card">
-        <div className="erp-card-head">
+      <ErpTableCard
+        headerClass="erp-card-head"
+        toolbar={
           <form method="GET" action="/land/bank" className="erp-filterbar">
             <div className="erp-search erp-search-sm">
               <i className="fa-solid fa-magnifying-glass"></i>
@@ -191,26 +181,18 @@ export default function LandBankClient({
               </Link>
             )}
           </form>
-          <span className="text-muted" style={{ fontSize: "12.5px" }}>
-            {parcels.length} {parcels.length === 1 ? "parcel" : "parcels"}
-          </span>
-        </div>
-
-        {parcels.length === 0 ? (
-          <div className="erp-empty">
-            <div className="erp-empty-icon">
-              <i className="fa-solid fa-landmark"></i>
-            </div>
-            <h3>The land bank is empty</h3>
-            <p>
-              Land enters here once its mutation completes — when the record room
-              names the company, not before.
-            </p>
-          </div>
-        ) : (
-          <div className="erp-card-body is-flush">
-            <div className="erp-table-wrap">
-              <table className="table erp-table">
+        }
+        countText={`${parcels.length} ${parcels.length === 1 ? "parcel" : "parcels"}`}
+        isEmpty={parcels.length === 0}
+        emptyState={
+          <ErpEmptyState
+            icon="fa-solid fa-landmark"
+            title="The land bank is empty"
+            description="Land enters here once its mutation completes — when the record room names the company, not before."
+          />
+        }
+      >
+        <table className="table erp-table">
                 <thead>
                   <tr>
                     <th>Land ID</th>
@@ -278,11 +260,8 @@ export default function LandBankClient({
                     );
                   })}
                 </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-      </div>
+        </table>
+      </ErpTableCard>
     </div>
   );
 }
