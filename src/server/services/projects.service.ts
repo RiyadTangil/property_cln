@@ -204,12 +204,15 @@ export const ProjectsService = {
   },
 
   async getProjectCreateData() {
-    const [types, categories, parcels] = await Promise.all([
+    const [types, categories, parcels, wbsTemplates, cbsTemplates, estimateTemplates] = await Promise.all([
       prisma.projectType.findMany({ where: { companyId: COMPANY_ID, isActive: true }, orderBy: [{ sortOrder: "asc" }, { id: "asc" }] }),
       prisma.projectCategory.findMany({ where: { companyId: COMPANY_ID, isActive: true }, orderBy: [{ sortOrder: "asc" }, { id: "asc" }] }),
       prisma.landParcel.findMany({ where: { companyId: COMPANY_ID }, select: { id: true, code: true, title: true, mouza: true }, orderBy: { id: "desc" } }),
+      prisma.wbsTemplate.findMany({ where: { companyId: COMPANY_ID }, select: { id: true, name: true, projectTypeId: true, projectCategoryId: true, isDefault: true } }),
+      prisma.cbsTemplate.findMany({ where: { companyId: COMPANY_ID }, select: { id: true, name: true, projectTypeId: true, projectCategoryId: true, isDefault: true } }),
+      prisma.estimateTemplate.findMany({ where: { companyId: COMPANY_ID }, select: { id: true, name: true, projectTypeId: true, projectCategoryId: true, isDefault: true } }),
     ]);
-    return { types, categories, parcels };
+    return { types, categories, parcels, wbsTemplates, cbsTemplates, estimateTemplates };
   },
 
   async getProjectDetailData(id: number) {
@@ -431,6 +434,7 @@ export const ProjectsService = {
         include: {
           project: { select: { id: true, code: true, name: true } },
           landParcel: { select: { id: true, code: true, title: true } },
+          _count: { select: { floors: true, units: true } },
         },
         orderBy: { id: "desc" },
       }),
@@ -456,6 +460,232 @@ export const ProjectsService = {
       prisma.landParcel.findMany({ where: { companyId: COMPANY_ID }, select: { id: true, code: true, title: true, mouza: true }, orderBy: { id: "desc" } }),
     ]);
     return { projects, parcels };
+  },
+
+  async getBuildingDetailData(id: number) {
+    const building = await prisma.building.findUnique({
+      where: { id },
+      include: {
+        project: { select: { id: true, code: true, name: true } },
+        landParcel: { select: { id: true, code: true, title: true, mouza: true } },
+        floors: {
+          include: { units: { orderBy: { unitNumber: "asc" } } },
+          orderBy: { floorNumber: "asc" },
+        },
+        units: { orderBy: { unitNumber: "asc" } },
+      },
+    });
+    if (!building) throw new ServiceError(404, "Building not found");
+    return { building };
+  },
+
+  async createFloor(
+    user: SessionUser,
+    buildingId: number,
+    data: { floorNumber: number; name?: string | null; floorType?: string; unitsPlanned?: number; area?: number | null; height?: number | null; description?: string | null }
+  ) {
+    const row = await prisma.buildingFloor.create({
+      data: {
+        buildingId,
+        floorNumber: data.floorNumber,
+        name: data.name ?? (data.floorNumber === 0 ? "Ground Floor" : data.floorNumber < 0 ? `Basement ${Math.abs(data.floorNumber)}` : `Floor ${data.floorNumber}`),
+        floorType: data.floorType || "residential",
+        unitsPlanned: data.unitsPlanned ?? 0,
+        area: data.area ?? null,
+        height: data.height ?? null,
+        description: data.description ?? null,
+      },
+      include: { units: true },
+    });
+    await recordAudit(user.name, "created", row.name || `Floor ${row.floorNumber}`, "BuildingFloor", [], user.id);
+    return row;
+  },
+
+  async bulkCreateFloors(
+    user: SessionUser,
+    buildingId: number,
+    data: { fromFloor: number; toFloor: number; floorType?: string; unitsPlanned?: number; area?: number | null; height?: number | null }
+  ) {
+    const existing = await prisma.buildingFloor.findMany({ where: { buildingId }, select: { floorNumber: true } });
+    const existingNums = new Set(existing.map((f) => f.floorNumber));
+    const created = [];
+    const start = Math.min(data.fromFloor, data.toFloor);
+    const end = Math.max(data.fromFloor, data.toFloor);
+    for (let n = start; n <= end; n++) {
+      if (existingNums.has(n)) continue;
+      const row = await prisma.buildingFloor.create({
+        data: {
+          buildingId,
+          floorNumber: n,
+          name: n === 0 ? "Ground Floor" : n < 0 ? `Basement ${Math.abs(n)}` : `Floor ${n}`,
+          floorType: data.floorType || "residential",
+          unitsPlanned: data.unitsPlanned ?? 0,
+          area: data.area ?? null,
+          height: data.height ?? null,
+        },
+        include: { units: true },
+      });
+      created.push(row);
+    }
+    await recordAudit(user.name, "created", `${created.length} floors (${start}..${end})`, "BuildingFloor", [], user.id);
+    return created;
+  },
+
+  async deleteFloor(user: SessionUser, floorId: number) {
+    const existing = await prisma.buildingFloor.findUnique({ where: { id: floorId } });
+    if (!existing) throw new ServiceError(404, "Floor not found");
+    await prisma.buildingFloor.delete({ where: { id: floorId } });
+    await recordAudit(user.name, "deleted", existing.name || `Floor ${existing.floorNumber}`, "BuildingFloor", [], user.id);
+    return { ok: true };
+  },
+
+  async createUnit(
+    user: SessionUser,
+    buildingId: number,
+    data: {
+      floorId: number;
+      unitNumber: string;
+      name?: string | null;
+      unitType?: string;
+      status?: string;
+      facing?: string | null;
+      bedrooms?: number;
+      bathrooms?: number;
+      balconies?: number;
+      parkingSlots?: number;
+      carpetArea?: number | null;
+      builtArea?: number | null;
+      superArea?: number | null;
+      price?: number | null;
+      ratePerSqft?: number | null;
+      handoverDate?: string | null;
+      ownerName?: string | null;
+      customerName?: string | null;
+      features?: string | null;
+      description?: string | null;
+      isCorner?: boolean;
+    }
+  ) {
+    if (!data.unitNumber.trim()) throw new ServiceError(400, "Unit number is required");
+    const row = await prisma.buildingUnit.create({
+      data: {
+        buildingId,
+        floorId: data.floorId,
+        unitNumber: data.unitNumber.trim(),
+        name: data.name ?? null,
+        unitType: data.unitType || "apartment",
+        status: data.status || "available",
+        facing: data.facing ?? null,
+        bedrooms: data.bedrooms ?? 0,
+        bathrooms: data.bathrooms ?? 0,
+        balconies: data.balconies ?? 0,
+        parkingSlots: data.parkingSlots ?? 0,
+        carpetArea: data.carpetArea ?? null,
+        builtArea: data.builtArea ?? null,
+        superArea: data.superArea ?? null,
+        price: data.price ?? null,
+        ratePerSqft: data.ratePerSqft ?? null,
+        handoverDate: data.handoverDate ?? null,
+        ownerName: data.ownerName ?? null,
+        customerName: data.customerName ?? null,
+        features: data.features ?? null,
+        description: data.description ?? null,
+        isCorner: data.isCorner ?? false,
+      },
+    });
+    await recordAudit(user.name, "created", row.unitNumber, "BuildingUnit", [], user.id);
+    return row;
+  },
+
+  async bulkGenerateUnits(
+    user: SessionUser,
+    buildingId: number,
+    data: { floorIds: number[]; unitsPerFloor: number; prefix?: string; unitType?: string; bedrooms?: number; bathrooms?: number; builtArea?: number | null; price?: number | null }
+  ) {
+    const floors = await prisma.buildingFloor.findMany({
+      where: { buildingId, ...(data.floorIds.length ? { id: { in: data.floorIds } } : {}) },
+      orderBy: { floorNumber: "asc" },
+    });
+    const created = [];
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for (const fl of floors) {
+      for (let i = 0; i < Math.max(1, data.unitsPerFloor); i++) {
+        const suffix = letters[i] || String(i + 1);
+        const unitNumber = `${data.prefix || ""}${fl.floorNumber}${suffix}`;
+        const row = await prisma.buildingUnit.create({
+          data: {
+            buildingId,
+            floorId: fl.id,
+            unitNumber,
+            unitType: data.unitType || "apartment",
+            status: "available",
+            bedrooms: data.bedrooms ?? 0,
+            bathrooms: data.bathrooms ?? 0,
+            builtArea: data.builtArea ?? null,
+            price: data.price ?? null,
+          },
+        });
+        created.push(row);
+      }
+    }
+    await recordAudit(user.name, "created", `${created.length} units`, "BuildingUnit", [], user.id);
+    return created;
+  },
+
+  async deleteUnit(user: SessionUser, unitId: number) {
+    const existing = await prisma.buildingUnit.findUnique({ where: { id: unitId } });
+    if (!existing) throw new ServiceError(404, "Unit not found");
+    await prisma.buildingUnit.delete({ where: { id: unitId } });
+    await recordAudit(user.name, "deleted", existing.unitNumber, "BuildingUnit", [], user.id);
+    return { ok: true };
+  },
+
+  async getTemplateDetailData(kind: "wbs" | "cbs" | "estimate" | "itp", id: number) {
+    if (kind === "wbs") {
+      const [template, taskTemplates] = await Promise.all([
+        prisma.wbsTemplate.findUnique({
+          where: { id },
+          include: { projectType: { select: { name: true } }, projectCategory: { select: { name: true } } },
+        }),
+        prisma.taskTemplate.findMany({ where: { companyId: COMPANY_ID }, orderBy: [{ sortOrder: "asc" }, { id: "asc" }] }),
+      ]);
+      if (!template) throw new ServiceError(404, "WBS template not found");
+      return { template, items: taskTemplates };
+    }
+    if (kind === "cbs") {
+      const [template, cbsItems] = await Promise.all([
+        prisma.cbsTemplate.findUnique({
+          where: { id },
+          include: { projectType: { select: { name: true } }, projectCategory: { select: { name: true } } },
+        }),
+        prisma.costBreakdownItem.findMany({ where: { companyId: COMPANY_ID }, orderBy: [{ sortOrder: "asc" }, { id: "asc" }] }),
+      ]);
+      if (!template) throw new ServiceError(404, "CBS template not found");
+      return { template, items: cbsItems };
+    }
+    if (kind === "estimate") {
+      const [template, parameters, cbsItems] = await Promise.all([
+        prisma.estimateTemplate.findUnique({
+          where: { id },
+          include: {
+            projectType: { select: { name: true } },
+            projectCategory: { select: { name: true } },
+            cbsTemplate: { select: { name: true } },
+            wbsTemplate: { select: { name: true } },
+          },
+        }),
+        prisma.projectParameter.findMany({ where: { companyId: COMPANY_ID }, orderBy: [{ sortOrder: "asc" }, { id: "asc" }] }),
+        prisma.costBreakdownItem.findMany({ where: { companyId: COMPANY_ID, isGroup: false }, take: 50, orderBy: [{ sortOrder: "asc" }, { id: "asc" }] }),
+      ]);
+      if (!template) throw new ServiceError(404, "Estimate template not found");
+      return { template, parameters, items: cbsItems };
+    }
+    const template = await prisma.itpTemplate.findUnique({
+      where: { id },
+      include: { projectType: { select: { name: true } }, projectCategory: { select: { name: true } } },
+    });
+    if (!template) throw new ServiceError(404, "ITP template not found");
+    return { template, items: [] };
   },
 
   async createBuilding(user: SessionUser, dto: CreateBuildingDto) {

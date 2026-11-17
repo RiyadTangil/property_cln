@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ErpDeleteModal, ErpEmptyState, ErpPageHeader } from "@/components/ui";
+import { downloadCsv } from "@/lib/csv-client";
 import { ProjectsSubmenu } from "./ProjectsSubmenu";
 
 export interface ChecklistRow {
@@ -86,9 +87,24 @@ export function InspectionChecklistsClient({ checklists: initial }: { checklists
         title="Inspection Checklists"
         breadcrumbs={[{ label: "Home", href: "/dashboard" }, { label: "Projects", href: "/projects/projects" }, { label: "Inspection Checklists" }]}
         actions={
-          <button type="button" className="btn btn-erp" onClick={() => setModalOpen(true)}>
-            <i className="fa-solid fa-plus me-2" />New Checklist
-          </button>
+          <>
+            <button
+              type="button"
+              className="btn btn-erp-ghost"
+              onClick={() =>
+                downloadCsv(
+                  "inspection-checklists.csv",
+                  ["Name", "Type", "Description", "Active"],
+                  filtered.map((c) => [c.name, c.inspectionType, c.description, c.isActive])
+                )
+              }
+            >
+              <i className="fa-solid fa-file-excel me-2" />Export
+            </button>
+            <button type="button" className="btn btn-erp" onClick={() => setModalOpen(true)}>
+              <i className="fa-solid fa-plus me-2" />New Checklist
+            </button>
+          </>
         }
       />
 
@@ -164,7 +180,7 @@ export function InspectionChecklistsClient({ checklists: initial }: { checklists
       {modalOpen && (
         <div className="modal show d-block" style={{ background: "rgba(0,0,0,0.45)" }}>
           <div className="modal-dialog modal-dialog-centered">
-            <form className="modal-content" onSubmit={handleCreate}>
+            <form className="modal-content" style={{ border: "none", borderRadius: 14 }} onSubmit={handleCreate}>
               <div className="modal-header">
                 <h5 className="modal-title">New Checklist</h5>
                 <button type="button" className="btn-close" onClick={() => setModalOpen(false)} />
@@ -204,14 +220,19 @@ export function InspectionChecklistsClient({ checklists: initial }: { checklists
                     </div>
                   ))}
                 </div>
-                <div className="form-check form-switch">
-                  <input type="checkbox" className="form-check-input" id="chk_act" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} />
-                  <label htmlFor="chk_act" className="form-check-label">Active</label>
+                <div className="erp-switch-row mt-2">
+                  <div>
+                    <h6>Active</h6>
+                    <span className="erp-help">Available for site QA/QC inspections.</span>
+                  </div>
+                  <div className="form-check form-switch mb-0">
+                    <input type="checkbox" className="form-check-input" id="chk_act" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} />
+                  </div>
                 </div>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-erp-ghost" onClick={() => setModalOpen(false)}>Cancel</button>
-                <button type="submit" className="btn btn-erp" disabled={busy}>Create Checklist</button>
+                <button type="submit" className="btn btn-erp" disabled={busy}><i className="fa-solid fa-floppy-disk me-2" />Save</button>
               </div>
             </form>
           </div>

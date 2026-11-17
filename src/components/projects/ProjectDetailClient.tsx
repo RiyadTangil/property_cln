@@ -260,15 +260,30 @@ export function ProjectDetailClient({ project: initial, allProjects, buildings, 
                 <option key={ap.id} value={ap.id}>{ap.code} · {ap.name}</option>
               ))}
             </select>
-            <button type="button" className="btn btn-erp-ghost" onClick={() => setModal("state")}>
-              <i className="fa-solid fa-sliders me-2" />Update Progress
+            <button type="button" className="btn btn-erp-flame" onClick={() => setModal("consumption")}>
+              <i className="fa-solid fa-fire me-2" />Record Consumption
             </button>
+            <button type="button" className="btn btn-erp-ghost" onClick={() => setModal("state")}>
+              <i className="fa-solid fa-gauge-high me-2" />Update Progress
+            </button>
+            <Link href={`/projects/projects/${project.id}/edit`} className="btn btn-erp">
+              <i className="fa-solid fa-pen me-2" />Edit
+            </Link>
             <button type="button" className="btn btn-erp-ghost text-danger" onClick={() => setDeleteOpen(true)}>
               <i className="fa-solid fa-trash-can me-2" />Delete Project
             </button>
           </div>
         }
       />
+
+      <div className="erp-tabs is-glass is-project mb-3" role="tablist">
+        <span className="erp-tab is-active"><i className="fa-solid fa-circle-info" /><span>Overview</span></span>
+        <Link className="erp-tab" href="/projects/projects/task-templates"><i className="fa-solid fa-wand-magic-sparkles" /><span>Setup</span></Link>
+        <Link className="erp-tab" href="/projects/projects/wbs-templates"><i className="fa-solid fa-diagram-next" /><span>Work Breakdown</span></Link>
+        <Link className="erp-tab" href="/projects/projects/estimate-templates"><i className="fa-solid fa-calculator" /><span>Estimates</span></Link>
+        <Link className="erp-tab" href="/projects/projects/cost-breakdown"><i className="fa-solid fa-sitemap" /><span>CBS</span></Link>
+        <Link className="erp-tab" href="/buildings"><i className="fa-solid fa-building" /><span>Buildings ({project.buildings.length})</span></Link>
+      </div>
 
       <div className="row g-3 mb-3">
         <div className="col-md-4">
@@ -280,7 +295,9 @@ export function ProjectDetailClient({ project: initial, allProjects, buildings, 
             <div className="progress mb-2" style={{ height: 8 }}>
               <div className="progress-bar" style={{ width: `${project.progress || project.completionPct}%` }} />
             </div>
-            <div className="small text-muted">{project.progress || project.completionPct}% complete</div>
+            <div className="small text-muted mb-2">{project.progress || project.completionPct}% complete</div>
+            <div className="small">Start: <strong>{project.startDate || "—"}</strong> · Target: <strong>{project.expectedCompletionDate || "—"}</strong></div>
+            {project.description && <div className="small text-muted mt-1">{project.description}</div>}
           </div>
         </div>
         <div className="col-md-4">

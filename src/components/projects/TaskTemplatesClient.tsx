@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ErpDeleteModal, ErpPageHeader } from "@/components/ui";
+import { downloadCsv } from "@/lib/csv-client";
 import { ProjectsSubmenu } from "./ProjectsSubmenu";
 
 export interface TaskTemplateRow {
@@ -134,9 +135,24 @@ export function TaskTemplatesClient({ rows: initial }: { rows: TaskTemplateRow[]
         title="Task & Cost Setup"
         breadcrumbs={[{ label: "Home", href: "/dashboard" }, { label: "Projects", href: "/projects/projects" }, { label: "Task & Cost Setup" }]}
         actions={
-          <button type="button" className="btn btn-erp" onClick={() => openAdd(null)}>
-            <i className="fa-solid fa-plus me-2" />Add Stage
-          </button>
+          <>
+            <button
+              type="button"
+              className="btn btn-erp-ghost"
+              onClick={() =>
+                downloadCsv(
+                  "task-templates.csv",
+                  ["Name", "Category", "Estimated Cost", "Default", "Active"],
+                  rows.map((r) => [r.name, r.category, r.estimatedCost, r.isDefault, r.isActive])
+                )
+              }
+            >
+              <i className="fa-solid fa-file-excel me-2" />Export
+            </button>
+            <button type="button" className="btn btn-erp" onClick={() => openAdd(null)}>
+              <i className="fa-solid fa-plus me-2" />Add Stage
+            </button>
+          </>
         }
       />
 
@@ -239,7 +255,7 @@ export function TaskTemplatesClient({ rows: initial }: { rows: TaskTemplateRow[]
       {modalOpen && (
         <div className="modal show d-block" style={{ background: "rgba(0,0,0,0.45)" }}>
           <div className="modal-dialog modal-dialog-centered">
-            <form className="modal-content" onSubmit={handleSave}>
+            <form className="modal-content" style={{ border: "none", borderRadius: 14 }} onSubmit={handleSave}>
               <div className="modal-header">
                 <h5 className="modal-title">{editing ? "Edit Stage / Activity" : parentId ? "Add Activity" : "Add Stage"}</h5>
                 <button type="button" className="btn-close" onClick={() => setModalOpen(false)} />
@@ -263,20 +279,28 @@ export function TaskTemplatesClient({ rows: initial }: { rows: TaskTemplateRow[]
                   <label className="form-label">Description</label>
                   <textarea className="form-control" rows={2} maxLength={2000} value={description} onChange={(e) => setDescription(e.target.value)} />
                 </div>
-                <div className="d-flex gap-4">
-                  <div className="form-check form-switch">
-                    <input type="checkbox" className="form-check-input" id="tpl_def" checked={isDefault} onChange={(e) => setIsDefault(e.target.checked)} />
-                    <label htmlFor="tpl_def" className="form-check-label">Use as default</label>
+                <div className="erp-switch-row mt-2">
+                  <div>
+                    <h6>Use as default</h6>
+                    <span className="erp-help">Added automatically to every new project&apos;s task board.</span>
                   </div>
-                  <div className="form-check form-switch">
+                  <div className="form-check form-switch mb-0">
+                    <input type="checkbox" className="form-check-input" id="tpl_def" checked={isDefault} onChange={(e) => setIsDefault(e.target.checked)} />
+                  </div>
+                </div>
+                <div className="erp-switch-row">
+                  <div>
+                    <h6>Active</h6>
+                    <span className="erp-help">Inactive rows stay out of new project boards.</span>
+                  </div>
+                  <div className="form-check form-switch mb-0">
                     <input type="checkbox" className="form-check-input" id="tpl_act" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} />
-                    <label htmlFor="tpl_act" className="form-check-label">Active</label>
                   </div>
                 </div>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-erp-ghost" onClick={() => setModalOpen(false)}>Cancel</button>
-                <button type="submit" className="btn btn-erp" disabled={busy}>Save</button>
+                <button type="submit" className="btn btn-erp" disabled={busy}><i className="fa-solid fa-floppy-disk me-2" />Save</button>
               </div>
             </form>
           </div>

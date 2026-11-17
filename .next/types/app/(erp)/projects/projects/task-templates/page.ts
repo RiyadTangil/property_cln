@@ -1,4 +1,4 @@
-// File: c:\job\erp_clone\src\app\(erp)\projects\projects\task-templates\page.tsx
+// File: C:\job\erp_clone\src\app\(erp)\projects\projects\task-templates\page.tsx
 import * as entry from '../../../../../../../src/app/(erp)/projects/projects/task-templates/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

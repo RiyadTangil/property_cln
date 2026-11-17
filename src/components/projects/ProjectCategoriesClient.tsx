@@ -32,6 +32,7 @@ export function ProjectCategoriesClient({
   const [typeFilter, setTypeFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [editItem, setEditItem] = useState<ProjectCategoryRow | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<ProjectCategoryRow | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -43,29 +44,61 @@ export function ProjectCategoriesClient({
     return true;
   });
 
+  function openCreate() {
+    setIsCreating(true);
+    setEditItem({
+      id: 0,
+      name: "",
+      projectTypeId: null,
+      projectType: null,
+      description: "",
+      sortOrder: 10,
+      isActive: true,
+      isBuiltin: false,
+      createdBy: null,
+      _count: { projects: 0 },
+    });
+  }
+
   async function handleSaveEdit(e: React.FormEvent) {
     e.preventDefault();
     if (!editItem) return;
     setSaving(true);
     try {
-      const res = await fetch(`/api/projects/categories/${editItem.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: editItem.name,
-          project_type_id: editItem.projectTypeId,
-          description: editItem.description,
-          sort_order: editItem.sortOrder,
-          is_active: editItem.isActive,
-        }),
-      });
-      if (res.ok) {
-        const matchedType = types.find((t) => t.id === editItem.projectTypeId) ?? null;
-        setCategories((prev) =>
-          prev.map((x) => (x.id === editItem.id ? { ...editItem, projectType: matchedType } : x))
-        );
-        setEditItem(null);
-        router.refresh();
+      const payload = {
+        name: editItem.name,
+        project_type_id: editItem.projectTypeId,
+        description: editItem.description || null,
+        sort_order: editItem.sortOrder,
+        is_active: editItem.isActive,
+      };
+      const matchedType = types.find((t) => t.id === editItem.projectTypeId) ?? null;
+      if (isCreating) {
+        const res = await fetch("/api/projects/categories", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (res.ok) {
+          const d = await res.json();
+          setCategories((prev) => [...prev, { ...d.category, projectType: matchedType, _count: { projects: 0 } }]);
+          setEditItem(null);
+          setIsCreating(false);
+          router.refresh();
+        }
+      } else {
+        const res = await fetch(`/api/projects/categories/${editItem.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (res.ok) {
+          setCategories((prev) =>
+            prev.map((x) => (x.id === editItem.id ? { ...editItem, projectType: matchedType } : x))
+          );
+          setEditItem(null);
+          router.refresh();
+        }
       }
     } finally {
       setSaving(false);
@@ -99,9 +132,9 @@ export function ProjectCategoriesClient({
             <Link href="/projects/types" className="btn btn-erp-ghost">
               <i className="fa-solid fa-shapes me-2" />Types
             </Link>
-            <Link href="/projects/categories/create" className="btn btn-erp">
+            <button type="button" className="btn btn-erp" onClick={openCreate}>
               <i className="fa-solid fa-plus me-2" />New Category
-            </Link>
+            </button>
           </>
         }
       />
@@ -176,7 +209,7 @@ export function ProjectCategoriesClient({
                       </td>
                       <td><span className="erp-cell-strong">{c.createdBy || "—"}</span></td>
                       <td className="text-end text-nowrap">
-                        <button type="button" className="btn btn-erp-ghost btn-sm" title="Edit" onClick={() => setEditItem({ ...c })}>
+                        <button type="button" className="btn btn-erp-ghost btn-sm" title="Edit" onClick={() => { setIsCreating(false); setEditItem({ ...c }); }}>
                           <i className="fa-solid fa-pen" />
                         </button>
                         {c.isBuiltin ? (
@@ -199,10 +232,10 @@ export function ProjectCategoriesClient({
       {editItem && (
         <div className="modal show d-block" style={{ background: "rgba(0,0,0,0.45)" }} tabIndex={-1}>
           <div className="modal-dialog modal-dialog-centered">
-            <form className="modal-content" onSubmit={handleSaveEdit}>
+            <form className="modal-content" style={{ border: "none", borderRadius: 14 }} onSubmit={handleSaveEdit}>
               <div className="modal-header">
-                <h5 className="modal-title">Edit {editItem.name}</h5>
-                <button type="button" className="btn-close" onClick={() => setEditItem(null)} />
+                <h5 className="modal-title">{isCreating ? "New Category" : `Edit ${editItem.name}`}</h5>
+                <button type="button" className="btn-close" onClick={() => { setEditItem(null); setIsCreating(false); }} />
               </div>
               <div className="modal-body">
                 <div className="erp-field">
@@ -228,10 +261,19 @@ export function ProjectCategoriesClient({
                   <label className="form-label">Display Order</label>
                   <input type="number" className="form-control" value={editItem.sortOrder} onChange={(e) => setEditItem({ ...editItem, sortOrder: Number(e.target.value) || 10 })} />
                 </div>
+                <div className="erp-switch-row mt-2">
+                  <div>
+                    <h6>Active</h6>
+                    <span className="erp-help">Inactive categories stay on existing projects but drop out of the picker.</span>
+                  </div>
+                  <div className="form-check form-switch mb-0">
+                    <input type="checkbox" className="form-check-input" checked={editItem.isActive} onChange={(e) => setEditItem({ ...editItem, isActive: e.target.checked })} />
+                  </div>
+                </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-erp-ghost" onClick={() => setEditItem(null)}>Cancel</button>
-                <button type="submit" className="btn btn-erp" disabled={saving}>{saving ? "Saving..." : "Save Changes"}</button>
+                <button type="button" className="btn btn-erp-ghost" onClick={() => { setEditItem(null); setIsCreating(false); }}>Cancel</button>
+                <button type="submit" className="btn btn-erp" disabled={saving}>{saving ? "Saving..." : isCreating ? "Create Category" : "Save Changes"}</button>
               </div>
             </form>
           </div>

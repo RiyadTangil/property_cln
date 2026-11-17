@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ErpContextBanner, ErpDeleteModal, ErpPageHeader } from "@/components/ui";
@@ -157,7 +158,7 @@ export function BreakdownTemplatesClient({
                 {list.map((t) => (
                   <tr key={t.id}>
                     <td>
-                      <span className="erp-identity-name">{t.name}</span>
+                      <Link href={`/projects/projects/${kind}-templates/${t.id}`} className="erp-identity-name">{t.name}</Link>
                       {t.isDefault && <span className="erp-pill is-success ms-2">In use</span>}
                       {t.description && <span className="erp-identity-meta d-block">{t.description}</span>}
                     </td>
@@ -209,7 +210,7 @@ export function BreakdownTemplatesClient({
       {modalOpen && (
         <div className="modal show d-block" style={{ background: "rgba(0,0,0,0.45)" }}>
           <div className="modal-dialog modal-dialog-centered">
-            <form className="modal-content" onSubmit={handleCreate}>
+            <form className="modal-content" style={{ border: "none", borderRadius: 14 }} onSubmit={handleCreate}>
               <div className="modal-header">
                 <h5 className="modal-title">{cfg.btnLabel}</h5>
                 <button type="button" className="btn-close" onClick={() => setModalOpen(false)} />
@@ -239,14 +240,23 @@ export function BreakdownTemplatesClient({
                     </select>
                   </div>
                 </div>
-                <div className="form-check form-switch">
-                  <input type="checkbox" className="form-check-input" id="is_default_tpl" checked={isDefault} onChange={(e) => setIsDefault(e.target.checked)} />
-                  <label htmlFor="is_default_tpl" className="form-check-label">Set as default</label>
+                <div className="erp-callout">
+                  <i className="fa-solid fa-circle-info me-1" />
+                  <span>Leave both empty for a company-wide set that any project can fall back to.</span>
+                </div>
+                <div className="erp-switch-row mt-2">
+                  <div>
+                    <h6>Use this one</h6>
+                    <span className="erp-help">Makes this the set every project at this scope is given.</span>
+                  </div>
+                  <div className="form-check form-switch mb-0">
+                    <input type="checkbox" className="form-check-input" id="is_default_tpl" checked={isDefault} onChange={(e) => setIsDefault(e.target.checked)} />
+                  </div>
                 </div>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-erp-ghost" onClick={() => setModalOpen(false)}>Cancel</button>
-                <button type="submit" className="btn btn-erp" disabled={busy}>Create</button>
+                <button type="submit" className="btn btn-erp" disabled={busy}><i className="fa-solid fa-floppy-disk me-2" />Save</button>
               </div>
             </form>
           </div>

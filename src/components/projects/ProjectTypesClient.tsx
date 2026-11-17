@@ -19,12 +19,22 @@ export interface ProjectTypeRow {
   _count: { categories: number; projects: number };
 }
 
+const PILL_CHOICES = [
+  { value: "is-booked", label: "Blue" },
+  { value: "is-available", label: "Green" },
+  { value: "is-hold", label: "Amber" },
+  { value: "is-sold", label: "Purple" },
+  { value: "is-overdue", label: "Red" },
+  { value: "is-neutral", label: "Grey" },
+];
+
 export function ProjectTypesClient({ types: initial }: { types: ProjectTypeRow[] }) {
   const router = useRouter();
   const [types, setTypes] = useState(initial);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [editItem, setEditItem] = useState<ProjectTypeRow | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<ProjectTypeRow | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -35,27 +45,59 @@ export function ProjectTypesClient({ types: initial }: { types: ProjectTypeRow[]
     return true;
   });
 
+  function openCreate() {
+    setIsCreating(true);
+    setEditItem({
+      id: 0,
+      name: "",
+      description: "",
+      icon: "fa-solid fa-city",
+      pill: "is-neutral",
+      sortOrder: 10,
+      isActive: true,
+      isBuiltin: false,
+      createdBy: null,
+      _count: { categories: 0, projects: 0 },
+    });
+  }
+
   async function handleSaveEdit(e: React.FormEvent) {
     e.preventDefault();
     if (!editItem) return;
     setSaving(true);
     try {
-      const res = await fetch(`/api/projects/types/${editItem.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: editItem.name,
-          description: editItem.description,
-          icon: editItem.icon,
-          pill: editItem.pill,
-          sort_order: editItem.sortOrder,
-          is_active: editItem.isActive,
-        }),
-      });
-      if (res.ok) {
-        setTypes((prev) => prev.map((x) => (x.id === editItem.id ? editItem : x)));
-        setEditItem(null);
-        router.refresh();
+      const payload = {
+        name: editItem.name,
+        description: editItem.description || null,
+        icon: editItem.icon || "fa-solid fa-city",
+        pill: editItem.pill || "is-neutral",
+        sort_order: editItem.sortOrder,
+        is_active: editItem.isActive,
+      };
+      if (isCreating) {
+        const res = await fetch("/api/projects/types", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (res.ok) {
+          const d = await res.json();
+          setTypes((prev) => [...prev, { ...d.projectType, _count: { categories: 0, projects: 0 } }]);
+          setEditItem(null);
+          setIsCreating(false);
+          router.refresh();
+        }
+      } else {
+        const res = await fetch(`/api/projects/types/${editItem.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (res.ok) {
+          setTypes((prev) => prev.map((x) => (x.id === editItem.id ? editItem : x)));
+          setEditItem(null);
+          router.refresh();
+        }
       }
     } finally {
       setSaving(false);
@@ -89,9 +131,9 @@ export function ProjectTypesClient({ types: initial }: { types: ProjectTypeRow[]
             <Link href="/projects/categories" className="btn btn-erp-ghost">
               <i className="fa-solid fa-tags me-2" />Categories
             </Link>
-            <Link href="/projects/types/create" className="btn btn-erp">
+            <button type="button" className="btn btn-erp" onClick={openCreate}>
               <i className="fa-solid fa-plus me-2" />New Type
-            </Link>
+            </button>
           </>
         }
       />
@@ -170,7 +212,7 @@ export function ProjectTypesClient({ types: initial }: { types: ProjectTypeRow[]
                           type="button"
                           className="btn btn-erp-ghost btn-sm"
                           title="Edit"
-                          onClick={() => setEditItem({ ...t })}
+                          onClick={() => { setIsCreating(false); setEditItem({ ...t }); }}
                         >
                           <i className="fa-solid fa-pen" />
                         </button>
@@ -200,65 +242,58 @@ export function ProjectTypesClient({ types: initial }: { types: ProjectTypeRow[]
 
       {editItem && (
         <div className="modal show d-block" style={{ background: "rgba(0,0,0,0.45)" }} tabIndex={-1}>
-          <div className="modal-dialog modal-dialog-centered">
-            <form className="modal-content" onSubmit={handleSaveEdit}>
+          <div className="modal-dialog modal-dialog-centered modal-lg">
+            <form className="modal-content" style={{ border: "none", borderRadius: 14 }} onSubmit={handleSaveEdit}>
               <div className="modal-header">
-                <h5 className="modal-title">Edit {editItem.name}</h5>
-                <button type="button" className="btn-close" onClick={() => setEditItem(null)} />
+                <h5 className="modal-title">{isCreating ? "New Project Type" : `Edit ${editItem.name}`}</h5>
+                <button type="button" className="btn-close" onClick={() => { setEditItem(null); setIsCreating(false); }} />
               </div>
               <div className="modal-body">
-                <div className="erp-field">
-                  <label className="form-label">Name <span className="erp-required">*</span></label>
-                  <input
-                    className="form-control"
-                    required
-                    maxLength={80}
-                    value={editItem.name}
-                    onChange={(e) => setEditItem({ ...editItem, name: e.target.value })}
-                  />
-                </div>
-                <div className="erp-field">
-                  <label className="form-label">Description</label>
-                  <input
-                    className="form-control"
-                    maxLength={255}
-                    value={editItem.description ?? ""}
-                    onChange={(e) => setEditItem({ ...editItem, description: e.target.value })}
-                  />
-                </div>
                 <div className="row">
-                  <div className="col-6 erp-field">
-                    <label className="form-label">Icon</label>
-                    <input
-                      className="form-control"
-                      maxLength={60}
-                      value={editItem.icon}
-                      onChange={(e) => setEditItem({ ...editItem, icon: e.target.value })}
-                    />
+                  <div className="col-md-8 erp-field">
+                    <label className="form-label">Name <span className="erp-required">*</span></label>
+                    <input className="form-control" required maxLength={80} value={editItem.name} onChange={(e) => setEditItem({ ...editItem, name: e.target.value })} />
                   </div>
-                  <div className="col-6 erp-field">
+                  <div className="col-md-4 erp-field">
                     <label className="form-label">Display Order</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      value={editItem.sortOrder}
-                      onChange={(e) => setEditItem({ ...editItem, sortOrder: Number(e.target.value) || 10 })}
-                    />
+                    <input type="number" className="form-control" value={editItem.sortOrder} onChange={(e) => setEditItem({ ...editItem, sortOrder: Number(e.target.value) || 10 })} />
+                  </div>
+                  <div className="col-12 erp-field">
+                    <label className="form-label">Description</label>
+                    <input className="form-control" maxLength={255} value={editItem.description ?? ""} onChange={(e) => setEditItem({ ...editItem, description: e.target.value })} />
+                  </div>
+                  <div className="col-md-6 erp-field">
+                    <label className="form-label">Icon</label>
+                    <div className="input-group">
+                      <span className="input-group-text"><i className={editItem.icon || "fa-solid fa-city"} /></span>
+                      <input className="form-control" maxLength={60} value={editItem.icon} onChange={(e) => setEditItem({ ...editItem, icon: e.target.value })} />
+                    </div>
+                  </div>
+                  <div className="col-md-6 erp-field">
+                    <label className="form-label">Colour</label>
+                    <div className="erp-pill-choices">
+                      {PILL_CHOICES.map((c) => (
+                        <label key={c.value} className="erp-pill-choice">
+                          <input type="radio" name="pill" value={c.value} checked={editItem.pill === c.value} onChange={() => setEditItem({ ...editItem, pill: c.value })} />
+                          <span className={`erp-pill ${c.value}`}>{c.label}</span>
+                        </label>
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <div className="form-check form-switch">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    checked={editItem.isActive}
-                    onChange={(e) => setEditItem({ ...editItem, isActive: e.target.checked })}
-                  />
-                  <label className="form-check-label">Active</label>
+                <div className="erp-switch-row mt-2">
+                  <div>
+                    <h6>Active</h6>
+                    <span className="erp-help">Inactive types stay on existing projects but drop out of the picker.</span>
+                  </div>
+                  <div className="form-check form-switch mb-0">
+                    <input type="checkbox" className="form-check-input" checked={editItem.isActive} onChange={(e) => setEditItem({ ...editItem, isActive: e.target.checked })} />
+                  </div>
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-erp-ghost" onClick={() => setEditItem(null)}>Cancel</button>
-                <button type="submit" className="btn btn-erp" disabled={saving}>{saving ? "Saving..." : "Save Changes"}</button>
+                <button type="button" className="btn btn-erp-ghost" onClick={() => { setEditItem(null); setIsCreating(false); }}>Cancel</button>
+                <button type="submit" className="btn btn-erp" disabled={saving}>{saving ? "Saving..." : isCreating ? "Create Type" : "Save Changes"}</button>
               </div>
             </form>
           </div>

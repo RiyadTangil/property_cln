@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ErpDeleteModal, ErpEmptyState, ErpPageHeader } from "@/components/ui";
+import { downloadCsv } from "@/lib/csv-client";
 import { ProjectsSubmenu } from "./ProjectsSubmenu";
 
 export interface BuildingRow {
@@ -19,13 +20,14 @@ export interface BuildingRow {
   source: string;
   createdBy: string | null;
   project: { id: number; code: string; name: string } | null;
+  _count?: { floors: number; units: number };
 }
 
 const STATUS_LABELS: Record<string, { label: string; pill: string; icon: string }> = {
-  under_construction: { label: "Under Construction", pill: "is-hold", icon: "fa-solid fa-helmet-safety" },
+  under_construction: { label: "Under Construction", pill: "is-hold", icon: "fa-solid fa-person-digging" },
   completed: { label: "Completed", pill: "is-booked", icon: "fa-solid fa-flag-checkered" },
-  handover: { label: "Handover", pill: "is-available", icon: "fa-solid fa-key" },
-  occupied: { label: "Occupied", pill: "is-sold", icon: "fa-solid fa-users" },
+  handover: { label: "Handover", pill: "is-sold", icon: "fa-solid fa-key" },
+  occupied: { label: "Occupied", pill: "is-available", icon: "fa-solid fa-people-roof" },
   maintenance: { label: "Maintenance", pill: "is-overdue", icon: "fa-solid fa-screwdriver-wrench" },
 };
 
@@ -87,38 +89,59 @@ export function BuildingsListClient({
         title="Buildings"
         breadcrumbs={[{ label: "Home", href: "/dashboard" }, { label: "Projects", href: "/projects/projects" }, { label: "Buildings" }]}
         actions={
-          <Link href="/buildings/create" className="btn btn-erp">
-            <i className="fa-solid fa-plus me-2" />New Building
-          </Link>
+          <>
+            <button
+              type="button"
+              className="btn btn-erp-ghost"
+              onClick={() =>
+                downloadCsv(
+                  "buildings.csv",
+                  ["Code", "Name", "Type", "Status", "Location", "Source"],
+                  filtered.map((b) => [b.code, b.name, b.buildingType, b.status, b.location, b.source])
+                )
+              }
+            >
+              <i className="fa-solid fa-file-excel me-2" />Export
+            </button>
+            <Link href="/buildings/create" className="btn btn-erp">
+              <i className="fa-solid fa-plus me-2" />New Building
+            </Link>
+          </>
         }
       />
 
-      <div className="erp-coa-stats mb-3">
+      <div className="erp-coa-summary">
         {Object.entries(STATUS_LABELS).map(([k, meta]) => (
-          <button
+          <div
             key={k}
-            type="button"
+            role="button"
+            tabIndex={0}
             onClick={() => setStatusFilter(statusFilter === k ? "" : k)}
-            className={`erp-coa-stat border-0 text-start${statusFilter === k ? " is-active" : ""}`}
+            onKeyDown={(e) => e.key === "Enter" && setStatusFilter(statusFilter === k ? "" : k)}
+            className={`erp-coa-stat ${meta.pill}`}
+            style={{ cursor: "pointer", outline: statusFilter === k ? "2px solid var(--erp-primary)" : undefined }}
           >
-            <span className="erp-coa-stat-label">{meta.label}</span>
-            <strong>{statusCounts[k] ?? 0}</strong>
-          </button>
+            <span className="erp-coa-stat-icon"><i className={meta.icon} /></span>
+            <span className="erp-coa-stat-body">
+              <strong>{statusCounts[k] ?? 0}</strong>
+              <small>{meta.label}</small>
+            </span>
+          </div>
         ))}
       </div>
 
       <div className="erp-card">
         <div className="erp-toolbar">
-          <div className="d-flex flex-wrap align-items-center gap-2 flex-grow-1">
-            <div className="erp-search">
+          <div className="erp-filterbar">
+            <div className="erp-search erp-search-sm">
               <i className="fa-solid fa-magnifying-glass" />
-              <input type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search name, code, location..." />
+              <input type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Name, code or city…" />
             </div>
-            <select className="form-select erp-select" value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
+            <select className="erp-select" value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
               <option value="">All types</option>
               {Object.entries(TYPE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
             </select>
-            <select className="form-select erp-select" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+            <select className="erp-select" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
               <option value="">All statuses</option>
               {Object.entries(STATUS_LABELS).map(([k, m]) => <option key={k} value={k}>{m.label}</option>)}
             </select>
@@ -148,14 +171,15 @@ export function BuildingsListClient({
                 <tbody>
                   {filtered.map((b) => {
                     const st = STATUS_LABELS[b.status] ?? STATUS_LABELS.under_construction;
-                    const floors = b.floorsAbove + b.floorsBelow;
+                    const floors = b._count?.floors ?? (b.floorsAbove + b.floorsBelow);
+                    const units = b._count?.units ?? b.totalUnits;
                     return (
                       <tr key={b.id}>
                         <td>
                           <div className="erp-identity">
                             <span className="erp-initials"><i className="fa-solid fa-house" /></span>
                             <span>
-                              <span className="erp-identity-name">{b.name}</span>
+                              <span className="erp-identity-name"><Link href={`/buildings/${b.id}`}>{b.name}</Link></span>
                               <span className="erp-identity-meta">{b.code}</span>
                             </span>
                           </div>
@@ -168,14 +192,23 @@ export function BuildingsListClient({
                           </span>
                         </td>
                         <td className="text-center">
-                          <span className={`erp-count-badge${b.totalUnits === 0 ? " is-zero" : ""}`}>
-                            <i className="fa-solid fa-door-closed me-1" />{b.totalUnits}
+                          <span className={`erp-count-badge${units === 0 ? " is-zero" : ""}`}>
+                            <i className="fa-solid fa-door-closed me-1" />{units}
                           </span>
                         </td>
                         <td><span className={`erp-pill ${st.pill}`}><i className={`${st.icon} me-1`} />{st.label}</span></td>
                         <td><span className="text-muted">{b.source}</span></td>
                         <td><span className="erp-cell-strong">{b.createdBy || "System Administrator"}</span></td>
                         <td className="text-end text-nowrap">
+                          <Link href={`/buildings/${b.id}`} className="btn btn-erp-ghost btn-sm" title="View">
+                            <i className="fa-regular fa-eye" />
+                          </Link>
+                          <Link href={`/buildings/${b.id}/floors`} className="btn btn-erp-ghost btn-sm" title="Floors & units">
+                            <i className="fa-solid fa-stairs" />
+                          </Link>
+                          <Link href={`/buildings/${b.id}/edit`} className="btn btn-erp-ghost btn-sm" title="Edit">
+                            <i className="fa-solid fa-pen" />
+                          </Link>
                           <button type="button" className="btn btn-erp-ghost btn-sm text-danger" title="Delete" onClick={() => setDeleteTarget(b)}>
                             <i className="fa-solid fa-trash-can" />
                           </button>

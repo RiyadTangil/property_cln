@@ -739,6 +739,52 @@ model Building {
   createdBy             String?
   createdAt             DateTime             @default(now())
   consumptions          ProjectConsumption[]
+  floors                BuildingFloor[]
+  units                 BuildingUnit[]
+}
+
+model BuildingFloor {
+  id           Int            @id @default(autoincrement())
+  buildingId   Int
+  building     Building       @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  floorNumber  Int
+  name         String?
+  floorType    String         @default("residential")
+  unitsPlanned Int            @default(0)
+  area         Float?
+  height       Float?
+  description  String?
+  units        BuildingUnit[]
+  createdAt    DateTime       @default(now())
+}
+
+model BuildingUnit {
+  id           Int           @id @default(autoincrement())
+  buildingId   Int
+  building     Building      @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  floorId      Int
+  floor        BuildingFloor @relation(fields: [floorId], references: [id], onDelete: Cascade)
+  unitNumber   String
+  name         String?
+  unitType     String        @default("apartment")
+  status       String        @default("available")
+  facing       String?
+  bedrooms     Int           @default(0)
+  bathrooms    Int           @default(0)
+  balconies    Int           @default(0)
+  parkingSlots Int           @default(0)
+  carpetArea   Float?
+  builtArea    Float?
+  superArea    Float?
+  price        Float?
+  ratePerSqft  Float?
+  handoverDate String?
+  ownerName    String?
+  customerName String?
+  features     String?
+  description  String?
+  isCorner     Boolean       @default(false)
+  createdAt    DateTime      @default(now())
 }
 
 model ProjectTask {

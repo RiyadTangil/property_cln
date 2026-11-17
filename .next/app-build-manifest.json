@@ -1,24 +1,9 @@
 {
   "pages": {
-    "/login/page": [
+    "/(erp)/projects/inspection-checklists/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/login/page.js"
-    ],
-    "/login/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/login/layout.js"
-    ],
-    "/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/layout.js"
-    ],
-    "/(erp)/projects/types/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/types/page.js"
+      "static/chunks/app/(erp)/projects/inspection-checklists/page.js"
     ],
     "/(erp)/projects/layout": [
       "static/chunks/webpack.js",
@@ -31,35 +16,30 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(erp)/layout.js"
     ],
-    "/(erp)/projects/types/create/page": [
+    "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/types/create/page.js"
+      "static/chunks/app/layout.js"
+    ],
+    "/(erp)/[...slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/[...slug]/page.js"
+    ],
+    "/(erp)/projects/types/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/projects/types/page.js"
+    ],
+    "/(erp)/projects/projects/task-templates/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/projects/projects/task-templates/page.js"
     ],
     "/(erp)/projects/categories/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(erp)/projects/categories/page.js"
-    ],
-    "/(erp)/projects/categories/create/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/categories/create/page.js"
-    ],
-    "/(erp)/projects/projects/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/projects/page.js"
-    ],
-    "/(erp)/projects/projects/create/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/projects/create/page.js"
-    ],
-    "/(erp)/projects/projects/[id]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/projects/[id]/page.js"
     ],
     "/(erp)/buildings/page": [
       "static/chunks/webpack.js",
@@ -72,6 +52,11 @@
       "static/css/app/(erp)/buildings/layout.css",
       "static/chunks/app/(erp)/buildings/layout.js"
     ],
+    "/(erp)/projects/projects/create/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/projects/projects/create/page.js"
+    ],
     "/(erp)/buildings/create/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -81,41 +66,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(erp)/projects/projects/wbs-templates/page.js"
-    ],
-    "/(erp)/projects/projects/cbs-templates/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/projects/cbs-templates/page.js"
-    ],
-    "/(erp)/projects/projects/estimate-templates/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/projects/estimate-templates/page.js"
-    ],
-    "/(erp)/projects/projects/task-templates/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/projects/task-templates/page.js"
-    ],
-    "/(erp)/projects/projects/parameters/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/projects/parameters/page.js"
-    ],
-    "/(erp)/projects/projects/itp-templates/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/projects/itp-templates/page.js"
-    ],
-    "/(erp)/projects/projects/cost-breakdown/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/projects/cost-breakdown/page.js"
-    ],
-    "/(erp)/projects/inspection-checklists/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/inspection-checklists/page.js"
     ]
   }
 }

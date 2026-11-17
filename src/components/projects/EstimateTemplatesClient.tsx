@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ErpContextBanner, ErpDeleteModal, ErpPageHeader } from "@/components/ui";
@@ -140,7 +141,7 @@ export function EstimateTemplatesClient({
               {templates.map((t) => (
                 <tr key={t.id}>
                   <td>
-                    <span className="erp-identity-name">{t.name}</span>
+                    <Link href={`/projects/projects/estimate-templates/${t.id}`} className="erp-identity-name">{t.name}</Link>
                     {t.isDefault && <span className="erp-pill is-success ms-2">In use</span>}
                   </td>
                   <td>{t.projectCategory?.name || t.projectType?.name || "All projects"}</td>
@@ -161,8 +162,8 @@ export function EstimateTemplatesClient({
 
       {modalOpen && (
         <div className="modal show d-block" style={{ background: "rgba(0,0,0,0.45)" }}>
-          <div className="modal-dialog modal-dialog-centered">
-            <form className="modal-content" onSubmit={handleCreate}>
+          <div className="modal-dialog modal-dialog-centered modal-lg">
+            <form className="modal-content" style={{ border: "none", borderRadius: 14 }} onSubmit={handleCreate}>
               <div className="modal-header">
                 <h5 className="modal-title">New Estimate Template</h5>
                 <button type="button" className="btn-close" onClick={() => setModalOpen(false)} />
@@ -221,14 +222,19 @@ export function EstimateTemplatesClient({
                     </select>
                   </div>
                 </div>
-                <div className="form-check form-switch">
-                  <input type="checkbox" className="form-check-input" id="est_def" checked={isDefault} onChange={(e) => setIsDefault(e.target.checked)} />
-                  <label htmlFor="est_def" className="form-check-label">Set as default</label>
+                <div className="erp-switch-row mt-2">
+                  <div>
+                    <h6>Use this one</h6>
+                    <span className="erp-help">Makes this the estimate template projects at this scope receive by default.</span>
+                  </div>
+                  <div className="form-check form-switch mb-0">
+                    <input type="checkbox" className="form-check-input" id="est_def" checked={isDefault} onChange={(e) => setIsDefault(e.target.checked)} />
+                  </div>
                 </div>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-erp-ghost" onClick={() => setModalOpen(false)}>Cancel</button>
-                <button type="submit" className="btn btn-erp" disabled={busy}>Create</button>
+                <button type="submit" className="btn btn-erp" disabled={busy}><i className="fa-solid fa-floppy-disk me-2" />Save</button>
               </div>
             </form>
           </div>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ErpDeleteModal, ErpEmptyState, ErpPageHeader } from "@/components/ui";
+import { downloadCsv } from "@/lib/csv-client";
 import { ProjectsSubmenu } from "./ProjectsSubmenu";
 
 export interface ProjectRow {
@@ -93,6 +94,19 @@ export function ProjectsListClient({
         breadcrumbs={[{ label: "Home", href: "/dashboard" }, { label: "Projects" }]}
         actions={
           <>
+            <button
+              type="button"
+              className="btn btn-erp-ghost"
+              onClick={() =>
+                downloadCsv(
+                  "projects.csv",
+                  ["Code", "Name", "Type", "Category", "Location", "Status", "Progress"],
+                  filtered.map((p) => [p.code, p.name, p.projectType?.name, p.projectCategory?.name, p.location, p.status, p.progress])
+                )
+              }
+            >
+              <i className="fa-solid fa-file-excel me-2" />Export
+            </button>
             <Link href="/projects/projects/task-templates" className="btn btn-erp-ghost">
               <i className="fa-solid fa-sliders me-2" />Setup
             </Link>
@@ -231,11 +245,17 @@ export function ProjectsListClient({
                             <span className={`erp-pill ${sm.pill}`}>
                               <i className={`${sm.icon} me-1`} />{sm.label}
                             </span>
+                            <span className="erp-prow-sub">
+                              <span className="erp-pill is-booked erp-prow-prio text-capitalize">{p.priority}</span>
+                            </span>
                           </td>
                           <td><span className="erp-cell-strong">{p.createdBy || "System Administrator"}</span></td>
                           <td className="text-end text-nowrap">
                             <Link href={`/projects/projects/${p.id}`} className="btn btn-erp-ghost btn-sm" title="View">
-                              <i className="fa-regular fa-eye" />
+                              <i className="fa-solid fa-eye" />
+                            </Link>
+                            <Link href={`/projects/projects/${p.id}/edit`} className="btn btn-erp-ghost btn-sm" title="Edit">
+                              <i className="fa-solid fa-pen" />
                             </Link>
                             <button
                               type="button"
@@ -254,24 +274,60 @@ export function ProjectsListClient({
               </div>
             </div>
           ) : (
-            <div className="erp-card-body">
-              <div className="row g-3">
-                {filtered.map((p) => (
-                  <div key={p.id} className="col-md-4">
-                    <div className="erp-card h-100 p-3">
-                      <div className="d-flex justify-content-between align-items-start mb-2">
-                        <span className="erp-prow-code">{p.code}</span>
-                        <span className="erp-pill is-neutral">{p.status}</span>
+            <div className="erp-card-body erp-projects-grid">
+              {filtered.map((p) => {
+                const normStatus = p.status.toLowerCase().replace(/\s+/g, "_");
+                const sm = STATUS_META[normStatus] ?? STATUS_META.planning;
+                const pct = p.progress || p.completionPct || 0;
+                return (
+                  <article key={p.id} className="erp-pcard">
+                    <Link href={`/projects/projects/${p.id}`} className="erp-pcard-cover" aria-label={`Open ${p.name}`}>
+                      <span className="erp-pcard-pattern" aria-hidden="true" />
+                      <span className="erp-pcard-status"><i className={sm.icon} />{sm.label}</span>
+                      <span className="erp-pcard-ring" style={{ "--value": pct } as React.CSSProperties}>
+                        <span>{pct}<small>%</small></span>
+                      </span>
+                      <span className="erp-pcard-id">
+                        <span className={`erp-pcard-tile erp-initials ${p.projectType?.pill || "is-available"}`}>
+                          <i className={p.projectType?.icon || "fa-solid fa-house"} />
+                        </span>
+                        <span className="tw:min-w-0">
+                          <strong>{p.name}</strong>
+                          <small>{p.code}</small>
+                        </span>
+                      </span>
+                    </Link>
+                    <div className="erp-pcard-body">
+                      <div className="erp-pcard-tags">
+                        <span className="erp-pill is-booked text-capitalize">{p.priority}</span>
+                        {p.projectCategory && <span className="erp-pcard-tag">{p.projectCategory.name}</span>}
                       </div>
-                      <h5 className="mb-1"><Link href={`/projects/projects/${p.id}`}>{p.name}</Link></h5>
-                      <p className="text-muted small mb-2">{p.location}</p>
-                      <div className="progress" style={{ height: 6 }}>
-                        <div className="progress-bar" style={{ width: `${p.progress || p.completionPct}%` }} />
-                      </div>
+                      <dl className="erp-pcard-facts">
+                        <div>
+                          <dt>Client</dt>
+                          <dd className={p.clientName ? "" : "is-empty"}>{p.clientName || "Unassigned"}</dd>
+                        </div>
+                        <div>
+                          <dt>Manager</dt>
+                          <dd className={p.managerName ? "" : "is-empty"}>{p.managerName || "—"}</dd>
+                        </div>
+                        <div>
+                          <dt>Location</dt>
+                          <dd>{p.location || "—"}</dd>
+                        </div>
+                        <div>
+                          <dt>Budget</dt>
+                          <dd className="tw:tabular-nums">{p.budget > 0 ? p.budget.toLocaleString() : "—"}</dd>
+                        </div>
+                      </dl>
                     </div>
-                  </div>
-                ))}
-              </div>
+                    <div className="erp-pcard-foot">
+                      <Link href={`/projects/projects/${p.id}`} className="btn btn-erp-ghost btn-sm">View</Link>
+                      <Link href={`/projects/projects/${p.id}/edit`} className="btn btn-erp-ghost btn-sm">Edit</Link>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           )}
         </div>

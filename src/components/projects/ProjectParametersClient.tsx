@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ErpContextBanner, ErpDeleteModal, ErpPageHeader } from "@/components/ui";
+import { downloadCsv } from "@/lib/csv-client";
 import { ProjectsSubmenu } from "./ProjectsSubmenu";
 
 export interface ProjectParamRow {
@@ -189,9 +190,24 @@ export function ProjectParametersClient({
         title="Project Parameters"
         breadcrumbs={[{ label: "Home", href: "/dashboard" }, { label: "Projects", href: "/projects/projects" }, { label: "Project Parameters" }]}
         actions={
-          <button type="button" className="btn btn-erp" onClick={openNew}>
-            <i className="fa-solid fa-plus me-2" />New Parameter
-          </button>
+          <>
+            <button
+              type="button"
+              className="btn btn-erp-ghost"
+              onClick={() =>
+                downloadCsv(
+                  "project-parameters.csv",
+                  ["Key", "Label", "Group", "Unit", "Type", "Required"],
+                  params.map((p) => [p.key, p.label, p.group, p.unit, p.dataType, p.isRequired])
+                )
+              }
+            >
+              <i className="fa-solid fa-file-excel me-2" />Export
+            </button>
+            <button type="button" className="btn btn-erp" onClick={openNew}>
+              <i className="fa-solid fa-plus me-2" />New Parameter
+            </button>
+          </>
         }
       />
 
@@ -270,7 +286,7 @@ export function ProjectParametersClient({
       {modalOpen && (
         <div className="modal show d-block" style={{ background: "rgba(0,0,0,0.45)" }}>
           <div className="modal-dialog modal-dialog-centered modal-lg">
-            <form className="modal-content" onSubmit={handleSave}>
+            <form className="modal-content" style={{ border: "none", borderRadius: 14 }} onSubmit={handleSave}>
               <div className="modal-header">
                 <h5 className="modal-title">{editing ? "Edit Parameter" : "New Parameter"}</h5>
                 <button type="button" className="btn-close" onClick={() => setModalOpen(false)} />
@@ -333,20 +349,28 @@ export function ProjectParametersClient({
                     </select>
                   </div>
                 </div>
-                <div className="d-flex gap-4">
-                  <div className="form-check form-switch">
-                    <input type="checkbox" className="form-check-input" id="prm_req" checked={form.is_required} onChange={(e) => setForm({ ...form, is_required: e.target.checked })} />
-                    <label htmlFor="prm_req" className="form-check-label">Required</label>
+                <div className="erp-switch-row mt-2">
+                  <div>
+                    <h6>Required</h6>
+                    <span className="erp-help">Blocks the estimate step until a project answers it.</span>
                   </div>
-                  <div className="form-check form-switch">
+                  <div className="form-check form-switch mb-0">
+                    <input type="checkbox" className="form-check-input" id="prm_req" checked={form.is_required} onChange={(e) => setForm({ ...form, is_required: e.target.checked })} />
+                  </div>
+                </div>
+                <div className="erp-switch-row">
+                  <div>
+                    <h6>Active</h6>
+                    <span className="erp-help">Switch off to retire it without losing answers already given.</span>
+                  </div>
+                  <div className="form-check form-switch mb-0">
                     <input type="checkbox" className="form-check-input" id="prm_act" checked={form.is_active} onChange={(e) => setForm({ ...form, is_active: e.target.checked })} />
-                    <label htmlFor="prm_act" className="form-check-label">Active</label>
                   </div>
                 </div>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-erp-ghost" onClick={() => setModalOpen(false)}>Cancel</button>
-                <button type="submit" className="btn btn-erp" disabled={busy}>Save Parameter</button>
+                <button type="submit" className="btn btn-erp" disabled={busy}><i className="fa-solid fa-floppy-disk me-2" />Save</button>
               </div>
             </form>
           </div>

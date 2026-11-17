@@ -1,4 +1,4 @@
-// File: c:\job\erp_clone\src\app\(erp)\projects\layout.tsx
+// File: C:\job\erp_clone\src\app\(erp)\projects\layout.tsx
 import * as entry from '../../../../../src/app/(erp)/projects/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

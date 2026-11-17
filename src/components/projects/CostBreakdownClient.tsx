@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ErpDeleteModal, ErpEmptyState, ErpPageHeader } from "@/components/ui";
+import { downloadCsv } from "@/lib/csv-client";
 import { ProjectsSubmenu } from "./ProjectsSubmenu";
 
 export interface CostBreakdownRow {
@@ -167,9 +168,24 @@ export function CostBreakdownClient({
         title="Cost Breakdown Structure"
         breadcrumbs={[{ label: "Home", href: "/dashboard" }, { label: "Projects", href: "/projects/projects" }, { label: "Cost Breakdown (CBS)" }]}
         actions={
-          <button type="button" className="btn btn-erp" onClick={() => openAdd(null)}>
-            <i className="fa-solid fa-plus me-2" />Add Cost Item
-          </button>
+          <>
+            <button
+              type="button"
+              className="btn btn-erp-ghost"
+              onClick={() =>
+                downloadCsv(
+                  "cost-breakdown.csv",
+                  ["Code", "Name", "Cost Type", "Ledger Account", "Group", "Active"],
+                  filtered.map((i) => [i.code, i.name, i.costType, i.accountLabel, i.isGroup, i.isActive])
+                )
+              }
+            >
+              <i className="fa-solid fa-file-excel me-2" />Export
+            </button>
+            <button type="button" className="btn btn-erp" onClick={() => openAdd(null)}>
+              <i className="fa-solid fa-plus me-2" />Add Cost Item
+            </button>
+          </>
         }
       />
 
@@ -301,7 +317,7 @@ export function CostBreakdownClient({
       {modalOpen && (
         <div className="modal show d-block" style={{ background: "rgba(0,0,0,0.45)" }}>
           <div className="modal-dialog modal-dialog-centered">
-            <form className="modal-content" onSubmit={handleSave}>
+            <form className="modal-content" style={{ border: "none", borderRadius: 14 }} onSubmit={handleSave}>
               <div className="modal-header">
                 <h5 className="modal-title">{editing ? "Edit Cost Item" : "Add Cost Item"}</h5>
                 <button type="button" className="btn-close" onClick={() => setModalOpen(false)} />
@@ -335,14 +351,19 @@ export function CostBreakdownClient({
                   <label className="form-label">Description</label>
                   <textarea className="form-control" rows={2} maxLength={1000} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
                 </div>
-                <div className="form-check form-switch">
-                  <input type="checkbox" className="form-check-input" id="cbs_grp" checked={form.is_group} onChange={(e) => setForm({ ...form, is_group: e.target.checked })} />
-                  <label htmlFor="cbs_grp" className="form-check-label">Group node (non-postable)</label>
+                <div className="erp-switch-row mt-2">
+                  <div>
+                    <h6>Group node</h6>
+                    <span className="erp-help">Groups organize sub-items and cannot have costs posted directly.</span>
+                  </div>
+                  <div className="form-check form-switch mb-0">
+                    <input type="checkbox" className="form-check-input" id="cbs_grp" checked={form.is_group} onChange={(e) => setForm({ ...form, is_group: e.target.checked })} />
+                  </div>
                 </div>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-erp-ghost" onClick={() => setModalOpen(false)}>Cancel</button>
-                <button type="submit" className="btn btn-erp" disabled={busy}>Save</button>
+                <button type="submit" className="btn btn-erp" disabled={busy}><i className="fa-solid fa-floppy-disk me-2" />Save</button>
               </div>
             </form>
           </div>
