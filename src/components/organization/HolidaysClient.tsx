@@ -62,6 +62,7 @@ export default function HolidaysClient({
 }) {
   const router = useRouter();
   const [deleteTarget, setDeleteTarget] = useState<HolidayRow | null>(null);
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const [busyId, setBusyId] = useState<number | null>(null);
 
   async function toggleActive(row: HolidayRow) {
@@ -111,9 +112,19 @@ export default function HolidaysClient({
           { label: "Holidays" },
         ]}
         actions={
-          <Link href="/organization/holidays/create" className="btn btn-erp">
-            <i className="fa-solid fa-plus me-2"></i>New Holiday
-          </Link>
+          <>
+            <button
+              type="button"
+              className="btn btn-erp-ghost"
+              onClick={() => setCalendarOpen((v) => !v)}
+            >
+              <i className="fa-solid fa-calendar-days me-2"></i>
+              {calendarOpen ? "List View" : "Calendar View"}
+            </button>
+            <Link href="/organization/holidays/create" className="btn btn-erp">
+              <i className="fa-solid fa-plus me-2"></i>New Holiday
+            </Link>
+          </>
         }
       />
 
@@ -233,7 +244,42 @@ export default function HolidaysClient({
           />
         }
       >
-        <table className="table erp-table">
+        {calendarOpen ? (
+          <div className="p-3">
+            <div className="row g-3">
+              {holidays.map((h) => {
+                const dotColor = SWATCH_HEX[h.color] ?? h.color ?? "#00c292";
+                const days = calcDays(h.startDate, h.endDate);
+                return (
+                  <div key={h.id} className="col-md-4 col-sm-6">
+                    <div
+                      className="p-3 h-100"
+                      style={{
+                        border: "1px solid var(--erp-line)",
+                        borderLeft: `4px solid ${dotColor}`,
+                        borderRadius: 10,
+                        background: "#fff",
+                      }}
+                    >
+                      <div className="d-flex justify-content-between align-items-start gap-2">
+                        <strong style={{ fontSize: 13.5 }}>{h.name}</strong>
+                        <ErpPill tone={h.isActive ? "available" : "neutral"}>
+                          {days} {days === 1 ? "day" : "days"}
+                        </ErpPill>
+                      </div>
+                      <div className="text-muted mt-1" style={{ fontSize: 12 }}>
+                        <i className="fa-regular fa-calendar me-1"></i>
+                        {h.startDate}
+                        {h.endDate && h.endDate !== h.startDate ? ` → ${h.endDate}` : ""}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          <table className="table erp-table">
           <thead>
             <tr>
               <th>Holiday</th>
@@ -329,6 +375,7 @@ export default function HolidaysClient({
             })}
           </tbody>
         </table>
+        )}
       </ErpTableCard>
 
       <ErpDeleteModal

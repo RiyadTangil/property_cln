@@ -111,11 +111,11 @@ export default function CreateBranchPage() {
         <section className="erp-card">
           <div className="erp-section-head">
             <div className="erp-section-icon">
-              <i className="fa-solid fa-code-branch"></i>
+              <i className="fa-solid fa-id-card"></i>
             </div>
             <div>
               <h2>Identity</h2>
-              <p>Code, classification, and opening date.</p>
+              <p>How this branch is referenced within E-Hishabi ERP.</p>
             </div>
           </div>
           <div className="erp-card-body">
@@ -132,44 +132,33 @@ export default function CreateBranchPage() {
             </div>
 
             <div className="row">
-              <div className="col-md-3">
+              <div className="col-md-4">
                 <div className="erp-field">
-                  <label className="form-label">
-                    Code <span className="erp-required">*</span>
+                  <label htmlFor="code" className="form-label">
+                    Branch Code <span className="erp-required">*</span>
                   </label>
                   <input
+                    id="code"
+                    name="code"
                     type="text"
                     className="form-control text-uppercase"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                     maxLength={20}
-                    placeholder="DHK-01"
+                    placeholder="DHK-HO"
                     required
                   />
+                  <span className="erp-help">Unique within the company.</span>
                 </div>
               </div>
-              <div className="col-md-5">
+              <div className="col-md-8">
                 <div className="erp-field">
-                  <label className="form-label">
-                    Branch Name <span className="erp-required">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    maxLength={150}
-                    placeholder="Banani Sales Office"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="erp-field">
-                  <label className="form-label">
-                    Type <span className="erp-required">*</span>
+                  <label htmlFor="type" className="form-label">
+                    Branch Type <span className="erp-required">*</span>
                   </label>
                   <select
+                    id="type"
+                    name="type"
                     className="form-select"
                     value={type}
                     onChange={(e) => setType(e.target.value)}
@@ -183,10 +172,32 @@ export default function CreateBranchPage() {
                   </select>
                 </div>
               </div>
+              <div className="col-md-8">
+                <div className="erp-field mb-md-0">
+                  <label htmlFor="name" className="form-label">
+                    Branch Name <span className="erp-required">*</span>
+                  </label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    className="form-control"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    maxLength={150}
+                    placeholder="Head Office — Banani"
+                    required
+                  />
+                </div>
+              </div>
               <div className="col-md-4">
                 <div className="erp-field mb-0">
-                  <label className="form-label">Opened On</label>
+                  <label htmlFor="opened_on" className="form-label">
+                    Opening Date
+                  </label>
                   <input
+                    id="opened_on"
+                    name="opened_on"
                     type="date"
                     className="form-control"
                     value={openedOn}
@@ -205,42 +216,76 @@ export default function CreateBranchPage() {
             </div>
             <div>
               <h2>Contact</h2>
-              <p>Branch manager and direct phone/email.</p>
+              <p>Reachability for this location.</p>
             </div>
           </div>
           <div className="erp-card-body">
             <div className="row">
               <div className="col-md-4">
                 <div className="erp-field mb-md-0">
-                  <label className="form-label">Branch Manager</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={managerName}
-                    onChange={(e) => setManagerName(e.target.value)}
-                  />
+                  <label htmlFor="phone" className="form-label">
+                    Phone <span className="erp-required">*</span>
+                  </label>
+                  <div className="input-group">
+                    <span className="input-group-text">
+                      <i className="fa-solid fa-phone"></i>
+                    </span>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="text"
+                      className="form-control"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      maxLength={40}
+                      placeholder="+880 2 5566 7788"
+                      required
+                    />
+                  </div>
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="erp-field mb-md-0">
-                  <label className="form-label">Phone</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
+                  <label htmlFor="email" className="form-label">
+                    Email
+                  </label>
+                  <div className="input-group">
+                    <span className="input-group-text">
+                      <i className="fa-solid fa-envelope"></i>
+                    </span>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      className="form-control"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      maxLength={150}
+                      placeholder="branch@company.com"
+                    />
+                  </div>
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="erp-field mb-0">
-                  <label className="form-label">Email</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+                  <label htmlFor="manager_name" className="form-label">
+                    Branch Manager
+                  </label>
+                  <div className="input-group">
+                    <span className="input-group-text">
+                      <i className="fa-solid fa-user-tie"></i>
+                    </span>
+                    <input
+                      id="manager_name"
+                      name="manager_name"
+                      type="text"
+                      className="form-control"
+                      value={managerName}
+                      onChange={(e) => setManagerName(e.target.value)}
+                      maxLength={150}
+                      placeholder="Arif Mahmud"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -259,70 +304,113 @@ export default function CreateBranchPage() {
           </div>
           <div className="erp-card-body">
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-12">
                 <div className="erp-field">
-                  <label className="form-label">Address Line 1</label>
+                  <label htmlFor="address_line1" className="form-label">
+                    Address Line 1 <span className="erp-required">*</span>
+                  </label>
                   <input
+                    id="address_line1"
+                    name="address_line1"
                     type="text"
                     className="form-control"
                     value={addressLine1}
                     onChange={(e) => setAddressLine1(e.target.value)}
+                    maxLength={190}
+                    placeholder="House 42, Road 11, Block C"
+                    required
                   />
                 </div>
               </div>
-              <div className="col-md-6">
+              <div className="col-12">
                 <div className="erp-field">
-                  <label className="form-label">Address Line 2</label>
+                  <label htmlFor="address_line2" className="form-label">
+                    Address Line 2
+                  </label>
                   <input
+                    id="address_line2"
+                    name="address_line2"
                     type="text"
                     className="form-control"
                     value={addressLine2}
                     onChange={(e) => setAddressLine2(e.target.value)}
+                    maxLength={190}
+                    placeholder="Banani"
                   />
                 </div>
               </div>
               <div className="col-md-3">
                 <div className="erp-field mb-md-0">
-                  <label className="form-label">City</label>
+                  <label htmlFor="city" className="form-label">
+                    City <span className="erp-required">*</span>
+                  </label>
                   <input
+                    id="city"
+                    name="city"
                     type="text"
                     className="form-control"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
+                    maxLength={100}
+                    placeholder="Dhaka"
+                    required
                   />
                 </div>
               </div>
               <div className="col-md-3">
                 <div className="erp-field mb-md-0">
-                  <label className="form-label">State</label>
+                  <label htmlFor="state" className="form-label">
+                    State / Division
+                  </label>
                   <input
+                    id="state"
+                    name="state"
                     type="text"
                     className="form-control"
                     value={state}
                     onChange={(e) => setState(e.target.value)}
+                    maxLength={100}
+                    placeholder="Dhaka Division"
                   />
                 </div>
               </div>
-              <div className="col-md-3">
+              <div className="col-md-2">
                 <div className="erp-field mb-md-0">
-                  <label className="form-label">Postal Code</label>
+                  <label htmlFor="postal_code" className="form-label">
+                    Postal Code
+                  </label>
                   <input
+                    id="postal_code"
+                    name="postal_code"
                     type="text"
                     className="form-control"
                     value={postalCode}
                     onChange={(e) => setPostalCode(e.target.value)}
+                    maxLength={20}
+                    placeholder="1213"
                   />
                 </div>
               </div>
-              <div className="col-md-3">
+              <div className="col-md-4">
                 <div className="erp-field mb-0">
-                  <label className="form-label">Country</label>
-                  <input
-                    type="text"
-                    className="form-control"
+                  <label htmlFor="country" className="form-label">
+                    Country <span className="erp-required">*</span>
+                  </label>
+                  <select
+                    id="country"
+                    name="country"
+                    className="form-select"
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
-                  />
+                    required
+                  >
+                    <option value="Bangladesh">Bangladesh</option>
+                    <option value="India">India</option>
+                    <option value="United Arab Emirates">United Arab Emirates</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="United States">United States</option>
+                    <option value="Singapore">Singapore</option>
+                  </select>
                 </div>
               </div>
             </div>

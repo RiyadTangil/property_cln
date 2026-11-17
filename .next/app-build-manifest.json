@@ -139,6 +139,51 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(erp)/settings/audit/page.js"
+    ],
+    "/(erp)/land/owners/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/land/owners/page.js"
+    ],
+    "/(erp)/settings/users/create/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/settings/users/create/page.js"
+    ],
+    "/(erp)/organization/companies/create/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/companies/create/page.js"
+    ],
+    "/(erp)/organization/departments/create/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/departments/create/page.js"
+    ],
+    "/(erp)/organization/designations/create/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/designations/create/page.js"
+    ],
+    "/(erp)/organization/shifts/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/shifts/page.js"
+    ],
+    "/(erp)/organization/holidays/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/holidays/page.js"
+    ],
+    "/(erp)/organization/holidays/create/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/holidays/create/page.js"
+    ],
+    "/(erp)/organization/shifts/create/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/organization/shifts/create/page.js"
     ]
   }
 }

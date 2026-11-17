@@ -24,6 +24,7 @@ interface ErpShellProps {
   user: SessionUser;
   company: ShellCompany;
   projects: ShellProject[];
+  primaryColor?: string;
   children: React.ReactNode;
 }
 
@@ -42,6 +43,7 @@ export default function ErpShell({
   user,
   company,
   projects,
+  primaryColor = "#00c292",
   children,
 }: ErpShellProps) {
   const pathname = usePathname();
@@ -116,6 +118,18 @@ export default function ErpShell({
       root.dataset.theme = themePref;
     }
   }, [themePref]);
+
+  useEffect(() => {
+    const color = /^#[0-9a-fA-F]{3,8}$/.test(primaryColor) ? primaryColor : "#00c292";
+    const root = document.documentElement;
+    root.style.setProperty("--erp-primary", color);
+    root.style.setProperty("--erp-primary-dark", `color-mix(in srgb, ${color} 78%, #000000)`);
+    root.style.setProperty("--erp-primary-ink", `color-mix(in srgb, ${color} 78%, #000000)`);
+    root.style.setProperty("--erp-primary-soft", `color-mix(in srgb, ${color} 13%, transparent)`);
+    root.style.setProperty("--erp-accent", color);
+    root.style.setProperty("--erp-accent-soft", `color-mix(in srgb, ${color} 12%, transparent)`);
+    root.style.setProperty("--erp-table-head-bg", `color-mix(in srgb, ${color} 35%, transparent)`);
+  }, [primaryColor]);
 
   // Ctrl+K shortcut & click outside listener
   useEffect(() => {

@@ -80,7 +80,7 @@ export default function CreateFiscalYearForm({
   return (
     <div className="container erp-container-form">
       <ErpPageHeader
-        icon="fa-solid fa-calendar-check"
+        icon="fa-solid fa-calendar-days"
         title="New Fiscal Year"
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
@@ -103,9 +103,9 @@ export default function CreateFiscalYearForm({
 
       <form onSubmit={handleSubmit} className="erp-form" noValidate>
         <ErpSectionCard
-          icon="fa-solid fa-calendar-check"
-          title="Identity"
-          subtitle="Name, code and the exact dates the fiscal year opens and closes."
+          icon="fa-solid fa-calendar-days"
+          title="Fiscal Year"
+          subtitle="The accounting window that every ledger entry is stamped against."
         >
           <ErpContextBanner
             companyName={companyName}
@@ -129,14 +129,14 @@ export default function CreateFiscalYearForm({
                   placeholder="FY2627"
                   required
                 />
-                <span className="erp-help">Short tag used on ledgers and reports.</span>
+                <span className="erp-help">Unique within the company.</span>
               </div>
             </div>
 
-            <div className="col-md-8">
+            <div className="col-md-4">
               <div className="erp-field">
                 <label htmlFor="name" className="form-label">
-                  Fiscal Year Name <span className="erp-required">*</span>
+                  Name <span className="erp-required">*</span>
                 </label>
                 <input
                   type="text"
@@ -187,34 +187,34 @@ export default function CreateFiscalYearForm({
             </div>
 
             <div className="col-md-4">
-              <div className="erp-field mb-md-0">
+              <div className="erp-field mb-0">
                 <label className="form-label">Span</label>
                 <div
                   className="form-control d-flex align-items-center"
                   style={{ background: "#f7f9fc", fontWeight: 600 }}
                 >
                   <i
-                    className="fa-solid fa-hourglass-half me-2"
+                    className="fa-solid fa-arrows-left-right me-2"
                     style={{ color: "var(--erp-primary)" }}
                   ></i>
                   <span>{spanPreview}</span>
                 </div>
-                <span className="erp-help">Must stay within 14 months.</span>
+                <span className="erp-help">Fiscal years must not overlap for a company.</span>
               </div>
             </div>
           </div>
         </ErpSectionCard>
 
         <ErpSectionCard
-          icon="fa-solid fa-layer-group"
-          title="Accounting Periods"
-          subtitle="Split the year into posting periods now. You can reopen or close each period independently later."
+          icon="fa-solid fa-table-cells"
+          title="Period Structure"
+          subtitle="Periods are generated automatically and can be closed one at a time."
         >
           <div className="row">
-            <div className="col-md-6">
-              <div className="erp-field">
+            <div className="col-md-5">
+              <div className="erp-field mb-md-0">
                 <label htmlFor="period_cadence" className="form-label">
-                  Period Schedule
+                  Cadence <span className="erp-required">*</span>
                 </label>
                 <select
                   id="period_cadence"
@@ -222,41 +222,44 @@ export default function CreateFiscalYearForm({
                   className="form-select"
                   value={periodCadence}
                   onChange={(e) => setPeriodCadence(e.target.value)}
+                  required
                 >
                   <option value="monthly">Monthly — 12 periods</option>
                   <option value="quarterly">Quarterly — 4 periods</option>
                 </select>
               </div>
             </div>
-          </div>
 
-          <div className="erp-switch-row">
-            <div>
-              <h6>Include year-end adjustment period</h6>
-              <p>Adds a Period 13 closing bucket on the final day for auditor and tax adjustments.</p>
-            </div>
-            <div className="form-check form-switch">
-              <input
-                type="checkbox"
-                className="form-check-input"
-                role="switch"
-                id="has_adjustment_period"
-                checked={hasAdjustmentPeriod}
-                onChange={(e) => setHasAdjustmentPeriod(e.target.checked)}
-              />
+            <div className="col-md-7">
+              <div className="erp-switch-row">
+                <div>
+                  <h6>Year-end adjustment period</h6>
+                  <p>Adds an extra period on the closing date for audit and year-end entries.</p>
+                </div>
+                <div className="form-check form-switch">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    role="switch"
+                    id="has_adjustment_period"
+                    checked={hasAdjustmentPeriod}
+                    onChange={(e) => setHasAdjustmentPeriod(e.target.checked)}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </ErpSectionCard>
 
         <ErpSectionCard
-          icon="fa-solid fa-toggle-on"
-          title="Behaviour"
-          subtitle="Which year new transactions land in by default."
+          icon="fa-solid fa-flag"
+          title="Designation & Notes"
+          subtitle="Which year the application defaults to, plus anything worth recording."
         >
-          <div className="erp-switch-row">
+          <div className="erp-switch-row mb-3">
             <div>
               <h6>Current fiscal year</h6>
-              <p>Makes this the active default year (clears Current off any earlier year).</p>
+              <p>Pre-selected across the application. Only one per company, and it must be open.</p>
             </div>
             <div className="form-check form-switch">
               <input
@@ -270,24 +273,25 @@ export default function CreateFiscalYearForm({
             </div>
           </div>
 
-          <div className="erp-field mb-0 mt-3">
+          <div className="erp-field mb-0">
             <label htmlFor="notes" className="form-label">
               Notes
             </label>
             <textarea
               id="notes"
               name="notes"
-              rows={2}
+              rows={3}
               className="form-control"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              maxLength={1000}
-              placeholder="Optional audit note or statutory filing reference."
+              maxLength={2000}
+              placeholder="Statutory references, audit notes…"
             />
           </div>
         </ErpSectionCard>
 
         <ErpFormBar
+          note="Periods are generated on save."
           cancelHref="/organization/fiscal-years"
           submitLabel="Create Fiscal Year"
           submittingLabel="Creating…"

@@ -10,6 +10,7 @@ export interface RoleRow {
   scope: string;
   isSuper: boolean;
   permissionsCount: number;
+  usersCount?: number;
   permissions: string[];
 }
 
@@ -43,6 +44,9 @@ export default function RolesWorkbenchClient({
   const [saving, setSaving] = useState(false);
   const [statusText, setStatusText] = useState("");
   const [deleteTarget, setDeleteTarget] = useState<RoleRow | null>(null);
+  const [renameOpen, setRenameOpen] = useState(false);
+  const [renameName, setRenameName] = useState("");
+  const [renameScope, setRenameScope] = useState("global");
 
   const allKeys = useMemo(() => {
     const keys: string[] = [];
@@ -232,6 +236,10 @@ export default function RolesWorkbenchClient({
                         <i className="fa-solid fa-earth-asia"></i>
                         {r.scope === "global" ? "Shared" : "Company"}
                       </span>
+                      <span className="erp-role-chip">
+                        <i className="fa-solid fa-user"></i>
+                        {r.usersCount ?? 0}
+                      </span>
                     </span>
                   </span>
                   <span className="erp-role-item-count">
@@ -278,6 +286,18 @@ export default function RolesWorkbenchClient({
                       onClick={() => updateActivePermissions([])}
                     >
                       <i className="fa-solid fa-xmark me-1"></i>Revoke all
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-erp-ghost btn-sm"
+                      title="Rename or change availability"
+                      onClick={() => {
+                        setRenameName(activeRole.name);
+                        setRenameScope(activeRole.scope);
+                        setRenameOpen(true);
+                      }}
+                    >
+                      <i className="fa-solid fa-pen"></i>
                     </button>
                     <button
                       type="button"
@@ -479,6 +499,92 @@ export default function RolesWorkbenchClient({
                     <i className="fa-solid fa-trash-can me-2"></i>Delete
                   </button>
                 </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {renameOpen && activeRole && (
+        <>
+          <div className="modal-backdrop fade show" />
+          <div className="modal fade show d-block" tabIndex={-1} role="dialog" aria-modal="true">
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content" style={{ border: "none", borderRadius: 14 }}>
+                <form
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    if (!renameName.trim()) return;
+                    setSaving(true);
+                    try {
+                      const res = await fetch(`/api/settings/roles/${activeRole.id}`, {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ name: renameName.trim(), scope: renameScope }),
+                      });
+                      if (res.ok) {
+                        setRoles((prev) =>
+                          prev.map((r) =>
+                            r.id === activeRole.id
+                              ? { ...r, name: renameName.trim(), scope: renameScope }
+                              : r
+                          )
+                        );
+                        setRenameOpen(false);
+                        setStatusText("Saved");
+                        router.refresh();
+                      }
+                    } finally {
+                      setSaving(false);
+                    }
+                  }}
+                >
+                  <div className="modal-header">
+                    <h5 className="mb-0" style={{ fontSize: 16, fontWeight: 600 }}>
+                      Rename Role
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      onClick={() => setRenameOpen(false)}
+                    />
+                  </div>
+                  <div className="modal-body">
+                    <div className="erp-field">
+                      <label className="form-label">Role Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={renameName}
+                        onChange={(e) => setRenameName(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="erp-field mb-0">
+                      <label className="form-label">Availability</label>
+                      <select
+                        className="form-select"
+                        value={renameScope}
+                        onChange={(e) => setRenameScope(e.target.value)}
+                      >
+                        <option value="global">Shared</option>
+                        <option value="company">Company only</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="modal-footer border-0 pt-0">
+                    <button
+                      type="button"
+                      className="btn btn-erp-ghost"
+                      onClick={() => setRenameOpen(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" className="btn btn-erp" disabled={saving}>
+                      {saving ? "Saving…" : "Save"}
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

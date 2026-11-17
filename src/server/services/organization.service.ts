@@ -323,6 +323,7 @@ export const OrganizationService = {
             branchId: item.branchId,
             parentId: item.parentId,
             headName: item.headName,
+            email: item.email ?? null,
             isActive: true,
           },
         });
@@ -461,7 +462,7 @@ export const OrganizationService = {
             employmentType: item.employmentType,
             grade: item.grade,
             isManagerial: item.isManagerial,
-            isActive: true,
+            isActive: item.isActive ?? true,
             createdBy: user.name,
           },
         });

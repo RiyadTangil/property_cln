@@ -271,7 +271,10 @@ export default function CodeSequencesClient({
                       <i className="fa-solid fa-check me-1"></i>Saved format
                     </span>
                   ) : (
-                    <>Key: <code>{seq.key}</code></>
+                    <>
+                      <i className="fa-solid fa-circle-info me-1"></i>Changing the format does not
+                      rename codes already issued.
+                    </>
                   )}
                 </span>
                 <div className="erp-form-bar-actions">
@@ -281,7 +284,7 @@ export default function CodeSequencesClient({
                     disabled={savingId === seq.id}
                   >
                     <i className="fa-solid fa-floppy-disk me-2"></i>
-                    {savingId === seq.id ? "Saving…" : "Save"}
+                    {savingId === seq.id ? "Saving…" : "Save Format"}
                   </button>
                 </div>
               </div>

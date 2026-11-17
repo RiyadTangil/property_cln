@@ -11,11 +11,24 @@ export default async function ErpAuthenticatedLayout({
   children: React.ReactNode;
 }) {
   const user = await requireUser();
-  const { company, projects } = await CoreService.getShellData();
+  const { company, projects, primaryColor } = await CoreService.getShellData();
+
+  const themeCss = `:root {
+  --erp-primary: ${primaryColor};
+  --erp-primary-dark: color-mix(in srgb, ${primaryColor} 78%, #000000);
+  --erp-primary-ink: color-mix(in srgb, ${primaryColor} 78%, #000000);
+  --erp-primary-soft: color-mix(in srgb, ${primaryColor} 13%, transparent);
+  --erp-accent: ${primaryColor};
+  --erp-accent-soft: color-mix(in srgb, ${primaryColor} 12%, transparent);
+  --erp-table-head-bg: color-mix(in srgb, ${primaryColor} 35%, transparent);
+}`;
 
   return (
-    <ErpShell user={user} company={company} projects={projects}>
-      {children}
-    </ErpShell>
+    <>
+      <style dangerouslySetInnerHTML={{ __html: themeCss }} />
+      <ErpShell user={user} company={company} projects={projects} primaryColor={primaryColor}>
+        {children}
+      </ErpShell>
+    </>
   );
 }

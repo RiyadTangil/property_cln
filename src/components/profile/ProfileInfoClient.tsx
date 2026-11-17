@@ -4,7 +4,7 @@ import React, { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import ProfileTabs from "./ProfileTabs";
 import { getInitials } from "@/lib/tier0";
-import { ErpFormBar, ErpPageHeader, ErpPill, ErpSectionCard } from "@/components/ui";
+import { ErpFormBar, ErpPageHeader, ErpSectionCard } from "@/components/ui";
 
 export interface ProfileAccountData {
   id: number;
@@ -24,11 +24,13 @@ export default function ProfileInfoClient({
   user: ProfileAccountData;
 }) {
   const router = useRouter();
+  const avatarInputRef = React.useRef<HTMLInputElement | null>(null);
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [username, setUsername] = useState(user.username);
   const [jobTitle, setJobTitle] = useState(user.jobTitle);
   const [phone, setPhone] = useState(user.phone);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
@@ -98,17 +100,60 @@ export default function ProfileInfoClient({
           title="Profile Photo"
           subtitle="Shown beside your name in the top bar and on records you touch."
         >
-          <div className="erp-avatar-zone">
+          <div
+            className="erp-avatar-zone"
+            role="button"
+            tabIndex={0}
+            onClick={() => avatarInputRef.current?.click()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") avatarInputRef.current?.click();
+            }}
+          >
             <div className="erp-avatar-preview">
-              <span className="erp-avatar-initials">{getInitials(name)}</span>
+              {avatarPreview ? (
+                <img src={avatarPreview} alt={name} />
+              ) : (
+                <span className="erp-avatar-initials">{getInitials(name)}</span>
+              )}
             </div>
             <div className="erp-avatar-copy">
-              <h6>{name || "Account Avatar"}</h6>
-              <p>
-                {user.isSuperAdmin ? "Super Admin" : user.role} &middot; Member since {user.createdAt}
-              </p>
-              <ErpPill tone="available">Active</ErpPill>
+              <h6>Drop an image here, or click to browse</h6>
+              <p>PNG, JPG, JPEG, WEBP up to 1 MB.</p>
+              <div className="erp-avatar-actions">
+                <span className="btn btn-erp-ghost btn-sm">
+                  <i className="fa-solid fa-upload me-1"></i>Choose file
+                </span>
+                {avatarPreview && (
+                  <button
+                    type="button"
+                    className="btn btn-erp-ghost btn-sm text-danger"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setAvatarPreview(null);
+                      if (avatarInputRef.current) avatarInputRef.current.value = "";
+                    }}
+                  >
+                    <i className="fa-solid fa-trash-can me-1"></i>Remove
+                  </button>
+                )}
+              </div>
             </div>
+            <input
+              ref={avatarInputRef}
+              type="file"
+              name="avatar"
+              className="d-none"
+              accept=".png,.jpg,.jpeg,.webp"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = () => {
+                  if (typeof reader.result === "string") setAvatarPreview(reader.result);
+                };
+                reader.readAsDataURL(file);
+              }}
+            />
           </div>
         </ErpSectionCard>
 

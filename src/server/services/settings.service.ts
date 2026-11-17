@@ -106,7 +106,12 @@ export const SettingsService = {
 
     return {
       companyName: company?.name ?? "E-Hishabi ERP",
-      roles: roles.map((r) => ({ id: r.id, name: r.name, scope: r.scope })),
+      roles: roles.map((r) => ({
+        id: r.id,
+        name: r.name,
+        scope: r.scope,
+        permissionsCount: r.permissionsCount,
+      })),
     };
   },
 
@@ -188,7 +193,10 @@ export const SettingsService = {
   },
 
   async getRolesPageData() {
-    const roles = await prisma.role.findMany({ orderBy: { id: "asc" } });
+    const roles = await prisma.role.findMany({
+      orderBy: { id: "asc" },
+      include: { _count: { select: { users: true } } },
+    });
     return {
       roles: roles.map((r) => {
         let perms: string[] = [];
@@ -203,6 +211,7 @@ export const SettingsService = {
           scope: r.scope,
           isSuper: r.isSuper,
           permissionsCount: r.permissionsCount,
+          usersCount: r._count.users,
           permissions: perms,
         };
       }),

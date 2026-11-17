@@ -10,7 +10,7 @@ export default function CreateUserForm({
   roles,
 }: {
   companyName: string;
-  roles: { id: number; name: string; scope: string }[];
+  roles: { id: number; name: string; scope: string; permissionsCount?: number }[];
 }) {
   const router = useRouter();
   const [name, setName] = useState("");
@@ -20,12 +20,19 @@ export default function CreateUserForm({
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
-  const [selectedRole, setSelectedRole] = useState(
-    roles.find((r) => !r.name.toLowerCase().includes("super"))?.name ?? "Staff"
-  );
+  const [selectedRoles, setSelectedRoles] = useState<string[]>(() => {
+    const fallback = roles.find((r) => !r.name.toLowerCase().includes("super"))?.name;
+    return fallback ? [fallback] : [];
+  });
   const [isActive, setIsActive] = useState(true);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  function toggleRole(roleName: string) {
+    setSelectedRoles((prev) =>
+      prev.includes(roleName) ? prev.filter((x) => x !== roleName) : [...prev, roleName]
+    );
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -55,7 +62,7 @@ export default function CreateUserForm({
           password,
           password_confirmation: passwordConfirmation,
           is_super_admin: isSuperAdmin,
-          role: isSuperAdmin ? "Super Admin" : selectedRole,
+          role: isSuperAdmin ? "Super Admin" : selectedRoles[0] ?? "Staff",
           is_active: isActive,
         }),
       });
@@ -101,7 +108,7 @@ export default function CreateUserForm({
         <ErpSectionCard
           icon="fa-solid fa-id-card"
           title="Account"
-          subtitle="Identity and contact details for sign-in and mentions."
+          subtitle="Name and email double as sign-in credentials."
         >
           <div className="row">
             <div className="col-md-6">
@@ -124,17 +131,22 @@ export default function CreateUserForm({
             <div className="col-md-6">
               <div className="erp-field">
                 <label htmlFor="email" className="form-label">
-                  Email Address <span className="erp-required">*</span>
+                  Email <span className="erp-required">*</span>
                 </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="form-control"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="tanvir@ehishabi.com"
-                  required
-                />
+                <div className="input-group">
+                  <span className="input-group-text">
+                    <i className="fa-solid fa-envelope"></i>
+                  </span>
+                  <input
+                    type="email"
+                    id="email"
+                    className="form-control"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="tanvir@ehishabi.com"
+                    required
+                  />
+                </div>
               </div>
             </div>
 
@@ -149,7 +161,7 @@ export default function CreateUserForm({
                   className="form-control"
                   value={jobTitle}
                   onChange={(e) => setJobTitle(e.target.value)}
-                  placeholder="Project Engineer"
+                  placeholder="Finance Manager"
                 />
               </div>
             </div>
@@ -159,14 +171,19 @@ export default function CreateUserForm({
                 <label htmlFor="phone" className="form-label">
                   Phone
                 </label>
-                <input
-                  type="text"
-                  id="phone"
-                  className="form-control"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+880 17..."
-                />
+                <div className="input-group">
+                  <span className="input-group-text">
+                    <i className="fa-solid fa-phone"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="phone"
+                    className="form-control"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+880 17..."
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -175,7 +192,7 @@ export default function CreateUserForm({
         <ErpSectionCard
           icon="fa-solid fa-key"
           title="Password"
-          subtitle="Initial sign-in credentials. The user can change this later under Profile."
+          subtitle="At least 8 characters, with letters and numbers."
         >
           <div className="row">
             <div className="col-md-6">
@@ -192,7 +209,6 @@ export default function CreateUserForm({
                   minLength={8}
                   required
                 />
-                <span className="erp-help">Minimum 8 characters.</span>
               </div>
             </div>
 
@@ -215,14 +231,17 @@ export default function CreateUserForm({
         </ErpSectionCard>
 
         <ErpSectionCard
-          icon="fa-solid fa-shield-halved"
+          icon="fa-solid fa-user-shield"
           title="Access Per Company"
-          subtitle="Assign one or more roles, or make the account a Super Admin."
+          subtitle="Roles are granted company by company. No role in a company means no access to it."
         >
           <div className="erp-switch-row mb-3">
             <div>
               <h6>Super Admin</h6>
-              <p>Full unrestricted access across every company and setting.</p>
+              <p>
+                Unrestricted access across every company, present and future. Overrides everything
+                below.
+              </p>
             </div>
             <div className="form-check form-switch">
               <input
@@ -238,22 +257,32 @@ export default function CreateUserForm({
 
           <div className={`erp-company-roles${isSuperAdmin ? " is-superseded" : ""}`}>
             <div className="erp-company-roles-head">
-              <span>{companyName}</span>
-              <small className="text-muted">Role grant</small>
+              <span>
+                <i className="fa-solid fa-building-columns me-2"></i>
+                {companyName} <small className="text-muted">HQ</small>
+              </span>
+              <span className="erp-scope-actions">
+                <span className={selectedRoles.length ? "erp-pill is-booked" : "erp-pill is-neutral"}>
+                  {selectedRoles.length ? `${selectedRoles.length} role(s)` : "No access"}
+                </span>
+              </span>
             </div>
             <div className="erp-check-grid">
               {roles.map((r) => (
                 <label key={r.id} className="erp-check-item">
                   <input
-                    type="radio"
-                    name="role"
+                    type="checkbox"
+                    name="roles[]"
                     value={r.name}
-                    checked={selectedRole === r.name}
-                    onChange={() => setSelectedRole(r.name)}
+                    checked={selectedRoles.includes(r.name)}
+                    onChange={() => toggleRole(r.name)}
                   />
                   <span>
                     <strong>{r.name}</strong>
-                    <small className="text-capitalize">{r.scope}</small>
+                    <small>
+                      {r.scope === "global" ? "Shared" : "Company"} · {r.permissionsCount ?? 0}{" "}
+                      permissions
+                    </small>
                   </span>
                 </label>
               ))}
@@ -264,12 +293,12 @@ export default function CreateUserForm({
         <ErpSectionCard
           icon="fa-solid fa-toggle-on"
           title="Status"
-          subtitle="Control whether the account can sign in immediately."
+          subtitle="Suspended accounts keep their data but cannot sign in."
         >
           <div className="erp-switch-row">
             <div>
-              <h6>Active account</h6>
-              <p>Inactive users retain historical attribution but cannot sign in.</p>
+              <h6>Active</h6>
+              <p>Allowed to sign in and use the system.</p>
             </div>
             <div className="form-check form-switch">
               <input

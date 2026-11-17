@@ -44,7 +44,7 @@ export default function CreateRolePage() {
       <div className="erp-pagehead">
         <div className="erp-pagehead-main">
           <div className="erp-pagehead-icon">
-            <i className="fa-solid fa-shield-halved"></i>
+            <i className="fa-solid fa-user-shield"></i>
           </div>
           <div>
             <h1>New Role</h1>
@@ -81,48 +81,72 @@ export default function CreateRolePage() {
         <section className="erp-card">
           <div className="erp-section-head">
             <div className="erp-section-icon">
-              <i className="fa-solid fa-id-badge"></i>
+              <i className="fa-solid fa-user-shield"></i>
             </div>
             <div>
-              <h2>Role Identity</h2>
-              <p>Create the role first, then toggle exact permissions on the Roles workbench.</p>
+              <h2>Role</h2>
+              <p>A named bundle of permissions you can hand to any number of users.</p>
             </div>
           </div>
           <div className="erp-card-body">
-            <div className="row">
-              <div className="col-md-7">
-                <div className="erp-field mb-md-0">
-                  <label htmlFor="name" className="form-label">
-                    Role Name <span className="erp-required">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="form-control"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Site Supervisor"
-                    required
-                  />
-                </div>
-              </div>
+            <div className="erp-field">
+              <label htmlFor="name" className="form-label">
+                Role Name <span className="erp-required">*</span>
+              </label>
+              <input
+                type="text"
+                id="name"
+                className="form-control"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Accounts Payable Clerk"
+                required
+              />
+            </div>
 
-              <div className="col-md-5">
-                <div className="erp-field mb-0">
-                  <label htmlFor="scope" className="form-label">
-                    Scope
-                  </label>
-                  <select
-                    id="scope"
-                    className="form-select"
-                    value={scope}
-                    onChange={(e) => setScope(e.target.value)}
-                  >
-                    <option value="global">Global (All companies)</option>
-                    <option value="company">Company-specific</option>
-                  </select>
-                </div>
+            <div className="erp-field mb-0">
+              <label className="form-label">
+                Availability <span className="erp-required">*</span>
+              </label>
+              <div className="erp-scope-choices" role="radiogroup" aria-label="Availability">
+                <label className="erp-scope-choice">
+                  <input
+                    type="radio"
+                    name="scope"
+                    value="global"
+                    checked={scope === "global"}
+                    onChange={() => setScope("global")}
+                  />
+                  <span className="erp-scope-choice-body">
+                    <i className="fa-solid fa-earth-asia"></i>
+                    <span>
+                      <strong>Shared</strong>
+                      <small>Available in every company.</small>
+                    </span>
+                  </span>
+                </label>
+
+                <label className="erp-scope-choice">
+                  <input
+                    type="radio"
+                    name="scope"
+                    value="company"
+                    checked={scope === "company"}
+                    onChange={() => setScope("company")}
+                  />
+                  <span className="erp-scope-choice-body">
+                    <i className="fa-solid fa-building-columns"></i>
+                    <span>
+                      <strong>E-Hishabi ERP only</strong>
+                      <small>Scoped to the active company.</small>
+                    </span>
+                  </span>
+                </label>
               </div>
+              <span className="erp-help">
+                Permissions themselves are the same either way — this only controls which companies
+                can hand the role out.
+              </span>
             </div>
           </div>
         </section>
@@ -130,7 +154,7 @@ export default function CreateRolePage() {
         <div className="erp-form-bar">
           <span className="erp-form-bar-note">
             <i className="fa-solid fa-circle-info me-1"></i>
-            Fields marked <span className="erp-required">*</span> are required.
+            You will pick this role’s 585 possible permissions on the next screen.
           </span>
           <div className="erp-form-bar-actions">
             <Link href="/settings/roles" className="btn btn-erp-ghost">

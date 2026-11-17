@@ -215,6 +215,7 @@ export function ErpSectionCard({
   title,
   subtitle,
   children,
+  footer,
   flush = false,
   className = "",
   headerRight,
@@ -223,6 +224,7 @@ export function ErpSectionCard({
   title: React.ReactNode;
   subtitle?: React.ReactNode;
   children: React.ReactNode;
+  footer?: React.ReactNode;
   flush?: boolean;
   className?: string;
   headerRight?: React.ReactNode;
@@ -240,6 +242,7 @@ export function ErpSectionCard({
         {headerRight}
       </div>
       <div className={`erp-card-body${flush ? " is-flush" : ""}`}>{children}</div>
+      {footer}
     </section>
   );
 }

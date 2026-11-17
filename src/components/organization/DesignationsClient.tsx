@@ -28,6 +28,26 @@ export interface DesigRow {
   createdAt: string;
 }
 
+interface BulkDesigRow {
+  code: string;
+  name: string;
+  department_id: string;
+  employment_type: string;
+  grade: string;
+  is_managerial: boolean;
+  is_active: boolean;
+}
+
+const emptyDesigRow = (): BulkDesigRow => ({
+  code: "",
+  name: "",
+  department_id: "",
+  employment_type: "full_time",
+  grade: "",
+  is_managerial: false,
+  is_active: true,
+});
+
 export default function DesignationsClient({
   designations,
   departments,
@@ -41,32 +61,63 @@ export default function DesignationsClient({
 }) {
   const router = useRouter();
   const [bulkOpen, setBulkOpen] = useState(false);
-  const [bulkText, setBulkText] = useState("ENG | Site Engineer\nACC | Accounts Executive");
+  const [bulkRows, setBulkRows] = useState<BulkDesigRow[]>([emptyDesigRow(), emptyDesigRow()]);
+  const [bulkError, setBulkError] = useState("");
   const [bulkSaving, setBulkSaving] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<DesigRow | null>(null);
   const [busy, setBusy] = useState(false);
 
+  function updateBulkRow(idx: number, patch: Partial<BulkDesigRow>) {
+    setBulkRows((prev) => prev.map((r, i) => (i === idx ? { ...r, ...patch } : r)));
+  }
+
+  async function toggleDesignationActive(ds: DesigRow) {
+    setBusy(true);
+    try {
+      await fetch(`/api/organization/designations/${ds.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ is_active: !ds.isActive }),
+      });
+      router.refresh();
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function submitBulk(e: FormEvent) {
     e.preventDefault();
-    const items = bulkText
-      .split(/\r?\n/)
-      .map((l) => l.trim())
-      .filter(Boolean)
-      .map((line) => {
-        const [code, ...rest] = line.split(/[|,]/);
-        return { code: (code || "").trim(), name: rest.join(" ").trim() };
-      })
-      .filter((x) => x.code && x.name);
+    setBulkError("");
+    const items = bulkRows
+      .filter((r) => r.code.trim() && r.name.trim())
+      .map((r) => ({
+        code: r.code.trim().toUpperCase(),
+        name: r.name.trim(),
+        department_id: r.department_id ? Number(r.department_id) : null,
+        employment_type: r.employment_type || "full_time",
+        grade: r.grade || null,
+        is_managerial: r.is_managerial,
+        is_active: r.is_active,
+      }));
 
-    if (items.length === 0) return;
+    if (items.length === 0) {
+      setBulkError("Enter at least one designation row with Code and Title.");
+      return;
+    }
     setBulkSaving(true);
     try {
-      await fetch("/api/organization/designations", {
+      const res = await fetch("/api/organization/designations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ items }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setBulkError(data.error || "Failed to create designations.");
+        return;
+      }
       setBulkOpen(false);
+      setBulkRows([emptyDesigRow(), emptyDesigRow()]);
       router.refresh();
     } finally {
       setBulkSaving(false);
@@ -240,6 +291,15 @@ export default function DesignationsClient({
                 <td className="text-end text-nowrap">
                   <button
                     type="button"
+                    className="btn btn-erp-ghost btn-sm"
+                    title="Edit"
+                    onClick={() => toggleDesignationActive(ds)}
+                    disabled={busy}
+                  >
+                    <i className="fa-solid fa-pen"></i>
+                  </button>
+                  <button
+                    type="button"
                     className="btn btn-erp-ghost btn-sm text-danger"
                     title="Delete"
                     onClick={() => setDeleteTarget(ds)}
@@ -257,32 +317,169 @@ export default function DesignationsClient({
         <>
           <div className="modal-backdrop fade show" />
           <div className="modal fade show d-block" tabIndex={-1} role="dialog" aria-modal="true">
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content" style={{ border: "none", borderRadius: 14 }}>
-                <form onSubmit={submitBulk}>
-                  <div className="modal-header">
-                    <h5 className="mb-0" style={{ fontSize: 16, fontWeight: 600 }}>
-                      <i className="fa-solid fa-layer-group me-2 text-muted"></i>
-                      Bulk Add Designations
+            <div className="modal-dialog modal-dialog-centered modal-xl">
+              <div className="modal-content erp-form" style={{ border: "none", borderRadius: 14 }}>
+                <form onSubmit={submitBulk} noValidate>
+                  <div className="modal-body p-4">
+                    <h5 className="mb-1" style={{ fontSize: 16, fontWeight: 600 }}>
+                      Bulk add designations
                     </h5>
+                    <p className="text-muted mb-3" style={{ fontSize: 12.5 }}>
+                      Add several job titles at once. Blank rows are ignored; codes must be unique
+                      within the company.
+                    </p>
+
+                    {bulkError && (
+                      <div
+                        className="alert alert-danger py-2"
+                        role="alert"
+                        style={{ borderRadius: 10, fontSize: 12.5 }}
+                      >
+                        <i className="fa-solid fa-circle-exclamation me-1"></i>
+                        <span>{bulkError}</span>
+                      </div>
+                    )}
+
+                    <div className="erp-table-wrap">
+                      <table className="table erp-table align-middle mb-0">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "15%" }}>
+                              Code <span className="erp-required">*</span>
+                            </th>
+                            <th style={{ width: "24%" }}>
+                              Title <span className="erp-required">*</span>
+                            </th>
+                            <th style={{ width: "18%" }}>Department</th>
+                            <th style={{ width: "16%" }}>
+                              Employment <span className="erp-required">*</span>
+                            </th>
+                            <th style={{ width: "15%" }}>Grade</th>
+                            <th className="text-center" style={{ width: "6%" }}>
+                              Mgr
+                            </th>
+                            <th className="text-center" style={{ width: "6%" }}>
+                              Active
+                            </th>
+                            <th style={{ width: 36 }}></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {bulkRows.map((row, idx) => (
+                            <tr key={idx}>
+                              <td>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-sm text-uppercase"
+                                  maxLength={20}
+                                  placeholder="SR-ENG"
+                                  value={row.code}
+                                  onChange={(e) => updateBulkRow(idx, { code: e.target.value })}
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-sm"
+                                  maxLength={150}
+                                  placeholder="Senior Site Engineer"
+                                  value={row.name}
+                                  onChange={(e) => updateBulkRow(idx, { name: e.target.value })}
+                                />
+                              </td>
+                              <td>
+                                <select
+                                  className="form-select form-select-sm"
+                                  value={row.department_id}
+                                  onChange={(e) =>
+                                    updateBulkRow(idx, { department_id: e.target.value })
+                                  }
+                                >
+                                  <option value="">Company-wide</option>
+                                  {departments.map((d) => (
+                                    <option key={d.id} value={String(d.id)}>
+                                      {d.name}
+                                    </option>
+                                  ))}
+                                </select>
+                              </td>
+                              <td>
+                                <select
+                                  className="form-select form-select-sm"
+                                  value={row.employment_type}
+                                  onChange={(e) =>
+                                    updateBulkRow(idx, { employment_type: e.target.value })
+                                  }
+                                >
+                                  {EMPLOYMENT_TYPES.map((et) => (
+                                    <option key={et.value} value={et.value}>
+                                      {et.label}
+                                    </option>
+                                  ))}
+                                </select>
+                              </td>
+                              <td>
+                                <select
+                                  className="form-select form-select-sm"
+                                  value={row.grade}
+                                  onChange={(e) => updateBulkRow(idx, { grade: e.target.value })}
+                                >
+                                  <option value="">Not graded</option>
+                                  {DESIGNATION_GRADES.map((g) => (
+                                    <option key={g.value} value={g.value}>
+                                      {g.label}
+                                    </option>
+                                  ))}
+                                </select>
+                              </td>
+                              <td className="text-center">
+                                <input
+                                  type="checkbox"
+                                  className="form-check-input"
+                                  checked={row.is_managerial}
+                                  onChange={(e) =>
+                                    updateBulkRow(idx, { is_managerial: e.target.checked })
+                                  }
+                                />
+                              </td>
+                              <td className="text-center">
+                                <input
+                                  type="checkbox"
+                                  className="form-check-input"
+                                  checked={row.is_active}
+                                  onChange={(e) =>
+                                    updateBulkRow(idx, { is_active: e.target.checked })
+                                  }
+                                />
+                              </td>
+                              <td className="text-end">
+                                <button
+                                  type="button"
+                                  className="btn btn-erp-ghost btn-sm text-danger"
+                                  title="Remove row"
+                                  disabled={bulkRows.length <= 1}
+                                  onClick={() =>
+                                    setBulkRows((prev) => prev.filter((_, i) => i !== idx))
+                                  }
+                                >
+                                  <i className="fa-solid fa-xmark"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
                     <button
                       type="button"
-                      className="btn-close"
-                      onClick={() => setBulkOpen(false)}
-                    />
+                      className="btn btn-erp-ghost btn-sm mt-3"
+                      onClick={() => setBulkRows((prev) => [...prev, emptyDesigRow()])}
+                    >
+                      <i className="fa-solid fa-plus me-2"></i>Add row
+                    </button>
                   </div>
-                  <div className="modal-body">
-                    <p className="text-muted small mb-2">
-                      Enter one designation per line as <code>CODE | Title</code>.
-                    </p>
-                    <textarea
-                      className="form-control"
-                      rows={6}
-                      value={bulkText}
-                      onChange={(e) => setBulkText(e.target.value)}
-                    />
-                  </div>
-                  <div className="modal-footer">
+                  <div className="modal-footer border-0 pt-0 px-4 pb-4">
                     <button
                       type="button"
                       className="btn btn-erp-ghost"
@@ -291,7 +488,8 @@ export default function DesignationsClient({
                       Cancel
                     </button>
                     <button type="submit" className="btn btn-erp" disabled={bulkSaving}>
-                      {bulkSaving ? "Saving…" : "Create All"}
+                      <i className="fa-solid fa-layer-group me-2"></i>
+                      {bulkSaving ? "Saving…" : "Create Designations"}
                     </button>
                   </div>
                 </form>

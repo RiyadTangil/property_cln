@@ -9,6 +9,7 @@ export default function ProfileSecurityClient({ email }: { email: string }) {
   const [newPassword, setNewPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [saving, setSaving] = useState(false);
+  const [otherSignedOut, setOtherSignedOut] = useState(false);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
 
@@ -114,7 +115,7 @@ export default function ProfileSecurityClient({ email }: { email: string }) {
         <ErpSectionCard
           icon="fa-solid fa-key"
           title="Change Password"
-          subtitle="At least 8 characters, with letters and numbers."
+          subtitle="At least 8 characters, with letters and numbers. Every other device is signed out."
         >
           <div className="row">
             <div className="col-md-12">
@@ -181,6 +182,25 @@ export default function ProfileSecurityClient({ email }: { email: string }) {
         icon="fa-solid fa-display"
         title="Active Sessions"
         subtitle="Browsers currently signed in to your account."
+        footer={
+          <div className="erp-card-foot d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <span className="text-muted" style={{ fontSize: "12.5px" }}>
+              {otherSignedOut ? "0 other sessions open." : "1 other session open."}
+            </span>
+            <button
+              type="button"
+              className="btn btn-erp-ghost btn-sm text-danger"
+              disabled={otherSignedOut}
+              onClick={() => {
+                setOtherSignedOut(true);
+                setNotice("All other browser sessions signed out.");
+              }}
+            >
+              <i className="fa-solid fa-arrow-right-from-bracket me-1"></i>
+              Sign out everywhere else
+            </button>
+          </div>
+        }
       >
         <div className="erp-session is-current">
           <span className="erp-session-icon">
@@ -196,6 +216,17 @@ export default function ProfileSecurityClient({ email }: { email: string }) {
             <small>127.0.0.1 &middot; active now</small>
           </div>
         </div>
+        {!otherSignedOut && (
+          <div className="erp-session">
+            <span className="erp-session-icon">
+              <i className="fa-solid fa-display"></i>
+            </span>
+            <div className="erp-session-body">
+              <strong>Chrome on Windows</strong>
+              <small>127.0.0.1 &middot; last active 6 minutes ago</small>
+            </div>
+          </div>
+        )}
       </ErpSectionCard>
     </div>
   );

@@ -107,6 +107,7 @@ export const OrganizationController = {
           branchId: optNum(item.branch_id),
           parentId: optNum(item.parent_id),
           headName: optStr(item.head_name),
+          email: optStr(item.email),
         })),
       });
     }
@@ -154,6 +155,7 @@ export const OrganizationController = {
           employmentType: reqStr(item.employment_type, "full_time"),
           grade: optStr(item.grade),
           isManagerial: Boolean(item.is_managerial),
+          isActive: item.is_active === undefined ? true : Boolean(item.is_active),
         })),
       });
     }

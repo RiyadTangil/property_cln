@@ -15,6 +15,19 @@ export interface AppSettingState {
   primaryColor: string;
 }
 
+function applyPrimaryColorToDom(raw: string) {
+  if (typeof document === "undefined") return;
+  const color = /^#[0-9a-fA-F]{3,8}$/.test(raw) ? raw : "#00c292";
+  const root = document.documentElement;
+  root.style.setProperty("--erp-primary", color);
+  root.style.setProperty("--erp-primary-dark", `color-mix(in srgb, ${color} 78%, #000000)`);
+  root.style.setProperty("--erp-primary-ink", `color-mix(in srgb, ${color} 78%, #000000)`);
+  root.style.setProperty("--erp-primary-soft", `color-mix(in srgb, ${color} 13%, transparent)`);
+  root.style.setProperty("--erp-accent", color);
+  root.style.setProperty("--erp-accent-soft", `color-mix(in srgb, ${color} 12%, transparent)`);
+  root.style.setProperty("--erp-table-head-bg", `color-mix(in srgb, ${color} 35%, transparent)`);
+}
+
 export default function AppSettingsClient({
   initial,
 }: {
@@ -23,6 +36,8 @@ export default function AppSettingsClient({
   const router = useRouter();
   const [tab, setTab] = useState<"general" | "contact" | "branding">("general");
   const [form, setForm] = useState<AppSettingState>(initial);
+  const [removeLogo, setRemoveLogo] = useState(false);
+  const [removeLogoLight, setRemoveLogoLight] = useState(false);
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
@@ -51,6 +66,7 @@ export default function AppSettingsClient({
       if (!res.ok) {
         setError(data.error || "Failed to save application settings.");
       } else {
+        applyPrimaryColorToDom(form.primaryColor);
         setNotice("Application settings saved.");
         router.refresh();
       }
@@ -270,7 +286,7 @@ export default function AppSettingsClient({
                 <div className="row">
                   <div className="col-md-6">
                     <div className="erp-photo-field">
-                      <div
+                      <label
                         className="erp-photo-preview"
                         style={{
                           flex: "0 0 120px",
@@ -278,26 +294,45 @@ export default function AppSettingsClient({
                           height: 66,
                           borderRadius: 10,
                           fontSize: 22,
+                          cursor: "pointer",
                         }}
                       >
-                        <img
-                          src="/brand/erp-logo.jpg"
-                          alt="Light logo"
-                          style={{ objectFit: "contain" }}
-                        />
-                      </div>
+                        {removeLogo ? (
+                          <span className="erp-photo-placeholder">
+                            <i className="fa-solid fa-image"></i>
+                          </span>
+                        ) : (
+                          <img
+                            src="/brand/erp-logo.jpg"
+                            alt="Light logo"
+                            style={{ objectFit: "contain" }}
+                          />
+                        )}
+                      </label>
                       <div className="flex-grow-1">
                         <label className="form-label">Logo (for light backgrounds)</label>
                         <p className="erp-help mb-1">
                           Shown in the top bar. PNG, SVG or WebP.
                         </p>
+                        <label
+                          className="d-inline-flex align-items-center gap-2 mt-1"
+                          style={{ fontSize: 12.5 }}
+                        >
+                          <input
+                            type="checkbox"
+                            name="remove_logo"
+                            checked={removeLogo}
+                            onChange={(e) => setRemoveLogo(e.target.checked)}
+                          />{" "}
+                          Remove
+                        </label>
                       </div>
                     </div>
                   </div>
 
                   <div className="col-md-6">
                     <div className="erp-photo-field">
-                      <div
+                      <label
                         className="erp-photo-preview"
                         style={{
                           flex: "0 0 120px",
@@ -305,6 +340,52 @@ export default function AppSettingsClient({
                           height: 66,
                           borderRadius: 10,
                           fontSize: 22,
+                          cursor: "pointer",
+                          background: "#0f172a",
+                        }}
+                      >
+                        {removeLogoLight ? (
+                          <span className="erp-photo-placeholder">
+                            <i className="fa-solid fa-image"></i>
+                          </span>
+                        ) : (
+                          <img
+                            src="/brand/erp-logo.jpg"
+                            alt="Dark background logo"
+                            style={{ objectFit: "contain" }}
+                          />
+                        )}
+                      </label>
+                      <div className="flex-grow-1">
+                        <label className="form-label">Logo (for dark backgrounds)</label>
+                        <p className="erp-help mb-1">Shown on the sign-in screen.</p>
+                        <label
+                          className="d-inline-flex align-items-center gap-2 mt-1"
+                          style={{ fontSize: 12.5 }}
+                        >
+                          <input
+                            type="checkbox"
+                            name="remove_logo_light"
+                            checked={removeLogoLight}
+                            onChange={(e) => setRemoveLogoLight(e.target.checked)}
+                          />{" "}
+                          Remove
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-md-6">
+                    <div className="erp-photo-field">
+                      <label
+                        className="erp-photo-preview"
+                        style={{
+                          flex: "0 0 120px",
+                          width: 120,
+                          height: 66,
+                          borderRadius: 10,
+                          fontSize: 22,
+                          cursor: "pointer",
                         }}
                       >
                         <img
@@ -312,7 +393,7 @@ export default function AppSettingsClient({
                           alt="Icon"
                           style={{ objectFit: "contain" }}
                         />
-                      </div>
+                      </label>
                       <div className="flex-grow-1">
                         <label className="form-label">Icon / Favicon</label>
                         <p className="erp-help mb-1">
@@ -322,7 +403,7 @@ export default function AppSettingsClient({
                     </div>
                   </div>
 
-                  <div className="col-md-4 mt-3">
+                  <div className="col-md-4">
                     <div className="erp-field mb-0">
                       <label htmlFor="primary_color" className="form-label">
                         Primary Colour
@@ -332,7 +413,11 @@ export default function AppSettingsClient({
                         id="primary_color"
                         className="form-control form-control-color"
                         value={form.primaryColor || "#00c292"}
-                        onChange={(e) => setForm({ ...form, primaryColor: e.target.value })}
+                        onChange={(e) => {
+                          const nextColor = e.target.value;
+                          setForm({ ...form, primaryColor: nextColor });
+                          applyPrimaryColorToDom(nextColor);
+                        }}
                         style={{ width: "100%", height: 38 }}
                       />
                       <span className="erp-help">

@@ -36,7 +36,22 @@ export default function CompaniesClient({
 }) {
   const router = useRouter();
   const [deleteTarget, setDeleteTarget] = useState<CompanyRow | null>(null);
+  const [viewTarget, setViewTarget] = useState<CompanyRow | null>(null);
   const [busy, setBusy] = useState(false);
+
+  async function toggleCompanyActive(c: CompanyRow) {
+    setBusy(true);
+    try {
+      await fetch(`/api/organization/companies/${c.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ is_active: !c.isActive }),
+      });
+      router.refresh();
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function confirmDelete() {
     if (!deleteTarget) return;
@@ -176,6 +191,23 @@ export default function CompaniesClient({
                   </span>
                 </td>
                 <td className="text-end text-nowrap">
+                  <button
+                    type="button"
+                    className="btn btn-erp-ghost btn-sm"
+                    title="View"
+                    onClick={() => setViewTarget(c)}
+                  >
+                    <i className="fa-solid fa-eye"></i>
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-erp-ghost btn-sm"
+                    title="Edit"
+                    onClick={() => toggleCompanyActive(c)}
+                    disabled={busy}
+                  >
+                    <i className="fa-solid fa-pen"></i>
+                  </button>
                   {!c.isDefault && (
                     <button
                       type="button"
@@ -208,6 +240,51 @@ export default function CompaniesClient({
         onCancel={() => setDeleteTarget(null)}
         onConfirm={confirmDelete}
       />
+
+      {viewTarget && (
+        <>
+          <div className="modal-backdrop fade show" />
+          <div className="modal fade show d-block" tabIndex={-1} role="dialog" aria-modal="true">
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content" style={{ border: "none", borderRadius: 14 }}>
+                <div className="modal-header">
+                  <h5 className="mb-0" style={{ fontSize: 16, fontWeight: 600 }}>
+                    {viewTarget.name} ({viewTarget.code})
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    onClick={() => setViewTarget(null)}
+                  />
+                </div>
+                <div className="modal-body">
+                  <dl className="row mb-0" style={{ fontSize: 13.5 }}>
+                    <dt className="col-sm-4 text-muted">Email</dt>
+                    <dd className="col-sm-8">{viewTarget.email || "—"}</dd>
+                    <dt className="col-sm-4 text-muted">Registration</dt>
+                    <dd className="col-sm-8">{viewTarget.registrationNumber || "—"}</dd>
+                    <dt className="col-sm-4 text-muted">TIN</dt>
+                    <dd className="col-sm-8">{viewTarget.tin || "—"}</dd>
+                    <dt className="col-sm-4 text-muted">Currency</dt>
+                    <dd className="col-sm-8">{viewTarget.currency}</dd>
+                    <dt className="col-sm-4 text-muted">Financial Year</dt>
+                    <dd className="col-sm-8 mb-0">{viewTarget.fiscalYear}</dd>
+                  </dl>
+                </div>
+                <div className="modal-footer border-0 pt-0">
+                  <button
+                    type="button"
+                    className="btn btn-erp-ghost"
+                    onClick={() => setViewTarget(null)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

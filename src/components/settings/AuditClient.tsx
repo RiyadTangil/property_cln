@@ -26,10 +26,10 @@ export interface AuditRow {
 }
 
 const EVENT_PILL: Record<string, { tone: ErpPillTone; icon: string }> = {
-  created: { tone: "available", icon: "fa-plus" },
-  updated: { tone: "booked", icon: "fa-pen" },
-  deleted: { tone: "overdue", icon: "fa-trash-can" },
-  restored: { tone: "available", icon: "fa-rotate-left" },
+  created: { tone: "available", icon: "fa-solid fa-plus" },
+  updated: { tone: "booked", icon: "fa-solid fa-pen" },
+  deleted: { tone: "overdue", icon: "fa-solid fa-trash-can" },
+  restored: { tone: "available", icon: "fa-solid fa-rotate-left" },
 };
 
 export default function AuditClient({

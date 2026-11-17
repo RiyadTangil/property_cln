@@ -55,6 +55,7 @@ export interface BulkCreateDepartmentItemDto {
   branchId: number | null;
   parentId: number | null;
   headName: string | null;
+  email?: string | null;
 }
 
 export interface CreateDepartmentDto {
@@ -85,6 +86,7 @@ export interface BulkCreateDesignationItemDto {
   employmentType: string;
   grade: string | null;
   isManagerial: boolean;
+  isActive?: boolean;
 }
 
 export interface CreateDesignationDto {
