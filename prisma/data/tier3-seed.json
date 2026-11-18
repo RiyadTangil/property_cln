@@ -1,0 +1,4266 @@
+{
+  "boqScopes": [
+    {
+      "id": 47,
+      "code": "Acre",
+      "name": "ACRE",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 25,
+      "code": "Bag",
+      "name": "BAG",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 13,
+      "code": "Bundle",
+      "name": "BDL",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 45,
+      "code": "Bigha",
+      "name": "BIGHA",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 10,
+      "code": "Box",
+      "name": "BOX",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 53,
+      "code": "Brass (100 CFT)",
+      "name": "BRASS",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 20,
+      "code": "Can",
+      "name": "CAN",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 51,
+      "code": "Cubic Foot",
+      "name": "CFT",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 32,
+      "code": "Centimetre",
+      "name": "CM",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 15,
+      "code": "Coil",
+      "name": "COIL",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 11,
+      "code": "Carton",
+      "name": "CTN",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 50,
+      "code": "Cubic Metre",
+      "name": "CUM",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 52,
+      "code": "Cubic Yard",
+      "name": "CUYD",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 64,
+      "code": "Day",
+      "name": "DAY",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 46,
+      "code": "Decimal (Shotok)",
+      "name": "DECIMAL",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 6,
+      "code": "Dozen",
+      "name": "DOZ",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 19,
+      "code": "Drum",
+      "name": "DRUM",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 35,
+      "code": "Foot",
+      "name": "FT",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 58,
+      "code": "Gram",
+      "name": "G",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 56,
+      "code": "Gallon (US)",
+      "name": "GAL",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 7,
+      "code": "Gross",
+      "name": "GROSS",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 48,
+      "code": "Hectare",
+      "name": "HECTARE",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 65,
+      "code": "Hour",
+      "name": "HR",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 8,
+      "code": "Hundred",
+      "name": "HUND",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 34,
+      "code": "Inch",
+      "name": "IN",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 27,
+      "code": "Job",
+      "name": "JOB",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 49,
+      "code": "Kani",
+      "name": "KANI",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 44,
+      "code": "Katha",
+      "name": "KATHA",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 57,
+      "code": "Kilogram",
+      "name": "KG",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 33,
+      "code": "Kilometre",
+      "name": "KM",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 74,
+      "code": "KVA",
+      "name": "KVA",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 73,
+      "code": "Kilowatt Hour",
+      "name": "KWH",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 61,
+      "code": "Pound",
+      "name": "LB",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 18,
+      "code": "Leaf",
+      "name": "LEAF",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 26,
+      "code": "Lot",
+      "name": "LOT",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 71,
+      "code": "Lump Sum",
+      "name": "LS",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 54,
+      "code": "Litre",
+      "name": "LTR",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 30,
+      "code": "Metre",
+      "name": "M",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 66,
+      "code": "Man-Day",
+      "name": "MANDAY",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 67,
+      "code": "Man-Hour",
+      "name": "MANHR",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 62,
+      "code": "Maund",
+      "name": "MAUND",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 55,
+      "code": "Millilitre",
+      "name": "ML",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 31,
+      "code": "Millimetre",
+      "name": "MM",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 69,
+      "code": "Month",
+      "name": "MONTH",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 59,
+      "code": "Metric Ton",
+      "name": "MT",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "code": "Number",
+      "name": "NOS",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 23,
+      "code": "Pail",
+      "name": "PAIL",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 5,
+      "code": "Pair",
+      "name": "PAIR",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 17,
+      "code": "Panel",
+      "name": "PANEL",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 1,
+      "code": "Piece",
+      "name": "PCS",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 72,
+      "code": "Percent",
+      "name": "PCT",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 12,
+      "code": "Packet",
+      "name": "PKT",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 60,
+      "code": "Quintal",
+      "name": "QTL",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 37,
+      "code": "Running Foot",
+      "name": "RFT",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 38,
+      "code": "Running Metre",
+      "name": "RM",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 14,
+      "code": "Roll",
+      "name": "ROLL",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 24,
+      "code": "Sack",
+      "name": "SACK",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 63,
+      "code": "Seer",
+      "name": "SEER",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "code": "Set",
+      "name": "SET",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 16,
+      "code": "Sheet",
+      "name": "SHEET",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 70,
+      "code": "Shift",
+      "name": "SHIFT",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 40,
+      "code": "Square Foot",
+      "name": "SQFT",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 42,
+      "code": "Square Inch",
+      "name": "SQIN",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 39,
+      "code": "Square Metre",
+      "name": "SQM",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 43,
+      "code": "Square Millimetre",
+      "name": "SQMM",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 41,
+      "code": "Square Yard",
+      "name": "SQYD",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 9,
+      "code": "Thousand",
+      "name": "THOU",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 21,
+      "code": "Tin",
+      "name": "TIN",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 28,
+      "code": "Trip",
+      "name": "TRIP",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 29,
+      "code": "Truck Load",
+      "name": "TRUCK",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 22,
+      "code": "Tube",
+      "name": "TUBE",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "code": "Unit",
+      "name": "UNIT",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 68,
+      "code": "Week",
+      "name": "WEEK",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 36,
+      "code": "Yard",
+      "name": "YD",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 54,
+      "code": "BLOCK-AAC",
+      "name": "AAC Block",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 215,
+      "code": "WPF-APP",
+      "name": "APP Membrane",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 72,
+      "code": "ADMIX-ACCEL",
+      "name": "Accelerator",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 309,
+      "code": "ACCESS-CTRL",
+      "name": "Access Control Unit",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 230,
+      "code": "INSUL-ACOUS",
+      "name": "Acoustic Insulation",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 159,
+      "code": "PAINT-EXT-ACRY",
+      "name": "Acrylic Exterior Paint",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 165,
+      "code": "PUTTY-ACRY",
+      "name": "Acrylic Putty",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 248,
+      "code": "PROP-ADJ",
+      "name": "Adjustable Prop",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 302,
+      "code": "DIFFUSER",
+      "name": "Air Diffuser / Grille",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 201,
+      "code": "ACP-SHEET",
+      "name": "Aluminium Composite Panel",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 181,
+      "code": "DOOR-ALU",
+      "name": "Aluminium Door",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 344,
+      "code": "SRV-ALU-FAB",
+      "name": "Aluminium Fabrication Work",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 180,
+      "code": "WIN-ALU-FIX",
+      "name": "Aluminium Fixed Window",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 182,
+      "code": "ALU-SECTION",
+      "name": "Aluminium Section",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 179,
+      "code": "WIN-ALU-SLIDE",
+      "name": "Aluminium Sliding Window",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 238,
+      "code": "ANCHOR-FAST",
+      "name": "Anchor Fastener",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 264,
+      "code": "GRINDER",
+      "name": "Angle Grinder",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 101,
+      "code": "CP-ANGLE",
+      "name": "Angle Valve",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 77,
+      "code": "TILE-FL-ANTI",
+      "name": "Anti-Skid Floor Tile",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 224,
+      "code": "ANTI-TERMITE",
+      "name": "Anti-Termite Chemical",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 345,
+      "code": "SRV-ARCH",
+      "name": "Architectural Consultancy",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 124,
+      "code": "CABLE-ARM",
+      "name": "Armoured Cable",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 274,
+      "code": "AUTO-LEVEL",
+      "name": "Auto Level",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 109,
+      "code": "VALVE-BALL",
+      "name": "Ball Valve",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 271,
+      "code": "BAR-BENDER",
+      "name": "Bar Bending Machine",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 272,
+      "code": "BAR-CUTTER",
+      "name": "Bar Cutting Machine",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 287,
+      "code": "BARRICADE",
+      "name": "Barricade Tape / Cone",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 249,
+      "code": "JACK-BASE",
+      "name": "Base Jack",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 96,
+      "code": "SAN-BATHTUB",
+      "name": "Bath Tub",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 102,
+      "code": "CP-ACC",
+      "name": "Bathroom Accessory Set",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 100,
+      "code": "CP-BIBCOCK",
+      "name": "Bib Cock",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 25,
+      "code": "BIND-WIRE",
+      "name": "Binding Wire",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 214,
+      "code": "WPF-BITUMEN",
+      "name": "Bituminous Membrane",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 236,
+      "code": "BOLT-NUT",
+      "name": "Bolt & Nut",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 222,
+      "code": "BONDING-AGENT",
+      "name": "Bonding Agent",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 115,
+      "code": "PUMP-BOOST",
+      "name": "Booster Pump",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 45,
+      "code": "STONE-BOULD",
+      "name": "Boulder Stone",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 319,
+      "code": "BOUNDARY-WALL",
+      "name": "Boundary Wall Panel",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 335,
+      "code": "SRV-MASONRY",
+      "name": "Brick / Masonry Work",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 47,
+      "code": "KHOA-1",
+      "name": "Brick Chips (1st Class)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 50,
+      "code": "FILL-SOLING",
+      "name": "Brick Soling Material",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 324,
+      "code": "BROOM",
+      "name": "Broom / Brush",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 328,
+      "code": "BUBBLE-WRAP",
+      "name": "Bubble Wrap",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 262,
+      "code": "BUCKET",
+      "name": "Bucket",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 213,
+      "code": "WARDROBE",
+      "name": "Built-in Wardrobe",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 137,
+      "code": "DB-BUSBAR",
+      "name": "Busbar Chamber",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 307,
+      "code": "CCTV-CAM",
+      "name": "CCTV Camera",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 225,
+      "code": "ROOF-CI",
+      "name": "CI Sheet",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 98,
+      "code": "CP-MIXER",
+      "name": "CP Mixer Tap",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 104,
+      "code": "PIPE-CPVC",
+      "name": "CPVC Pipe",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 296,
+      "code": "LIFT-CARGO",
+      "name": "Cargo / Service Lift",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 299,
+      "code": "AC-CASSETTE",
+      "name": "Cassette Air Conditioner",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 143,
+      "code": "FAN-CEIL",
+      "name": "Ceiling Fan",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "code": "CEM-OPC-43",
+      "name": "Cement OPC 43 Grade (50 kg Bag)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 1,
+      "code": "CEM-OPC-53",
+      "name": "Cement OPC 53 Grade (50 kg Bag)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "code": "CEM-OPC-BULK",
+      "name": "Cement OPC Bulk",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "code": "CEM-PCC-50",
+      "name": "Cement PCC (50 kg Bag)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 5,
+      "code": "CEM-PCC-BULK",
+      "name": "Cement PCC Bulk",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 217,
+      "code": "WPF-CEMENT",
+      "name": "Cementitious Waterproofing",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 74,
+      "code": "TILE-FL-CER",
+      "name": "Ceramic Floor Tile",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 78,
+      "code": "TILE-WL-CER",
+      "name": "Ceramic Wall Tile",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 27,
+      "code": "MESH-CHAIN",
+      "name": "Chain Link Mesh",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 323,
+      "code": "CHALK-POWDER",
+      "name": "Chalk Powder",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 205,
+      "code": "TIMBER-CHAMBAL",
+      "name": "Chambal Timber",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 110,
+      "code": "VALVE-CHECK",
+      "name": "Check Valve",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 240,
+      "code": "CHEM-ANCHOR",
+      "name": "Chemical Anchor",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 51,
+      "code": "BRICK-1",
+      "name": "Clay Brick 1st Class",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 52,
+      "code": "BRICK-2",
+      "name": "Clay Brick 2nd Class",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 325,
+      "code": "CLEAN-ACID",
+      "name": "Cleaning Acid",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 326,
+      "code": "CLEAN-AGENT",
+      "name": "Cleaning Agent",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 194,
+      "code": "GLASS-CLEAR",
+      "name": "Clear Float Glass",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 153,
+      "code": "CABLE-COAX",
+      "name": "Coaxial TV Cable",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 192,
+      "code": "GATE-COLLAPS",
+      "name": "Collapsible Gate",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 226,
+      "code": "ROOF-COLOR",
+      "name": "Colour Coated Steel Sheet",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 206,
+      "code": "PLY-COM",
+      "name": "Commercial Plywood",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 97,
+      "code": "SAN-CISTERN",
+      "name": "Concealed Cistern",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 55,
+      "code": "BLOCK-CC",
+      "name": "Concrete Block",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 276,
+      "code": "CUBE-MOULD",
+      "name": "Concrete Cube Mould",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 268,
+      "code": "MIXER-CONC",
+      "name": "Concrete Mixer Machine",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 256,
+      "code": "COVER-BLOCK",
+      "name": "Cover Block",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 132,
+      "code": "PLATE-COVER",
+      "name": "Cover Plate",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 218,
+      "code": "WPF-CRYST",
+      "name": "Crystalline Waterproofing",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 73,
+      "code": "CURE-COMP",
+      "name": "Curing Compound",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 322,
+      "code": "CURING-COMPOUND",
+      "name": "Curing Water Tank Consumable",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 200,
+      "code": "CURTAIN-WALL",
+      "name": "Curtain Wall Glazing",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 277,
+      "code": "BLADE-CUT",
+      "name": "Cutting Blade / Disc",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 152,
+      "code": "CABLE-DATA",
+      "name": "Data Cable (CAT-6)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 175,
+      "code": "DOOR-DECOR",
+      "name": "Decorative Door",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 79,
+      "code": "TILE-WL-DEC",
+      "name": "Decorative Wall Tile",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 13,
+      "code": "REBAR-10",
+      "name": "Deformed Bar 10 mm (60 Grade)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 14,
+      "code": "REBAR-12",
+      "name": "Deformed Bar 12 mm (60 Grade)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 15,
+      "code": "REBAR-16",
+      "name": "Deformed Bar 16 mm (60 Grade)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 16,
+      "code": "REBAR-20",
+      "name": "Deformed Bar 20 mm (60 Grade)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 17,
+      "code": "REBAR-22",
+      "name": "Deformed Bar 22 mm (60 Grade)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 18,
+      "code": "REBAR-25",
+      "name": "Deformed Bar 25 mm (60 Grade)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 19,
+      "code": "REBAR-32",
+      "name": "Deformed Bar 32 mm (60 Grade)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 12,
+      "code": "REBAR-8",
+      "name": "Deformed Bar 8 mm (60 Grade)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 329,
+      "code": "DIESEL",
+      "name": "Diesel",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 145,
+      "code": "GEN-DIESEL",
+      "name": "Diesel Generator",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 186,
+      "code": "LOCK-DIGITAL",
+      "name": "Digital Door Lock",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 156,
+      "code": "PAINT-DIST",
+      "name": "Distemper",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 133,
+      "code": "DB-BOARD",
+      "name": "Distribution Board",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 146,
+      "code": "TRANSFORMER",
+      "name": "Distribution Transformer",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 189,
+      "code": "DOOR-CLOSER",
+      "name": "Door Closer",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 188,
+      "code": "HANDLE-DOOR",
+      "name": "Door Handle",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 187,
+      "code": "HINGE",
+      "name": "Door Hinge",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 278,
+      "code": "DRILL-BIT",
+      "name": "Drill Bit",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 263,
+      "code": "DRILL-MACH",
+      "name": "Drill Machine",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 284,
+      "code": "MASK-DUST",
+      "name": "Dust Mask",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 49,
+      "code": "FILL-EARTH",
+      "name": "Earth Filling Material",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 150,
+      "code": "EARTH-PLATE",
+      "name": "Earthing Plate",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 149,
+      "code": "EARTH-ROD",
+      "name": "Earthing Rod",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 119,
+      "code": "CABLE-1.5",
+      "name": "Electrical Cable 1.5 sqmm",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 123,
+      "code": "CABLE-10",
+      "name": "Electrical Cable 10 sqmm",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 120,
+      "code": "CABLE-2.5",
+      "name": "Electrical Cable 2.5 sqmm",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 121,
+      "code": "CABLE-4",
+      "name": "Electrical Cable 4 sqmm",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 122,
+      "code": "CABLE-6",
+      "name": "Electrical Cable 6 sqmm",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 337,
+      "code": "SRV-ELEC",
+      "name": "Electrical Installation Work",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 353,
+      "code": "SRV-ELEC-CONN",
+      "name": "Electricity Connection Charge",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 142,
+      "code": "LIGHT-EMERG",
+      "name": "Emergency Light",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 86,
+      "code": "FLOOR-WOOD",
+      "name": "Engineered Wooden Flooring",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 223,
+      "code": "EPOXY-ADH",
+      "name": "Epoxy Adhesive",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 11,
+      "code": "GROUT-EPOXY",
+      "name": "Epoxy Grout",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 352,
+      "code": "SRV-EQUIP-HIRE",
+      "name": "Equipment Hire",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 297,
+      "code": "ESCALATOR",
+      "name": "Escalator",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 332,
+      "code": "SRV-EXCAV",
+      "name": "Excavation Work",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 144,
+      "code": "FAN-EXH",
+      "name": "Exhaust Fan",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 221,
+      "code": "JOINT-FILLER",
+      "name": "Expansion Joint Filler",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 343,
+      "code": "SRV-FALSECEIL",
+      "name": "False Ceiling Work",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 318,
+      "code": "FENCE-POST",
+      "name": "Fencing Post",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 317,
+      "code": "FENCE-WIRE",
+      "name": "Fencing Wire",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 40,
+      "code": "SAND-FILL",
+      "name": "Filling Sand",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 293,
+      "code": "FIRE-ALARM",
+      "name": "Fire Alarm Panel",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 290,
+      "code": "FIRE-EXT",
+      "name": "Fire Extinguisher",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 291,
+      "code": "FIRE-HOSE",
+      "name": "Fire Hose Reel",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 177,
+      "code": "DOOR-FIRE",
+      "name": "Fire Rated Door",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 289,
+      "code": "FIRST-AID",
+      "name": "First Aid Box",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 126,
+      "code": "COND-FLEX",
+      "name": "Flexible Conduit",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 116,
+      "code": "DRAIN-TRAP",
+      "name": "Floor Drain / Trap",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 172,
+      "code": "DOOR-FLUSH",
+      "name": "Flush Door Shutter",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 254,
+      "code": "TIE-ROD",
+      "name": "Form Tie Rod",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 196,
+      "code": "GLASS-FROST",
+      "name": "Frosted Glass",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 301,
+      "code": "DUCT-GI",
+      "name": "GI Duct",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 33,
+      "code": "GI-PIPE",
+      "name": "GI Pipe",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 32,
+      "code": "GI-SHEET",
+      "name": "GI Plain Sheet",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 34,
+      "code": "GI-WIRE",
+      "name": "GI Wire",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 314,
+      "code": "GARDEN-EDGE",
+      "name": "Garden Edging",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 316,
+      "code": "SPRINKLER-GARDEN",
+      "name": "Garden Sprinkler",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 204,
+      "code": "TIMBER-GARJAN",
+      "name": "Garjan Timber",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 354,
+      "code": "SRV-GAS-CONN",
+      "name": "Gas Connection Charge",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 304,
+      "code": "GAS-METER",
+      "name": "Gas Meter & Fitting",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 303,
+      "code": "GAS-PIPE",
+      "name": "Gas Pipe Line",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 108,
+      "code": "VALVE-GATE",
+      "name": "Gate Valve",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 244,
+      "code": "HRD-GEN",
+      "name": "General Hardware Item",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 82,
+      "code": "GRANITE-SLAB",
+      "name": "Granite Slab",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 311,
+      "code": "TURF-GRASS",
+      "name": "Grass Turf",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 321,
+      "code": "GUNNY-BAG",
+      "name": "Gunny / Jute Bag",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 29,
+      "code": "STL-HBEAM",
+      "name": "H-Beam Section",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 339,
+      "code": "SRV-HVAC-INS",
+      "name": "HVAC Installation Work",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 282,
+      "code": "HAND-GLOVE",
+      "name": "Hand Gloves",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 59,
+      "code": "BLOCK-HOLLOW",
+      "name": "Hollow Block",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 76,
+      "code": "TILE-FL-HOMO",
+      "name": "Homogeneous Tile",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 8,
+      "code": "LIME-HYD",
+      "name": "Hydrated Lime",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 28,
+      "code": "STL-IBEAM",
+      "name": "I-Beam Section",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 154,
+      "code": "INTERCOM",
+      "name": "Intercom Unit",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 315,
+      "code": "IRRIG-PIPE",
+      "name": "Irrigation Pipe",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 127,
+      "code": "COND-BOX",
+      "name": "Junction / Gang Box",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 58,
+      "code": "KERB-STONE",
+      "name": "Kerb Stone",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 212,
+      "code": "KITCHEN-CAB",
+      "name": "Kitchen Cabinet",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 95,
+      "code": "SAN-SINK",
+      "name": "Kitchen Sink",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 138,
+      "code": "LED-BULB",
+      "name": "LED Bulb",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 139,
+      "code": "LED-PANEL",
+      "name": "LED Panel Light",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 140,
+      "code": "LED-TUBE",
+      "name": "LED Tube Light",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 147,
+      "code": "PANEL-LT",
+      "name": "LT Panel Board",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 351,
+      "code": "SRV-LABOUR",
+      "name": "Labour Supply",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 88,
+      "code": "FLOOR-LAM",
+      "name": "Laminate Flooring",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 211,
+      "code": "LAMINATE",
+      "name": "Laminate Sheet",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 198,
+      "code": "GLASS-LAM",
+      "name": "Laminated Glass",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 348,
+      "code": "SRV-SURVEY",
+      "name": "Land Survey",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 349,
+      "code": "SRV-LEGAL",
+      "name": "Legal & Documentation",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 340,
+      "code": "SRV-LIFT-INS",
+      "name": "Lift Installation Work",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 151,
+      "code": "LIGHTNING-ARR",
+      "name": "Lightning Arrester",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 216,
+      "code": "WPF-LIQUID",
+      "name": "Liquid Waterproof Coating",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 39,
+      "code": "SAND-LOCAL",
+      "name": "Local Sand (Fine)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 331,
+      "code": "LUB-OIL",
+      "name": "Lubricant Oil",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 134,
+      "code": "MCB",
+      "name": "MCB Circuit Breaker",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 135,
+      "code": "MCCB",
+      "name": "MCCB Circuit Breaker",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 208,
+      "code": "BOARD-MDF",
+      "name": "MDF Board",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 21,
+      "code": "MS-ANGLE",
+      "name": "MS Angle",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 243,
+      "code": "CHAIN-MS",
+      "name": "MS Chain",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 22,
+      "code": "MS-CHANNEL",
+      "name": "MS Channel",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 23,
+      "code": "MS-FLAT",
+      "name": "MS Flat Bar",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 20,
+      "code": "MS-PLATE",
+      "name": "MS Plate",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 24,
+      "code": "MS-ROD",
+      "name": "MS Round Bar",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 193,
+      "code": "GATE-MAIN",
+      "name": "Main Gate (MS)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 117,
+      "code": "DRAIN-MH",
+      "name": "Manhole Cover",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 242,
+      "code": "ROPE-MANILA",
+      "name": "Manila Rope",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 265,
+      "code": "CUTTER-MARBLE",
+      "name": "Marble Cutter",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 81,
+      "code": "MARBLE-SLAB",
+      "name": "Marble Slab",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 83,
+      "code": "MARBLE-STAIR",
+      "name": "Marble Staircase Tread",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 207,
+      "code": "PLY-MARINE",
+      "name": "Marine Plywood",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 327,
+      "code": "TAPE-MASK",
+      "name": "Masking Tape",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 350,
+      "code": "SRV-CARRY",
+      "name": "Material Carrying / Transport",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 269,
+      "code": "HOIST",
+      "name": "Material Hoist",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 259,
+      "code": "MEASURE-TAPE",
+      "name": "Measuring Tape",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 203,
+      "code": "TIMBER-MEHOG",
+      "name": "Mehogany Timber",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 161,
+      "code": "PRIMER-METAL",
+      "name": "Metal Primer (Red Oxide)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 199,
+      "code": "MIRROR",
+      "name": "Mirror",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 185,
+      "code": "LOCK-MORTISE",
+      "name": "Mortise Lock Set",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 84,
+      "code": "MOSAIC-TILE",
+      "name": "Mosaic Tile",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 308,
+      "code": "NVR-DVR",
+      "name": "NVR / DVR",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 267,
+      "code": "VIBRATOR-NEED",
+      "name": "Needle Vibrator",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 10,
+      "code": "GROUT-NS",
+      "name": "Non-Shrink Grout",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 241,
+      "code": "ROPE-NYLON",
+      "name": "Nylon Rope",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 148,
+      "code": "CAPACITOR-PFI",
+      "name": "PFI Plant",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 105,
+      "code": "PIPE-PPR",
+      "name": "PPR Pipe",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 220,
+      "code": "SEALANT-PU",
+      "name": "PU Sealant",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 125,
+      "code": "COND-PVC",
+      "name": "PVC Conduit Pipe",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 106,
+      "code": "PIPE-PVC",
+      "name": "PVC Pipe",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 231,
+      "code": "GUTTER-PVC",
+      "name": "PVC Rainwater Gutter",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 342,
+      "code": "SRV-PAINTING",
+      "name": "Painting Work",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 209,
+      "code": "BOARD-PARTICLE",
+      "name": "Particle Board",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 60,
+      "code": "BLOCK-PART",
+      "name": "Partition Block",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 295,
+      "code": "LIFT-PASS",
+      "name": "Passenger Lift",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 57,
+      "code": "PAVER-BLOCK",
+      "name": "Paver Block",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 313,
+      "code": "PAVING-STONE",
+      "name": "Paving Stone",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 330,
+      "code": "PETROL",
+      "name": "Petrol / Octane",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 53,
+      "code": "BRICK-PIC",
+      "name": "Picked Jhama Brick",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 48,
+      "code": "KHOA-PIC",
+      "name": "Picked Jhama Chips",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 333,
+      "code": "SRV-PILING",
+      "name": "Piling Work",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 107,
+      "code": "PIPE-FIT",
+      "name": "Pipe Fitting (Elbow, Tee, Socket)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 336,
+      "code": "SRV-PLASTER",
+      "name": "Plastering Work",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 155,
+      "code": "PAINT-PLASTIC",
+      "name": "Plastic Emulsion Paint",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 69,
+      "code": "ADMIX-PLAST",
+      "name": "Plasticiser Admixture",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 270,
+      "code": "COMPACTOR",
+      "name": "Plate Compactor",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 338,
+      "code": "SRV-PLUMB",
+      "name": "Plumbing Installation Work",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 227,
+      "code": "ROOF-POLY",
+      "name": "Polycarbonate Sheet",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 320,
+      "code": "POLY-SHEET",
+      "name": "Polythene Sheet",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 67,
+      "code": "PRE-LINTEL",
+      "name": "Precast Lintel",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 68,
+      "code": "PRE-PILE",
+      "name": "Precast Pile",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 66,
+      "code": "PRE-SLAB",
+      "name": "Precast Slab",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 157,
+      "code": "PAINT-INT-PREM",
+      "name": "Premium Interior Emulsion",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 111,
+      "code": "VALVE-PRV",
+      "name": "Pressure Reducing Valve",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 334,
+      "code": "SRV-RCC",
+      "name": "RCC Casting Work",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 136,
+      "code": "RCCB",
+      "name": "RCCB / ELCB",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 232,
+      "code": "DOWN-PIPE",
+      "name": "Rainwater Down Pipe",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 239,
+      "code": "RAWL-PLUG",
+      "name": "Rawl Plug",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 61,
+      "code": "RMC-C20",
+      "name": "Ready Mix Concrete C20",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 62,
+      "code": "RMC-C25",
+      "name": "Ready Mix Concrete C25",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 63,
+      "code": "RMC-C30",
+      "name": "Ready Mix Concrete C30",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 64,
+      "code": "RMC-C35",
+      "name": "Ready Mix Concrete C35",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 65,
+      "code": "RMC-C40",
+      "name": "Ready Mix Concrete C40",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 30,
+      "code": "STL-RHS",
+      "name": "Rectangular Hollow Section",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 285,
+      "code": "VEST-REFLECT",
+      "name": "Reflective Vest",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 71,
+      "code": "ADMIX-RETARD",
+      "name": "Retarder",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 41,
+      "code": "SAND-RIVER",
+      "name": "River Sand",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 191,
+      "code": "SHUTTER-ROLL",
+      "name": "Rolling Shutter",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 228,
+      "code": "ROOF-TILE",
+      "name": "Roof Tile",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 283,
+      "code": "SAFETY-GOGGLE",
+      "name": "Safety Goggles",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 280,
+      "code": "SAFETY-BELT",
+      "name": "Safety Harness / Belt",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 279,
+      "code": "HELMET",
+      "name": "Safety Helmet",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 286,
+      "code": "SAFETY-NET",
+      "name": "Safety Net",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 281,
+      "code": "SAFETY-SHOE",
+      "name": "Safety Shoe",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 288,
+      "code": "SIGNAGE-SAFE",
+      "name": "Safety Signage",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 252,
+      "code": "SCAF-COUPLER",
+      "name": "Scaffolding Coupler",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 253,
+      "code": "SCAF-FRAME",
+      "name": "Scaffolding Frame",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 251,
+      "code": "SCAF-PIPE",
+      "name": "Scaffolding Pipe",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 163,
+      "code": "SEALER",
+      "name": "Sealer Coat",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 202,
+      "code": "TIMBER-SEGUN",
+      "name": "Segun (Teak) Timber",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 235,
+      "code": "SCREW-SELF",
+      "name": "Self Tapping Screw",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 118,
+      "code": "DRAIN-SEPTIC",
+      "name": "Septic Tank Fitting",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 260,
+      "code": "SHOVEL",
+      "name": "Shovel / Spade",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 99,
+      "code": "CP-SHOWER",
+      "name": "Shower Set",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 255,
+      "code": "SHUT-OIL",
+      "name": "Shuttering Oil",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 246,
+      "code": "SHUT-PLANK",
+      "name": "Shuttering Plank",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 245,
+      "code": "SHUT-PLY",
+      "name": "Shuttering Plywood",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 219,
+      "code": "SEALANT-SIL",
+      "name": "Silicone Sealant",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 80,
+      "code": "TILE-SKIRT",
+      "name": "Skirting Tile",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 275,
+      "code": "SLUMP-CONE",
+      "name": "Slump Test Cone",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 292,
+      "code": "SMOKE-DET",
+      "name": "Smoke Detector",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 130,
+      "code": "SOCKET-13A",
+      "name": "Socket Outlet 13A",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 347,
+      "code": "SRV-SOIL",
+      "name": "Soil Test",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 306,
+      "code": "SOLAR-INV",
+      "name": "Solar Inverter",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 305,
+      "code": "SOLAR-PANEL",
+      "name": "Solar Panel",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 56,
+      "code": "BLOCK-SOLID",
+      "name": "Solid Cement Block",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 173,
+      "code": "DOOR-SOLID",
+      "name": "Solid Wooden Door",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 250,
+      "code": "SPAN-BEAM",
+      "name": "Span / Telescopic Beam",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 258,
+      "code": "SPIRIT-LEVEL",
+      "name": "Spirit Level",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 298,
+      "code": "AC-SPLIT",
+      "name": "Split Air Conditioner",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 294,
+      "code": "SPRINKLER",
+      "name": "Sprinkler Head",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 31,
+      "code": "STL-SHS",
+      "name": "Square Hollow Section",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 35,
+      "code": "SS-PIPE",
+      "name": "Stainless Steel Pipe",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 37,
+      "code": "SS-RAIL",
+      "name": "Stainless Steel Railing",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 36,
+      "code": "SS-SHEET",
+      "name": "Stainless Steel Sheet",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 113,
+      "code": "TANK-SS",
+      "name": "Stainless Steel Water Tank",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 176,
+      "code": "DOOR-STEEL",
+      "name": "Steel Door",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 178,
+      "code": "DOOR-FRAME-S",
+      "name": "Steel Door Frame",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 247,
+      "code": "SHUT-STEEL",
+      "name": "Steel Shuttering Panel",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 171,
+      "code": "PAINT-STONE",
+      "name": "Stone / Sand Finish",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 43,
+      "code": "STONE-12",
+      "name": "Stone Chips 12 mm",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 42,
+      "code": "STONE-20",
+      "name": "Stone Chips 20 mm",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 44,
+      "code": "STONE-40",
+      "name": "Stone Chips 40 mm",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 46,
+      "code": "STONE-DUST",
+      "name": "Stone Dust",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 141,
+      "code": "LIGHT-STREET",
+      "name": "Street / Flood Light",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 346,
+      "code": "SRV-STRUCT",
+      "name": "Structural Consultancy",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 70,
+      "code": "ADMIX-SUPER",
+      "name": "Superplasticiser",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 9,
+      "code": "SURKHI",
+      "name": "Surkhi (Brick Dust)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 128,
+      "code": "SW-1G",
+      "name": "Switch 1 Gang",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 129,
+      "code": "SW-2G",
+      "name": "Switch 2 Gang",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 38,
+      "code": "SAND-SYL",
+      "name": "Sylhet Sand (Coarse)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 166,
+      "code": "PAINT-ENAMEL",
+      "name": "Synthetic Enamel Paint",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 131,
+      "code": "SOCKET-TV",
+      "name": "TV / Telephone Socket",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 197,
+      "code": "GLASS-TEMP",
+      "name": "Tempered Glass",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 85,
+      "code": "TERRAZZO",
+      "name": "Terrazzo Flooring",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 170,
+      "code": "PAINT-TEXTURE",
+      "name": "Texture Paint",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 229,
+      "code": "INSUL-THERM",
+      "name": "Thermal Insulation Sheet",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 169,
+      "code": "THINNER",
+      "name": "Thinner",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 89,
+      "code": "TILE-ADH",
+      "name": "Tile Adhesive",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 90,
+      "code": "TILE-GROUT",
+      "name": "Tile Grout",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 91,
+      "code": "TILE-SPACER",
+      "name": "Tile Spacer",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 341,
+      "code": "SRV-TILING",
+      "name": "Tiling Work",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 195,
+      "code": "GLASS-TINT",
+      "name": "Tinted Glass",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 312,
+      "code": "SOIL-TOP",
+      "name": "Top Soil",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 273,
+      "code": "TOTAL-STATION",
+      "name": "Total Station",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 190,
+      "code": "TOWER-BOLT",
+      "name": "Tower Bolt",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 310,
+      "code": "PLANT-TREE",
+      "name": "Tree / Sapling",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 257,
+      "code": "TROWEL",
+      "name": "Trowel",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 94,
+      "code": "SAN-URINAL",
+      "name": "Urinal",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 300,
+      "code": "AC-VRF",
+      "name": "VRF System",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 167,
+      "code": "VARNISH",
+      "name": "Varnish",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 210,
+      "code": "VENEER",
+      "name": "Veneer Sheet",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 87,
+      "code": "FLOOR-VINYL",
+      "name": "Vinyl Flooring",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 75,
+      "code": "TILE-FL-VIT",
+      "name": "Vitrified Floor Tile",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 160,
+      "code": "PRIMER-WALL",
+      "name": "Wall Primer",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 164,
+      "code": "PUTTY-WALL",
+      "name": "Wall Putty",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 93,
+      "code": "SAN-BASIN",
+      "name": "Wash Basin",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 237,
+      "code": "WASHER",
+      "name": "Washer",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 355,
+      "code": "SRV-WASA",
+      "name": "Water / WASA Connection Charge",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 92,
+      "code": "SAN-WC",
+      "name": "Water Closet (Commode)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 114,
+      "code": "PUMP-WATER",
+      "name": "Water Pump",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 112,
+      "code": "TANK-WATER",
+      "name": "Water Tank (PVC)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 158,
+      "code": "PAINT-WEATHER",
+      "name": "Weather Coat Exterior Paint",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 26,
+      "code": "MESH-WELD",
+      "name": "Welded Wire Mesh",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 266,
+      "code": "WELDING-MACH",
+      "name": "Welding Machine",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 261,
+      "code": "WHEELBARROW",
+      "name": "Wheelbarrow",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 6,
+      "code": "CEM-WHT-BAG",
+      "name": "White Cement (Bag)",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 7,
+      "code": "CEM-WHT-25",
+      "name": "White Cement 25 kg",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 233,
+      "code": "NAIL-WIRE",
+      "name": "Wire Nail",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 168,
+      "code": "POLISH-WOOD",
+      "name": "Wood Polish / Melamine",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 162,
+      "code": "PRIMER-WOOD",
+      "name": "Wood Primer",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 234,
+      "code": "SCREW-WOOD",
+      "name": "Wood Screw",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 174,
+      "code": "DOOR-FRAME-W",
+      "name": "Wooden Door Frame",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 184,
+      "code": "DOOR-UPVC",
+      "name": "uPVC Door",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 103,
+      "code": "PIPE-UPVC",
+      "name": "uPVC Pipe",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": 183,
+      "code": "WIN-UPVC",
+      "name": "uPVC Window",
+      "discipline": "civil",
+      "coverage": null,
+      "sortOrder": 10,
+      "isActive": true
+    }
+  ],
+  "resources": [
+    {
+      "code": "EQP-BACKHOE",
+      "name": "Backhoe Loader",
+      "kind": "plant",
+      "trade": "Earthwork",
+      "uom": "HR",
+      "standardRate": 1800,
+      "isActive": true
+    },
+    {
+      "code": "EQP-BARBEND",
+      "name": "Bar Bending Machine",
+      "kind": "plant",
+      "trade": "Structural",
+      "uom": "HR",
+      "standardRate": 300,
+      "isActive": true
+    },
+    {
+      "code": "EQP-BARCUT",
+      "name": "Bar Cutting Machine",
+      "kind": "plant",
+      "trade": "Structural",
+      "uom": "HR",
+      "standardRate": 300,
+      "isActive": true
+    },
+    {
+      "code": "EQP-BATCH",
+      "name": "Batching Plant",
+      "kind": "plant",
+      "trade": "Concrete",
+      "uom": "HR",
+      "standardRate": 6500,
+      "isActive": true
+    },
+    {
+      "code": "EQP-COMPACT",
+      "name": "Plate Compactor",
+      "kind": "plant",
+      "trade": "Earthwork",
+      "uom": "HR",
+      "standardRate": 250,
+      "isActive": true
+    },
+    {
+      "code": "EQP-COMPRESS",
+      "name": "Air Compressor",
+      "kind": "plant",
+      "trade": "Power",
+      "uom": "HR",
+      "standardRate": 650,
+      "isActive": true
+    },
+    {
+      "code": "EQP-CRANE-M",
+      "name": "Mobile Crane",
+      "kind": "plant",
+      "trade": "Lifting",
+      "uom": "HR",
+      "standardRate": 4500,
+      "isActive": true
+    },
+    {
+      "code": "EQP-CRANE-T",
+      "name": "Tower Crane",
+      "kind": "plant",
+      "trade": "Lifting",
+      "uom": "MONTH",
+      "standardRate": 450000,
+      "isActive": true
+    },
+    {
+      "code": "EQP-DOZER",
+      "name": "Bulldozer",
+      "kind": "plant",
+      "trade": "Earthwork",
+      "uom": "HR",
+      "standardRate": 2800,
+      "isActive": true
+    },
+    {
+      "code": "EQP-DRILL",
+      "name": "Drill Machine",
+      "kind": "plant",
+      "trade": "Finishing",
+      "uom": "HR",
+      "standardRate": 150,
+      "isActive": true
+    },
+    {
+      "code": "EQP-DUMPER",
+      "name": "Dump Truck",
+      "kind": "plant",
+      "trade": "Earthwork",
+      "uom": "TRIP",
+      "standardRate": 3500,
+      "isActive": true
+    },
+    {
+      "code": "EQP-EXCAV",
+      "name": "Excavator",
+      "kind": "plant",
+      "trade": "Earthwork",
+      "uom": "HR",
+      "standardRate": 2200,
+      "isActive": true
+    },
+    {
+      "code": "EQP-GENERATOR",
+      "name": "Diesel Generator",
+      "kind": "plant",
+      "trade": "Power",
+      "uom": "HR",
+      "standardRate": 900,
+      "isActive": true
+    },
+    {
+      "code": "EQP-GRINDER",
+      "name": "Grinder / Cutter",
+      "kind": "plant",
+      "trade": "Finishing",
+      "uom": "HR",
+      "standardRate": 150,
+      "isActive": true
+    },
+    {
+      "code": "EQP-HOIST",
+      "name": "Material Hoist / Lift",
+      "kind": "plant",
+      "trade": "Lifting",
+      "uom": "MONTH",
+      "standardRate": 65000,
+      "isActive": true
+    },
+    {
+      "code": "EQP-LEVEL",
+      "name": "Auto Level",
+      "kind": "plant",
+      "trade": "Survey",
+      "uom": "DAY",
+      "standardRate": 600,
+      "isActive": true
+    },
+    {
+      "code": "EQP-MIXER",
+      "name": "Concrete Mixer (1 bag)",
+      "kind": "plant",
+      "trade": "Concrete",
+      "uom": "HR",
+      "standardRate": 350,
+      "isActive": true
+    },
+    {
+      "code": "EQP-MIXER-2",
+      "name": "Concrete Mixer (2 bag)",
+      "kind": "plant",
+      "trade": "Concrete",
+      "uom": "HR",
+      "standardRate": 550,
+      "isActive": true
+    },
+    {
+      "code": "EQP-PILING",
+      "name": "Piling Rig",
+      "kind": "plant",
+      "trade": "Piling",
+      "uom": "DAY",
+      "standardRate": 45000,
+      "isActive": true
+    },
+    {
+      "code": "EQP-POLISH",
+      "name": "Floor Polishing Machine",
+      "kind": "plant",
+      "trade": "Finishing",
+      "uom": "DAY",
+      "standardRate": 1200,
+      "isActive": true
+    }
+  ],
+  "equipmentCategories": [
+    {
+      "code": "MIX",
+      "name": "Concrete Mixer",
+      "equipmentClass": "plant_&_machinery",
+      "requiresOperatorCertification": false,
+      "defaultRate": 900
+    },
+    {
+      "code": "TRK",
+      "name": "Dump Truck",
+      "equipmentClass": "vehicle",
+      "requiresOperatorCertification": false,
+      "defaultRate": 1800
+    },
+    {
+      "code": "EXC",
+      "name": "Excavator",
+      "equipmentClass": "plant_&_machinery",
+      "requiresOperatorCertification": false,
+      "defaultRate": 2800
+    },
+    {
+      "code": "GEN",
+      "name": "Generator",
+      "equipmentClass": "plant_&_machinery",
+      "requiresOperatorCertification": false,
+      "defaultRate": 700
+    },
+    {
+      "code": "PKP",
+      "name": "Pickup",
+      "equipmentClass": "vehicle",
+      "requiresOperatorCertification": false,
+      "defaultRate": 600
+    },
+    {
+      "code": "SCF",
+      "name": "Scaffolding & Props",
+      "equipmentClass": "tools_&_scaffolding",
+      "requiresOperatorCertification": false,
+      "defaultRate": 15
+    },
+    {
+      "code": "CRN",
+      "name": "Tower Crane",
+      "equipmentClass": "plant_&_machinery",
+      "requiresOperatorCertification": false,
+      "defaultRate": 4500
+    },
+    {
+      "code": "VIB",
+      "name": "Vibrator",
+      "equipmentClass": "plant_&_machinery",
+      "requiresOperatorCertification": false,
+      "defaultRate": 180
+    },
+    {
+      "code": "PMP",
+      "name": "Water Pump",
+      "equipmentClass": "plant_&_machinery",
+      "requiresOperatorCertification": false,
+      "defaultRate": 250
+    }
+  ],
+  "equipments": [
+    {
+      "extId": 1,
+      "code": "EQP-0001",
+      "name": "EQP-0001",
+      "categoryName": "Excavator Komatsu PC210",
+      "ownershipType": "owned",
+      "meterSummary": "3,120 hr never read",
+      "currentLocation": "Central yard",
+      "status": "available",
+      "rate": 2800
+    },
+    {
+      "extId": 2,
+      "code": "EQP-0002",
+      "name": "EQP-0002",
+      "categoryName": "Excavator Hitachi ZX200",
+      "ownershipType": "owned",
+      "meterSummary": "1,480 hr read 2 weeks ago",
+      "currentLocation": "Central yard",
+      "status": "broken_down",
+      "rate": 2800
+    },
+    {
+      "extId": 3,
+      "code": "EQP-0003",
+      "name": "EQP-0003",
+      "categoryName": "Tower Crane Potain MDT 219",
+      "ownershipType": "owned",
+      "meterSummary": "940 hr read 2 weeks ago",
+      "currentLocation": "Central yard",
+      "status": "available",
+      "rate": 4500
+    },
+    {
+      "extId": 4,
+      "code": "EQP-0004",
+      "name": "EQP-0004",
+      "categoryName": "Concrete Mixer Ajax ARGO 4000",
+      "ownershipType": "owned",
+      "meterSummary": "2,339 hr read 2 weeks ago",
+      "currentLocation": "Central yard",
+      "status": "available",
+      "rate": 900
+    },
+    {
+      "extId": 5,
+      "code": "EQP-0005",
+      "name": "EQP-0005",
+      "categoryName": "Generator Cummins C250D5",
+      "ownershipType": "owned",
+      "meterSummary": "5,410 hr never read",
+      "currentLocation": "Central yard",
+      "status": "available",
+      "rate": 700
+    },
+    {
+      "extId": 6,
+      "code": "EQP-0006",
+      "name": "EQP-0006",
+      "categoryName": "Water Pump Kirloskar DP40",
+      "ownershipType": "owned",
+      "meterSummary": "1,890 hr read 2 weeks ago",
+      "currentLocation": "Central yard",
+      "status": "available",
+      "rate": 250
+    },
+    {
+      "extId": 7,
+      "code": "EQP-0007",
+      "name": "EQP-0007",
+      "categoryName": "Vibrator Dynamic NV60",
+      "ownershipType": "owned",
+      "meterSummary": "640 hr never read",
+      "currentLocation": "Central yard",
+      "status": "available",
+      "rate": 180
+    },
+    {
+      "extId": 8,
+      "code": "EQP-0008",
+      "name": "EQP-0008",
+      "categoryName": "Dump Truck Tata LPK 2518",
+      "ownershipType": "owned",
+      "meterSummary": "61,400 km read 2 weeks ago",
+      "currentLocation": "Central yard",
+      "status": "available",
+      "rate": 1800
+    },
+    {
+      "extId": 9,
+      "code": "EQP-0009",
+      "name": "EQP-0009",
+      "categoryName": "Dump Truck Ashok Leyland 2518",
+      "ownershipType": "owned",
+      "meterSummary": "38,900 km never read",
+      "currentLocation": "Central yard",
+      "status": "available",
+      "rate": 1800
+    },
+    {
+      "extId": 10,
+      "code": "EQP-0010",
+      "name": "EQP-0010",
+      "categoryName": "Pickup Toyota Hilux",
+      "ownershipType": "owned",
+      "meterSummary": "84,200 km never read",
+      "currentLocation": "Central yard",
+      "status": "available",
+      "rate": 600
+    },
+    {
+      "extId": 11,
+      "code": "EQP-0011",
+      "name": "EQP-0011",
+      "categoryName": "Excavator —",
+      "ownershipType": "hired",
+      "meterSummary": "290 hr never read",
+      "currentLocation": "On hire",
+      "status": "available",
+      "rate": 5200
+    },
+    {
+      "extId": 12,
+      "code": "EQP-0012",
+      "name": "EQP-0012",
+      "categoryName": "Concrete Mixer —",
+      "ownershipType": "hired",
+      "meterSummary": "767 hr never read",
+      "currentLocation": "On hire",
+      "status": "available",
+      "rate": 3800
+    },
+    {
+      "extId": 13,
+      "code": "EQP-0013",
+      "name": "EQP-0013",
+      "categoryName": "Scaffolding & Props —",
+      "ownershipType": "owned",
+      "meterSummary": "Not metered",
+      "currentLocation": "Yard",
+      "status": "available",
+      "rate": 15
+    }
+  ],
+  "purchases": [
+    {
+      "code": "PUR00001",
+      "supplierName": null,
+      "totalAmount": 0,
+      "paidAmount": 0,
+      "status": "draft"
+    }
+  ]
+}

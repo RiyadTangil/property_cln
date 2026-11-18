@@ -6,3 +6,7 @@ export * from "./accounting.dto";
 export * from "./pos.dto";
 export * from "./projects.dto";
 export * from "./inventory.dto";
+export * from "./construction.dto";
+export * from "./contractors.dto";
+export * from "./equipment.dto";
+export * from "./procurement.dto";

@@ -1,15 +1,9 @@
 {
   "pages": {
-    "/(erp)/projects/inspection-checklists/page": [
+    "/(erp)/[...slug]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/inspection-checklists/page.js"
-    ],
-    "/(erp)/projects/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(erp)/projects/layout.css",
-      "static/chunks/app/(erp)/projects/layout.js"
+      "static/chunks/app/(erp)/[...slug]/page.js"
     ],
     "/(erp)/layout": [
       "static/chunks/webpack.js",
@@ -21,77 +15,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/layout.js"
     ],
-    "/(erp)/[...slug]/page": [
+    "/(erp)/inventory/availability/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/[...slug]/page.js"
-    ],
-    "/(erp)/projects/types/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/types/page.js"
-    ],
-    "/(erp)/projects/projects/task-templates/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/projects/task-templates/page.js"
-    ],
-    "/(erp)/projects/categories/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/categories/page.js"
-    ],
-    "/(erp)/buildings/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/buildings/page.js"
-    ],
-    "/(erp)/buildings/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(erp)/buildings/layout.css",
-      "static/chunks/app/(erp)/buildings/layout.js"
-    ],
-    "/(erp)/projects/projects/create/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/projects/create/page.js"
-    ],
-    "/(erp)/buildings/create/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/buildings/create/page.js"
-    ],
-    "/(erp)/projects/projects/wbs-templates/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/projects/projects/wbs-templates/page.js"
-    ],
-    "/(erp)/pos/products/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/pos/products/page.js"
-    ],
-    "/(erp)/pos/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(erp)/pos/layout.css",
-      "static/chunks/app/(erp)/pos/layout.js"
-    ],
-    "/(erp)/pos/categories/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/pos/categories/page.js"
-    ],
-    "/(erp)/pos/units/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/pos/units/page.js"
-    ],
-    "/(erp)/inventory/units/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/inventory/units/page.js"
+      "static/chunks/app/(erp)/inventory/availability/page.js"
     ],
     "/(erp)/inventory/layout": [
       "static/chunks/webpack.js",
@@ -99,15 +26,15 @@
       "static/css/app/(erp)/inventory/layout.css",
       "static/chunks/app/(erp)/inventory/layout.js"
     ],
-    "/(erp)/inventory/availability/page": [
+    "/login/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/inventory/availability/page.js"
+      "static/chunks/app/login/page.js"
     ],
-    "/(erp)/inventory/land-plots/page": [
+    "/login/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/inventory/land-plots/page.js"
+      "static/chunks/app/login/layout.js"
     ],
     "/(erp)/land/parcels/page": [
       "static/chunks/webpack.js",
@@ -119,15 +46,188 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(erp)/land/layout.js"
     ],
-    "/(erp)/inventory/unit-blocking/page": [
+    "/(erp)/boqs/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/inventory/unit-blocking/page.js"
+      "static/chunks/app/(erp)/boqs/page.js"
     ],
-    "/(erp)/inventory/price-lists/page": [
+    "/(erp)/boqs/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(erp)/inventory/price-lists/page.js"
+      "static/css/app/(erp)/boqs/layout.css",
+      "static/chunks/app/(erp)/boqs/layout.js"
+    ],
+    "/(erp)/boq-scopes/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/boq-scopes/page.js"
+    ],
+    "/(erp)/boq-scopes/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/boq-scopes/layout.css",
+      "static/chunks/app/(erp)/boq-scopes/layout.js"
+    ],
+    "/(erp)/resource-analyses/workbench/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/resource-analyses/workbench/page.js"
+    ],
+    "/(erp)/resource-analyses/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/resource-analyses/layout.css",
+      "static/chunks/app/(erp)/resource-analyses/layout.js"
+    ],
+    "/(erp)/resources/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/resources/page.js"
+    ],
+    "/(erp)/resources/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/resources/layout.css",
+      "static/chunks/app/(erp)/resources/layout.js"
+    ],
+    "/(erp)/procurement/material-requisitions/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/procurement/material-requisitions/page.js"
+    ],
+    "/(erp)/procurement/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/procurement/layout.css",
+      "static/chunks/app/(erp)/procurement/layout.js"
+    ],
+    "/(erp)/procurement/requirements/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/procurement/requirements/page.js"
+    ],
+    "/(erp)/requisitions/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/requisitions/page.js"
+    ],
+    "/(erp)/requisitions/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/requisitions/layout.css",
+      "static/chunks/app/(erp)/requisitions/layout.js"
+    ],
+    "/(erp)/requisitions/create/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/requisitions/create/page.js"
+    ],
+    "/(erp)/rfqs/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/rfqs/page.js"
+    ],
+    "/(erp)/rfqs/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/rfqs/layout.css",
+      "static/chunks/app/(erp)/rfqs/layout.js"
+    ],
+    "/(erp)/purchases/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/purchases/page.js"
+    ],
+    "/(erp)/purchases/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/purchases/layout.css",
+      "static/chunks/app/(erp)/purchases/layout.js"
+    ],
+    "/(erp)/purchases/create/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/purchases/create/page.js"
+    ],
+    "/(erp)/procurement/delivery-orders/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/procurement/delivery-orders/page.js"
+    ],
+    "/(erp)/procurement/delivery-orders/create/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/procurement/delivery-orders/create/page.js"
+    ],
+    "/(erp)/purchases/receipts/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/purchases/receipts/page.js"
+    ],
+    "/(erp)/procurement/inspections/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/procurement/inspections/page.js"
+    ],
+    "/(erp)/purchases/supplier-payments/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/purchases/supplier-payments/page.js"
+    ],
+    "/(erp)/suppliers/suppliers/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/suppliers/suppliers/page.js"
+    ],
+    "/(erp)/suppliers/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/suppliers/layout.css",
+      "static/chunks/app/(erp)/suppliers/layout.js"
+    ],
+    "/(erp)/vendors/vendors/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/vendors/vendors/page.js"
+    ],
+    "/(erp)/vendors/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/vendors/layout.css",
+      "static/chunks/app/(erp)/vendors/layout.js"
+    ],
+    "/(erp)/material-issues/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/material-issues/page.js"
+    ],
+    "/(erp)/material-issues/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/material-issues/layout.css",
+      "static/chunks/app/(erp)/material-issues/layout.js"
+    ],
+    "/(erp)/inventory/stock-transfers/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/inventory/stock-transfers/page.css",
+      "static/chunks/app/(erp)/inventory/stock-transfers/page.js"
+    ],
+    "/(erp)/material-consumptions/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/material-consumptions/page.js"
+    ],
+    "/(erp)/material-consumptions/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(erp)/material-consumptions/layout.css",
+      "static/chunks/app/(erp)/material-consumptions/layout.js"
+    ],
+    "/(erp)/material-consumptions/create/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(erp)/material-consumptions/create/page.js"
     ]
   }
 }

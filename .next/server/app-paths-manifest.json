@@ -1,9 +1,8 @@
 {
   "/(erp)/[...slug]/page": "app/(erp)/[...slug]/page.js",
-  "/(erp)/inventory/units/page": "app/(erp)/inventory/units/page.js",
-  "/(erp)/inventory/availability/page": "app/(erp)/inventory/availability/page.js",
-  "/(erp)/inventory/land-plots/page": "app/(erp)/inventory/land-plots/page.js",
-  "/(erp)/land/parcels/page": "app/(erp)/land/parcels/page.js",
-  "/(erp)/inventory/unit-blocking/page": "app/(erp)/inventory/unit-blocking/page.js",
-  "/(erp)/inventory/price-lists/page": "app/(erp)/inventory/price-lists/page.js"
+  "/(erp)/purchases/receipts/page": "app/(erp)/purchases/receipts/page.js",
+  "/(erp)/procurement/inspections/page": "app/(erp)/procurement/inspections/page.js",
+  "/(erp)/purchases/supplier-payments/page": "app/(erp)/purchases/supplier-payments/page.js",
+  "/(erp)/material-consumptions/page": "app/(erp)/material-consumptions/page.js",
+  "/(erp)/material-consumptions/create/page": "app/(erp)/material-consumptions/create/page.js"
 }

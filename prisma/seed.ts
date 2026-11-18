@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import permissionsCatalog from "../src/lib/permissions-catalog.json";
 import tier1Seed from "./data/tier1-seed.json";
 import tier2bSeed from "./data/tier2b-seed.json";
+import tier3Seed from "./data/tier3-seed.json";
 
 const prisma = new PrismaClient();
 
@@ -781,7 +782,97 @@ async function main() {
     }
   }
 
-  console.log("Tier 0 + Tier 1 + Tier 2B + Core Seed completed.");
+  // -------------------------------------------------------------------------
+  // Tier 3: Construction, Contractors, Equipment & Procurement
+  // -------------------------------------------------------------------------
+  if ((await prisma.boqScope.count()) === 0) {
+    for (const s of tier3Seed.boqScopes) {
+      await prisma.boqScope.create({
+        data: {
+          companyId: 1,
+          code: s.code,
+          name: s.name,
+          discipline: s.discipline || "civil",
+          coverage: s.coverage || null,
+          sortOrder: s.sortOrder || 10,
+          isActive: s.isActive,
+        },
+      });
+    }
+  }
+
+  if ((await prisma.resourceItem.count()) === 0) {
+    for (const r of tier3Seed.resources) {
+      await prisma.resourceItem.create({
+        data: {
+          companyId: 1,
+          code: r.code,
+          name: r.name,
+          kind: r.kind,
+          trade: r.trade,
+          uom: r.uom,
+          standardRate: r.standardRate,
+          isActive: r.isActive,
+        },
+      });
+    }
+  }
+
+  const eqCatMap = new Map<string, number>();
+  if ((await prisma.equipmentCategory.count()) === 0) {
+    for (const ec of tier3Seed.equipmentCategories) {
+      const created = await prisma.equipmentCategory.create({
+        data: {
+          companyId: 1,
+          code: ec.code,
+          name: ec.name,
+          equipmentClass: ec.equipmentClass,
+          requiresOperatorCertification: ec.requiresOperatorCertification,
+          defaultHourlyRate: ec.defaultRate,
+        },
+      });
+      eqCatMap.set(ec.name.toLowerCase(), created.id);
+    }
+  } else {
+    for (const ec of await prisma.equipmentCategory.findMany()) {
+      eqCatMap.set(ec.name.toLowerCase(), ec.id);
+    }
+  }
+
+  if ((await prisma.equipment.count()) === 0) {
+    for (const eq of tier3Seed.equipments) {
+      await prisma.equipment.create({
+        data: {
+          companyId: 1,
+          code: eq.code,
+          name: eq.name,
+          categoryId: eqCatMap.get((eq.categoryName || "").toLowerCase()) ?? null,
+          ownershipType: eq.ownershipType,
+          currentLocation: eq.currentLocation,
+          status: eq.status,
+          internalHourlyRate: eq.rate,
+        },
+      });
+    }
+  }
+
+  if ((await prisma.purchaseOrder.count()) === 0) {
+    for (const po of tier3Seed.purchases) {
+      await prisma.purchaseOrder.create({
+        data: {
+          companyId: 1,
+          code: po.code,
+          orderDate: "2026-11-01",
+          totalAmount: po.totalAmount,
+          paidAmount: po.paidAmount,
+          status: po.status,
+          createdBy: "System Administrator",
+        },
+      });
+    }
+  }
+
+  console.log("Tier 0 + Tier 1 + Tier 2B + Tier 3 + Core Seed completed.");
 }
 
 main()

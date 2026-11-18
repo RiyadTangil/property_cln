@@ -44,8 +44,11 @@
 
 /* --- POS sale detail -------------------------------------------------------- */
 
-/* The headline figures as one slim band. A detail screen is read, not
-/* --- lines 9141-9369 --- */
+.erp-sale-stat strong {
+    color: #fff;
+    display: block;
+    font-size: 17px;
+    font-weight: 700;
     letter-spacing: -.4px;
     line-height: 1.25;
 }

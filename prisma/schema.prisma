@@ -84,6 +84,29 @@ model Company {
   itpTemplates       ItpTemplate[]
   costBreakdownItems CostBreakdownItem[]
   inspectionChecklists InspectionChecklist[]
+  boqScopes          BoqScope[]
+  boqs               Boq[]
+  resources          ResourceItem[]
+  resourceAnalyses   ResourceAnalysis[]
+  contractors        Contractor[]
+  contractorWorkOrders ContractorWorkOrder[]
+  contractorBills    ContractorBill[]
+  contractorPayments ContractorPayment[]
+  equipmentCategories EquipmentCategory[]
+  equipments         Equipment[]
+  suppliers          Supplier[]
+  vendors            Vendor[]
+  purchaseRequisitions PurchaseRequisition[]
+  rfqs               Rfq[]
+  purchaseOrders     PurchaseOrder[]
+  deliveryOrders     DeliveryOrder[]
+  goodsReceipts      GoodsReceipt[]
+  qualityInspections QualityInspection[]
+  supplierPayments   SupplierPayment[]
+  materialIssues     MaterialIssue[]
+  stockTransfers     StockTransfer[]
+  materialConsumptions MaterialConsumption[]
+  materialRequirements MaterialRequirement[]
 }
 
 model Branch {
@@ -995,4 +1018,655 @@ model InspectionChecklist {
   itemsJson      String   @default("[]")
   isActive       Boolean  @default(true)
   createdAt      DateTime @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// Tier 3A — Construction, BOQ & Estimation
+// ---------------------------------------------------------------------------
+
+model BoqScope {
+  id         Int            @id @default(autoincrement())
+  companyId  Int            @default(1)
+  company    Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code       String
+  name       String
+  discipline String         @default("civil")
+  coverage   String?
+  sortOrder  Int            @default(10)
+  isActive   Boolean        @default(true)
+  items      BoqScopeItem[]
+  boqs       Boq[]
+  createdAt  DateTime       @default(now())
+}
+
+model BoqScopeItem {
+  id          Int      @id @default(autoincrement())
+  scopeId     Int
+  scope       BoqScope @relation(fields: [scopeId], references: [id], onDelete: Cascade)
+  parentId    Int?
+  itemType    String   @default("line")
+  code        String
+  description String
+  uomName     String?
+  defaultRate Float    @default(0)
+  note        String?
+  createdAt   DateTime @default(now())
+}
+
+model Boq {
+  id                  Int       @id @default(autoincrement())
+  companyId           Int       @default(1)
+  company             Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  projectId           Int?
+  scopeId             Int?
+  scope               BoqScope? @relation(fields: [scopeId], references: [id], onDelete: SetNull)
+  version             String    @default("v1.0")
+  title               String
+  effectiveDate       String?
+  measurementStandard String    @default("BNBC")
+  currency            String    @default("BDT")
+  taxPercent          Float     @default(0)
+  contingencyPercent  Float     @default(0)
+  areaBasis           String?
+  areaValue           Float?
+  areaUom             String?
+  status              String    @default("draft")
+  totalAmount         Float     @default(0)
+  notes               String?
+  linesJson           String    @default("[]")
+  createdBy           String?
+  createdAt           DateTime  @default(now())
+}
+
+model ResourceItem {
+  id           Int      @id @default(autoincrement())
+  companyId    Int      @default(1)
+  company      Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code         String
+  name         String
+  kind         String   @default("labour")
+  trade        String?
+  uom          String   @default("Day")
+  standardRate Float    @default(0)
+  description  String?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+model ResourceAnalysis {
+  id              Int      @id @default(autoincrement())
+  companyId       Int      @default(1)
+  company         Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code            String
+  name            String
+  outputQty       Float    @default(1)
+  outputUom       String   @default("CFT")
+  overheadPercent Float    @default(10)
+  profitPercent   Float    @default(10)
+  costCode        String?
+  unitRate        Float    @default(0)
+  linesJson       String   @default("[]")
+  createdAt       DateTime @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// Tier 3B — Contractors
+// ---------------------------------------------------------------------------
+
+model Contractor {
+  id                             Int                   @id @default(autoincrement())
+  companyId                      Int                   @default(1)
+  company                        Company               @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code                           String
+  name                           String
+  displayName                    String?
+  contractorType                 String                @default("labour_and_material")
+  trade                          String?
+  status                         String                @default("active")
+  contactPerson                  String?
+  phone                          String?
+  email                          String?
+  addressLine                    String?
+  city                           String?
+  tradeLicense                   String?
+  defaultRetentionPercent        Float                 @default(5)
+  defaultSecurityDepositPercent  Float                 @default(0)
+  defaultTdsPercent              Float                 @default(3)
+  defaultVatPercent              Float                 @default(0)
+  taxNumber                      String?
+  vatNumber                      String?
+  payableAccountId               Int?
+  bankName                       String?
+  bankBranch                     String?
+  bankAccountNo                  String?
+  notes                          String?
+  workOrders                     ContractorWorkOrder[]
+  bills                          ContractorBill[]
+  payments                       ContractorPayment[]
+  createdAt                      DateTime              @default(now())
+}
+
+model ContractorWorkOrder {
+  id                     Int              @id @default(autoincrement())
+  companyId              Int              @default(1)
+  company                Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code                   String
+  contractorId           Int
+  contractor             Contractor       @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+  projectId              Int?
+  orderDate              String
+  engagementType         String           @default("subcontract")
+  pricingMethod          String           @default("item_rate")
+  title                  String
+  scope                  String?
+  startDate              String?
+  completionDate         String?
+  defectLiabilityDays    Int              @default(180)
+  expenseAccountId       Int?
+  retentionPercent       Float            @default(5)
+  tdsPercent             Float            @default(3)
+  vatPercent             Float            @default(0)
+  advanceRecoveryPercent Float            @default(0)
+  contractValue          Float            @default(0)
+  status                 String           @default("draft")
+  linesJson              String           @default("[]")
+  bills                  ContractorBill[]
+  createdAt              DateTime         @default(now())
+}
+
+model ContractorBill {
+  id              Int                  @id @default(autoincrement())
+  companyId       Int                  @default(1)
+  company         Company              @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code            String
+  contractorId    Int
+  contractor      Contractor           @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+  workOrderId     Int?
+  workOrder       ContractorWorkOrder? @relation(fields: [workOrderId], references: [id], onDelete: SetNull)
+  projectId       Int?
+  billDate        String
+  grossAmount     Float                @default(0)
+  retentionAmount Float                @default(0)
+  tdsAmount       Float                @default(0)
+  vatAmount       Float                @default(0)
+  netPayable      Float                @default(0)
+  status          String               @default("submitted")
+  createdAt       DateTime             @default(now())
+}
+
+model ContractorPayment {
+  id           Int        @id @default(autoincrement())
+  companyId    Int        @default(1)
+  company      Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code         String
+  contractorId Int
+  contractor   Contractor @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+  projectId    Int?
+  kind         String     @default("payment")
+  paymentDate  String
+  amount       Float      @default(0)
+  method       String     @default("bank")
+  reference    String?
+  notes        String?
+  createdAt    DateTime   @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// Tier 3C — Equipment & Fleet
+// ---------------------------------------------------------------------------
+
+model EquipmentCategory {
+  id                            Int         @id @default(autoincrement())
+  companyId                     Int         @default(1)
+  company                       Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code                          String
+  name                          String
+  equipmentClass                String      @default("heavy_plant")
+  requiresOperatorCertification Boolean     @default(false)
+  defaultHourlyRate             Float       @default(0)
+  defaultDailyRate              Float       @default(0)
+  defaultRateBasis              String      @default("hourly")
+  usefulLifeYears               Int         @default(10)
+  serviceIntervalHours          Int         @default(250)
+  serviceIntervalKm             Int?
+  serviceIntervalDays           Int?
+  salvagePercent                Float       @default(10)
+  assetAccountCode              String?
+  depreciationAccountCode       String?
+  description                   String?
+  isActive                      Boolean     @default(true)
+  equipments                    Equipment[]
+  createdAt                     DateTime    @default(now())
+}
+
+model Equipment {
+  id                    Int                     @id @default(autoincrement())
+  companyId             Int                     @default(1)
+  company               Company                 @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code                  String
+  name                  String
+  equipmentClass        String                  @default("heavy_plant")
+  categoryId            Int?
+  category              EquipmentCategory?      @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  make                  String?
+  model                 String?
+  yearOfManufacture     Int?
+  serialNo              String?
+  capacity              Float?
+  capacityUnit          String?
+  fuelType              String                  @default("diesel")
+  tankCapacity          Float?
+  registrationNo        String?
+  chassisNo             String?
+  engineNo              String?
+  ownershipType         String                  @default("owned")
+  supplierId            Int?
+  acquiredOn            String?
+  acquisitionCost       Float                   @default(0)
+  depreciationMethod    String                  @default("straight_line")
+  usefulLifeYears       Int                     @default(10)
+  salvageValue          Float                   @default(0)
+  depreciationStartDate String?
+  lifetimeUnits         Float?
+  rateBasis             String                  @default("hourly")
+  internalHourlyRate    Float                   @default(0)
+  internalDailyRate     Float                   @default(0)
+  marketHourlyRate      Float                   @default(0)
+  meterType             String                  @default("hours")
+  currentHourMeter      Float                   @default(0)
+  currentOdometer       Float                   @default(0)
+  custodianName         String?
+  operatorName          String?
+  currentLocation       String?
+  projectId             Int?
+  status                String                  @default("available")
+  isBulk                Boolean                 @default(false)
+  quantity              Int                     @default(1)
+  quantityUnit          String?
+  remarks               String?
+  assignments           EquipmentAssignment[]
+  usageLogs             EquipmentUsageLog[]
+  fuelLogs              EquipmentFuelLog[]
+  workOrders            EquipmentWorkOrder[]
+  inspections           EquipmentInspection[]
+  certifications        EquipmentOperatorCert[]
+  rentals               EquipmentRental[]
+  createdAt             DateTime                @default(now())
+}
+
+model EquipmentAssignment {
+  id            Int       @id @default(autoincrement())
+  equipmentId   Int
+  equipment     Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  projectId     Int?
+  siteLocation  String?
+  requiredFrom  String?
+  requiredTo    String?
+  custodianName String?
+  operatorName  String?
+  quantity      Int       @default(1)
+  purpose       String?
+  status        String    @default("assigned")
+  createdAt     DateTime  @default(now())
+}
+
+model EquipmentUsageLog {
+  id              Int       @id @default(autoincrement())
+  equipmentId     Int
+  equipment       Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  projectId       Int?
+  usageDate       String
+  shift           String    @default("day")
+  operatorName    String?
+  hoursWorked     Float     @default(0)
+  hoursIdle       Float     @default(0)
+  hoursDown       Float     @default(0)
+  kilometres      Float     @default(0)
+  downtimeReason  String?
+  startMeter      Float?
+  endMeter        Float?
+  trips           Int       @default(0)
+  rate            Float     @default(0)
+  isChargeable    Boolean   @default(true)
+  workDescription String?
+  status          String    @default("approved")
+  createdAt       DateTime  @default(now())
+}
+
+model EquipmentFuelLog {
+  id          Int       @id @default(autoincrement())
+  equipmentId Int
+  equipment   Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  projectId   Int?
+  fuelDate    String
+  fuelTime    String?
+  fuelType    String    @default("diesel")
+  source      String    @default("station")
+  receiptNo   String?
+  stationName String?
+  quantity    Float     @default(0)
+  rate        Float     @default(0)
+  amount      Float     @default(0)
+  isFullTank  Boolean   @default(true)
+  hourMeter   Float?
+  odometer    Float?
+  createdAt   DateTime  @default(now())
+}
+
+model EquipmentWorkOrder {
+  id            Int       @id @default(autoincrement())
+  code          String
+  equipmentId   Int
+  equipment     Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  type          String    @default("preventive")
+  priority      String    @default("medium")
+  symptoms      String
+  reportedAt    String?
+  breakdownAt   String?
+  assigneeName  String?
+  hourMeter     Float?
+  odometer      Float?
+  estimatedCost Float     @default(0)
+  actualCost    Float     @default(0)
+  isExternal    Boolean   @default(false)
+  status        String    @default("open")
+  createdAt     DateTime  @default(now())
+}
+
+model EquipmentInspection {
+  id                Int       @id @default(autoincrement())
+  code              String
+  equipmentId       Int
+  equipment         Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  inspectionType    String    @default("periodic")
+  inspectionDate    String
+  nextInspectionDue String?
+  inspectorName     String?
+  hourMeter         Float?
+  odometer          Float?
+  result            String    @default("passed")
+  findings          String?
+  createdAt         DateTime  @default(now())
+}
+
+model EquipmentOperatorCert {
+  id                Int        @id @default(autoincrement())
+  employeeName      String
+  equipmentId       Int?
+  equipment         Equipment? @relation(fields: [equipmentId], references: [id], onDelete: SetNull)
+  certificationType String
+  licenceNo         String?
+  licenceClass      String?
+  issuingAuthority  String?
+  issuedOn          String?
+  expiresOn         String?
+  restrictions      String?
+  createdAt         DateTime   @default(now())
+}
+
+model EquipmentRental {
+  id              Int        @id @default(autoincrement())
+  code            String
+  equipmentId     Int?
+  equipment       Equipment? @relation(fields: [equipmentId], references: [id], onDelete: SetNull)
+  direction       String     @default("hired_in")
+  counterparty    String
+  description     String?
+  startDate       String
+  endDate         String?
+  rateBasis       String     @default("daily")
+  rate            Float      @default(0)
+  securityDeposit Float      @default(0)
+  status          String     @default("active")
+  terms           String?
+  createdAt       DateTime   @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// Tier 3D — Procurement, Suppliers & Store Movements
+// ---------------------------------------------------------------------------
+
+model Supplier {
+  id                   Int               @id @default(autoincrement())
+  companyId            Int               @default(1)
+  company              Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code                 String
+  supplierType         String            @default("material")
+  companyName          String
+  displayName          String?
+  status               String            @default("active")
+  openingBalance       Float             @default(0)
+  creditLimit          Float             @default(0)
+  creditDays           Int               @default(30)
+  payableAccountId     Int?
+  businessCategory     String?
+  industry             String?
+  tradeLicense         String?
+  registrationNumber   String?
+  website              String?
+  defaultCurrency      String            @default("BDT")
+  defaultPaymentMethod String            @default("bank")
+  leadTimeDays         Int               @default(7)
+  defaultPurchaseTax   Float             @default(0)
+  defaultDiscount      Float             @default(0)
+  defaultWarehouse     String?
+  priceList            String?
+  notes                String?
+  purchases            PurchaseOrder[]
+  deliveryOrders       DeliveryOrder[]
+  payments             SupplierPayment[]
+  createdAt            DateTime          @default(now())
+}
+
+model Vendor {
+  id                   Int      @id @default(autoincrement())
+  companyId            Int      @default(1)
+  company              Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code                 String
+  name                 String
+  displayName          String?
+  vendorType           String   @default("service")
+  category             String?
+  status               String   @default("active")
+  contactPerson        String?
+  phone                String?
+  email                String?
+  website              String?
+  addressLine          String?
+  city                 String?
+  state                String?
+  postalCode           String?
+  country              String   @default("BD")
+  payableAccountId     Int?
+  defaultCurrency      String   @default("BDT")
+  defaultPaymentMethod String   @default("bank")
+  openingBalance       Float    @default(0)
+  creditLimit          Float    @default(0)
+  creditDays           Int      @default(30)
+  tradeLicense         String?
+  registrationNumber   String?
+  taxNumber            String?
+  notes                String?
+  createdAt            DateTime @default(now())
+}
+
+model PurchaseRequisition {
+  id          Int      @id @default(autoincrement())
+  companyId   Int      @default(1)
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code        String
+  reqType     String   @default("purchase")
+  projectId   Int?
+  warehouseId Int?
+  reqDate     String
+  requiredBy  String?
+  priority    String   @default("medium")
+  status      String   @default("draft")
+  totalEst    Float    @default(0)
+  notes       String?
+  linesJson   String   @default("[]")
+  createdAt   DateTime @default(now())
+}
+
+model Rfq {
+  id           Int      @id @default(autoincrement())
+  companyId    Int      @default(1)
+  company      Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code         String
+  rfqDate      String
+  supplierName String?
+  status       String   @default("open")
+  totalAmount  Float    @default(0)
+  notes        String?
+  createdAt    DateTime @default(now())
+}
+
+model PurchaseOrder {
+  id          Int            @id @default(autoincrement())
+  companyId   Int            @default(1)
+  company     Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code        String
+  supplierId  Int?
+  supplier    Supplier?      @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  projectId   Int?
+  warehouseId Int?
+  orderDate   String
+  totalAmount Float          @default(0)
+  paidAmount  Float          @default(0)
+  status      String         @default("draft")
+  notes       String?
+  linesJson   String         @default("[]")
+  createdBy   String?
+  receipts    GoodsReceipt[]
+  createdAt   DateTime       @default(now())
+}
+
+model DeliveryOrder {
+  id           Int       @id @default(autoincrement())
+  companyId    Int       @default(1)
+  company      Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code         String
+  supplierId   Int?
+  supplier     Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  doNumber     String?
+  brand        String?
+  liftingPoint String?
+  issueDate    String
+  validUntil   String?
+  projectId    Int?
+  warehouseId  Int?
+  status       String    @default("open")
+  note         String?
+  linesJson    String    @default("[]")
+  createdAt    DateTime  @default(now())
+}
+
+model GoodsReceipt {
+  id              Int                 @id @default(autoincrement())
+  companyId       Int                 @default(1)
+  company         Company             @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code            String
+  purchaseOrderId Int?
+  purchaseOrder   PurchaseOrder?      @relation(fields: [purchaseOrderId], references: [id], onDelete: SetNull)
+  warehouseId     Int?
+  receiptDate     String
+  status          String              @default("received")
+  notes           String?
+  inspections     QualityInspection[]
+  createdAt       DateTime            @default(now())
+}
+
+model QualityInspection {
+  id             Int           @id @default(autoincrement())
+  companyId      Int           @default(1)
+  company        Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code           String
+  goodsReceiptId Int?
+  goodsReceipt   GoodsReceipt? @relation(fields: [goodsReceiptId], references: [id], onDelete: SetNull)
+  inspectionDate String
+  result         String        @default("passed")
+  inspectorName  String?
+  notes          String?
+  createdAt      DateTime      @default(now())
+}
+
+model SupplierPayment {
+  id          Int       @id @default(autoincrement())
+  companyId   Int       @default(1)
+  company     Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code        String
+  supplierId  Int?
+  supplier    Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  paymentDate String
+  amount      Float     @default(0)
+  method      String    @default("bank")
+  reference   String?
+  accountId   Int?
+  narration   String?
+  status      String    @default("posted")
+  createdAt   DateTime  @default(now())
+}
+
+model MaterialIssue {
+  id              Int      @id @default(autoincrement())
+  companyId       Int      @default(1)
+  company         Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code            String
+  warehouseId     Int?
+  projectId       Int?
+  issueDate       String
+  purpose         String?
+  responsibleName String?
+  status          String   @default("issued")
+  totalAmount     Float    @default(0)
+  notes           String?
+  linesJson       String   @default("[]")
+  createdAt       DateTime @default(now())
+}
+
+model StockTransfer {
+  id              Int      @id @default(autoincrement())
+  companyId       Int      @default(1)
+  company         Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code            String
+  fromWarehouseId Int?
+  toWarehouseId   Int?
+  transferDate    String
+  reference       String?
+  status          String   @default("draft")
+  notes           String?
+  linesJson       String   @default("[]")
+  createdAt       DateTime @default(now())
+}
+
+model MaterialConsumption {
+  id              Int      @id @default(autoincrement())
+  companyId       Int      @default(1)
+  company         Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code            String
+  projectId       Int?
+  buildingId      Int?
+  warehouseId     Int?
+  consumptionDate String
+  status          String   @default("posted")
+  totalCost       Float    @default(0)
+  notes           String?
+  linesJson       String   @default("[]")
+  createdAt       DateTime @default(now())
+}
+
+model MaterialRequirement {
+  id          Int      @id @default(autoincrement())
+  companyId   Int      @default(1)
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code        String
+  boqId       Int?
+  projectId   Int?
+  warehouseId Int?
+  title       String
+  factor      Float    @default(1)
+  requiredBy  String
+  status      String   @default("planned")
+  notes       String?
+  createdAt   DateTime @default(now())
 }

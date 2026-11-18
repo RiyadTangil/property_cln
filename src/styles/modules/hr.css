@@ -44,7 +44,7 @@
 
 .erp-cv-id { flex: 1 1 auto; min-width: 0; }
 
-.erp-cv-id h2 {
+.erp-cv-id h2 { font-size: 20px; font-weight: 700; margin: 0 0 4px; }
 /* --- lines 5351-5634 --- */
 
 .erp-cv-grid {
@@ -330,6 +330,7 @@
     letter-spacing: .04em;
     margin: 8px 0 10px;
     text-transform: uppercase;
+}
 /* --- lines 17204-17421 --- */
 /* ---------------------------------------------------------------------------
    Employee login (personnel file)
