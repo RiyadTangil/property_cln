@@ -26333,5 +26333,12 @@ td.erp-cell-edit .erp-cell-input {
     text-align: left;
 }
 .erp-link:hover { text-decoration: underline; }
+.erp-wizard { display: flex; flex-direction: column; }
+.erp-summary-row { font-size: 13px; border-bottom: 1px dashed var(--erp-line); }
+.erp-summary-row:last-of-type { border-bottom: 0; }
+.erp-lines th { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--erp-muted); }
+.erp-lines td { vertical-align: middle; }
+.erp-cv { display: flex; flex-direction: column; gap: 16px; }
+.erp-mf-loading { display: flex; align-items: center; padding: 14px 16px; color: var(--erp-muted); font-size: 13px; }
 
 

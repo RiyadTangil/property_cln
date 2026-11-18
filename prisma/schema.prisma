@@ -107,6 +107,25 @@ model Company {
   stockTransfers     StockTransfer[]
   materialConsumptions MaterialConsumption[]
   materialRequirements MaterialRequirement[]
+  crmFollowUpTypes   CrmFollowUpType[]
+  crmLostReasons     CrmLostReason[]
+  crmPipelines       CrmPipeline[]
+  crmLeads           CrmLead[]
+  crmCustomers       CrmCustomer[]
+  crmFollowUps       CrmFollowUp[]
+  crmSiteVisits      CrmSiteVisit[]
+  crmLeadDistributions CrmLeadDistribution[]
+  crmAssignmentRules CrmAssignmentRule[]
+  clientRecords      ClientRecord[]
+  propertyOwners     PropertyOwner[]
+  devAgreements      DevAgreement[]
+  apartmentSales     ApartmentSale[]
+  moneyReceipts      MoneyReceipt[]
+  salesTargets       SalesTarget[]
+  employees          Employee[]
+  salaryStructures   SalaryStructure[]
+  deductionHeads     DeductionHead[]
+  payrollRecords     PayrollRecord[]
 }
 
 model Branch {
@@ -1669,4 +1688,460 @@ model MaterialRequirement {
   status      String   @default("planned")
   notes       String?
   createdAt   DateTime @default(now())
+}
+
+// ============================================================
+// Tier 4A — CRM Models
+// ============================================================
+
+model CrmFollowUpType {
+  id          Int      @id @default(autoincrement())
+  companyId   Int      @default(1)
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  icon        String   @default("fa-solid fa-phone")
+  pill        String   @default("available")
+  sortOrder   Int      @default(1)
+  inUse       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model CrmLostReason {
+  id           Int      @id @default(autoincrement())
+  companyId    Int      @default(1)
+  company      Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name         String
+  description  String?
+  requiresNote Boolean  @default(false)
+  sortOrder    Int      @default(1)
+  leadsLost    Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+model CrmPipeline {
+  id          Int      @id @default(autoincrement())
+  companyId   Int      @default(1)
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  sortOrder   Int      @default(1)
+  isDefault   Boolean  @default(true)
+  isActive    Boolean  @default(true)
+  stagesJson  String   @default("[]")
+  createdAt   DateTime @default(now())
+}
+
+model CrmLead {
+  id               Int      @id @default(autoincrement())
+  companyId        Int      @default(1)
+  company          Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code             String
+  firstName        String
+  lastName         String?
+  organisationName String?
+  email            String?
+  phone            String?
+  mobile           String?
+  city             String?
+  country          String   @default("Bangladesh")
+  source           String   @default("website")
+  sourceDetail     String?
+  status           String   @default("new")
+  priority         String   @default("medium")
+  score            Int      @default(50)
+  interest         String?
+  expectedValue    Float    @default(0)
+  ownerId          Int?
+  ownerName        String?  @default("System Administrator")
+  nextFollowUpOn   String?
+  branchId         Int?
+  projectIdsJson   String   @default("[]")
+  unitIdsJson      String   @default("[]")
+  lostReasonId     Int?
+  lostNote         String?
+  notes            String?
+  createdAt        DateTime @default(now())
+}
+
+model CrmCustomer {
+  id                 Int          @id @default(autoincrement())
+  companyId          Int          @default(1)
+  company            Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code               String
+  kind               String       @default("individual")
+  organisationName   String?
+  firstName          String?
+  lastName           String?
+  type               String       @default("buyer")
+  lifecycleStage     String       @default("customer")
+  email              String?
+  phone              String?
+  mobile             String?
+  website            String?
+  addressLine1       String?
+  addressLine2       String?
+  city               String?
+  state              String?
+  postalCode         String?
+  country            String       @default("Bangladesh")
+  socialProfilesJson String       @default("{}")
+  industry           String?
+  source             String?
+  branchId           Int?
+  taxNumber          String?
+  registrationNumber String?
+  creditLimit        Float        @default(0)
+  ownerId            Int?
+  ownerName          String?      @default("System Administrator")
+  notes              String?
+  isActive           Boolean      @default(true)
+  createdAt          DateTime     @default(now())
+  contacts           CrmContact[]
+}
+
+model CrmContact {
+  id                 Int         @id @default(autoincrement())
+  customerId         Int
+  customer           CrmCustomer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  firstName          String
+  lastName           String?
+  role               String      @default("primary")
+  jobTitle           String?
+  department         String?
+  email              String?
+  phone              String?
+  mobile             String?
+  socialProfilesJson String      @default("{}")
+  notes              String?
+  isPrimary          Boolean     @default(false)
+  isActive           Boolean     @default(true)
+  createdAt          DateTime    @default(now())
+}
+
+model CrmFollowUp {
+  id                    Int      @id @default(autoincrement())
+  companyId             Int      @default(1)
+  company               Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  subject               String
+  followUpTypeId        Int?
+  priority              String   @default("normal")
+  description           String?
+  scheduledDate         String
+  scheduledTime         String?
+  durationMinutes       Int      @default(15)
+  reminderMinutesBefore Int      @default(30)
+  concerns              String?
+  assignedTo            String?  @default("System Administrator")
+  branchId              Int?
+  status                String   @default("scheduled")
+  createdAt             DateTime @default(now())
+}
+
+model CrmSiteVisit {
+  id              Int      @id @default(autoincrement())
+  companyId       Int      @default(1)
+  company         Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  title           String
+  customerId      Int?
+  projectId       Int?
+  purpose         String   @default("initial_visit")
+  priority        String   @default("normal")
+  description     String?
+  scheduledDate   String
+  scheduledTime   String?
+  durationMinutes Int      @default(60)
+  branchId        Int?
+  assignedTo      String?  @default("System Administrator")
+  meetingPoint    String?
+  location        String?
+  estimatedCost   Float    @default(0)
+  costsJson       String   @default("[]")
+  status          String   @default("scheduled")
+  progress        Int      @default(0)
+  outcome         String?
+  createdAt       DateTime @default(now())
+}
+
+model CrmLeadDistribution {
+  id              Int      @id @default(autoincrement())
+  companyId       Int      @default(1)
+  company         Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name            String
+  branchId        Int?
+  projectId       Int?
+  period          String   @default("daily")
+  validFrom       String
+  validUntil      String?
+  dailyLimit      Int      @default(20)
+  minPendingLeads Int      @default(5)
+  status          String   @default("active")
+  createdAt       DateTime @default(now())
+}
+
+model CrmAssignmentRule {
+  id             Int      @id @default(autoincrement())
+  companyId      Int      @default(1)
+  company        Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name           String
+  priority       Int      @default(1)
+  strategy       String   @default("round_robin")
+  departmentId   Int?
+  targetUserId   Int?
+  conditionsJson String   @default("[]")
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+}
+
+// ============================================================
+// Tier 4B — Clients, Owners & Development Agreements
+// ============================================================
+
+model ClientRecord {
+  id                    Int      @id @default(autoincrement())
+  companyId             Int      @default(1)
+  company               Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code                  String
+  clientType            String   @default("individual")
+  name                  String
+  fatherName            String?
+  motherName            String?
+  occupation            String?
+  nid                   String?
+  dateOfBirth           String?
+  registrationNo        String?
+  bin                   String?
+  authorizedPerson      String?
+  authorizedDesignation String?
+  officeAddress         String?
+  mobile                String?
+  alternateMobile       String?
+  email                 String?
+  tin                   String?
+  presentAddress        String?
+  permanentAddress      String?
+  notes                 String?
+  isActive              Boolean  @default(true)
+  createdAt             DateTime @default(now())
+}
+
+model PropertyOwner {
+  id               Int      @id @default(autoincrement())
+  companyId        Int      @default(1)
+  company          Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code             String
+  name             String
+  nid              String?
+  tin              String?
+  fatherName       String?
+  motherName       String?
+  dateOfBirth      String?
+  occupation       String?
+  mobile           String?
+  alternateMobile  String?
+  email            String?
+  presentAddress   String?
+  permanentAddress String?
+  notes            String?
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+}
+
+model DevAgreement {
+  id            Int      @id @default(autoincrement())
+  companyId     Int      @default(1)
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code          String
+  clientId      Int?
+  projectId     Int?
+  agreementType String   @default("joint_venture")
+  contractValue Float    @default(0)
+  signedBy      String?
+  agreementDate String
+  effectiveDate String?
+  expiryDate    String?
+  status        String   @default("active")
+  notes         String?
+  createdAt     DateTime @default(now())
+}
+
+// ============================================================
+// Tier 4C — Sales & Payments
+// ============================================================
+
+model ApartmentSale {
+  id                   Int      @id @default(autoincrement())
+  companyId            Int      @default(1)
+  company              Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code                 String
+  projectId            Int?
+  customerId           Int?
+  salesPersonId        Int?
+  saleDate             String
+  agreementDate        String?
+  expectedHandoverDate String?
+  paymentPlanType      String   @default("installment")
+  otherCharges         Float    @default(0)
+  totalAmount          Float    @default(0)
+  paidAmount           Float    @default(0)
+  status               String   @default("active")
+  paymentStatus        String   @default("unpaid")
+  terms                String?
+  note                 String?
+  createdAt            DateTime @default(now())
+}
+
+model MoneyReceipt {
+  id              Int      @id @default(autoincrement())
+  companyId       Int      @default(1)
+  company         Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code            String
+  customerId      Int?
+  apartmentSaleId Int?
+  paymentDate     String
+  paymentTypeId   Int?
+  accountId       Int?
+  amount          Float    @default(0)
+  method          String   @default("bank")
+  reference       String?
+  narration       String?
+  status          String   @default("posted")
+  createdAt       DateTime @default(now())
+}
+
+model SalesTarget {
+  id             Int      @id @default(autoincrement())
+  companyId      Int      @default(1)
+  company        Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  employeeId     Int?
+  employeeName   String
+  periodStart    String
+  periodEnd      String
+  targetType     String   @default("both")
+  targetAmount   Float    @default(0)
+  targetUnits    Int      @default(0)
+  achievedAmount Float    @default(0)
+  achievedUnits  Int      @default(0)
+  status         String   @default("active")
+  note           String?
+  createdAt      DateTime @default(now())
+}
+
+// ============================================================
+// Tier 4D — HR & Payroll
+// ============================================================
+
+model Employee {
+  id                Int      @id @default(autoincrement())
+  companyId         Int      @default(1)
+  company           Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code              String
+  firstName         String
+  lastName          String?
+  gender            String?  @default("male")
+  dateOfBirth       String?
+  maritalStatus     String?  @default("single")
+  bloodGroup        String?
+  religion          String?
+  nationality       String?  @default("Bangladeshi")
+  fatherName        String?
+  motherName        String?
+  spouseName        String?
+  nationalId        String?
+  passportNo        String?
+  tin               String?
+  workEmail         String?
+  personalEmail     String?
+  phone             String?
+  personalPhone     String?
+  presentAddress    String?
+  presentCity       String?
+  presentCountry    String?  @default("Bangladesh")
+  permanentAddress  String?
+  permanentCity     String?
+  permanentCountry  String?  @default("Bangladesh")
+  departmentId      Int?
+  departmentName    String?  @default("Engineering")
+  designationId     Int?
+  designationName   String?  @default("Project Engineer")
+  branchId          Int?
+  shiftId           Int?
+  reportingTo       Int?
+  employmentType    String   @default("full_time")
+  employmentStatus  String   @default("active")
+  dateJoined        String?
+  probationEndDate  String?
+  confirmationDate  String?
+  separationDate    String?
+  separationReason  String?
+  userId            Int?
+  grossSalary       Float    @default(0)
+  basicSalary       Float    @default(0)
+  salaryCurrency    String   @default("BDT")
+  bankName          String?
+  bankBranch        String?
+  bankAccountName   String?
+  bankAccountNumber String?
+  bankRoutingNumber String?
+  notes             String?
+  contactsJson      String   @default("[]")
+  educationJson     String   @default("[]")
+  experienceJson    String   @default("[]")
+  dependentsJson    String   @default("[]")
+  documentsJson     String   @default("[]")
+  createdAt         DateTime @default(now())
+}
+
+model SalaryStructure {
+  id             Int      @id @default(autoincrement())
+  companyId      Int      @default(1)
+  company        Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  employeeId     Int?
+  employeeName   String
+  branchId       Int?
+  basicSalary    Float    @default(0)
+  effectiveFrom  String?
+  note           String?
+  allowancesJson String   @default("[]")
+  status         String   @default("active")
+  createdAt      DateTime @default(now())
+}
+
+model DeductionHead {
+  id          Int      @id @default(autoincrement())
+  companyId   Int      @default(1)
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code        String
+  name        String
+  description String?
+  isFixed     Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model PayrollRecord {
+  id               Int      @id @default(autoincrement())
+  companyId        Int      @default(1)
+  company          Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  code             String
+  employeeId       Int?
+  employeeName     String
+  branchId         Int?
+  month            Int      @default(11)
+  year             Int      @default(2026)
+  period           String   @default("November 2026")
+  type             String   @default("salary")
+  disbursedOn      String?
+  paymentMethod    String   @default("bank")
+  paymentAccountId Int?
+  basic            Float    @default(0)
+  allowances       Float    @default(0)
+  deductions       Float    @default(0)
+  net              Float    @default(0)
+  allowancesJson   String   @default("[]")
+  deductionsJson   String   @default("[]")
+  remarks          String?
+  createdAt        DateTime @default(now())
 }

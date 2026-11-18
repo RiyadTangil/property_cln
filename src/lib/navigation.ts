@@ -127,8 +127,6 @@ export const SIDEBAR_NAV: NavGroup[] = [
       { label: "Pipelines", href: "/crm/settings/pipelines" },
       { label: "Auto-distribution", href: "/crm/lead-distribution" },
       { label: "Assignment Rules", href: "/crm/assignment-rules" },
-      { label: "Agents & Brokers", href: "/crm/agents-brokers" },
-      { label: "Campaigns", href: "/crm/campaigns" },
     ],
   },
   {
@@ -153,9 +151,6 @@ export const SIDEBAR_NAV: NavGroup[] = [
       { label: "Sales Target", href: "/sales/targets" },
       { label: "Money Receipts", href: "/payments" },
       { label: "Receive Payment", href: "/payments/create" },
-      { label: "Transfers & Name Change", href: "/sales/transfers" },
-      { label: "Cancellations & Refunds", href: "/sales/cancellations" },
-      { label: "Broker Commissions", href: "/sales/broker-commissions" },
     ],
   },
   {
@@ -233,12 +228,9 @@ export const SIDEBAR_NAV: NavGroup[] = [
     accent: "#0369a1",
     items: [
       { label: "Employees", href: "/hr/employees" },
-      { label: "Attendance", href: "/hr/attendance" },
-      { label: "Leave Management", href: "/hr/leave" },
       { label: "Salary Sheet", href: "/hr/payroll" },
       { label: "Salary Structures", href: "/hr/salary-structures" },
       { label: "Deduction Heads", href: "/hr/deduction-heads" },
-      { label: "Site Labour", href: "/hr/site-labour" },
     ],
   },
   {

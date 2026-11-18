@@ -10,3 +10,6 @@ export * from "./construction.dto";
 export * from "./contractors.dto";
 export * from "./equipment.dto";
 export * from "./procurement.dto";
+export * from "./crm.dto";
+export * from "./sales.dto";
+export * from "./hr.dto";

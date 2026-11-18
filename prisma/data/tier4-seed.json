@@ -1,0 +1,442 @@
+{
+  "followupTypes": [
+    {
+      "id": 1,
+      "name": "Call",
+      "description": null,
+      "icon": "fa-solid fa-phone",
+      "pill": "booked",
+      "sortOrder": 10,
+      "inUse": 1,
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "name": "Meeting",
+      "description": null,
+      "icon": "fa-solid fa-phone",
+      "pill": "available",
+      "sortOrder": 20,
+      "inUse": 0,
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "name": "Site",
+      "description": null,
+      "icon": "fa-solid fa-phone",
+      "pill": "sold",
+      "sortOrder": 30,
+      "inUse": 0,
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "name": "Email",
+      "description": null,
+      "icon": "fa-solid fa-phone",
+      "pill": "neutral",
+      "sortOrder": 40,
+      "inUse": 0,
+      "isActive": true
+    },
+    {
+      "id": 5,
+      "name": "SMS",
+      "description": null,
+      "icon": "fa-solid fa-phone",
+      "pill": "neutral",
+      "sortOrder": 50,
+      "inUse": 0,
+      "isActive": true
+    },
+    {
+      "id": 6,
+      "name": "WhatsApp",
+      "description": null,
+      "icon": "fa-solid fa-phone",
+      "pill": "available",
+      "sortOrder": 60,
+      "inUse": 0,
+      "isActive": true
+    },
+    {
+      "id": 7,
+      "name": "Demo",
+      "description": null,
+      "icon": "fa-solid fa-phone",
+      "pill": "hold",
+      "sortOrder": 70,
+      "inUse": 0,
+      "isActive": true
+    },
+    {
+      "id": 8,
+      "name": "Collect",
+      "description": null,
+      "icon": "fa-solid fa-phone",
+      "pill": "hold",
+      "sortOrder": 80,
+      "inUse": 0,
+      "isActive": true
+    },
+    {
+      "id": 9,
+      "name": "Payment",
+      "description": null,
+      "icon": "fa-solid fa-phone",
+      "pill": "overdue",
+      "sortOrder": 90,
+      "inUse": 0,
+      "isActive": true
+    },
+    {
+      "id": 10,
+      "name": "Other",
+      "description": null,
+      "icon": "fa-solid fa-phone",
+      "pill": "neutral",
+      "sortOrder": 100,
+      "inUse": 0,
+      "isActive": true
+    }
+  ],
+  "lostReasons": [
+    {
+      "id": 1,
+      "name": "Price Built in Our price was above what they were willing to pay.",
+      "description": null,
+      "requiresNote": false,
+      "sortOrder": 10,
+      "leadsLost": 0,
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "name": "Competitor Built in They bought from another developer.",
+      "description": null,
+      "requiresNote": false,
+      "sortOrder": 20,
+      "leadsLost": 0,
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "name": "No Budget Built in Funds were not available for this purchase.",
+      "description": null,
+      "requiresNote": false,
+      "sortOrder": 30,
+      "leadsLost": 0,
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "name": "No Decision Built in The buyer went quiet or never committed either way.",
+      "description": null,
+      "requiresNote": false,
+      "sortOrder": 40,
+      "leadsLost": 0,
+      "isActive": true
+    },
+    {
+      "id": 5,
+      "name": "Wrong Contact Built in The person enquiring was not the decision maker.",
+      "description": null,
+      "requiresNote": false,
+      "sortOrder": 50,
+      "leadsLost": 0,
+      "isActive": true
+    },
+    {
+      "id": 6,
+      "name": "Project Cancelled Built in The requirement itself went away.",
+      "description": null,
+      "requiresNote": false,
+      "sortOrder": 60,
+      "leadsLost": 0,
+      "isActive": true
+    },
+    {
+      "id": 7,
+      "name": "Poor Follow-up Built in We lost it on our own service — chase was too slow.",
+      "description": null,
+      "requiresNote": false,
+      "sortOrder": 70,
+      "leadsLost": 0,
+      "isActive": true
+    },
+    {
+      "id": 8,
+      "name": "Other Built in Anything not covered above. A note is required.",
+      "description": null,
+      "requiresNote": true,
+      "sortOrder": 80,
+      "leadsLost": 0,
+      "isActive": true
+    }
+  ],
+  "leads": [
+    {
+      "id": 1,
+      "code": "LD-2026-0001",
+      "firstName": "Nahid",
+      "lastName": "islam",
+      "organisationName": null,
+      "email": "nahid940@gmail.com",
+      "phone": null,
+      "mobile": "01711000001",
+      "city": "Mathbaria",
+      "source": "manual",
+      "status": "interested",
+      "priority": "medium",
+      "score": 60,
+      "interest": "3BHK Apartment",
+      "expectedValue": 12500000,
+      "nextFollowUpOn": "2026-11-25"
+    },
+    {
+      "id": 2,
+      "code": "LD-2026-0002",
+      "firstName": "Hens",
+      "lastName": "islam",
+      "organisationName": null,
+      "email": null,
+      "phone": null,
+      "mobile": "01711000002",
+      "city": "Dhaka",
+      "source": "website",
+      "status": "new",
+      "priority": "medium",
+      "score": 60,
+      "interest": "3BHK Apartment",
+      "expectedValue": 12500000,
+      "nextFollowUpOn": "2026-11-25"
+    },
+    {
+      "id": 3,
+      "code": "LD-2026-0003",
+      "firstName": "Ron",
+      "lastName": "islam",
+      "organisationName": null,
+      "email": null,
+      "phone": null,
+      "mobile": "01711000003",
+      "city": "Dhaka",
+      "source": "website",
+      "status": "new",
+      "priority": "medium",
+      "score": 60,
+      "interest": "3BHK Apartment",
+      "expectedValue": 12500000,
+      "nextFollowUpOn": "2026-11-25"
+    },
+    {
+      "id": 4,
+      "code": "LD-2026-0004",
+      "firstName": "Sam",
+      "lastName": "islam",
+      "organisationName": null,
+      "email": "nahid93440@gmail.com",
+      "phone": null,
+      "mobile": "01711000004",
+      "city": "Dhaka",
+      "source": "manual",
+      "status": "negotiation",
+      "priority": "medium",
+      "score": 60,
+      "interest": "3BHK Apartment",
+      "expectedValue": 12500000,
+      "nextFollowUpOn": "2026-11-25"
+    },
+    {
+      "id": 5,
+      "code": "LD-2026-0005",
+      "firstName": "Nahid",
+      "lastName": "2 islam",
+      "organisationName": null,
+      "email": null,
+      "phone": null,
+      "mobile": "01711000005",
+      "city": "Dhaka",
+      "source": "website",
+      "status": "qualified",
+      "priority": "medium",
+      "score": 60,
+      "interest": "3BHK Apartment",
+      "expectedValue": 12500000,
+      "nextFollowUpOn": "2026-11-25"
+    },
+    {
+      "id": 6,
+      "code": "LD-2026-0006",
+      "firstName": "Nahid",
+      "lastName": "1 islam",
+      "organisationName": null,
+      "email": null,
+      "phone": null,
+      "mobile": "01711000006",
+      "city": "Dhaka",
+      "source": "website",
+      "status": "converted",
+      "priority": "medium",
+      "score": 60,
+      "interest": "3BHK Apartment",
+      "expectedValue": 12500000,
+      "nextFollowUpOn": "2026-11-25"
+    },
+    {
+      "id": 7,
+      "code": "LD-2026-0007",
+      "firstName": "Rabbi",
+      "lastName": "Raiyan",
+      "organisationName": null,
+      "email": "mdmusaibshikder@gmail.com",
+      "phone": null,
+      "mobile": "01303404237",
+      "city": "Dhaka",
+      "source": "manual",
+      "status": "contacted",
+      "priority": "high",
+      "score": 60,
+      "interest": "3 bed Bashundhara",
+      "expectedValue": 25000000,
+      "nextFollowUpOn": "2026-11-20"
+    }
+  ],
+  "customers": [
+    {
+      "id": 1,
+      "code": "CUS-0003",
+      "kind": "individual",
+      "firstName": "Hens",
+      "lastName": "islam",
+      "organisationName": null,
+      "type": "customer",
+      "lifecycleStage": "customer",
+      "email": "customer1@example.com",
+      "phone": null,
+      "mobile": "01712000001",
+      "city": "Dhaka",
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "code": "CUS-0004",
+      "kind": "individual",
+      "firstName": "Nahid",
+      "lastName": "1 islam",
+      "organisationName": null,
+      "type": "customer",
+      "lifecycleStage": "customer",
+      "email": "customer2@example.com",
+      "phone": null,
+      "mobile": "01712000002",
+      "city": "Dhaka",
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "code": "CUS-0001",
+      "kind": "individual",
+      "firstName": "Nahid",
+      "lastName": "2 islam",
+      "organisationName": null,
+      "type": "customer",
+      "lifecycleStage": "customer",
+      "email": "customer3@example.com",
+      "phone": null,
+      "mobile": "01712000003",
+      "city": "Dhaka",
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "code": "CUS-0002",
+      "kind": "individual",
+      "firstName": "Ron",
+      "lastName": "islam",
+      "organisationName": null,
+      "type": "customer",
+      "lifecycleStage": "customer",
+      "email": "customer4@example.com",
+      "phone": null,
+      "mobile": "01712000004",
+      "city": "Dhaka",
+      "isActive": true
+    }
+  ],
+  "followups": [
+    {
+      "id": 1,
+      "subject": "Call — Interested",
+      "followUpTypeId": 1,
+      "priority": "normal",
+      "scheduledDate": "2026-10-30",
+      "scheduledTime": "13:06",
+      "durationMinutes": 30,
+      "concerns": "Lead: Nahid islam",
+      "assignedTo": "System Administrator",
+      "status": "completed"
+    }
+  ],
+  "owners": [
+    {
+      "id": 1,
+      "code": "OWN-0001",
+      "name": "Abdul Aziz",
+      "nid": "34563456",
+      "tin": "745674567456",
+      "fatherName": "Abdul Goffar",
+      "motherName": "Samsunnahar",
+      "mobile": "6345634563",
+      "email": "eee@mail.com",
+      "isActive": true
+    }
+  ],
+  "employees": [
+    {
+      "id": 1,
+      "code": "EMP-0002",
+      "firstName": "MD. GOLAM RABBANY",
+      "lastName": "RONY",
+      "designationName": "Project Coordinator",
+      "departmentName": "Administration",
+      "employmentType": "full_time",
+      "employmentStatus": "active",
+      "workEmail": "emp1@ehishabi.com",
+      "phone": "01715000001",
+      "dateJoined": "2025-01-01",
+      "grossSalary": 65000,
+      "basicSalary": 40000
+    },
+    {
+      "id": 2,
+      "code": "EMP-0001",
+      "firstName": "Muhamma Arif Al",
+      "lastName": "Imran",
+      "designationName": "Chief Executive Officer",
+      "departmentName": "Administration",
+      "employmentType": "full_time",
+      "employmentStatus": "active",
+      "workEmail": "emp2@ehishabi.com",
+      "phone": "01715000002",
+      "dateJoined": "2025-01-01",
+      "grossSalary": 65000,
+      "basicSalary": 40000
+    }
+  ],
+  "payrolls": [
+    {
+      "id": 1,
+      "code": "SAL-00001",
+      "employeeName": "MD. GOLAM RABBANY RONY EMP-0002",
+      "period": "November 2026",
+      "type": "regular",
+      "basic": 40000,
+      "allowances": 15000,
+      "deductions": 0,
+      "net": 55000,
+      "method": "—"
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import permissionsCatalog from "../src/lib/permissions-catalog.json";
 import tier1Seed from "./data/tier1-seed.json";
 import tier2bSeed from "./data/tier2b-seed.json";
 import tier3Seed from "./data/tier3-seed.json";
+import tier4Seed from "./data/tier4-seed.json";
 
 const prisma = new PrismaClient();
 
@@ -872,7 +873,190 @@ async function main() {
     }
   }
 
-  console.log("Tier 0 + Tier 1 + Tier 2B + Tier 3 + Core Seed completed.");
+  // Tier 4: CRM, Clients/Owners/Agreements, Sales & HR
+  if ((await prisma.crmFollowUpType.count()) === 0) {
+    for (const ft of tier4Seed.followupTypes) {
+      await prisma.crmFollowUpType.create({
+        data: {
+          companyId: 1,
+          name: ft.name,
+          description: ft.description,
+          icon: ft.icon,
+          pill: ft.pill,
+          sortOrder: ft.sortOrder,
+          inUse: ft.inUse,
+          isActive: ft.isActive,
+        },
+      });
+    }
+  }
+
+  if ((await prisma.crmLostReason.count()) === 0) {
+    for (const lr of tier4Seed.lostReasons) {
+      await prisma.crmLostReason.create({
+        data: {
+          companyId: 1,
+          name: lr.name,
+          description: lr.description,
+          requiresNote: lr.requiresNote,
+          sortOrder: lr.sortOrder,
+          leadsLost: lr.leadsLost,
+          isActive: lr.isActive,
+        },
+      });
+    }
+  }
+
+  if ((await prisma.crmPipeline.count()) === 0) {
+    await prisma.crmPipeline.create({
+      data: {
+        companyId: 1,
+        name: "Sales Pipeline",
+        description: "Default real estate apartment & plot sales pipeline",
+        sortOrder: 1,
+        isDefault: true,
+        isActive: true,
+        stagesJson: JSON.stringify([
+          { id: 1, name: "New", kind: "open", probability: 10, color: "#0ea5e9" },
+          { id: 2, name: "Contacted", kind: "open", probability: 25, color: "#6366f1" },
+          { id: 3, name: "Qualified", kind: "open", probability: 50, color: "#f59e0b" },
+          { id: 4, name: "Proposal / Visit", kind: "open", probability: 75, color: "#8b5cf6" },
+          { id: 5, name: "Won / Converted", kind: "won", probability: 100, color: "#10b981" },
+          { id: 6, name: "Lost", kind: "lost", probability: 0, color: "#ef4444" },
+        ]),
+      },
+    });
+  }
+
+  if ((await prisma.crmLead.count()) === 0) {
+    for (const ld of tier4Seed.leads) {
+      await prisma.crmLead.create({
+        data: {
+          companyId: 1,
+          code: ld.code,
+          firstName: ld.firstName,
+          lastName: ld.lastName,
+          organisationName: ld.organisationName,
+          email: ld.email,
+          phone: ld.phone,
+          mobile: ld.mobile,
+          city: ld.city,
+          source: ld.source,
+          status: ld.status,
+          priority: ld.priority,
+          score: ld.score,
+          interest: ld.interest,
+          expectedValue: ld.expectedValue,
+          nextFollowUpOn: ld.nextFollowUpOn,
+        },
+      });
+    }
+  }
+
+  if ((await prisma.crmCustomer.count()) === 0) {
+    for (const c of tier4Seed.customers) {
+      await prisma.crmCustomer.create({
+        data: {
+          companyId: 1,
+          code: c.code,
+          kind: c.kind,
+          firstName: c.firstName,
+          lastName: c.lastName,
+          organisationName: c.organisationName,
+          type: c.type,
+          lifecycleStage: c.lifecycleStage,
+          email: c.email,
+          phone: c.phone,
+          mobile: c.mobile,
+          city: c.city,
+          isActive: c.isActive,
+        },
+      });
+    }
+  }
+
+  if ((await prisma.crmFollowUp.count()) === 0) {
+    for (const f of tier4Seed.followups) {
+      await prisma.crmFollowUp.create({
+        data: {
+          companyId: 1,
+          subject: f.subject,
+          followUpTypeId: f.followUpTypeId,
+          priority: f.priority,
+          scheduledDate: f.scheduledDate,
+          scheduledTime: f.scheduledTime,
+          durationMinutes: f.durationMinutes,
+          concerns: f.concerns,
+          assignedTo: f.assignedTo,
+          status: f.status,
+        },
+      });
+    }
+  }
+
+  if ((await prisma.propertyOwner.count()) === 0) {
+    for (const o of tier4Seed.owners) {
+      await prisma.propertyOwner.create({
+        data: {
+          companyId: 1,
+          code: o.code,
+          name: o.name,
+          nid: o.nid,
+          tin: o.tin,
+          fatherName: o.fatherName,
+          motherName: o.motherName,
+          mobile: o.mobile,
+          email: o.email,
+          isActive: o.isActive,
+        },
+      });
+    }
+  }
+
+  if ((await prisma.employee.count()) === 0) {
+    for (const emp of tier4Seed.employees) {
+      await prisma.employee.create({
+        data: {
+          companyId: 1,
+          code: emp.code,
+          firstName: emp.firstName,
+          lastName: emp.lastName,
+          designationName: emp.designationName,
+          departmentName: emp.departmentName,
+          employmentType: emp.employmentType,
+          employmentStatus: emp.employmentStatus,
+          workEmail: emp.workEmail,
+          phone: emp.phone,
+          dateJoined: emp.dateJoined,
+          grossSalary: emp.grossSalary,
+          basicSalary: emp.basicSalary,
+        },
+      });
+    }
+  }
+
+  if ((await prisma.payrollRecord.count()) === 0) {
+    for (const pr of tier4Seed.payrolls) {
+      await prisma.payrollRecord.create({
+        data: {
+          companyId: 1,
+          code: pr.code,
+          employeeId: 1,
+          employeeName: pr.employeeName,
+          period: pr.period,
+          type: pr.type,
+          basic: pr.basic,
+          allowances: pr.allowances,
+          deductions: pr.deductions,
+          net: pr.net,
+          paymentMethod: pr.method,
+          disbursedOn: "2026-11-05",
+        },
+      });
+    }
+  }
+
+  console.log("Tier 0 + Tier 1 + Tier 2B + Tier 3 + Tier 4 + Core Seed completed.");
 }
 
 main()

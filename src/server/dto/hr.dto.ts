@@ -1,0 +1,50 @@
+// Tier 4D — HR & Payroll DTOs
+
+export interface CreateEmployeeDto {
+  firstName: string;
+  lastName?: string | null;
+  gender?: string | null;
+  dateOfBirth?: string | null;
+  maritalStatus?: string | null;
+  bloodGroup?: string | null;
+  religion?: string | null;
+  nationality?: string | null;
+  fatherName?: string | null;
+  motherName?: string | null;
+  spouseName?: string | null;
+  nationalId?: string | null;
+  passportNo?: string | null;
+  tin?: string | null;
+  workEmail?: string | null;
+  personalEmail?: string | null;
+  phone?: string | null;
+  personalPhone?: string | null;
+  presentAddress?: string | null;
+  presentCity?: string | null;
+  presentCountry?: string | null;
+  permanentAddress?: string | null;
+  permanentCity?: string | null;
+  permanentCountry?: string | null;
+  departmentId?: number | null;
+  designationId?: number | null;
+  branchId?: number | null;
+  shiftId?: number | null;
+  reportingTo?: number | null;
+  employmentType?: string;
+  employmentStatus?: string;
+  dateJoined?: string | null;
+  probationEndDate?: string | null;
+  confirmationDate?: string | null;
+  separationDate?: string | null;
+  separationReason?: string | null;
+  userId?: number | null;
+  grossSalary?: number;
+  basicSalary?: number;
+  salaryCurrency?: string;
+  bankName?: string | null;
+  bankBranch?: string | null;
+  bankAccountName?: string | null;
+  bankAccountNumber?: string | null;
+  bankRoutingNumber?: string | null;
+  notes?: string | null;
+}
